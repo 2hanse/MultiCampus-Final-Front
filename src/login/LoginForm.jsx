@@ -46,7 +46,7 @@ function LoginForm() {
         <InputWrapper>
             <Label htmlFor="email" className="visually-hidden">E-mail</Label>
             <Input  type="email" 
-                    placeholder="E-mail" 
+                    placeholder="이메일을 입력해주세요" 
                     name="email"
                     value={user.email} 
                     onChange={handleChange}/>
@@ -54,7 +54,7 @@ function LoginForm() {
         <InputWrapper>
             <Label htmlFor="password" className="visually-hidden">Password</Label>
             <Input  type="password" 
-                    placeholder="Password"
+                    placeholder="비밀번호를 입력해주세요"
                     name="password"
                     value={user.password}
                     onChange={handleChange}
