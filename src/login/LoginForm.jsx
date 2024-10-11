@@ -47,6 +47,7 @@ function LoginForm() {
             <Label htmlFor="email" className="visually-hidden">E-mail</Label>
             <Input  type="email" 
                     placeholder="E-mail" 
+                    name="email"
                     value={user.email} 
                     onChange={handleChange}/>
         </InputWrapper>
@@ -54,6 +55,7 @@ function LoginForm() {
             <Label htmlFor="password" className="visually-hidden">Password</Label>
             <Input  type="password" 
                     placeholder="Password"
+                    name="password"
                     value={user.password}
                     onChange={handleChange}
                      />
