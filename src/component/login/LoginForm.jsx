@@ -1,7 +1,7 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import api from "../api/axios";
 
 function LoginForm() {
     
@@ -24,7 +24,7 @@ function LoginForm() {
         formData.append('email', user.email);
         formData.append('password', user.password);
   
-        const response = await axios({
+        const response = await api({
           url: '/login',
           method: 'POST',
           data: formData,
@@ -33,7 +33,7 @@ function LoginForm() {
         if (response.status === 200) {
           alert('로그인 성공! ');
           console.log('유저 이메일: ' + response.data.email);
-          console.log('권한: ' + response.data.authorities);
+          //console.log('권한: ' + response.data.authorities);
           navigate('/', { state: { userData: response.data } });
         }
       } catch (error) {
