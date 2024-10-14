@@ -28,7 +28,7 @@ const StyledInputField = styled.div`
     border: none;
     outline: none;
     font-size: 15px;
-    color: #b7b2b2;
+    color: black;
   }
 
   .visually-hidden {

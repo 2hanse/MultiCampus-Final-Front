@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Header from "./Header";
 import InputField from "./InputField";
 import Button from "./Button";
-import Dropdown from "./Dropdown";
-import axios from "axios";
+import { ChevronDown } from "./Icons";
 
 const SignUpForm = () => {
   const inputFields = [
@@ -16,6 +15,26 @@ const SignUpForm = () => {
     { label: "전화번호", hasButton: true, buttonText: "인증" },
   ];
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedQuestion, setSelectedQuestion] = useState("");
+
+  const questions = [
+    "아버지 고향은 어디입니까?",
+    "당신의 보물 1호는 무엇입니까?",
+    "출신 초등학교 이름은 무엇입니까?",
+    "어머님의 성함은 무엇입니까?"
+  ];
+
+  const handleSelectChange = (event) => {
+    setSelectedQuestion(event.target.value);
+    setIsOpen(false);
+  };
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+  
   return (
     <StyledForm>
       <Header />
@@ -32,7 +51,31 @@ const SignUpForm = () => {
         <label htmlFor="securityQuestion" className="security-question-label">
           이메일 찾기용 질문
         </label>
-        <Dropdown id="securityQuestion" />
+
+        <Card>
+          <SelectWrapper onClick={toggleDropdown}>
+            <StyledSelect
+              value={selectedQuestion}
+              onChange={handleSelectChange}
+              onBlur={() => setIsOpen(false)}
+              open={isOpen}
+            >
+              <option value="" disabled hidden>
+                질문을 선택해 주세요
+              </option>
+              {questions.map((question, index) => (
+                <option key={index} value={question}>
+                  {question}
+                </option>
+              ))}
+            </StyledSelect>
+          </SelectWrapper>
+          <IconWrapper onClick={toggleDropdown} isOpen={isOpen}>
+            <ChevronDown />
+          </IconWrapper>
+        </Card>
+
+
         <InputField label="질문에 대한 답변" />
         <Button >가입</Button>
       </main>
@@ -79,5 +122,44 @@ const StyledForm = styled.form`
     margin-top: 15px;
   }
 `;
+
+const Card = styled.div`
+  border-radius: 8px;
+  background-color: #fff;
+  display: flex;
+  width: 294px;
+  height: 40px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 19px 0 70px;
+  border: 1px solid #ffd966;
+  margin-top: 7px;
+`;
+
+const SelectWrapper = styled.div`
+  flex-grow: 1;
+  cursor: pointer;
+`;
+
+const StyledSelect = styled.select`
+  width: 100%;
+  font-size: 18px;
+  color: #1e1e1e;
+  border: none;
+  background-color: transparent;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+  &::-ms-expand {
+    display: none;
+  }
+`;
+
+const IconWrapper = styled.div`
+  transform: ${({ isOpen }) => (isOpen ? "rotate(180deg)" : "rotate(0)")};
+  transition: transform 0.3s ease;
+  cursor: pointer;
+`;
+
 
 export default SignUpForm;
