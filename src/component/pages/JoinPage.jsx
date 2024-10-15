@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
-import Header from "./Header";
-import Button from "./Button";
-import { ChevronDown } from "./Icons";
+import Header from "../join/Header";
+import Button from "../join/Button";
+import { ChevronDown } from "../join/Icons";
 import api from "../api/axios";
 
-const SignUpForm = () => {
+const JoinPage = () => {
 
   //질문 상태저장
   const [isOpen, setIsOpen] = useState(false);
@@ -35,10 +35,12 @@ const SignUpForm = () => {
   const [isName, setIsName] = useState(false);
   const [isNickName, setIsNickName] = useState(false);
 
-  const onSubmit = useCallback(async (e) => {
+  const onSubmit = useCallback(
+    async (e) => {
       e.preventDefault()
       try {
-        await api.post("/join", {
+        await api
+          .post("/join", {
             email: email,
             password: password,
             name: name,
@@ -130,6 +132,10 @@ const SignUpForm = () => {
     }
   }, [])
 
+  const onChangePhoneNum = useCallback((e) => {
+    setPhoneNum(e.target.value);
+  },[])
+
   const onChangeAnswerQuestion = useCallback((e) => {
     setAnswerQuestion(e.target.value);
   },[])
@@ -207,7 +213,7 @@ const SignUpForm = () => {
         </Formbox>
 
         <StyledInputField>
-            <input type="text" placeholder="전화번호" onChange={onChangeName}/>
+            <input type="text" placeholder="전화번호" onChange={onChangePhoneNum}/>
             <Button small>인증</Button>
         </StyledInputField>
         <Formbox>
@@ -243,7 +249,7 @@ const SignUpForm = () => {
 
 
         <StyledInputField>
-            <input type="tel" placeholder="전화번호" onChange={onChangeAnswerQuestion}/>
+            <input type="tel" placeholder="질문에 대한 답변" onChange={onChangeAnswerQuestion}/>
         </StyledInputField>
         <StyledButton type="submit">가입</StyledButton>
       </main>
@@ -253,6 +259,8 @@ const SignUpForm = () => {
 
 const StyledForm = styled.form`
   background-color: #fff2cc;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  border: 1px solid #000;
   display: flex;
   max-width: 480px;
   width: 100%;
@@ -379,4 +387,4 @@ const StyledButton = styled.button`
   cursor: pointer;
   white-space: nowrap;
 `;
-export default SignUpForm;
+export default JoinPage;

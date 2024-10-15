@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import Header from "./Header";
-import LoginForm from "./LoginForm";
-import Footer from "./Footer";
+import Header from "../login/Header";
+import LoginForm from "../login/LoginForm";
+import Footer from "../login/Footer";
 
 function LoginPage() {
   return (

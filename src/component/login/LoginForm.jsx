@@ -5,41 +5,42 @@ import api from "../api/axios";
 
 function LoginForm() {
     
-    const navigate = useNavigate();
+  //페이지 이동
+  const navigate = useNavigate();
 
-    const [user, setUser] = useState({
-      email: '',
-      password: '',
-    });
-  
-    const handleChange = (e) => {
-      const { name, value } = e.target;
-      setUser({ ...user, [name]: value });
-    };
-  
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      try {
-        const formData = new FormData();
-        formData.append('email', user.email);
-        formData.append('password', user.password);
-  
-        const response = await api({
-          url: '/login',
-          method: 'POST',
-          data: formData,
-          withCredentials: true,
-        });
-        if (response.status === 200) {
-          alert('로그인 성공! ');
-          console.log('유저 이메일: ' + response.data.email);
-          //console.log('권한: ' + response.data.authorities);
-          navigate('/', { state: { userData: response.data } });
-        }
-      } catch (error) {
-        console.log('로그인 에러: ', error);
+  const [user, setUser] = useState({
+    email: '',
+    password: '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUser({ ...user, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append('email', user.email);
+      formData.append('password', user.password);
+
+      const response = await api({
+        url: '/login',
+        method: 'POST',
+        data: formData,
+        withCredentials: true,
+      });
+      if (response.status === 200) {
+        alert('로그인 성공! ');
+        console.log('유저 이메일: ' + response.data.email);
+        //console.log('권한: ' + response.data.authorities);
+        navigate('/', { state: { userData: response.data } });
       }
-    };
+    } catch (error) {
+      console.log('로그인 에러: ', error);
+    }
+  };
 
     return (
         <Form onSubmit={handleSubmit}>
