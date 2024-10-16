@@ -26,7 +26,7 @@ function LoginForm() {
       formData.append('password', user.password);
 
       const response = await api({
-        url: '/login',
+        url: '/users/login',
         method: 'POST',
         data: formData,
         withCredentials: true,

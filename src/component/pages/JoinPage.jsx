@@ -47,7 +47,7 @@ const JoinPage = () => {
         //console.log(email, password, name, nickName);
         //console.log(phoneNum, selectedQuestion, answerQuestion);
         await api
-          .post("/join", {
+          .post("/users/join", {
             email: email,
             password: password,
             name: name,
@@ -87,7 +87,7 @@ const JoinPage = () => {
   // 이메일 중복 확인 함수 추가
   const checkEmail = useCallback(async () => {
     try {
-      const response = await api.post('/email-exists', { email });
+      const response = await api.post('/users/email-exists', { email });
       if (response.data) {
         setEmailMessage('이미 사용 중인 이메일입니다.');
         setIsEmail(false);
@@ -105,7 +105,7 @@ const JoinPage = () => {
   // 닉네임 중복 확인 함수 추가
   const checkNickName = useCallback(async () => {
     try {
-      const response = await api.post('/nickname-exists', { nickName });
+      const response = await api.post('/users/nickname-exists', { nickName });
       if (response.data) {
         setNickNameMessage('이미 사용 중인 닉네임입니다.');
         setIsNickName(false);
