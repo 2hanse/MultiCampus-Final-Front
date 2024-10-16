@@ -4,8 +4,11 @@ import Header from "../join/Header";
 import Button from "../join/Button";
 import { ChevronDown } from "../join/Icons";
 import api from "../api/axios";
+import { useNavigate } from "react-router-dom";
 
 const JoinPage = () => {
+
+  const navigate = useNavigate();
 
   //질문 상태저장
   const [isOpen, setIsOpen] = useState(false);
@@ -40,6 +43,9 @@ const JoinPage = () => {
     async (e) => {
       e.preventDefault()
       try {
+        //test
+        //console.log(email, password, name, nickName);
+        //console.log(phoneNum, selectedQuestion, answerQuestion);
         await api
           .post("/join", {
             email: email,
@@ -54,6 +60,9 @@ const JoinPage = () => {
             console.log('response:', res);
             if (res.status === 200) {
               console.log("회원가입 성공");
+              alert("회원가입 성공!");
+              
+              navigate("/");
             }
           })
       } catch (err) {
