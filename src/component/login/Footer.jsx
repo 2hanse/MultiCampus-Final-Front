@@ -6,9 +6,9 @@ function Footer() {
   return (
 
     <FooterWrapper>
-      <NavStyle to='/join'>회원가입</NavStyle><br />
-      <NavStyle to='/check/email'>아이디 찾기</NavStyle> | 
-      <NavStyle to='/check/password'> 비밀번호 찾기</NavStyle>
+      <NavStyle to='/user/join'>회원가입</NavStyle><br />
+      <NavStyle to='/find-email'>아이디 찾기</NavStyle> | 
+      <NavStyle to='/find-password'> 비밀번호 찾기</NavStyle>
 
 
     </FooterWrapper>
