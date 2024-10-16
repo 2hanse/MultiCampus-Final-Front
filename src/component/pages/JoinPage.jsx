@@ -34,6 +34,7 @@ const JoinPage = () => {
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
   const [isName, setIsName] = useState(false);
   const [isNickName, setIsNickName] = useState(false);
+  const [isPhoneNum, setIsPhoneNum] = useState(false);
 
   const onSubmit = useCallback(
     async (e) => {
@@ -62,7 +63,7 @@ const JoinPage = () => {
     [email, name, password]
   )
 
-   // 이름
+   // 이름 유효성 검사
    const onChangeName = useCallback((e) => {
     setName(e.target.value)
     if (e.target.value.length < 2 || e.target.value.length > 5) {
@@ -74,7 +75,43 @@ const JoinPage = () => {
     }
   }, [])
 
-  // 이메일
+  // 이메일 중복 확인 함수 추가
+  const checkEmail = useCallback(async () => {
+    try {
+      const response = await api.post('/email-exists', { email });
+      if (response.data) {
+        setEmailMessage('이미 사용 중인 이메일입니다.');
+        setIsEmail(false);
+      } else {
+        setEmailMessage('사용 가능한 이메일입니다.');
+        setIsEmail(true);
+      }
+    } catch (error) {
+      console.log('중복 확인 중 오류 발생:', error);
+      setEmailMessage('중복 확인 중 오류가 발생했습니다.');
+      setIsEmail(false);
+    }
+  }, [email]);
+
+  // 닉네임 중복 확인 함수 추가
+  const checkNickName = useCallback(async () => {
+    try {
+      const response = await api.post('/nickname-exists', { nickName });
+      if (response.data) {
+        setNickNameMessage('이미 사용 중인 닉네임입니다.');
+        setIsNickName(false);
+      } else {
+        setNickNameMessage('사용 가능한 닉네임입니다.');
+        setIsNickName(true);
+      }
+    } catch (error) {
+      console.log('중복 확인 중 오류 발생:', error);
+      setNickNameMessage('중복 확인 중 오류가 발생했습니다.');
+      setIsNickName(false);
+    }
+  }, [nickName]);
+
+  // 이메일 유효성 검사
   const onChangeEmail = useCallback((e) => {
     const emailRegex =
       /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
@@ -90,7 +127,7 @@ const JoinPage = () => {
     }
   }, [])
 
-  // 비밀번호
+  // 비밀번호 유효성 검사
   const onChangePassword = useCallback((e) => {
     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
     const passwordCurrent = e.target.value
@@ -121,6 +158,7 @@ const JoinPage = () => {
     [password]
   )
 
+  // 닉네임 유효성 검사
   const onChangeNickName = useCallback((e) => {
     setNickName(e.target.value);
     if (e.target.value.length < 2 || e.target.value.length > 5) {
@@ -132,8 +170,19 @@ const JoinPage = () => {
     }
   }, [])
 
+  // 전화번호 유효성 검사
   const onChangePhoneNum = useCallback((e) => {
-    setPhoneNum(e.target.value);
+    const phoneNumRegex = /^01(?:0|1|[6-9])(?:\d{3}|\d{4})\d{4}$/
+    const phoneNumCurrent = e.target.value
+    setPhoneNum(phoneNumCurrent)
+
+    if (!phoneNumRegex.test(phoneNumCurrent)) {
+      setPhoneNumMessage('숫자만 입력해주세요')
+      setIsPhoneNum(false)
+    } else {
+      setPhoneNumMessage('올바른 형식이에요 : )')
+      setIsPhoneNum(true)
+    }
   },[])
 
   const onChangeAnswerQuestion = useCallback((e) => {
@@ -171,7 +220,7 @@ const JoinPage = () => {
         </p>
         <StyledInputField>
             <input type="email" placeholder="이메일" onChange={onChangeEmail}/>
-            <Button small>중복확인</Button>
+            <Button small onClick={checkEmail}>중복확인</Button>
         </StyledInputField>
         <Formbox>
         {email.length > 0 && <span className={`message ${isEmail ? 'success' : 'error'}`}>{emailMessage}</span>}
@@ -206,18 +255,18 @@ const JoinPage = () => {
 
         <StyledInputField>
             <input type="text" placeholder="닉네임" onChange={onChangeNickName}/>
-            <Button small>중복확인</Button>
+            <Button small onClick={checkNickName}>중복확인</Button>
         </StyledInputField>
         <Formbox>
         {nickName.length > 0 && <span className={`message ${isNickName ? 'success' : 'error'}`}>{nickNameMessage}</span>}
         </Formbox>
 
         <StyledInputField>
-            <input type="text" placeholder="전화번호" onChange={onChangePhoneNum}/>
+            <input type="text" placeholder="전화번호( -를 제외하고 입력)" onChange={onChangePhoneNum}/>
             <Button small>인증</Button>
         </StyledInputField>
         <Formbox>
-        {name.length > 0 && <span className={`message ${isName ? 'success' : 'error'}`}>{nameMessage}</span>}
+        {phoneNum.length > 0 && <span className={`message ${isPhoneNum ? 'success' : 'error'}`}>{phoneNumMessage}</span>}
         </Formbox>
 
 

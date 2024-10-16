@@ -1,11 +1,22 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const Header = () => {
+  const navigate = useNavigate();
+  const onClickIcon = () => {
+    navigate("/");
+  }
   return (
     <div>
       <StyledHeader>
-        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" alt="Sign up icon" className="header-icon" />
+        <Wrapper>
+          <img  src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" 
+              alt="Sign up icon" 
+              className="header-icon"
+              onClick={onClickIcon} />
+        </Wrapper>
+
         <h1 className="header-title">회원가입</h1>
       </StyledHeader>
       <hr />
@@ -40,6 +51,12 @@ const StyledHeader = styled.header`
     margin-left: 120px;
   }
 
+`;
+
+const Wrapper = styled.div`
+    :hover {
+    background: #F4B183;
+  }
 `;
 
 export default Header;
