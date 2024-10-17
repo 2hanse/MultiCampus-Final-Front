@@ -3,6 +3,7 @@ import LoginPage from './component/pages/LoginPage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import JoinPage from './component/pages/JoinPage';
 import FindEmailPage from './component/pages/find/FindEmailPage';
+import FindResultEmailPage from './component/pages/find/FindResultEmailPage';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/user/login" element={<LoginPage />} />
         <Route path='/user/join' element={<JoinPage />} />
         <Route path='/user/find-email' element={<FindEmailPage />} />
+        <Route path='/user/findResultEmailPage' element={<FindResultEmailPage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -19,6 +19,7 @@ const Main = styled.main`
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   display: flex;
   max-width: 480px;
+  max-height: 932px;
   width: 100%;
   flex-direction: column;
   overflow: hidden;

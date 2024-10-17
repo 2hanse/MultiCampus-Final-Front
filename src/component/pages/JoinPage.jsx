@@ -186,7 +186,7 @@ const JoinPage = () => {
     setPhoneNum(phoneNumCurrent)
 
     if (!phoneNumRegex.test(phoneNumCurrent)) {
-      setPhoneNumMessage('숫자만 입력해주세요')
+      setPhoneNumMessage('숫자만 입력 및 7자리이상 입력 해주세요')
       setIsPhoneNum(false)
     } else {
       setPhoneNumMessage('올바른 형식이에요 : )')
@@ -307,9 +307,9 @@ const JoinPage = () => {
 
 
         <StyledInputField>
-            <input type="tel" placeholder="질문에 대한 답변" onChange={onChangeAnswerQuestion}/>
+            <input type="text" placeholder="질문에 대한 답변" onChange={onChangeAnswerQuestion}/>
         </StyledInputField>
-        <StyledButton type="submit">가입</StyledButton>
+        <SubmitButton type="submit">가입</SubmitButton>
       </main>
     </StyledForm>
   );
@@ -321,6 +321,7 @@ const StyledForm = styled.form`
   border: 1px solid #000;
   display: flex;
   max-width: 480px;
+  max-height: 932px;
   width: 100%;
   padding-top: 62px;
   flex-direction: column;
@@ -345,7 +346,7 @@ const StyledForm = styled.form`
 
   .form-description {
     color: #ce9971;
-    margin-top: 9px;
+    margin-top: 0px;
     font: 18px/27px Roboto, sans-serif;
   }
 
@@ -433,16 +434,18 @@ const StyledInputField = styled.div`
   }
 
 `;
-const StyledButton = styled.button`
-  margin-top:10px;
-  border-radius: ${(props) => (props.small ? "0 10px 10px 0" : "10px")};
+const SubmitButton = styled.button`
+  border-radius: 10px;
   background-color: #ffd966;
+  width: 100%;
+  font-size: 19px;
   color: #785a00;
-  font-size: ${(props) => (props.small ? "13px" : "19px")};
+  white-space: nowrap;
   text-align: center;
-  padding: ${(props) => (props.small ? "10px 20px" : "22px 70px")};
+  margin: 26px 0 0 0px;
+  padding: 10px 8px;
   border: none;
   cursor: pointer;
-  white-space: nowrap;
+  margin-bottom: 10px;
 `;
 export default JoinPage;
