@@ -39,37 +39,42 @@ const JoinPage = () => {
   const [isNickName, setIsNickName] = useState(false);
   const [isPhoneNum, setIsPhoneNum] = useState(false);
 
-  const onSubmit = useCallback(
-    async (e) => {
+  const onSubmit = useCallback( async (e) => {
       e.preventDefault()
-      try {
-        //test
-        //console.log(email, password, name, nickName);
-        //console.log(phoneNum, selectedQuestion, answerQuestion);
-        await api
-          .post("/users/join", {
-            email: email,
-            password: password,
-            name: name,
-            nickname: nickName,
-            phone_number: phoneNum,
-            recover_q: selectedQuestion,
-            recover_a: answerQuestion
-          })
-          .then((res) => {
-            console.log('response:', res);
-            if (res.status === 200) {
-              console.log("회원가입 성공");
-              alert("회원가입 성공!");
-              
-              navigate("/");
-            }
-          })
-      } catch (err) {
-        console.log(err);
-      }
+
+      if( email === "" || password === "" || name === "" || nickName === "" || 
+          phoneNum === "" || answerQuestion === "" || selectedQuestion === "") {
+        alert("모두 입력해주세요");
+      } else {
+        try {
+          //test
+          //console.log(email, password, name, nickName);
+          //console.log(phoneNum, selectedQuestion, answerQuestion);
+          await api
+            .post("/users/join", {
+              email: email,
+              password: password,
+              name: name,
+              nickname: nickName,
+              phone_number: phoneNum,
+              recover_q: selectedQuestion,
+              recover_a: answerQuestion
+            })
+            .then((res) => {
+              console.log('response:', res);
+              if (res.status === 200) {
+                console.log("회원가입 성공");
+                alert("회원가입 성공!");
+                
+                navigate("/");
+              }
+            })
+        } catch (err) {
+          console.log(err);
+        }
+    }
     },
-    [email, name, password]
+    [email, password, name, nickName, phoneNum, selectedQuestion, answerQuestion, navigate]
   )
 
    // 이름 유효성 검사
@@ -398,7 +403,7 @@ const SelectWrapper = styled.div`
 
 const StyledSelect = styled.select`
   width: 100%;
-  font-size: 18px;
+  font-size: 15px;
   color: #1e1e1e;
   border: none;
   background-color: transparent;

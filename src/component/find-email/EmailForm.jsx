@@ -6,21 +6,39 @@ import api from "../api/axios";
 
 function EmailForm() {
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    //이메일 찾기 정보 상태
-    const [phoneNum, setPhoneNum] = useState('');
-    const [selectedQuestion, setSelectedQuestion] = useState("");
-    const [answerQuestion, setAnswerQuestion] = useState("");
-    const [isOpen, setIsOpen] = useState(false);
+  //이메일 찾기 정보 상태
+  const [phoneNum, setPhoneNum] = useState('');
+  const [selectedQuestion, setSelectedQuestion] = useState("");
+  const [answerQuestion, setAnswerQuestion] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+
+  //오류메시지 상태저장
+  const [phoneNumMessage, setPhoneNumMessage] = useState('');
+
+  // 유효성 검사
+  const [isPhoneNum, setIsPhoneNum] = useState(false);
+
+    // 전화번호 유효성 검사
+    const onChangePhoneNum = useCallback((e) => {
+      const phoneNumRegex = /^01(?:0|1|[6-9])(?:\d{3}|\d{4})\d{4}$/
+      const phoneNumCurrent = e.target.value
+      setPhoneNum(phoneNumCurrent)
+  
+      if (!phoneNumRegex.test(phoneNumCurrent)) {
+        setPhoneNumMessage('숫자만 입력 및 7자리이상 입력 해주세요')
+        setIsPhoneNum(false)
+      } else {
+        setPhoneNumMessage('올바른 형식이에요 : )')
+        setIsPhoneNum(true)
+      }
+    },[])
 
     const onChangeAnswerQuestion = useCallback((e) => {
         setAnswerQuestion(e.target.value);
       },[]);
 
-    const onChangePhoneNum = useCallback((e) => {
-        setPhoneNum(e.target.value);
-    },[]);
     
     //질문사항
     const questions = [
@@ -64,7 +82,10 @@ function EmailForm() {
     <FormWrapper>
       <FormField>
         <label htmlFor="phoneNumber" className="security-question-label">전화번호</label><br/>
-        <PhoneInput id="phoneNumber" type="tel" placeholder="전화번호" onChange={onChangePhoneNum}/>
+        <PhoneInput type="tel" placeholder="전화번호( -를 제외하고 입력)" onChange={onChangePhoneNum}/>
+        <Formbox>
+        {phoneNum.length > 0 && <span className={`message ${isPhoneNum ? 'success' : 'error'}`}>{phoneNumMessage}</span>}
+        </Formbox>
       </FormField>
       
       <label htmlFor="phoneNumber" className="security-question-label">이메일 찾기용 질문</label>
@@ -118,7 +139,7 @@ const FormWrapper = styled.form`
 `;
 
 const FormField = styled.div`
-  margin-bottom: 25px;
+  margin-bottom: 0px;
 `;
 
 const PhoneInput = styled.input`
@@ -174,7 +195,7 @@ const IconWrapper = styled.div`
 const AnswerInput = styled.input`
   border-radius: 10px;
   background-color: #fff;
-  font-size: 17px;
+  font-size: 16px;
   width: 80%;
   padding: 7px 8px;
   border: 1px solid #ffd966;
@@ -193,6 +214,26 @@ const SubmitButton = styled.button`
   padding: 10px 8px;
   border: none;
   cursor: pointer;
+`;
+
+const Formbox = styled.div`
+      position: relative;
+      margin-top: 22px;
+
+    .message {
+      line-height: 24px;
+      letter-spacing: -1px;
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      &.success {
+        color: #8f8c8b;
+      }
+      &.error {
+        color: #ff2727;
+      }
+    }
+  }
 `;
 
 export default EmailForm;
