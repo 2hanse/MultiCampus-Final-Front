@@ -11,7 +11,7 @@ const StyledButton = styled.button`
   color: #785a00;
   font-size: ${(props) => (props.small ? "13px" : "19px")};
   text-align: center;
-  padding: ${(props) => (props.small ? "10px 20px" : "22px 70px")};
+  padding: ${(props) => (props.small ? "11px 20px" : "22px 70px")};
   border: none;
   cursor: pointer;
   white-space: nowrap;

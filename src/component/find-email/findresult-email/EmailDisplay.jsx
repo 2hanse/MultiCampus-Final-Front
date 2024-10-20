@@ -1,14 +1,16 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 function EmailDisplay(props) {
+  // {props.data.email}
   return (
     <div>
         <EmailDisplayWrapper>
             <p className="email-info">회원님이 가입한 이메일은 다음과 같습니다</p>
-            <div className="email-container">{props.data.email}</div>
-            <SubmitButton>로그인</SubmitButton>
-            <SubmitButton>비밀번호 찾기</SubmitButton>
+            <div className="email-container">ss</div>
+            <NavStyle to='/user/login'>로그인</NavStyle>
+            <NavStyle to='/user/find-password'>비밀번호 찾기</NavStyle>
         </EmailDisplayWrapper>
 
     </div>
@@ -42,7 +44,7 @@ const EmailDisplayWrapper = styled.section`
   }
 `;
 
-const SubmitButton = styled.button`
+const NavStyle = styled(NavLink)`
   border-radius: 10px;
   background-color: #ffd966;
   width: 100%;
@@ -54,6 +56,6 @@ const SubmitButton = styled.button`
   padding: 10px 8px;
   border: none;
   cursor: pointer;
-`;
-
+  text-decoration: none;
+`
 export default EmailDisplay;
