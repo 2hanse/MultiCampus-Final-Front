@@ -1,9 +1,9 @@
-import React          from 'react';
-import styled         from 'styled-components';
-import 맛있는녀석들_로고   from './assets/맛있는녀석들_로고.png';
-import 돋보기           from './assets/돋보기.png';
-import 알림            from './assets/알림.png';
-import 프로필           from './assets/프로필.png';
+import React          from "react";
+import styled         from "styled-components";
+import 맛있는녀석들_로고   from "./assets/맛있는녀석들_로고.png";
+import 돋보기           from "./assets/돋보기.png";
+import 알림            from "./assets/알림.png";
+import 프로필           from "./assets/프로필.png";
 
 const Header = () => {
     return (
@@ -18,7 +18,7 @@ const Header = () => {
 
 const HeaderBox = styled.header`
     position: fixed;
-    max-width: 430px;
+    max-width: 440px;
     width: 100%;
     height: 187px;
     left: 50%;

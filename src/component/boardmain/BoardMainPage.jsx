@@ -1,11 +1,15 @@
-import React from "react";
-import styled from "styled-components";
-import Header from "./Header";
+import React         from "react";
+import styled        from "styled-components";
+import Header        from "./Header";
+import BoardMainForm from "./BoardMainForm";
+import Footer        from "./Footer";
 
 function BoardMainPage() {
     return (
         <Main>
             <Header />
+            <BoardMainForm />
+            <Footer />
         </Main>
         
     )
@@ -21,7 +25,7 @@ const Main = styled.main`
     flex-direction: column;
     align-items: flex-start;
     margin: 0 auto;
-    padding: 0px 0px 932px;
+    padding: 0px 0px 732px;
     padding-top: 187px;
 `
 
