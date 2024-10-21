@@ -1,7 +1,11 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
+import api from "../api/axios";
+import { useNavigate } from "react-router-dom";
 
 function PasswordRecoveryForm() {
+
+  const navigate = useNavigate();
 
   //로그인 상태저장
   const [email, setEmail] = useState('');
@@ -28,6 +32,24 @@ function PasswordRecoveryForm() {
     }
   }, [])
 
+  //이메일 db 확인
+  const onSubmit = async() => {
+    const data = {
+      email: email
+    };
+    try{
+      const response = await api.post("/email-exists",data);
+      if(response.status == 200) {
+        navigate("/user/findResultPasswordPage",{state: {email: response.data.email} });
+      } else {
+        setEmailMessage(response.data.errMsg);
+        setIsEmail(false);
+      }
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
   return (
     <FormWrapper>
       <FormInstructions>비밀번호를 찾을 이메일을 입력하세요</FormInstructions>
@@ -41,7 +63,7 @@ function PasswordRecoveryForm() {
         <Formbox>
         {email.length > 0 && <span className={`message ${isEmail ? 'success' : 'error'}`}>{emailMessage}</span>}
         </Formbox>
-        <SubmitButton type="submit">본인 인증하기</SubmitButton>
+        <SubmitButton type="submit" onClick={onSubmit}>확인</SubmitButton>
       </form>
     </FormWrapper>
   );
