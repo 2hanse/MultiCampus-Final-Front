@@ -39,39 +39,6 @@ const JoinPage = () => {
   const [isNickName, setIsNickName] = useState(false);
   const [isPhoneNum, setIsPhoneNum] = useState(false);
 
-  const onSubmit = useCallback(
-    async (e) => {
-      e.preventDefault()
-      try {
-        //test
-        //console.log(email, password, name, nickName);
-        //console.log(phoneNum, selectedQuestion, answerQuestion);
-        await api
-          .post("/users/join", {
-            email: email,
-            password: password,
-            name: name,
-            nickname: nickName,
-            phone_number: phoneNum,
-            recover_q: selectedQuestion,
-            recover_a: answerQuestion
-          })
-          .then((res) => {
-            console.log('response:', res);
-            if (res.status === 200) {
-              console.log("회원가입 성공");
-              alert("회원가입 성공!");
-              
-              navigate("/");
-            }
-          })
-      } catch (err) {
-        console.log(err);
-      }
-    },
-    [email, name, password]
-  )
-
    // 이름 유효성 검사
    const onChangeName = useCallback((e) => {
     setName(e.target.value)
@@ -186,7 +153,7 @@ const JoinPage = () => {
     setPhoneNum(phoneNumCurrent)
 
     if (!phoneNumRegex.test(phoneNumCurrent)) {
-      setPhoneNumMessage('숫자만 입력해주세요')
+      setPhoneNumMessage('숫자만 입력 및 7자리이상 입력 해주세요')
       setIsPhoneNum(false)
     } else {
       setPhoneNumMessage('올바른 형식이에요 : )')
@@ -216,6 +183,45 @@ const JoinPage = () => {
     setIsOpen(!isOpen);
   };
 
+  // 회원가입 기능
+  const onSubmit = useCallback( async (e) => {
+    e.preventDefault()
+
+    if( email === "" || password === "" || name === "" || nickName === "" || 
+        phoneNum === "" || answerQuestion === "" || selectedQuestion === "") {
+      alert("모두 입력해주세요");
+    } else {
+      try {
+        //test
+        //console.log(email, password, name, nickName);
+        //console.log(phoneNum, selectedQuestion, answerQuestion);
+        await api
+          .post("/users/join", {
+            email: email,
+            password: password,
+            name: name,
+            nickname: nickName,
+            phone_number: phoneNum,
+            recover_q: selectedQuestion,
+            recover_a: answerQuestion
+          })
+          .then((res) => {
+            console.log('response:', res);
+            if (res.status === 200) {
+              console.log("회원가입 성공");
+              alert("회원가입 성공!");
+              alert("마이 페이지에 가시면 이미지변경이 가능합니다!")
+              navigate("/");
+            }
+          })
+      } catch (err) {
+        console.log(err);
+      }
+  }
+  },
+  [email, password, name, nickName, phoneNum, selectedQuestion, answerQuestion, navigate]
+)
+
   
   return (
     <StyledForm onSubmit={onSubmit}>
@@ -238,7 +244,8 @@ const JoinPage = () => {
         <StyledInputField>
             <input  type="password" 
                     placeholder="비밀번호(숫자+영문자+특수문자로 8자리 이상)" 
-                    onChange={onChangePassword}/>
+                    onChange={onChangePassword}
+                    className="input2"/>
         </StyledInputField>
         <Formbox>
         {password.length > 0 && (
@@ -247,7 +254,10 @@ const JoinPage = () => {
         </Formbox>
 
         <StyledInputField>
-            <input type="password" placeholder="비밀번호 재입력" onChange={onChangePasswordConfirm}/>
+            <input  type="password" 
+                    placeholder="비밀번호 재입력" 
+                    onChange={onChangePasswordConfirm}
+                    className="input2"/>
         </StyledInputField>
         <Formbox>
         {passwordConfirm.length > 0 && (
@@ -256,7 +266,10 @@ const JoinPage = () => {
         </Formbox>
 
         <StyledInputField>
-            <input type="text" placeholder="이름" onChange={onChangeName}/>
+            <input  type="text" 
+                    placeholder="이름"
+                    onChange={onChangeName}
+                    className="input2"/>
         </StyledInputField>
         <Formbox>
         {name.length > 0 && <span className={`message ${isName ? 'success' : 'error'}`}>{nameMessage}</span>}
@@ -307,9 +320,12 @@ const JoinPage = () => {
 
 
         <StyledInputField>
-            <input type="tel" placeholder="질문에 대한 답변" onChange={onChangeAnswerQuestion}/>
+            <input  type="text" 
+                    placeholder="질문에 대한 답변" 
+                    onChange={onChangeAnswerQuestion}
+                    className="input2"/>
         </StyledInputField>
-        <StyledButton type="submit">가입</StyledButton>
+        <SubmitButton type="submit">가입</SubmitButton>
       </main>
     </StyledForm>
   );
@@ -321,6 +337,7 @@ const StyledForm = styled.form`
   border: 1px solid #000;
   display: flex;
   max-width: 480px;
+  max-height: 932px;
   width: 100%;
   padding-top: 62px;
   flex-direction: column;
@@ -345,7 +362,7 @@ const StyledForm = styled.form`
 
   .form-description {
     color: #ce9971;
-    margin-top: 9px;
+    margin-top: 0px;
     font: 18px/27px Roboto, sans-serif;
   }
 
@@ -397,7 +414,7 @@ const SelectWrapper = styled.div`
 
 const StyledSelect = styled.select`
   width: 100%;
-  font-size: 18px;
+  font-size: 15px;
   color: #1e1e1e;
   border: none;
   background-color: transparent;
@@ -416,12 +433,8 @@ const IconWrapper = styled.div`
 `;
 
 const StyledInputField = styled.div`
-  border-radius: 10px;
-  background-color: #fff;
   display: flex;
   margin-top: 14px;
-  padding: 7px 8px;
-  border: 1px solid #ffd966;
   align-items: center;
 
   input {
@@ -430,19 +443,37 @@ const StyledInputField = styled.div`
     outline: none;
     font-size: 15px;
     color: black;
+    background-color: #fff;
+    border-radius: 10px 0 0 10px;
+    border: 1px solid #ffd966;
+    padding: 10px 7px;
+  }
+  
+  .input2 {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    color: black;
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid #ffd966;
+    padding: 10px 8px;
   }
 
 `;
-const StyledButton = styled.button`
-  margin-top:10px;
-  border-radius: ${(props) => (props.small ? "0 10px 10px 0" : "10px")};
+const SubmitButton = styled.button`
+  border-radius: 10px;
   background-color: #ffd966;
+  width: 100%;
+  font-size: 19px;
   color: #785a00;
-  font-size: ${(props) => (props.small ? "13px" : "19px")};
+  white-space: nowrap;
   text-align: center;
-  padding: ${(props) => (props.small ? "10px 20px" : "22px 70px")};
+  margin: 26px 0 0 0px;
+  padding: 10px 8px;
   border: none;
   cursor: pointer;
-  white-space: nowrap;
+  margin-bottom: 10px;
 `;
 export default JoinPage;

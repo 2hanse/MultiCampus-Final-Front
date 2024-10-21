@@ -1,20 +1,18 @@
 import React from "react";
 import styled from "styled-components";
-import Header from "../login/Header";
-import LoginForm from "../login/LoginForm";
-import Footer from "../login/Footer";
+import Header from "../../find-email/Header";
+import EmailForm from "../../find-email/EmailForm";
 
-function LoginPage() {
+function FindEmailPage() {
   return (
-    <Main>
+    <EmailFinderWrapper>
       <Header />
-      <LoginForm />
-      <Footer />
-    </Main>
+      <EmailForm />
+    </EmailFinderWrapper>
   );
 }
 
-const Main = styled.main`
+const EmailFinderWrapper = styled.main`
   background-color: #fff4d2;
   display: flex;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
@@ -28,4 +26,5 @@ const Main = styled.main`
   padding: 62px 0 298px;
 `;
 
-export default LoginPage;
+
+export default FindEmailPage;

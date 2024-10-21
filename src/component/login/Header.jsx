@@ -19,8 +19,16 @@ function Header() {
 
 const HeaderWrapper = styled.header`
   display: flex;
-  flex-direction: column;
+  margin-left: 28px;
+  width: 220px;
+  max-width: 100%;
   align-items: flex-start;
+  gap: 20px;
+  color: #000;
+  white-space: nowrap;
+  text-align: center;
+  justify-content: space-between;
+  font: 400 10px/1 Roboto, sans-serif;
   :hover {
     background: #F4B183;
   }
@@ -30,6 +38,11 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    width: 220px;
+  max-width: 100%;
+  white-space: nowrap;
+  text-align: center;
+  justify-content: space-between;
 `;
 
 const Logo = styled.img`
@@ -43,14 +56,14 @@ const Logo = styled.img`
 const Title = styled.h1`
   color: #e1650f;
   font-size: 40px;
-  margin: 54px 0 0 13px;
+  margin: 54px 0 0 45px;
   
 `;
 
 const Subtitle = styled.p`
   color: #ce9971;
   font-size: 24px;
-  margin: 14px 0 0 13px;
+  margin: 14px 0 0 45px;
 `;
 
 export default Header;

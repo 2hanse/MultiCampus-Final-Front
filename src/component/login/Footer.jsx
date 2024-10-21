@@ -7,10 +7,8 @@ function Footer() {
 
     <FooterWrapper>
       <NavStyle to='/user/join'>회원가입</NavStyle><br />
-      <NavStyle to='/find-email'>아이디 찾기</NavStyle> | 
-      <NavStyle to='/find-password'> 비밀번호 찾기</NavStyle>
-
-
+      <NavStyle to='/user/find-email'>아이디 찾기</NavStyle> | 
+      <NavStyle to='/user/find-password'> 비밀번호 찾기</NavStyle>
     </FooterWrapper>
 
   );
@@ -40,13 +38,7 @@ const NavStyle = styled(NavLink)`
   &.active {
     color: #ce9971;
   }
-`
-
-const Font = styled.p`
-  cursor: pointer;
-  :hover {
-    background: lightgrey;
-  }
 `;
+
 
 export default Footer;
