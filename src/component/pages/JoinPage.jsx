@@ -398,13 +398,14 @@ const Card = styled.div`
   border-radius: 8px;
   background-color: #fff;
   display: flex;
-  width: 294px;
+  width: 92%;
   height: 40px;
   justify-content: space-between;
   align-items: center;
-  padding: 0 19px 0 70px;
+  padding: 0px 19px 0px 10px;
   border: 1px solid #ffd966;
-  margin-top: 7px;
+  margin-top: 5px;
+  margin-bottom: 10px;
 `;
 
 const SelectWrapper = styled.div`
@@ -414,7 +415,7 @@ const SelectWrapper = styled.div`
 
 const StyledSelect = styled.select`
   width: 100%;
-  font-size: 15px;
+  font-size: 16px;
   color: #1e1e1e;
   border: none;
   background-color: transparent;
@@ -441,7 +442,7 @@ const StyledInputField = styled.div`
     flex: 1;
     border: none;
     outline: none;
-    font-size: 15px;
+    font-size: 16px;
     color: black;
     background-color: #fff;
     border-radius: 10px 0 0 10px;
@@ -453,7 +454,7 @@ const StyledInputField = styled.div`
     flex: 1;
     border: none;
     outline: none;
-    font-size: 15px;
+    font-size: 16px;
     color: black;
     background-color: #fff;
     border-radius: 10px;

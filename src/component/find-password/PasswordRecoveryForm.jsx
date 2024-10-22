@@ -101,7 +101,7 @@ const Formbox = styled.div`
 
 const FormInstructions = styled.p`
   color: #ce9971;
-  font-size: 15px;
+  font-size: 16px;
   align-self: start;
   margin-bottom: 3px;
 `;
@@ -114,7 +114,7 @@ const StyledInputField = styled.div`
     flex: 1;
     border: none;
     outline: none;
-    font-size: 15px;
+    font-size: 16px;
     color: black;
     background-color: #fff;
     border-radius: 10px;

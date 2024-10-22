@@ -61,5 +61,5 @@ const NavStyle = styled(NavLink)`
   border: none;
   cursor: pointer;
   text-decoration: none;
-`
+`;
 export default EmailDisplay;

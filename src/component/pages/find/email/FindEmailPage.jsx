@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import Header from "../../find-email/Header";
-import EmailForm from "../../find-email/EmailForm";
+import Header from "../../../find-email/Header";
+import EmailForm from "../../../find-email/EmailForm";
 
 function FindEmailPage() {
   return (
