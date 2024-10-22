@@ -18,14 +18,14 @@ const Header = () => {
 
 const HeaderBox = styled.header`
     position: fixed;
-    max-width: 440px;
+    max-width: 430px;
     width: 100%;
     height: 187px;
     left: 50%;
     top: 0px;
     transform: translateX(-50%);
     background-color: #FFFFFF;    
-    z-index: 1;
+    z-index: 100;
 `;
 
 const Logo = styled.img`

@@ -1,14 +1,18 @@
-import React         from "react";
-import styled        from "styled-components";
-import Header        from "./Header";
-import BoardMainForm from "./BoardMainForm";
-import Footer        from "./Footer";
+import React           from "react";
+import styled          from "styled-components";
+import Header          from "./Header";
+import BoardButtonForm from "./BoardButtonForm";
+import HotPostForm     from "./HotPostForm";
+import NewPostForm     from "./NewPostForm";
+import Footer          from "./Footer";
 
 function BoardMainPage() {
     return (
         <Main>
             <Header />
-            <BoardMainForm />
+            <BoardButtonForm />
+            <HotPostForm />
+            <NewPostForm />
             <Footer />
         </Main>
         
@@ -16,17 +20,17 @@ function BoardMainPage() {
 }
 
 const Main = styled.main`
-    max-width: 430px;
+    width: 430px;
     max-height: 932px;
-    width: 100%;
+    min-height: 632px;
+    height: auto;
     background: #FFF4D2;
     display: flex;
     overflow: hidden;
     flex-direction: column;
     align-items: flex-start;
     margin: 0 auto;
-    padding: 0px 0px 732px;
-    padding-top: 187px;
+    padding: 187px 0px 100px 0px;
 `
 
 export default BoardMainPage;

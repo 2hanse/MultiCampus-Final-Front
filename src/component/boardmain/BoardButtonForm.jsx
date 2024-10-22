@@ -7,7 +7,7 @@ import Travel from "./assets/Travel.png";
 import Bookmark from "./assets/Bookmark.png";
 
 
-const BoardMainForm = () => {
+const BoardButtonForm = () => {
     return (
         <Wrapper>
             <FoodBoard src={Meal} alt="Meal" />
@@ -16,7 +16,6 @@ const BoardMainForm = () => {
             <TravelBoard src={Travel} alt="Travel" />
             <BookmarkBoard src={Bookmark} alt="Bookmark" />
         </Wrapper>
-        
     );
 }
 
@@ -26,9 +25,9 @@ const Wrapper = styled.div`
     flex-direction: column;
     align-items: flex-start;
     margine: auto 0;
-    max-width: 430px;
-    width: 100%;
-    height: 130px;
+    width: 430px;
+    height: 60px;
+    padding: 35px 0px 35px 0px;
 `;
 
 const FoodBoard = styled.img`
@@ -36,7 +35,6 @@ const FoodBoard = styled.img`
     width: 60px;
     height: 60px;
     left: 25px;
-    top: 35px;
     filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
 `
 
@@ -45,7 +43,6 @@ const TalkBoard = styled.img`
     width: 60px;
     height: 60px;
     left: 105px;
-    top: 35px;
     filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
 `
 
@@ -54,7 +51,6 @@ const TopBoard = styled.img`
     width: 60px;
     height: 60px;
     left: 185px;
-    top: 35px;
     filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
 `
 
@@ -63,7 +59,6 @@ const TravelBoard = styled.img`
     width: 60px;
     height: 60px;
     left: 265px;
-    top: 35px;
     filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
 `
 
@@ -72,8 +67,17 @@ const BookmarkBoard = styled.img`
     width: 60px;
     height: 60px;
     left: 345px;
-    top: 35px;
     filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
 `
 
-export default BoardMainForm;
+// const BottomWrapper = styled.div`
+//     position: relative;
+//     display: flex;
+//     flex-direction: column;
+//     align-items: flex-start;
+//     margine: auto 0;
+//     width: 430px;
+//     height: 515px;
+// `;
+
+export default BoardButtonForm;

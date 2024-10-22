@@ -7,6 +7,7 @@ import Chat from "./assets/Chat.png";
 import Person from "./assets/Person.png";
 
 const Footer = () => {
+
     return (
         <FooterBox>
             <BoardMainPage src={Home} alt="Home" />
@@ -20,15 +21,12 @@ const Footer = () => {
 
 const FooterBox = styled.footer`
     position: fixed;
-    max-width: 430px;
-    width: 100%;
+    display: flex;
+    width: 430px;
     height: 100px;
-    left: 50%;
-    top: 832px;
-    transform: translateX(-50%);
+    bottom: 0px;
     background-color: #FFFFFF;
     border-top: 0.5px solid #CAC4D0;
-    z-index: 2;
 `
 
 const BoardMainPage = styled.img`
