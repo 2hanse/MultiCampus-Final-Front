@@ -1,19 +1,19 @@
-import React from "react";
-import styled from "styled-components";
-import Meal from "./assets/Meal.png";
-import Talk from "./assets/Talk.png";
-import Top from "./assets/Top.png";
-import Travel from "./assets/Travel.png";
+import React    from "react";
+import styled   from "styled-components";
+import Meal     from "./assets/Meal.png";
+import Talk     from "./assets/Talk.png";
+import Top      from "./assets/Top.png";
+import Travel   from "./assets/Travel.png";
 import Bookmark from "./assets/Bookmark.png";
 
 
 const BoardButtonForm = () => {
     return (
         <Wrapper>
-            <FoodBoard src={Meal} alt="Meal" />
-            <TalkBoard src={Talk} alt="Talk" />
-            <TopBoard src={Top} alt="Top" />
-            <TravelBoard src={Travel} alt="Travel" />
+            <FoodBoard     src={Meal}     alt="Meal" />
+            <TalkBoard     src={Talk}     alt="Talk" />
+            <TopBoard      src={Top}      alt="Top" />
+            <TravelBoard   src={Travel}   alt="Travel" />
             <BookmarkBoard src={Bookmark} alt="Bookmark" />
         </Wrapper>
     );
@@ -24,9 +24,9 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margine: auto 0;
     width: 430px;
     height: 60px;
+    margine: auto 0;
     padding: 35px 0px 35px 0px;
 `;
 
@@ -69,15 +69,5 @@ const BookmarkBoard = styled.img`
     left: 345px;
     filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
 `
-
-// const BottomWrapper = styled.div`
-//     position: relative;
-//     display: flex;
-//     flex-direction: column;
-//     align-items: flex-start;
-//     margine: auto 0;
-//     width: 430px;
-//     height: 515px;
-// `;
 
 export default BoardButtonForm;

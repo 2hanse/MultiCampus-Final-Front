@@ -1,6 +1,6 @@
-import React from "react";
+import React  from "react";
 import styled from "styled-components";
-import New from "./assets/New.png";
+import New    from "./assets/New.png";
 
 const NewPostForm = () => {
     return (
