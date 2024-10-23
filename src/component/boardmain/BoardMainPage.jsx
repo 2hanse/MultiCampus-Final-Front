@@ -20,15 +20,15 @@ function BoardMainPage() {
 }
 
 const Main = styled.main`
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    align-items: flex-start;
     width: 430px;
     max-height: 932px;
     min-height: 632px;
     height: auto;
     background: #FFF4D2;
-    display: flex;
-    overflow: hidden;
-    flex-direction: column;
-    align-items: flex-start;
     margin: 0 auto;
     padding: 187px 0px 100px 0px;
     border: 0.5px solid #CAC4D0;

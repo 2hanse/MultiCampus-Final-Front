@@ -8,22 +8,22 @@ import 프로필           from "./assets/프로필.png";
 const Header = () => {
     return (
         <HeaderBox>
-            <Logo src={맛있는녀석들_로고} alt="맛있는 녀석들 로고" />
-            <Search src={돋보기} alt="Search" />
-            <Notification src={알림} alt="Notification" />
-            <Profile src={프로필} alt="Profile" />
+            <Logo         src={맛있는녀석들_로고} alt="맛있는 녀석들 로고" />
+            <Search       src={돋보기}         alt="Search" />
+            <Notification src={알림}           alt="Notification" />
+            <Profile      src={프로필}         alt="Profile" />
         </HeaderBox>
     );
 };
 
 const HeaderBox = styled.header`
     position: fixed;
+    transform: translateX(-50%);
     max-width: 430px;
     width: 100%;
     height: 187px;
     left: 50%;
     top: 0px;
-    transform: translateX(-50%);
     background-color: #FFFFFF;
     border: 0.5px solid #CAC4D0;
     z-index: 100;
