@@ -2,7 +2,6 @@ import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import api from "../../api/axios";
 import { useLocation, useNavigate } from "react-router-dom";
-import Button from "../../join/Button";
 
 function PhoneIdentification() {
 
@@ -47,7 +46,7 @@ function PhoneIdentification() {
       const response = await api.post("/email-exists",data);
       if(response.status == 200) {
         navigate("/user/resetPassword",{state: {    email: userInfo.email,
-                                                    phoneNum: phoneNum
+                                                    phone_number: response.data.phone_number
         } });
       } else {
         setPhoneNumMessage(response.data.errMsg);
@@ -67,7 +66,7 @@ function PhoneIdentification() {
                     placeholder="전화번호( -를 제외하고 입력)" 
                     className="input"
                     onChange={onChangePhoneNum}/>
-            <Button small>인증</Button>
+            <StyledButton small>인증</StyledButton>
         </StyledInputField>
         <Formbox>
         {phoneNum.length > 0 && <span className={`message ${isPhoneNum ? 'success' : 'error'}`}>{phoneNumMessage}</span>}
@@ -145,6 +144,18 @@ const SubmitButton = styled.button`
   padding: 10px 8px;
   border: none;
   cursor: pointer;
+`;
+
+const StyledButton = styled.button`
+  border-radius: ${(props) => (props.small ? "0 10px 10px 0" : "10px")};
+  background-color: #ffd966;
+  color: #785a00;
+  font-size: ${(props) => (props.small ? "13px" : "19px")};
+  text-align: center;
+  padding: ${(props) => (props.small ? "11px 20px" : "22px 70px")};
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
 `;
 
 

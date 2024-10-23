@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import Header from "../join/Header";
-import Button from "../join/Button";
 import { ChevronDown } from "../join/Icons";
 import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
@@ -52,15 +51,17 @@ const JoinPage = () => {
   }, [])
 
   // 이메일 중복 확인 함수 추가
-  const checkEmail = useCallback(async () => {
+  const checkEmail = useCallback(async (e) => {
+    e.preventDefault();
     try {
-      const response = await api.post('/users/email-exists', { email });
+      const response = await api.post('/users/email-exists', { email: email });
       if (response.data) {
         setEmailMessage('이미 사용 중인 이메일입니다.');
         setIsEmail(false);
       } else {
         setEmailMessage('사용 가능한 이메일입니다.');
         setIsEmail(true);
+        console.log("확인완료")
       }
     } catch (error) {
       console.log('중복 확인 중 오류 발생:', error);
@@ -70,9 +71,10 @@ const JoinPage = () => {
   }, [email]);
 
   // 닉네임 중복 확인 함수 추가
-  const checkNickName = useCallback(async () => {
+  const checkNickName = useCallback(async (e) => {
+    e.preventDefault();
     try {
-      const response = await api.post('/users/nickname-exists', { nickName });
+      const response = await api.post('/users/nickname-exists', { nickName: nickName });
       if (response.data) {
         setNickNameMessage('이미 사용 중인 닉네임입니다.');
         setIsNickName(false);
@@ -186,11 +188,6 @@ const JoinPage = () => {
   // 회원가입 기능
   const onSubmit = useCallback( async (e) => {
     e.preventDefault()
-
-    if( email === "" || password === "" || name === "" || nickName === "" || 
-        phoneNum === "" || answerQuestion === "" || selectedQuestion === "") {
-      alert("모두 입력해주세요");
-    } else {
       try {
         //test
         //console.log(email, password, name, nickName);
@@ -201,9 +198,9 @@ const JoinPage = () => {
             password: password,
             name: name,
             nickname: nickName,
-            phone_number: phoneNum,
             recover_q: selectedQuestion,
-            recover_a: answerQuestion
+            recover_a: answerQuestion,
+            phone_number: phoneNum
           })
           .then((res) => {
             console.log('response:', res);
@@ -217,14 +214,13 @@ const JoinPage = () => {
       } catch (err) {
         console.log(err);
       }
-  }
   },
   [email, password, name, nickName, phoneNum, selectedQuestion, answerQuestion, navigate]
 )
 
   
   return (
-    <StyledForm onSubmit={onSubmit}>
+    <StyledForm>
       <Header />
       <main>
         <h2 className="form-title">회원정보 입력</h2>
@@ -235,7 +231,7 @@ const JoinPage = () => {
         </p>
         <StyledInputField>
             <input type="email" placeholder="이메일" onChange={onChangeEmail}/>
-            <Button small onClick={checkEmail}>중복확인</Button>
+            <StyledButton small onClick={checkEmail}>중복확인</StyledButton>
         </StyledInputField>
         <Formbox>
         {email.length > 0 && <span className={`message ${isEmail ? 'success' : 'error'}`}>{emailMessage}</span>}
@@ -277,7 +273,7 @@ const JoinPage = () => {
 
         <StyledInputField>
             <input type="text" placeholder="닉네임" onChange={onChangeNickName}/>
-            <Button small onClick={checkNickName}>중복확인</Button>
+            <StyledButton small onClick={checkNickName}>중복확인</StyledButton>
         </StyledInputField>
         <Formbox>
         {nickName.length > 0 && <span className={`message ${isNickName ? 'success' : 'error'}`}>{nickNameMessage}</span>}
@@ -285,7 +281,7 @@ const JoinPage = () => {
 
         <StyledInputField>
             <input type="text" placeholder="전화번호( -를 제외하고 입력)" onChange={onChangePhoneNum}/>
-            <Button small>인증</Button>
+            <StyledButton small>인증</StyledButton>
         </StyledInputField>
         <Formbox>
         {phoneNum.length > 0 && <span className={`message ${isPhoneNum ? 'success' : 'error'}`}>{phoneNumMessage}</span>}
@@ -325,7 +321,7 @@ const JoinPage = () => {
                     onChange={onChangeAnswerQuestion}
                     className="input2"/>
         </StyledInputField>
-        <SubmitButton type="submit">가입</SubmitButton>
+        <SubmitButton type="button" onClick={onSubmit}>가입</SubmitButton>
       </main>
     </StyledForm>
   );
@@ -476,5 +472,17 @@ const SubmitButton = styled.button`
   border: none;
   cursor: pointer;
   margin-bottom: 10px;
+`;
+
+const StyledButton = styled.button`
+  border-radius: ${(props) => (props.small ? "0 10px 10px 0" : "10px")};
+  background-color: #ffd966;
+  color: #785a00;
+  font-size: ${(props) => (props.small ? "13px" : "19px")};
+  text-align: center;
+  padding: ${(props) => (props.small ? "11px 20px" : "22px 70px")};
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
 `;
 export default JoinPage;

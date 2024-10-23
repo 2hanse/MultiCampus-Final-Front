@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
-function EmailDisplay(props) {
+function EmailDisplay() {
   const location = useLocation();
   const emailResult = {...location.state};
 
