@@ -47,8 +47,8 @@ const Input = styled.input`
     }
 `
 
-const MyLocationButton = styled.button`
+// const MyLocationButton = styled.button`
 
-`
+// `
 
 export default SearchForm;
