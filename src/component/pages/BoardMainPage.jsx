@@ -1,10 +1,10 @@
 import React           from "react";
 import styled          from "styled-components";
-import Header          from "./Header";
-import BoardButtonForm from "./BoardButtonForm";
-import HotPostForm     from "./HotPostForm";
-import NewPostForm     from "./NewPostForm";
-import Footer          from "./Footer";
+import Header          from "../boardmain/Header";
+import BoardButtonForm from "../boardmain/BoardButtonForm";
+import HotPostForm     from "../boardmain/HotPostForm";
+import NewPostForm     from "../boardmain/NewPostForm";
+import Footer          from "../boardmain/Footer";
 
 function BoardMainPage() {
     return (

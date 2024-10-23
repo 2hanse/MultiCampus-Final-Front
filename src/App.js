@@ -5,7 +5,7 @@ import JoinPage from './component/pages/JoinPage';
 import FindEmailPage from './component/pages/find/FindEmailPage';
 import FindResultEmailPage from './component/pages/find/FindResultEmailPage';
 import FindPasswordPage from './component/pages/find/FindPasswordPage';
-import BoardMainPage from './component/boardmain/BoardMainPage';
+import BoardMainPage from './component/pages/BoardMainPage';
 
 function App() {
   return (
