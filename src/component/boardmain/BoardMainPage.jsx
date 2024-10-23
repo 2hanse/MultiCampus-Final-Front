@@ -31,6 +31,7 @@ const Main = styled.main`
     align-items: flex-start;
     margin: 0 auto;
     padding: 187px 0px 100px 0px;
+    border: 0.5px solid #CAC4D0;
 `
 
 export default BoardMainPage;

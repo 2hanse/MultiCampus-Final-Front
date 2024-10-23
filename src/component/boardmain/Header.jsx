@@ -24,7 +24,8 @@ const HeaderBox = styled.header`
     left: 50%;
     top: 0px;
     transform: translateX(-50%);
-    background-color: #FFFFFF;    
+    background-color: #FFFFFF;
+    border: 0.5px solid #CAC4D0;
     z-index: 100;
 `;
 
