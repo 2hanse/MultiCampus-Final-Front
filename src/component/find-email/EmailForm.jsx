@@ -70,8 +70,8 @@ function EmailForm() {
             alert("모두 입력해주세요");
         } else {
             try {
-                await api.post("/users/find-email", idData);
-                navigate("/user/findResultEmailPage");
+                const response = await api.post("/users/find-email", idData);
+                navigate("/user/findResultEmailPage",{ state: { email: response.data.email }});
             } catch(err) {
                 console.log(err);
             }

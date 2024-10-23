@@ -54,9 +54,10 @@ const StyledHeader = styled.header`
 `;
 
 const Wrapper = styled.div`
-    :hover {
+  :hover {
     background: #F4B183;
   }
+  cursor: pointer;
 `;
 
 export default Header;
