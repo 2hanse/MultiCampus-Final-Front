@@ -5,6 +5,7 @@ import JoinPage from './component/pages/JoinPage';
 import FindEmailPage from './component/pages/find/FindEmailPage';
 import FindResultEmailPage from './component/pages/find/FindResultEmailPage';
 import FindPasswordPage from './component/pages/find/FindPasswordPage';
+import ChatListPage from './component/pages/chat/ChatListPage';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path='/user/find-email' element={<FindEmailPage />} />
         <Route path='/user/findResultEmailPage' element={<FindResultEmailPage />} />
         <Route path='/user/find-password' element={<FindPasswordPage />} />
+        <Route path='/user/chat' element={<ChatListPage />} />
       </Routes>
     </BrowserRouter>
   );
