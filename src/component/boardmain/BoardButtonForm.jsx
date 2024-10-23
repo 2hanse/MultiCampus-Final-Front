@@ -36,6 +36,8 @@ const FoodBoard = styled.img`
     height: 60px;
     left: 25px;
     filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
+
+    cursor: pointer;
 `
 
 const TalkBoard = styled.img`
@@ -44,6 +46,8 @@ const TalkBoard = styled.img`
     height: 60px;
     left: 105px;
     filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
+
+    cursor: pointer;
 `
 
 const TopBoard = styled.img`
@@ -52,6 +56,8 @@ const TopBoard = styled.img`
     height: 60px;
     left: 185px;
     filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
+
+    cursor: pointer;
 `
 
 const TravelBoard = styled.img`
@@ -60,6 +66,8 @@ const TravelBoard = styled.img`
     height: 60px;
     left: 265px;
     filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
+
+    cursor: pointer;
 `
 
 const BookmarkBoard = styled.img`
@@ -68,6 +76,8 @@ const BookmarkBoard = styled.img`
     height: 60px;
     left: 345px;
     filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
+
+    cursor: pointer;
 `
 
 export default BoardButtonForm;

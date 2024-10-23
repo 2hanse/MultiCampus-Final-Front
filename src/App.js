@@ -6,6 +6,7 @@ import FindEmailPage from './component/pages/find/FindEmailPage';
 import FindResultEmailPage from './component/pages/find/FindResultEmailPage';
 import FindPasswordPage from './component/pages/find/FindPasswordPage';
 import BoardMainPage from './component/pages/BoardMainPage';
+import MyLocationPage from './component/pages/MyLocationPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path='/user/findResultEmailPage' element={<FindResultEmailPage />} />
         <Route path='/user/find-password' element={<FindPasswordPage />} />
         <Route path="/boardmain" element={<BoardMainPage />} />
+        <Route path="/mylocation" element={<MyLocationPage />} />
       </Routes>
     </BrowserRouter>
   );
