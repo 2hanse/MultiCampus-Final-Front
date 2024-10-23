@@ -1,20 +1,20 @@
-import React from "react";
+import React  from "react";
 import styled from "styled-components";
-import Home from "./assets/Home.png";
-import Feed from "./assets/Feed.png";
-import Map from "./assets/Map.png";
-import Chat from "./assets/Chat.png";
+import Home   from "./assets/Home.png";
+import Feed   from "./assets/Feed.png";
+import Map    from "./assets/Map.png";
+import Chat   from "./assets/Chat.png";
 import Person from "./assets/Person.png";
 
 const Footer = () => {
 
     return (
         <FooterBox>
-            <BoardMainPage src={Home} alt="Home" />
-            <FeedPage src={Feed} alt="Feed" />
-            <MapPage src={Map} alt="Map" />
-            <ChatPage src={Chat} alt="Chat" />
-            <MyPage Src={Person} alt="Person" />
+            <BoardMainPage src={Home}   alt="Home" />
+            <FeedPage      src={Feed}   alt="Feed" />
+            <MapPage       src={Map}    alt="Map" />
+            <ChatPage      src={Chat}   alt="Chat" />
+            <MyPage        src={Person} alt="Person" />
         </FooterBox>
     );
 }
@@ -22,11 +22,12 @@ const Footer = () => {
 const FooterBox = styled.footer`
     position: fixed;
     display: flex;
+    transform: translateX(-0.2%);
     width: 430px;
     height: 100px;
     bottom: 0px;
     background-color: #FFFFFF;
-    border-top: 0.5px solid #CAC4D0;
+    border: 0.5px solid #CAC4D0;
 `
 
 const BoardMainPage = styled.img`

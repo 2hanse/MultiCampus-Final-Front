@@ -1,16 +1,17 @@
 import React from "react";
 import styled from "styled-components";
-import Header from "../../find-password/Header";
-import PasswordRecoveryForm from "../../find-password/PasswordRecoveryForm";
+import Header from "../../../find-password/Header";
+import PasswordResult from "../../../find-password/findresult-password/PasswordResult";
 
-function FindPasswordPage() {
+function ResetPasswordResultPage() {
   return (
     <PageWrapper>
-      <Header />
-      <main>
-        <PasswordRecoveryForm />
-      </main>
+        <main>
+            <Header />
+            <PasswordResult />
+        </main>
     </PageWrapper>
+
   );
 }
 
@@ -21,10 +22,11 @@ const PageWrapper = styled.div`
   border: 1px solid #000;
   max-width: 480px;
   width: 100%;
+  height: 450px;
   flex-direction: column;
   overflow: hidden;
   margin: 0 auto;
   padding: 62px 0 340px;
 `;
 
-export default FindPasswordPage;
+export default ResetPasswordResultPage;

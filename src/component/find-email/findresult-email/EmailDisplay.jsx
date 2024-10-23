@@ -1,14 +1,18 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
-function EmailDisplay(props) {
-  // {props.data.email}
+function EmailDisplay() {
+  const location = useLocation();
+  const emailResult = {...location.state};
+
+  // const [email,setEmail] = useState("");
+  // setEmail(emailResult);
+
   return (
     <div>
         <EmailDisplayWrapper>
             <p className="email-info">회원님이 가입한 이메일은 다음과 같습니다</p>
-            <div className="email-container">ss</div>
+            <div className="email-container">{emailResult.email}</div>
             <NavStyle to='/user/login'>로그인</NavStyle>
             <NavStyle to='/user/find-password'>비밀번호 찾기</NavStyle>
         </EmailDisplayWrapper>
@@ -57,5 +61,5 @@ const NavStyle = styled(NavLink)`
   border: none;
   cursor: pointer;
   text-decoration: none;
-`
+`;
 export default EmailDisplay;

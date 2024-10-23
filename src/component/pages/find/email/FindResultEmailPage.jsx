@@ -1,15 +1,15 @@
 import React from "react";
 import styled from "styled-components";
-import Header from "../../find-email/findresult-email/Header";
-import EmailDisplay from "../../find-email/findresult-email/EmailDisplay";
+import Header from "../../../find-email/findresult-email/Header";
+import EmailDisplay from "../../../find-email/findresult-email/EmailDisplay";
 
 function FindResultEmailPage() {
   return (
     <main className="email-finder">
       <EmailFinderWrapper>
-        <Header />
-        <hr />
-        <EmailDisplay />
+          <Header />
+          <hr />
+          <EmailDisplay />
       </EmailFinderWrapper>
     </main>
   );

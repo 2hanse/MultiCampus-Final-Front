@@ -1,6 +1,6 @@
-import React from "react";
+import React  from "react";
 import styled from "styled-components";
-import Fire from "./assets/Fire.png";
+import Fire   from "./assets/Fire.png";
 
 const HotPostForm = () => {
     return (

@@ -76,30 +76,30 @@ function LoginForm() {
     return (
         <Form onSubmit={handleSubmit}>
           <label htmlFor="email" className="security-question-label">이메일</label>
-        <InputWrapper>
-            <Input  type="email" 
-                    placeholder="이메일을 입력해주세요" 
-                    name="email"
-                    value={email} 
-                    onChange={onChangeEmail}/>
-        </InputWrapper>
-        <Formbox>
-        {email.length > 0 && <span className={`message ${isEmail ? 'success' : 'error'}`}>{emailMessage}</span>}
-        </Formbox>
+          <InputWrapper>
+              <Input  type="email" 
+                      placeholder="이메일을 입력해주세요" 
+                      name="email"
+                      value={email} 
+                      onChange={onChangeEmail}/>
+          </InputWrapper>
+          <Formbox>
+          {email.length > 0 && <span className={`message ${isEmail ? 'success' : 'error'}`}>{emailMessage}</span>}
+          </Formbox>
 
-        <label htmlFor="password" className="security-question-label">비밀번호</label>
-        <InputWrapper>
-            <Input  type="password" 
-                    placeholder="비밀번호를 입력해주세요"
-                    name="password"
-                    value={password}
-                    onChange={onChangePassword}
-                     />
-        </InputWrapper>
-        <Formbox>
-        {password.length > 0 && <span className={`message ${isPassword ? 'success' : 'error'}`}>{passwordMessage}</span>}
-        </Formbox>
-        <SubmitButton type="submit">로그인</SubmitButton>
+          <label htmlFor="password" className="security-question-label">비밀번호</label>
+          <InputWrapper>
+              <Input  type="password" 
+                      placeholder="비밀번호를 입력해주세요"
+                      name="password"
+                      value={password}
+                      onChange={onChangePassword}
+                      />
+          </InputWrapper>
+          <Formbox>
+          {password.length > 0 && <span className={`message ${isPassword ? 'success' : 'error'}`}>{passwordMessage}</span>}
+          </Formbox>
+          <SubmitButton type="submit">로그인</SubmitButton>
         </Form>
     );
 }
