@@ -332,7 +332,7 @@ const StyledForm = styled.form`
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   border: 1px solid #000;
   display: flex;
-  max-width: 480px;
+  max-width: 430px;
   max-height: 932px;
   width: 100%;
   padding-top: 62px;
@@ -359,7 +359,7 @@ const StyledForm = styled.form`
   .form-description {
     color: #ce9971;
     margin-top: 0px;
-    font: 18px/27px Roboto, sans-serif;
+    font: 16px/27px Roboto, sans-serif;
   }
 
   .security-question-label {

@@ -85,7 +85,7 @@ function PasswordForm() {
         <label htmlFor="password" className="security-question-label">새 비밀번호</label>
         <InputWrapper>
             <Input  type="password" 
-                    placeholder="새 비밀번호(숫자+영문자+특수문자로 8자리 이상)" 
+                    placeholder="새 비밀번호(숫자+영문+특수문자 8자리 이상)" 
                     onChange={onChangePassword}
                     className="input2"/>
         </InputWrapper>
@@ -132,7 +132,7 @@ const Form = styled.form`
 `;
 
 const InputWrapper = styled.div`
-  width: 100%;
+  width: 96%;
   margin-top: 3px;
 `;
 
@@ -169,7 +169,7 @@ const Input = styled.input`
 const SubmitButton = styled.button`
   border-radius: 10px;
   background-color: #ffd966;
-  width: 100%;
+  width: 96%;
   font-size: 19px;
   color: #785a00;
   white-space: nowrap;

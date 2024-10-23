@@ -145,7 +145,7 @@ const FormField = styled.div`
 const PhoneInput = styled.input`
   border-radius: 10px;
   background-color: #fff;
-  width: 80%;
+  width: 75%;
   font-size: 16px;
   padding: 9px 8px;
   border: 1px solid #ffd966;
@@ -157,8 +157,8 @@ const Card = styled.div`
   border-radius: 8px;
   background-color: #fff;
   display: flex;
-  width: 370px;
-  height: 40px;
+  width: 72%;
+  height: 35px;
   justify-content: space-between;
   align-items: center;
   padding: 0px 19px 0px 10px;
@@ -196,7 +196,7 @@ const AnswerInput = styled.input`
   border-radius: 10px;
   background-color: #fff;
   font-size: 16px;
-  width: 80%;
+  width: 75%;
   padding: 7px 8px;
   border: 1px solid #ffd966;
   margin-top: 5px;
