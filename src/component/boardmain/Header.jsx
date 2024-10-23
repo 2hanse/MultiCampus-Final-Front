@@ -44,6 +44,8 @@ const Search = styled.img`
     height: 22px;
     left: 271px;
     top: 145px;
+
+    cursor: pointer;
 `
 
 const Notification = styled.img`
@@ -52,6 +54,8 @@ const Notification = styled.img`
     height: 30px;
     left: 318px;
     top: 141px;
+
+    cursor: pointer;
 `
 const Profile = styled.img`
     position: absolute;
@@ -59,6 +63,8 @@ const Profile = styled.img`
     height: 30px;
     left: 373px;
     top: 141px;
+
+    cursor: pointer;
 `
 
 export default Header;

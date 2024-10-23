@@ -36,6 +36,8 @@ const BoardMainPage = styled.img`
     height: 33.75px;
     left: 46px;
     top: 33%;
+    
+    cursor: pointer;
 `
 
 const FeedPage = styled.img`
@@ -44,6 +46,8 @@ const FeedPage = styled.img`
     height: 30px;
     left: 123px;
     top: 35%;
+
+    cursor: pointer;
 `
 const MapPage = styled.img`
     position: absolute;
@@ -51,6 +55,8 @@ const MapPage = styled.img`
     height: 30px;
     left: calc(50% - 30px/2);
     top: 35%;
+
+    cursor: pointer;
 `
 
 const ChatPage = styled.img`
@@ -59,6 +65,8 @@ const ChatPage = styled.img`
     height: 30px;
     left: 273px;
     top: 35%;
+
+    cursor: pointer;
 `
 
 const MyPage = styled.img`
@@ -67,6 +75,8 @@ const MyPage = styled.img`
     height: 30px;
     left: 351.33px;
     top: 35%;
+
+    cursor: pointer;
 `
 
 export default Footer;
