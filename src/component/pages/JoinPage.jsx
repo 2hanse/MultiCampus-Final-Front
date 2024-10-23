@@ -220,7 +220,7 @@ const JoinPage = () => {
 
   
   return (
-    <StyledForm>
+    <StyledForm onSubmit={onSubmit}>
       <Header />
       <main>
         <h2 className="form-title">회원정보 입력</h2>
@@ -321,7 +321,7 @@ const JoinPage = () => {
                     onChange={onChangeAnswerQuestion}
                     className="input2"/>
         </StyledInputField>
-        <SubmitButton type="button" onClick={onSubmit}>가입</SubmitButton>
+        <SubmitButton type="submit">가입</SubmitButton>
       </main>
     </StyledForm>
   );
