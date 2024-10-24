@@ -4,17 +4,20 @@ import Location from "./assets/Location.png";
 
 const SearchForm = () => {
     return (
-        <InputWrapper>
+        <Wrapper>
             <Input placeholder="내 동네 이름(읍/면/동)으로 검색"/>
             <MyLocationButton>
                 <LocationImg src={Location} alt="Location" />
                 &nbsp;&nbsp;&nbsp;&nbsp;현재 위치로 찾기
             </MyLocationButton>
-        </InputWrapper>
+            <PrintLocations>
+                
+            </PrintLocations>
+        </Wrapper>
     );
 }
 
-const InputWrapper = styled.div`
+const Wrapper = styled.div`
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -89,6 +92,16 @@ const LocationImg = styled.img`
     height: 20px;
     left: 30px;
     top: 14px;
+`
+
+const PrintLocations = styled.div`
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 430px;
+    height: 325px;
+    top: 185px;
 `
 
 export default SearchForm;

@@ -17,10 +17,11 @@ const CompleteButtonForm = () => {
 const PlaceholderText = '선택한 주소지';
 
 const Wrapper = styled.div`
-    position: relative;
-    width: 100%;
+    position: fixed;
+    width: 430px;
     height: 200px;
-    top: 500px;
+    bottom: 100px;
+    background-color: #FFF4D2;
 `
 
 const PrintLocation = styled.div`
