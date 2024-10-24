@@ -16,7 +16,20 @@ const InfoWrapper = styled.div`
   margin: auto 0;
 `;
 
+const RoomName = styled.div`
+  max-width: 200px; /* 라벨 크기 고정 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* 넘칠 경우 ... 처리 */
+  font-size: 16px;
+  font-weight: bold;
+`;
+
 const Nickname = styled.h3`
+  max-width: 220px; /* 라벨 크기 고정 */
+  text-overflow: ellipsis; /* 넘칠 경우 ... 처리 */
+  white-space: nowrap;
+  overflow: hidden;
   color: #000;
   font-size: 18px;
   align-self: start;

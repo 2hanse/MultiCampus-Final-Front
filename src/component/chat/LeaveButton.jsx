@@ -1,8 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
-const LeaveButton = () => {
-  return <StyledButton>나가기</StyledButton>;
+const LeaveButton = ({ roomId, stompClient }) => {
+  const handleLeaveRoom = () => {
+    if (stompClient && roomId) {
+      stompClient.send(`/pub/chat/room/leave`, {}, roomId);
+    }
+  };
+
+  return <StyledButton onClick={handleLeaveRoom}>나가기</StyledButton>;
 };
 
 const StyledButton = styled.button`

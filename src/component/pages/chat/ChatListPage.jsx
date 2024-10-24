@@ -9,34 +9,42 @@ import { Stomp } from "@stomp/stompjs";
 function ChatListPage() {
   const [chatRooms, setChatRooms] = useState([]);
   const userId = 1004; // 예시로 User ID를 하드코딩하였지만, 실제로는 인증 토큰 등을 이용해 가져옴.
+  const [stompClient, setStompClient] = useState(null);
 
   useEffect(() => {
     // STOMP 클라이언트 설정
     const socket = new SockJS("http://localhost:8000/ws");
-    const stompClient = Stomp.over(socket);
+    const stomp = Stomp.over(socket);
 
     // 연결 설정 및 구독
-    stompClient.connect({Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMDA0LCJlbWFpbCI6InRlc3QyQHRlc3QuY29tIiwicm9sZSI6IiIsImlhdCI6MTcyOTY2NDM0NywiZXhwIjoxODE2MDY0MzQ3fQ.bP8T4L31GW0dVKZyRAI3gxMoNoqHZJxn5IhdIHL-6to"}, (frame) => {
-      console.log("Connected: " + frame);
+    stomp.connect(
+      {Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMDA0LCJlbWFpbCI6InRlc3QyQHRlc3QuY29tIiwicm9sZSI6IiIsImlhdCI6MTcyOTY2NDM0NywiZXhwIjoxODE2MDY0MzQ3fQ.bP8T4L31GW0dVKZyRAI3gxMoNoqHZJxn5IhdIHL-6to"},
+      (frame) => {
+        console.log("Connected: " + frame);
 
-      // /sub/chat/room-list/{userId} 구독
-      stompClient.subscribe(`/sub/chat/room-list/${userId}`, (message) => {
-        const receivedRooms = JSON.parse(message.body);
-        setChatRooms(receivedRooms); // 받은 채팅방 리스트를 state에 저장
-      });
+        // /sub/chat/room/list/{userId} 구독
+        stomp.subscribe(`/sub/chat/room/list/${userId}`, (message) => {
+          const receivedRooms = JSON.parse(message.body);
+          console.log(receivedRooms);
+          setChatRooms(receivedRooms); // 받은 채팅방 리스트를 state에 저장
+        });
 
-      stompClient.subscribe(`/sub/chat/room-invite/${userId}`, (message) => {
-        stompClient.send(`/pub/chat/list`, {});
-      });
+        stomp.subscribe(`/sub/chat/room/refresh/${userId}`, (message) => {
+          console.log('refreshed');
+          stomp.send(`/pub/chat/room/list`);
+        });
 
-      // /pub/chat/list로 채팅방 목록 요청
-      stompClient.send(`/pub/chat/list`, {});
-    });
+        // /pub/chat/list로 채팅방 목록 요청
+        stomp.send(`/pub/chat/room/list`, {});
+      }
+    );
+
+    setStompClient(stomp);
 
     // 컴포넌트 언마운트 시 WebSocket 연결 해제
     return () => {
-      if (stompClient) {
-        stompClient.disconnect();
+      if (stomp) {
+        stomp.disconnect();
       }
     };
   }, [userId]);
@@ -49,7 +57,7 @@ function ChatListPage() {
       </ChatListContent>
       {chatRooms.length > 0 ? (
         chatRooms.map((room) => (
-          <ChatListItem key={room.roomId} room={room} />
+          <ChatListItem key={room.roomId} room={room} userId={userId} stompClient={stompClient} />
         ))
       ) : (
         <p>No Chat Rooms Available</p>
