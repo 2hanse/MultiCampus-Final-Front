@@ -8,18 +8,12 @@ import { Stomp } from "@stomp/stompjs";
 import { useLocation } from "react-router-dom";
 import UserListItem from "../../chat/user/UserListItem";
 
-const mockContacts = [
-    { id: 1, nickname: "닉네임", avatar: "https://cdn.builder.io/api/v1/image/assets/TEMP/6ee173905dc76f5eb8751afce33590fc6c9b6307e6f75f96e670d592c05f636a?placeholderIfAbsent=true&apiKey=12c88cfd4a664977958acab9caf9f3bf" },
-    { id: 2, nickname: "닉네임", avatar: "https://cdn.builder.io/api/v1/image/assets/TEMP/6ee173905dc76f5eb8751afce33590fc6c9b6307e6f75f96e670d592c05f636a?placeholderIfAbsent=true&apiKey=12c88cfd4a664977958acab9caf9f3bf" },
-    { id: 3, nickname: "닉네임", avatar: "https://cdn.builder.io/api/v1/image/assets/TEMP/6ee173905dc76f5eb8751afce33590fc6c9b6307e6f75f96e670d592c05f636a?placeholderIfAbsent=true&apiKey=12c88cfd4a664977958acab9caf9f3bf" },
-    { id: 4, nickname: "닉네임", avatar: "https://cdn.builder.io/api/v1/image/assets/TEMP/6ee173905dc76f5eb8751afce33590fc6c9b6307e6f75f96e670d592c05f636a?placeholderIfAbsent=true&apiKey=12c88cfd4a664977958acab9caf9f3bf" },
-    { id: 5, nickname: "닉네임", avatar: "https://cdn.builder.io/api/v1/image/assets/TEMP/6ee173905dc76f5eb8751afce33590fc6c9b6307e6f75f96e670d592c05f636a?placeholderIfAbsent=true&apiKey=12c88cfd4a664977958acab9caf9f3bf" },
-    { id: 6, nickname: "닉네임", avatar: "https://cdn.builder.io/api/v1/image/assets/TEMP/6ee173905dc76f5eb8751afce33590fc6c9b6307e6f75f96e670d592c05f636a?placeholderIfAbsent=true&apiKey=12c88cfd4a664977958acab9caf9f3bf" },
-  ];
 
 function ChatInvitePage() {
     const userId = 1004; // 예시로 User ID를 하드코딩하였지만, 실제로는 인증 토큰 등을 이용해 가져옴.
     const [stompClient, setStompClient] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
 
     useEffect(() => {
         // STOMP 클라이언트 설정
@@ -33,18 +27,11 @@ function ChatInvitePage() {
                 console.log("Connected: " + frame);
 
                 // /sub/chat/room/list/{userId} 구독
-                stomp.subscribe(`/sub/chat/room/list/${userId}`, (message) => {
-                    const receivedRooms = JSON.parse(message.body);
-                    console.log(receivedRooms);
+                stomp.subscribe(`/sub/chat/search/${userId}`, (message) => {
+                    const receivedUsers = JSON.parse(message.body);
+                    console.log(receivedUsers);
+                    setSearchResults(receivedUsers);
                 });
-
-                stomp.subscribe(`/sub/chat/room/refresh/${userId}`, (message) => {
-                    console.log('refreshed');
-                    stomp.send(`/pub/chat/room/list`);
-                });
-
-                // /pub/chat/list로 채팅방 목록 요청
-                stomp.send(`/pub/chat/room/list`, {});
             }
         );
 
@@ -58,6 +45,18 @@ function ChatInvitePage() {
         };
     }, [userId]);
 
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handleSearch();
+        }
+    };
+
+    const handleSearch = () => {
+        if (stompClient && searchTerm.trim()) {
+            stompClient.send(`/pub/chat/search`, {}, JSON.stringify({ searchNickname: searchTerm }));
+        }
+    };
+
     return (
         <div>
             <ChatListContainer>
@@ -68,17 +67,17 @@ function ChatInvitePage() {
             <Container>
                 <Title>대화상대 추가</Title>
                 <SearchBar>
-                    <SearchInput id="searchInput" type="text" placeholder="유저 닉네임으로 검색" />
+                    <SearchInput onKeyDown={handleKeyPress} onChange={(e) => setSearchTerm(e.target.value)} stompClient={stompClient} id="searchInput" type="text" placeholder="유저 닉네임으로 검색" />
                     <SearchIcon loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/a4043db299d9ceb138c2e374dca4840d7d3ff7f4252651ed455139c571b71f73?placeholderIfAbsent=true&apiKey=12c88cfd4a664977958acab9caf9f3bf" alt="검색" />
                 </SearchBar>
 
-                    {mockContacts.map((contact) => (
-                    <UserListItem
-                        key={contact.id}
-                        avatar={contact.avatar}
-                        nickname={contact.nickname}
-                    />
-                    ))}
+                {searchResults.map((user) => (
+                <UserListItem
+                    key={user.user_id}
+                    avatar={user.profile_img_url}
+                    nickname={user.nickname}
+                />
+                ))}
 
                 <ButtonGroup>
                     <ActionButton>확인</ActionButton>
