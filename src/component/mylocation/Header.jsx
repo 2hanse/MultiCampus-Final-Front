@@ -1,6 +1,6 @@
-import React from "react";
+import React  from "react";
 import styled from "styled-components";
-import Back from "./assets/Back.png";
+import Back   from "./assets/Back.png";
 
 const Header = () => {
     return (

@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import Header from "../mylocation/Header";
-import SearchForm from "../mylocation/SearchForm";
+import React              from "react";
+import styled             from "styled-components";
+import Header             from "../mylocation/Header";
+import SearchForm         from "../mylocation/SearchForm";
 import CompleteButtonForm from "../mylocation/CompleteButtonForm";
-import Footer from "../boardmain/Footer";
+import Footer             from "../boardmain/Footer";
 
 function MyLocationPage() {
     return (
