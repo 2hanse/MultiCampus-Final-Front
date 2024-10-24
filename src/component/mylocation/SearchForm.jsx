@@ -10,9 +10,12 @@ const SearchForm = () => {
 }
 
 const InputWrapper = styled.div`
-    width: 100%;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 430px;
     height: 500px;
-    transform: translateY(-14%);
 `
 
 const Input = styled.input`

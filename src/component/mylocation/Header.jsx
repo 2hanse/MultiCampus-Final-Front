@@ -8,7 +8,7 @@ const Header = () => {
             <BackPage src={Back} alt="Back" />
             <Title>내 동네 설정</Title>
         </HeaderBox>
-    )
+    );
 }
 
 const HeaderBox = styled.header`
