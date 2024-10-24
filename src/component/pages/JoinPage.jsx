@@ -30,7 +30,7 @@ const JoinPage = () => {
   const [nickNameMessage, setNickNameMessage] = useState('');
   const [phoneNumMessage, setPhoneNumMessage] = useState('');
 
-  // 유효성 검사
+  // 유효성 검사 상태저장
   const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);

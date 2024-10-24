@@ -16,7 +16,7 @@ function LoginForm() {
   const [emailMessage, setEmailMessage] = useState('');
   const [passwordMessage, setPasswordMessage] = useState('');
 
-  // 유효성 검사
+  // 유효성 검사 상태저장
   const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
 

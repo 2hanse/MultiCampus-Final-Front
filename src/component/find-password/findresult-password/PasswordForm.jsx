@@ -22,7 +22,7 @@ function PasswordForm() {
     const [passwordMessage, setPasswordMessage] = useState('');
     const [passwordConfirmMessage, setPasswordConfirmMessage] = useState('');
   
-    // 유효성 검사
+    // 유효성 검사 상태저장
     const [isPassword, setIsPassword] = useState(false);
     const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
 

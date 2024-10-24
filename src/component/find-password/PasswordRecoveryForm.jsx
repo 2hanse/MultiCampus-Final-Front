@@ -13,7 +13,7 @@ function PasswordRecoveryForm() {
   //오류메시지 상태저장
   const [emailMessage, setEmailMessage] = useState('');
 
-  // 유효성 검사
+  // 유효성 검사 상태저장
   const [isEmail, setIsEmail] = useState(false);
 
   // 이메일 유효성 검사

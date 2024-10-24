@@ -18,7 +18,7 @@ function PhoneIdentification() {
   //오류메시지 상태저장
   const [phoneNumMessage, setPhoneNumMessage] = useState('');
 
-  // 유효성 검사
+  // 유효성 검사 상태저장
   const [isPhoneNum, setIsPhoneNum] = useState(false);
 
   // 전화번호 유효성 검사
