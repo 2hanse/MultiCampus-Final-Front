@@ -59,7 +59,6 @@ function EmailForm() {
     };
 
     const IdFindSubmit = async (phoneNum, selectedQuestion, answerQuestion) => {
-
         const idData = {
             phone_number: phoneNum,
             recover_q: selectedQuestion,
