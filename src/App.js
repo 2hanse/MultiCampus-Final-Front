@@ -11,6 +11,7 @@ import ResetPasswordPage from './component/pages/find/password/ResetPasswordPage
 import ResetPasswordResultPage from './component/pages/find/password/ResetPasswordResultPage';
 import ChatListPage from './component/pages/chat/ChatListPage';
 import MyLocationPage from './component/pages/MyLocationPage';
+import ChatInvitePage from './component/pages/chat/ChatInvitePage';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path='/user/findResultEmailPage' element={<FindResultEmailPage />} />
         <Route path='/user/find-password' element={<FindPasswordPage />} />
         <Route path='/user/chat' element={<ChatListPage />} />
+        <Route path='/user/chat/invite' element={<ChatInvitePage />} />
         <Route path="/boardmain" element={<BoardMainPage />} />
         <Route path='/user/phone-identification' element={<PhoneIdentificationPage />} />
         <Route path='/user/resetPassword' element={<ResetPasswordPage />} />

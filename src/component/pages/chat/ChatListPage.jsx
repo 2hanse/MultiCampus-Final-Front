@@ -50,11 +50,13 @@ function ChatListPage() {
   }, [userId]);
 
   return (
+    <div>
     <ChatListContainer>
       <ChatListContent>
-        <ChatHeader />
+        <ChatHeader title="채팅 목록" />
         <ChatActions />
       </ChatListContent>
+    </ChatListContainer>
       {chatRooms.length > 0 ? (
         chatRooms.map((room) => (
           <ChatListItem key={room.roomId} room={room} userId={userId} stompClient={stompClient} />
@@ -62,7 +64,8 @@ function ChatListPage() {
       ) : (
         <p>No Chat Rooms Available</p>
       )}
-    </ChatListContainer>
+    </div>
+
   );
 }
 
