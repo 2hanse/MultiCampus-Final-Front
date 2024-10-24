@@ -17,7 +17,7 @@ const Header = () => {
               onClick={onClickIcon} />
         </Wrapper>
 
-        <h1 className="header-title">이메일 찾기</h1>
+        <h1 className="header-title">비밀번호 변경</h1>
       </StyledHeader>
       <hr />
     </div>
@@ -27,7 +27,7 @@ const Header = () => {
 
 const StyledHeader = styled.header`
   display: flex;
-  margin-left: 20px;
+  margin-left: 28px;
   width: 220px;
   max-width: 100%;
   align-items: flex-start;
@@ -48,7 +48,7 @@ const StyledHeader = styled.header`
   .header-title {
     border-color: #000;
     margin-top: 15px;
-    margin-left: 95px;
+    margin-left: 100px;
   }
 
 `;

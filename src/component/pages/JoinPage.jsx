@@ -220,7 +220,7 @@ const JoinPage = () => {
 
   
   return (
-    <StyledForm>
+    <StyledForm onSubmit={onSubmit}>
       <Header />
       <main>
         <h2 className="form-title">회원정보 입력</h2>
@@ -321,7 +321,7 @@ const JoinPage = () => {
                     onChange={onChangeAnswerQuestion}
                     className="input2"/>
         </StyledInputField>
-        <SubmitButton type="button" onClick={onSubmit}>가입</SubmitButton>
+        <SubmitButton type="submit">가입</SubmitButton>
       </main>
     </StyledForm>
   );
@@ -332,7 +332,7 @@ const StyledForm = styled.form`
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   border: 1px solid #000;
   display: flex;
-  max-width: 480px;
+  max-width: 430px;
   max-height: 932px;
   width: 100%;
   padding-top: 62px;
@@ -359,7 +359,7 @@ const StyledForm = styled.form`
   .form-description {
     color: #ce9971;
     margin-top: 0px;
-    font: 18px/27px Roboto, sans-serif;
+    font: 16px/27px Roboto, sans-serif;
   }
 
   .security-question-label {

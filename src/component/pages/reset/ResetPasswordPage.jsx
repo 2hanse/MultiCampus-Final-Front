@@ -1,17 +1,17 @@
 import React from "react";
 import styled from "styled-components";
-import Header from "../../../find-password/Header";
-import PasswordResult from "../../../find-password/findresult-password/PasswordResult";
+import Header from "../../reset-password/Header";
+import ResetPasswordForm from "../../reset-password/ResetPasswordForm";
 
-function ResetPasswordResultPage() {
+
+function ResetPasswordPage() {
   return (
     <PageWrapper>
-        <main>
-            <Header />
-            <PasswordResult />
-        </main>
+      <Header />
+      <main>
+        <ResetPasswordForm />
+      </main>
     </PageWrapper>
-
   );
 }
 
@@ -22,11 +22,10 @@ const PageWrapper = styled.div`
   border: 1px solid #000;
   max-width: 430px;
   width: 100%;
-  height: 450px;
   flex-direction: column;
   overflow: hidden;
   margin: 0 auto;
   padding: 62px 0 340px;
 `;
 
-export default ResetPasswordResultPage;
+export default ResetPasswordPage;

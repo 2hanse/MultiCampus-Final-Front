@@ -17,7 +17,7 @@ const EmailFinderWrapper = styled.main`
   display: flex;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   border: 1px solid #000;
-  max-width: 480px;
+  max-width: 430px;
   max-height: 932px;
   width: 100%;
   flex-direction: column;

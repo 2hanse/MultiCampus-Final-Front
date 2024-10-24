@@ -48,7 +48,7 @@ const StyledHeader = styled.header`
   .header-title {
     border-color: #000;
     margin-top: 15px;
-    margin-left: 106px;
+    margin-left: 85px;
   }
 
 `;
