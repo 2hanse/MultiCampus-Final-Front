@@ -6,7 +6,7 @@ const PasswordResult = () => {
         <div>
             <EmailDisplayWrapper>
                 <b className="email-info">비밀번호가 변경되었습니다</b>
-                <NavStyle to='/user/login'>로그인</NavStyle>
+                <NavStyle to='/user/login'>홈으로</NavStyle>
             </EmailDisplayWrapper>
     
         </div>
@@ -24,7 +24,7 @@ const EmailDisplayWrapper = styled.section`
 
   .email-info {
     color: #ce9971;
-    font-size: 20px;
+    font-size: 18px;
     margin-left: 18%;
     align-self: start;
   }
@@ -33,7 +33,7 @@ const EmailDisplayWrapper = styled.section`
 const NavStyle = styled(NavLink)`
   border-radius: 10px;
   background-color: #ffd966;
-  width: 100%;
+  width: 96%;
   font-size: 19px;
   color: #785a00;
   white-space: nowrap;

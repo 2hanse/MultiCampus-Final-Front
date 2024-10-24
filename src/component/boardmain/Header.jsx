@@ -14,7 +14,7 @@ const Header = () => {
             <Profile      src={프로필}         alt="Profile" />
         </HeaderBox>
     );
-};
+}
 
 const HeaderBox = styled.header`
     position: fixed;
@@ -27,7 +27,7 @@ const HeaderBox = styled.header`
     background-color: #FFFFFF;
     border: 0.5px solid #CAC4D0;
     z-index: 100;
-`;
+`
 
 const Logo = styled.img`
     position: absolute;

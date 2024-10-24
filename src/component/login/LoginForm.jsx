@@ -109,7 +109,7 @@ const Form = styled.form`
   flex-direction: column;
   align-items: flex-start;
   text-align: center;
-  width: 80%;
+  width: 78%;
   margin-top: 50px;
   margin-left: 46px;
 

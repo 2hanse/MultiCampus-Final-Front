@@ -7,7 +7,7 @@ function Header() {
     <Wrapper>
     <HeaderWrapper>
         <NavLink to={"/"}>
-        <Logo loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" alt="Logo" />
+          <Logo loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" alt="Logo" />
         </NavLink>
     </HeaderWrapper>
    

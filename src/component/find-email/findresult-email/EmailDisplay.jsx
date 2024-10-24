@@ -11,7 +11,7 @@ function EmailDisplay() {
   return (
     <div>
         <EmailDisplayWrapper>
-            <p className="email-info">회원님이 가입한 이메일은 다음과 같습니다</p>
+            <b className="email-info">회원님이 가입한 이메일은 다음과 같습니다</b>
             <div className="email-container">{emailResult.email}</div>
             <NavStyle to='/user/login'>로그인</NavStyle>
             <NavStyle to='/user/find-password'>비밀번호 찾기</NavStyle>
@@ -29,10 +29,13 @@ const EmailDisplayWrapper = styled.section`
   flex-direction: column;
   color: #785a00;
   padding: 0 42px;
-  font: 400 15px Inter, sans-serif;
+  font: 400 16px Inter, sans-serif;
 
   .email-info {
     color: #ce9971;
+    font-size: 16px;
+    margin-left: 14px;
+    margin-bottom: 20px;
     align-self: start;
   }
 
@@ -51,7 +54,7 @@ const EmailDisplayWrapper = styled.section`
 const NavStyle = styled(NavLink)`
   border-radius: 10px;
   background-color: #ffd966;
-  width: 100%;
+  width: 95%;
   font-size: 19px;
   color: #785a00;
   white-space: nowrap;

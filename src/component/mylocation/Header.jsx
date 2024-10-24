@@ -1,6 +1,6 @@
-import React from "react";
+import React  from "react";
 import styled from "styled-components";
-import Back from "./assets/Back.png";
+import Back   from "./assets/Back.png";
 
 const Header = () => {
     return (
@@ -8,7 +8,7 @@ const Header = () => {
             <BackPage src={Back} alt="Back" />
             <Title>내 동네 설정</Title>
         </HeaderBox>
-    )
+    );
 }
 
 const HeaderBox = styled.header`

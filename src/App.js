@@ -12,6 +12,7 @@ import ResetPasswordResultPage from './component/pages/find/password/ResetPasswo
 import ChatListPage from './component/pages/chat/ChatListPage';
 import MyLocationPage from './component/pages/MyLocationPage';
 import ChatInvitePage from './component/pages/chat/ChatInvitePage';
+import MapPage from './component/pages/MapPage';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path='/user/resetPassword' element={<ResetPasswordPage />} />
         <Route path='/user/resetPasswordResult' element={<ResetPasswordResultPage />} />
         <Route path="/mylocation" element={<MyLocationPage />} />
+        <Route path="/homepage" element={<MapPage />} />
       </Routes>
     </BrowserRouter>
   );

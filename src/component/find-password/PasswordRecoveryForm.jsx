@@ -72,7 +72,7 @@ function PasswordRecoveryForm() {
 const FormWrapper = styled.section`
   display: flex;
   margin-top: 160px;
-  width: 100%;
+  width: 94%;
   flex-direction: column;
   font-family: Inter, sans-serif;
   font-weight: 400;
@@ -126,7 +126,7 @@ const StyledInputField = styled.div`
 const SubmitButton = styled.button`
   border-radius: 10px;
   background-color: #ffd966;
-  width: 84%;
+  width: 85%;
   font-size: 19px;
   color: #785a00;
   white-space: nowrap;

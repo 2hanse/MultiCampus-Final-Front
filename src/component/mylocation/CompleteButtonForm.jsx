@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled              from "styled-components";
 
 const CompleteButtonForm = () => {
     const [outputValue, setOutputValue] = useState('');
@@ -17,9 +17,11 @@ const CompleteButtonForm = () => {
 const PlaceholderText = '선택한 주소지';
 
 const Wrapper = styled.div`
-    width: 100%;
-    height: 100px;
-    transform: translateY(-24%);
+    position: fixed;
+    width: 430px;
+    height: 200px;
+    bottom: 100px;
+    background-color: #FFF4D2;
 `
 
 const PrintLocation = styled.div`
@@ -29,7 +31,7 @@ const PrintLocation = styled.div`
     width: 375px;
     height: 57px;
     left: calc(50% - 375px/2 + 0.5px);
-    top: 0px;
+    top: 38px;
 
     background: #FFFFFF;
     border: 0.5px solid #DFA67B;
@@ -57,7 +59,7 @@ const CompleteButton = styled.button`
     width: 130px;
     height: 35px;
     left: calc(50% - 130px/2);
-    top: 107px;
+    top: 127px;
 
     font-family: 'Inter';
     font-size: 15px;
@@ -70,6 +72,12 @@ const CompleteButton = styled.button`
     border: none;
 
     cursor: pointer;
+
+    transition: transform 0.1s ease-in-out;
+  
+    &:active {
+        transform: scale(0.95);
+    }
 `
 
 export default CompleteButtonForm;
