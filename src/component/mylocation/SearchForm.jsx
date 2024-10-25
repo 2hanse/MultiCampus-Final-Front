@@ -5,11 +5,13 @@ import Location from "./assets/Location.png";
 const SearchForm = () => {
     return (
         <Wrapper>
-            <Input placeholder="내 동네 이름(읍/면/동)으로 검색"/>
-            <MyLocationButton>
-                <LocationImg src={Location} alt="Location" />
-                &nbsp;&nbsp;&nbsp;&nbsp;현재 위치로 찾기
-            </MyLocationButton>
+            <TopWrapper>
+                <Input placeholder="내 동네 이름(읍/면/동)으로 검색"/>
+                <MyLocationBtn>
+                    <LocationImg src={Location} alt="Location" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;현재 위치로 찾기
+                </MyLocationBtn>
+            </TopWrapper>
             <PrintLocations>
                 
             </PrintLocations>
@@ -26,14 +28,26 @@ const Wrapper = styled.div`
     height: 500px;
 `
 
+const TopWrapper = styled.div`
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 430px;
+    height: 180px;
+
+    background-color: #FFF4D2;
+    z-index: 5;
+`
+
 const Input = styled.input`
     box-sizing: border-box;
 
-    position: absolute;
+    position: fixed;
     width: 375px;
     height: 57px;
     left: calc(50% - 375px/2 + 0.5px);
-    top: 31px;
+    top: 145px;
 
     background: #FFFFFF;
     border: 0.5px solid #DFA67B;
@@ -58,12 +72,12 @@ const Input = styled.input`
     }
 `
 
-const MyLocationButton = styled.button`
-    position: absolute;
+const MyLocationBtn = styled.button`
+    position: fixed;
     width: 223px;
     height: 46px;
     left: calc(50% - 223px/2 + 0.5px);
-    top: 112px;
+    top: 225px;
 
     font-family: 'Inter';
     font-style: normal;
@@ -99,9 +113,11 @@ const PrintLocations = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    width: 430px;
-    height: 325px;
-    top: 185px;
+    width: 420px;
+    height: 500px;
+    top: 180px;
+    left: 5px;
+    padding-bottom: 300px;
 `
 
 export default SearchForm;

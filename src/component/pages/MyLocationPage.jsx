@@ -22,7 +22,7 @@ const Main = styled.main`
     flex-direction: column;
     align-items: flex-start;
     width: 430px;
-    max-height: 932px;
+    max-height: 1300px;
     min-height: 632px;
     height: auto;
     background: #FFF4D2;
