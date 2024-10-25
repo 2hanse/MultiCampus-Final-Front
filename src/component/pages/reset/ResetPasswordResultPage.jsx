@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Header from "../../../find-password/Header";
+import Header from "../../reset-password/Header";
 import PasswordResult from "../../../find-password/findresult-password/PasswordResult";
 
 function ResetPasswordResultPage() {

@@ -80,7 +80,7 @@ function PhoneIdentification() {
 const FormWrapper = styled.section`
   display: flex;
   margin-top: 160px;
-  width: 100%;
+  width: 94%;
   flex-direction: column;
   font-family: Inter, sans-serif;
   font-weight: 400;
