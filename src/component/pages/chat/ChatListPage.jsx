@@ -5,11 +5,13 @@ import ChatActions from "../../chat/ChatActions";
 import ChatListItem from "../../chat/ChatListItem";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
+import { useNavigate } from "react-router-dom";
 
 function ChatListPage() {
   const [chatRooms, setChatRooms] = useState([]);
   const userId = 1004; // 예시로 User ID를 하드코딩하였지만, 실제로는 인증 토큰 등을 이용해 가져옴.
   const [stompClient, setStompClient] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // STOMP 클라이언트 설정
@@ -49,6 +51,10 @@ function ChatListPage() {
     };
   }, [userId]);
 
+  const handleRoomClick = (roomId) => {
+    navigate(`/user/chat/room/${roomId}`);
+  };
+
   return (
     <div>
     <ChatListContainer>
@@ -59,7 +65,11 @@ function ChatListPage() {
     </ChatListContainer>
       {chatRooms.length > 0 ? (
         chatRooms.map((room) => (
-          <ChatListItem key={room.roomId} room={room} userId={userId} stompClient={stompClient} />
+          <ChatListItem key={room.roomId}
+                        room={room}
+                        userId={userId}
+                        stompClient={stompClient}
+                        onClick={() => handleRoomClick(room.roomId)} />
         ))
       ) : (
         <p>No Chat Rooms Available</p>

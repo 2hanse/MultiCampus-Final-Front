@@ -5,15 +5,17 @@ import ChatActions from "../../chat/ChatActions";
 import ChatListItem from "../../chat/ChatListItem";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import UserListItem from "../../chat/user/UserListItem";
 
 
 function ChatInvitePage() {
-    const userId = 1004; // 예시로 User ID를 하드코딩하였지만, 실제로는 인증 토큰 등을 이용해 가져옴.
+    const localUserId = 1004; // 예시로 User ID를 하드코딩하였지만, 실제로는 인증 토큰 등을 이용해 가져옴.
     const [stompClient, setStompClient] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
+    const [checkedUsers, setCheckedUsers] = useState([]);
+    const navigator = useNavigate();
 
     useEffect(() => {
         // STOMP 클라이언트 설정
@@ -27,10 +29,16 @@ function ChatInvitePage() {
                 console.log("Connected: " + frame);
 
                 // /sub/chat/room/list/{userId} 구독
-                stomp.subscribe(`/sub/chat/search/${userId}`, (message) => {
+                stomp.subscribe(`/sub/chat/search/${localUserId}`, (message) => {
                     const receivedUsers = JSON.parse(message.body);
                     console.log(receivedUsers);
                     setSearchResults(receivedUsers);
+                });
+
+                // /sub/chat/room/list/{userId} 구독
+                stomp.subscribe(`/sub/chat/room/create/${localUserId}`, (message) => {
+                  console.log('room create done');
+                  navigator(-1);
                 });
             }
         );
@@ -43,7 +51,7 @@ function ChatInvitePage() {
                 stomp.disconnect();
             }
         };
-    }, [userId]);
+    }, [localUserId]);
 
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {
@@ -56,6 +64,35 @@ function ChatInvitePage() {
             stompClient.send(`/pub/chat/search`, {}, JSON.stringify({ searchNickname: searchTerm }));
         }
     };
+
+    const handleCheckUser = (user) => {
+      const isChecked = checkedUsers.some((checkedUser) => checkedUser.user_id === user.user_id);
+
+      if (isChecked) {
+        // 이미 체크된 유저라면 목록에서 제거
+        setCheckedUsers(checkedUsers.filter((checkedUser) => checkedUser.user_id !== user.user_id));
+      } else {
+        // 체크되지 않은 유저라면 목록에 추가
+        setCheckedUsers([...checkedUsers, user]);
+      }
+
+      // 체크 후 검색 결과 초기화
+      setSearchResults([]);
+    }
+
+    const handleAddUser = () => {
+      if (stompClient && checkedUsers.length) {
+        const inviteUserIds = checkedUsers
+          .filter((user) => user.user_id !== localUserId) // 본인 제외
+          .map((user) => user.user_id); // user_id만 추출
+
+        stompClient.send(`/pub/chat/room/create`, {}, JSON.stringify({ roomTitle: '', inviteUsers: inviteUserIds }));
+      }
+    }
+
+    const handleCancel = () => {
+      navigator(-1);
+    }
 
     return (
         <div>
@@ -71,17 +108,27 @@ function ChatInvitePage() {
                     <SearchIcon loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/a4043db299d9ceb138c2e374dca4840d7d3ff7f4252651ed455139c571b71f73?placeholderIfAbsent=true&apiKey=12c88cfd4a664977958acab9caf9f3bf" alt="검색" />
                 </SearchBar>
 
+                {checkedUsers.map((user) => (
+                <UserListItem
+                    key={user.user_id}
+                    user={user}
+                    onCheck={handleCheckUser}
+                    isChecked={checkedUsers.some((checkedUser) => checkedUser.user_id === user.user_id)}
+                />
+                ))}
+
                 {searchResults.map((user) => (
                 <UserListItem
                     key={user.user_id}
-                    avatar={user.profile_img_url}
-                    nickname={user.nickname}
+                    user={user}
+                    onCheck={handleCheckUser}
+                    isChecked={checkedUsers.some((checkedUser) => checkedUser.user_id === user.user_id)}
                 />
                 ))}
 
                 <ButtonGroup>
-                    <ActionButton>확인</ActionButton>
-                    <ActionButton>취소</ActionButton>
+                    <ActionButton onClick={handleAddUser}>확인</ActionButton>
+                    <ActionButton onClick={handleCancel}>취소</ActionButton>
                 </ButtonGroup>
             </Container>
         </div>

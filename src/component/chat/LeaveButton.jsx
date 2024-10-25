@@ -2,7 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 const LeaveButton = ({ roomId, stompClient }) => {
-  const handleLeaveRoom = () => {
+  const handleLeaveRoom = (event) => {
+    event.stopPropagation();
+
     if (stompClient && roomId) {
       stompClient.send(`/pub/chat/room/leave`, {}, roomId);
     }

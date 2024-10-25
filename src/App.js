@@ -13,6 +13,7 @@ import ChatListPage from './component/pages/chat/ChatListPage';
 import MyLocationPage from './component/pages/MyLocationPage';
 import ChatInvitePage from './component/pages/chat/ChatInvitePage';
 import MapPage from './component/pages/MapPage';
+import ChatRoomPage from './component/pages/chat/ChatRoomPage';
 
 function App() {
   return (
@@ -24,8 +25,9 @@ function App() {
         <Route path='/user/find-email' element={<FindEmailPage />} />
         <Route path='/user/findResultEmailPage' element={<FindResultEmailPage />} />
         <Route path='/user/find-password' element={<FindPasswordPage />} />
-        <Route path='/user/chat' element={<ChatListPage />} />
+        <Route path='/user/chat/list' element={<ChatListPage />} />
         <Route path='/user/chat/invite' element={<ChatInvitePage />} />
+        <Route path='/user/chat/room/:roomId' element={<ChatRoomPage />} />
         <Route path="/boardmain" element={<BoardMainPage />} />
         <Route path='/user/phone-identification' element={<PhoneIdentificationPage />} />
         <Route path='/user/resetPassword' element={<ResetPasswordPage />} />

@@ -22,7 +22,7 @@ const ChatListItem = (props) => {
     : otherUsers.map((user) => user.profile_img_url);
 
   return (
-    <ChatItemWrapper>
+    <ChatItemWrapper onClick={props.onClick}>
       <UserSection>
         <AvatarBubble images={avatarSrc} />
         <RoomInfo>

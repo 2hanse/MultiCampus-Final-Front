@@ -1,14 +1,21 @@
 import * as React from "react";
 import styled from "styled-components";
 
-function UserListItem({ avatar, nickname }) {
+function UserListItem({ user, onCheck, isChecked }) {
   return (
     <UserListContainer>
       <UserInfo>
-        <Avatar loading="lazy" src={avatar} alt={`${nickname}의 프로필 사진`} />
-        <Nickname>{nickname}</Nickname>
+        <Avatar loading="lazy" src={user.profile_img_url} alt={`${user.nickname}의 프로필 사진`} />
+        <Nickname>{user.nickname}</Nickname>
       </UserInfo>
-      <SelectIcon loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/5596d7fb08c82f2a75e3febc7897eaf3f01b90494460a3e3cb68edab63556f4d?placeholderIfAbsent=true&apiKey=12c88cfd4a664977958acab9caf9f3bf" alt="선택" />
+      <SelectIcon onClick={(e) => onCheck(user)}
+                  loading="lazy"
+                  src={isChecked ?
+                    "https://cdn.builder.io/api/v1/image/assets/TEMP/5596d7fb08c82f2a75e3febc7897eaf3f01b90494460a3e3cb68edab63556f4d?placeholderIfAbsent=true&apiKey=12c88cfd4a664977958acab9caf9f3bf"
+                    :
+                    "https://cdn.builder.io/api/v1/image/assets/TEMP/1bc2311a34c5c7372893723b2f4fcffcd0105313e46ce59c36d0b102885213c0?placeholderIfAbsent=true&apiKey=12c88cfd4a664977958acab9caf9f3bf"
+                  }
+                  alt="선택" />
     </UserListContainer>
   );
 }
