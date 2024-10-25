@@ -2,7 +2,23 @@ import React  from "react";
 import styled from "styled-components";
 import Location from "./assets/Location.png";
 
-const SearchForm = () => {
+const SearchForm = (address) => {
+
+    fetch('/api/save-address', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ address: address }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+
     return (
         <Wrapper>
             <TopWrapper>

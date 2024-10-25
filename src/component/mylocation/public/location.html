@@ -1,0 +1,25 @@
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a1e207cd7206916654c5fa136b2d388&libraries=services"></script>
+<script>
+  // 사용자의 위치 정보를 가져오는 함수
+  navigator.geolocation.getCurrentPosition(function(position) {
+    var lat = position.coords.latitude;  // 위도
+    var lon = position.coords.longitude; // 경도
+
+    // 좌표로 주소 변환하는 함수 호출
+    getAddrFromCoords(lat, lon);
+  });
+
+  // 좌표를 주소로 변환하는 함수
+  function getAddrFromCoords(lat, lon) {
+    var geocoder = new kakao.maps.services.Geocoder();
+    var coords = new kakao.maps.LatLng(lat, lon);
+
+    geocoder.coord2Address(coords.getLng(), coords.getLat(), function(result, status) {
+      if (status === kakao.maps.services.Status.OK) {
+        var address = result[0].address.address_name; // 변환된 주소
+        console.log('Address:', address);
+        // 이후 백엔드에 주소를 저장하는 로직 추가
+      }
+    });
+  }
+</script>
