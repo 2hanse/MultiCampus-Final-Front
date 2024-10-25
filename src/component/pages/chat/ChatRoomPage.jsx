@@ -7,13 +7,16 @@ import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import UserListItem from "../../chat/user/UserListItem";
+import MessageInput from "../../chat/MessageInput";
+import Message from "../../chat/Message";
 
 
 function ChatRoomPage() {
     const localUserId = 1004; // 예시로 User ID를 하드코딩하였지만, 실제로는 인증 토큰 등을 이용해 가져옴.
-    const {roomId} = useParams();
+    const { roomId } = useParams();
     const [stompClient, setStompClient] = useState(null);
-    
+    const [messages, setMessages] = useState([]);
+
     useEffect(() => {
         // STOMP 클라이언트 설정
         const socket = new SockJS("http://localhost:8000/ws");
@@ -26,10 +29,18 @@ function ChatRoomPage() {
                 console.log("Connected: " + frame);
 
                 // /sub/chat/room/list/{userId} 구독
-                stomp.subscribe(`/sub/chat/search/${localUserId}`, (message) => {
-                    const receivedUsers = JSON.parse(message.body);
-                    console.log(receivedUsers);
+                stomp.subscribe(`/sub/chat/message/add/${roomId}`, (message) => {
+                    const receivedMsg = JSON.parse(message.body);
+                    setMessages((messages) => [...messages, receivedMsg]);
                 });
+
+                stomp.subscribe(`/sub/chat/message/list/${localUserId}`, (message) => {
+                    const receivedMsgList = JSON.parse(message.body);
+                    console.log(receivedMsgList);
+                    setMessages(receivedMsgList);
+                });
+
+                stomp.send(`/pub/chat/message/list`, {}, JSON.stringify({ roomId: roomId, limit: 100, offset: 0 }));
             }
         );
 
@@ -44,26 +55,35 @@ function ChatRoomPage() {
     }, [localUserId]);
 
     return (
-        <div>
-            <ChatListContainer>
-                <ChatListContent>
-                    <ChatHeader title={"대화방" + roomId} />
-                </ChatListContent>
-            </ChatListContainer >
+        <ChatListContainer>
+            <ChatListContent>
+                <ChatHeader title={"대화방" + roomId} />
+            </ChatListContent>
             <Container>
-               
+            {messages.length > 0 ? (
+                messages.map((msg) => (
+                    <Message key={msg.msgId}
+                            msgId={msg.msgId}
+                            content={msg.message}
+                            time={msg.messageTimestamp} />
+                ))
+            ) : (
+                <p>No Chat Messages Available</p>
+            )}
             </Container>
-        </div>
+            <MessageInput roomId={roomId} stompClient={stompClient}/>
+        </ChatListContainer >
     );
 }
 
-const ChatListContainer = styled.section`
-  background-color: #ffd966;
+const ChatListContainer = styled.div`
   width: 100%;
-  padding: 62px 26px 25px;
+  max-width: 962px;
 `;
 
 const ChatListContent = styled.div`
+  padding: 62px 26px 25px;
+  background-color: #ffd966;
   display: flex;
   gap: 20px;
   @media (max-width: 991px) {
@@ -76,7 +96,6 @@ const ChatListContent = styled.div`
 const Container = styled.main`
   display: flex;
   margin-top: 22px;
-  width: 100%;
   flex-direction: column;
   align-items: center;
   color: #000;
