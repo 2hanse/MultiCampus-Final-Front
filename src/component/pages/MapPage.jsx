@@ -2,11 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import Footer from "../boardmain/Footer";
 import Header from "../map/Header";
+import Map from "../map/Map";
 
 function MapPage() {
     return (
         <Main>
             <Header />
+            <Map />
             <Footer />
         </Main>
     )
