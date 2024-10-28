@@ -7,7 +7,7 @@ function Footer() {
 
     <FooterWrapper>
       <NavStyle to='/user/join'>회원가입</NavStyle><br />
-      <NavStyle to='/user/find-email'>아이디 찾기</NavStyle> | 
+      <NavStyle to='/user/find-email'>이메일 찾기</NavStyle> | 
       <NavStyle to='/user/find-password'> 비밀번호 찾기</NavStyle>
     </FooterWrapper>
 
