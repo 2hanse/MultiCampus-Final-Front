@@ -11,6 +11,8 @@ import ResetPasswordPage from './component/pages/find/password/ResetPasswordPage
 import ResetPasswordResultPage from './component/pages/find/password/ResetPasswordResultPage';
 import MyLocationPage from './component/pages/MyLocationPage';
 import MapPage from './component/pages/MapPage';
+import ChangePasswordPage from './component/pages/reset/ChangePasswordPage';
+import ChangePasswordResultPage from './component/pages/reset/ChangePasswordResultPage';
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
         <Route path='/user/resetPasswordResult' element={<ResetPasswordResultPage />} />
         <Route path="/mylocation" element={<MyLocationPage />} />
         <Route path="/homepage" element={<MapPage />} />
+        <Route path='/user/me/changePassword' element={<ChangePasswordPage/>}/>
+        <Route path='/user/me/changePasswordResult' element={<ChangePasswordResultPage />} />
       </Routes>
     </BrowserRouter>
   );
