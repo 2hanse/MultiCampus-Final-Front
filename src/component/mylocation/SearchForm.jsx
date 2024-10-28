@@ -1,5 +1,6 @@
-import React  from "react";
+import React, { useState }  from "react";
 import styled from "styled-components";
+import axios from "axios";
 import Location from "./assets/Location.png";
 
 const SearchForm = (address) => {
@@ -19,17 +20,58 @@ const SearchForm = (address) => {
         console.error('Error:', error);
       });
 
+    const [inputValue, setInputValue] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
+
+    const handleInputChange = async (e) => {
+        const query = e.target.value;
+        setInputValue(query);
+
+        if (query.length > 1) { // 검색어가 2글자 이상일 때만 자동 완성
+            try {
+            const response = await axios.get(
+                `https://dapi.kakao.com/v2/local/search/address.json`,
+                {
+                params: { query },
+                headers: {
+                    Authorization: `3a1e207cd7206916654c5fa136b2d388`
+                }
+                }
+            );
+
+            // 검색 결과를 가져와 suggestions에 저장
+            const addresses = response.data.documents.map(doc => doc.address_name);
+            setSuggestions(addresses);
+            } catch (error) {
+            console.error("주소 검색 실패:", error);
+            }
+        } else {
+            setSuggestions([]); // 입력이 짧아지면 목록 초기화
+        }
+    };
+
     return (
         <Wrapper>
             <TopWrapper>
-                <Input placeholder="내 동네 이름(읍/면/동)으로 검색"/>
+                <Input type="text"
+                       value={inputValue}
+                       onChange={handleInputChange}
+                       placeholder="내 동네 이름(읍/면/동)으로 검색"/>
                 <MyLocationBtn>
                     <LocationImg src={Location} alt="Location" />
                     &nbsp;&nbsp;&nbsp;&nbsp;현재 위치로 찾기
                 </MyLocationBtn>
             </TopWrapper>
             <PrintLocations>
-                
+                {suggestions.length > 0 && (
+                    <ul style={{ listStyle: 'none', padding: 0, margin: '10px 0' }}>
+                    {suggestions.map((suggestion, index) => (
+                        <li key={index} style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>
+                        {suggestion}
+                        </li>
+                    ))}
+                    </ul>
+                )}
             </PrintLocations>
         </Wrapper>
     );
