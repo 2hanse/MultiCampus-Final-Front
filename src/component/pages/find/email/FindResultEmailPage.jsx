@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import Header from "../../../find-email/findresult-email/Header";
+import Header from "../../../layout/header/user/Header";
 import EmailDisplay from "../../../find-email/findresult-email/EmailDisplay";
 
 function FindResultEmailPage() {
   return (
     <main className="email-finder">
       <EmailFinderWrapper>
-          <Header />
+          <Header navigatePath="/user/find-email" title="이메일 찾기"/>
           <hr />
           <EmailDisplay />
       </EmailFinderWrapper>

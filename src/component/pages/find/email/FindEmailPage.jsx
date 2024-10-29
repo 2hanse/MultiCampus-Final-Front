@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import Header from "../../../find-email/Header";
+import Header from "../../../layout/header/user/Header";
 import EmailForm from "../../../find-email/EmailForm";
 
 function FindEmailPage() {
   return (
     <EmailFinderWrapper>
-      <Header />
+      <Header navigatePath="/user/login" title="이메일 찾기"/>
       <EmailForm />
     </EmailFinderWrapper>
   );

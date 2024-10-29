@@ -204,7 +204,7 @@ const AnswerInput = styled.input`
 const SubmitButton = styled.button`
   border-radius: 10px;
   background-color: #ffd966;
-  width: 84%;
+  width: 80%;
   font-size: 19px;
   color: #785a00;
   white-space: nowrap;

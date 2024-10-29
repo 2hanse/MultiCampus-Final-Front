@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
-import Header from "../join/Header";
+import Header from "../layout/header/user/Header";
 import { ChevronDown } from "../join/Icons";
 import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
@@ -221,7 +221,7 @@ const JoinPage = () => {
   
   return (
     <StyledForm onSubmit={onSubmit}>
-      <Header />
+      <Header navigatePath="/user/login" title="회원가입"/>
       <main>
         <h2 className="form-title">회원정보 입력</h2>
         <p className="form-description">
