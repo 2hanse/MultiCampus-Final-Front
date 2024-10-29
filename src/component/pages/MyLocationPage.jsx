@@ -1,16 +1,19 @@
-import React              from "react";
-import styled             from "styled-components";
-import Header             from "../mylocation/Header";
-import SearchForm         from "../mylocation/SearchForm";
-import CompleteButtonForm from "../mylocation/CompleteButtonForm";
-import Footer             from "../boardmain/Footer";
+import React, { useState } from "react";
+import styled              from "styled-components";
+import Header              from "../mylocation/Header";
+import SearchForm          from "../mylocation/SearchForm";
+import CompleteButtonForm  from "../mylocation/CompleteButtonForm";
+import Footer              from "../boardmain/Footer";
 
 function MyLocationPage() {
+
+    const [outputValue, setOutputValue] = useState("");
+
     return (
         <Main>
             <Header />
-            <SearchForm />
-            <CompleteButtonForm />
+            <SearchForm setOutputValue={setOutputValue} />
+            <CompleteButtonForm outputValue={outputValue} />
             <Footer />
         </Main>
     )
@@ -22,7 +25,7 @@ const Main = styled.main`
     flex-direction: column;
     align-items: flex-start;
     width: 430px;
-    max-height: 932px;
+    max-height: 1300px;
     min-height: 632px;
     height: auto;
     background: #FFF4D2;
