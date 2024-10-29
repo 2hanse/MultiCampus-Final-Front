@@ -6,32 +6,38 @@ import ChatListItem from "../../chat/ChatListItem";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
 import { useNavigate } from "react-router-dom";
+import { getUserIdFromToken } from "../../api/jwt";
 
 function ChatListPage() {
+  const localUserId = getUserIdFromToken(); // userId를 동적으로 가져옴
   const [chatRooms, setChatRooms] = useState([]);
-  const userId = 1004; // 예시로 User ID를 하드코딩하였지만, 실제로는 인증 토큰 등을 이용해 가져옴.
   const [stompClient, setStompClient] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!localUserId) {
+      console.error("User ID not found in token");
+      return;
+    }
+
     // STOMP 클라이언트 설정
     const socket = new SockJS("http://localhost:8000/ws");
     const stomp = Stomp.over(socket);
 
     // 연결 설정 및 구독
     stomp.connect(
-      {Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMDA0LCJlbWFpbCI6InRlc3QyQHRlc3QuY29tIiwicm9sZSI6IiIsImlhdCI6MTcyOTY2NDM0NywiZXhwIjoxODE2MDY0MzQ3fQ.bP8T4L31GW0dVKZyRAI3gxMoNoqHZJxn5IhdIHL-6to"},
+      {Authorization: `Bearer ${localStorage.getItem('token')}`},
       (frame) => {
         console.log("Connected: " + frame);
 
         // /sub/chat/room/list/{userId} 구독
-        stomp.subscribe(`/sub/chat/room/list/${userId}`, (message) => {
+        stomp.subscribe(`/sub/chat/room/list/${localUserId}`, (message) => {
           const receivedRooms = JSON.parse(message.body);
           console.log(receivedRooms);
           setChatRooms(receivedRooms); // 받은 채팅방 리스트를 state에 저장
         });
 
-        stomp.subscribe(`/sub/chat/room/refresh/${userId}`, (message) => {
+        stomp.subscribe(`/sub/chat/room/refresh/${localUserId}`, (message) => {
           console.log('refreshed');
           stomp.send(`/pub/chat/room/list`);
         });
@@ -49,7 +55,7 @@ function ChatListPage() {
         stomp.disconnect();
       }
     };
-  }, [userId]);
+  }, [localUserId]);
 
   const handleRoomClick = (roomId) => {
     navigate(`/user/chat/room/${roomId}`);
@@ -67,7 +73,7 @@ function ChatListPage() {
         chatRooms.map((room) => (
           <ChatListItem key={room.roomId}
                         room={room}
-                        userId={userId}
+                        userId={localUserId}
                         stompClient={stompClient}
                         onClick={() => handleRoomClick(room.roomId)} />
         ))

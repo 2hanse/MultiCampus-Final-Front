@@ -6,9 +6,10 @@ import { Stomp } from "@stomp/stompjs";
 import { useParams } from "react-router-dom";
 import MessageInput from "../../chat/MessageInput";
 import Message from "../../chat/Message";
+import { getUserIdFromToken } from "../../api/jwt";
 
 function ChatRoomPage() {
-    const localUserId = 1004; // 예시로 User ID를 하드코딩
+    const localUserId = getUserIdFromToken(); // userId를 동적으로 가져옴
     const { roomId } = useParams();
     const [stompClient, setStompClient] = useState(null);
     const [messages, setMessages] = useState([]);
@@ -23,10 +24,7 @@ function ChatRoomPage() {
         const stomp = Stomp.over(socket);
 
         stomp.connect(
-            {
-                Authorization:
-                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMDA0LCJlbWFpbCI6InRlc3QyQHRlc3QuY29tIiwicm9sZSI6IiIsImlhdCI6MTcyOTY2NDM0NywiZXhwIjoxODE2MDY0MzQ3fQ.bP8T4L31GW0dVKZyRAI3gxMoNoqHZJxn5IhdIHL-6to",
-            },
+            {Authorization: `Bearer ${localStorage.getItem('token')}`},
             (frame) => {
                 console.log("Connected: " + frame);
 
