@@ -11,6 +11,7 @@ function MessageInput({ roomId, stompClient }) {
     const fileInputRef = React.useRef(null);
 
     const handleSubmit = async (e) => {
+        console.log("submit");
         e.preventDefault();
         let mediaId = null;
 
@@ -61,7 +62,6 @@ function MessageInput({ roomId, stompClient }) {
 
             if (validExtensions.includes(`.${fileExtension}`)) {
                 setFile(selectedFile);
-                alert(selectedFile);
             } else {
                 alert("유효한 파일 형식이 아닙니다. 이미지만 업로드 가능합니다.");
             }
@@ -72,6 +72,12 @@ function MessageInput({ roomId, stompClient }) {
         if (fileInputRef.current) {
             fileInputRef.current.click(); // 파일 선택 창 열기
         }
+    };
+
+    const removeFile = () => {
+        console.log("remove")
+        setFile(null);
+        fileInputRef.current.value = null;
     };
 
     return (
@@ -90,6 +96,12 @@ function MessageInput({ roomId, stompClient }) {
                 placeholder="메시지 입력..."
                 aria-label="Type your message"
             />
+            {file && (
+                <FilePreview>
+                    <FileName>{file.name}</FileName>
+                    <RemoveFileButton type="button" onClick={removeFile}>x</RemoveFileButton>
+                </FilePreview>
+            )}
             <SendButton disabled={!message.trim() && !file} />
         </ChatInputContainer>
     );
@@ -115,6 +127,33 @@ const InputField = styled.input`
   
   &:focus {
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+  }
+`;
+
+const FilePreview = styled.div`
+  display: flex;
+  align-items: center;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-right: 10px;
+`;
+
+const FileName = styled.span`
+  font-size: 14px;
+  color: #555;
+  margin-right: 5px;
+`;
+
+const RemoveFileButton = styled.button`
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 16px;
+  cursor: pointer;
+
+  &:hover {
+    color: #333;
   }
 `;
 
