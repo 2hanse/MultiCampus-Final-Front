@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import styled              from "styled-components";
 
-const CompleteButtonForm = () => {
-    const [outputValue, setOutputValue] = useState('');
-
+const CompleteButtonForm = ({ outputValue }) => {
     return (
         <Wrapper>
             <PrintLocation isPlaceholder={!outputValue}>
@@ -21,7 +19,10 @@ const Wrapper = styled.div`
     width: 430px;
     height: 200px;
     bottom: 100px;
+    transform: translateX(-0.2%);
     background-color: #FFF4D2;
+    border-left: 0.5px solid #CAC4D0;
+    border-right: 0.5px solid #CAC4D0;
 `
 
 const PrintLocation = styled.div`
