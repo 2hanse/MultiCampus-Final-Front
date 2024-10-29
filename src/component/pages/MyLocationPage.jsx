@@ -1,16 +1,19 @@
-import React              from "react";
-import styled             from "styled-components";
-import Header             from "../mylocation/Header";
-import SearchForm         from "../mylocation/SearchForm";
-import CompleteButtonForm from "../mylocation/CompleteButtonForm";
-import Footer             from "../boardmain/Footer";
+import React, { useState } from "react";
+import styled              from "styled-components";
+import Header              from "../mylocation/Header";
+import SearchForm          from "../mylocation/SearchForm";
+import CompleteButtonForm  from "../mylocation/CompleteButtonForm";
+import Footer              from "../boardmain/Footer";
 
 function MyLocationPage() {
+
+    const [outputValue, setOutputValue] = useState("");
+
     return (
         <Main>
             <Header />
-            <SearchForm />
-            <CompleteButtonForm />
+            <SearchForm setOutputValue={setOutputValue} />
+            <CompleteButtonForm outputValue={outputValue} />
             <Footer />
         </Main>
     )
