@@ -26,7 +26,7 @@ const ChatListItem = (props) => {
       <UserSection>
         <AvatarBubble images={avatarSrc} />
         <RoomInfo>
-          <UserInfo nickname={roomName} lastMessage="마지막 메시지 내용" />
+          <UserInfo nickname={roomName} lastMessage={room.latestChatMessage?.message || "새로운 채팅방 입니다."} />
         </RoomInfo>
       </UserSection>
       <LeaveButton roomId={room.roomId} stompClient={stompClient} />

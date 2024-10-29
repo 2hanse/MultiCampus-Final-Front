@@ -57,8 +57,8 @@ function ChatListPage() {
     };
   }, [localUserId]);
 
-  const handleRoomClick = (roomId) => {
-    navigate(`/user/chat/room/${roomId}`);
+  const handleRoomClick = (room) => {
+    navigate(`/user/chat/room`, {state: { room }});
   };
 
   return (
@@ -75,7 +75,7 @@ function ChatListPage() {
                         room={room}
                         userId={localUserId}
                         stompClient={stompClient}
-                        onClick={() => handleRoomClick(room.roomId)} />
+                        onClick={() => handleRoomClick(room)} />
         ))
       ) : (
         <p>No Chat Rooms Available</p>

@@ -1,18 +1,11 @@
 import * as React from "react";
 import styled from "styled-components";
 
-export function AttachmentIcon() {
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      // Handle attachment click
-    }
-  };
+export function AttachmentIcon( { onClick }) {
 
   return (
     <IconButton
-      onClick={() => {/* Handle attachment click */}}
-      onKeyPress={handleKeyPress}
+      onClick={onClick}
       type="button"
       aria-label="Add attachment"
     >

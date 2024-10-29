@@ -2,6 +2,20 @@ import * as React from "react";
 import styled from "styled-components";
 
 function Message({ msg, displayTime, displayProfile, isSentByMe }) {
+  const handleMediaClick = () => {
+    if (msg.mediaUrl) {
+      window.open("http://localhost:8000" + msg.mediaUrl, "_blank"); // 새 창으로 원본 이미지 열기
+    }
+  };
+
+  const formatTime = (timestamp) => {
+    return new Date(timestamp).toLocaleTimeString('ko-KR', {
+      hour: '2-digit',
+      hour12: false,
+      minute: '2-digit'
+    });
+  }
+
   return (
     <MessageWrapper isSentByMe={isSentByMe}>
       {!isSentByMe && (
@@ -11,11 +25,16 @@ function Message({ msg, displayTime, displayProfile, isSentByMe }) {
         </ProfileContainer>
       )}
       {isSentByMe && (
-        <MessageTime>{displayTime ? msg.messageTimestamp : ""}</MessageTime>
+        <MessageTime>{displayTime ? formatTime(msg.messageTimestamp) : ""}</MessageTime>
       )}
-      <MessageBubble isSentByMe={isSentByMe}>{msg.message}</MessageBubble>
+      <MessageBubble isSentByMe={isSentByMe}>
+        {msg.mediaId && (
+          <MediaImage src={"http://localhost:8000" + msg.mediaThumbUrl} onClick={handleMediaClick} />
+        )}
+        {msg.message}
+      </MessageBubble>
       {!isSentByMe && (
-        <MessageTime>{displayTime ? msg.messageTimestamp : ""}</MessageTime>
+        <MessageTime>{displayTime ? formatTime(msg.messageTimestamp) : ""}</MessageTime>
       )}
     </MessageWrapper>
   );
@@ -51,13 +70,16 @@ const Nickname = styled.span`
   margin-top: 4px;
 `;
 
-const MessageBubble = styled.p`
+const MessageBubble = styled.div`
   border-radius: 5px;
   ${props => props.isSentByMe ? 'background-color: #ffeeff;' : 'background-color: #eeffff;'}
   font-size: 16px;
   color: #000;
   padding: 15px 12px;
-  max-width: 50%; /* 메시지의 최대 너비를 설정 */
+  max-width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 
 const MessageTime = styled.time`
@@ -65,6 +87,11 @@ const MessageTime = styled.time`
   font-size: 12px;
   align-self: end;
   margin-top: ${props => props.isSentByMe ? '31px' : '18px'};
+`;
+
+const MediaImage = styled.img`
+  max-width: 100%;
+  border-radius: 5px;
 `;
 
 export default Message;

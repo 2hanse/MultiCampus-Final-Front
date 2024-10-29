@@ -7,10 +7,11 @@ import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
 import { useLocation, useNavigate } from "react-router-dom";
 import UserListItem from "../../chat/user/UserListItem";
+import { getUserIdFromToken } from "../../api/jwt";
 
 
 function ChatInvitePage() {
-    const localUserId = 1004; // 예시로 User ID를 하드코딩하였지만, 실제로는 인증 토큰 등을 이용해 가져옴.
+    const localUserId = getUserIdFromToken(); // userId를 동적으로 가져옴
     const [stompClient, setStompClient] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
@@ -24,7 +25,7 @@ function ChatInvitePage() {
 
         // 연결 설정 및 구독
         stomp.connect(
-            { Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMDA0LCJlbWFpbCI6InRlc3QyQHRlc3QuY29tIiwicm9sZSI6IiIsImlhdCI6MTcyOTY2NDM0NywiZXhwIjoxODE2MDY0MzQ3fQ.bP8T4L31GW0dVKZyRAI3gxMoNoqHZJxn5IhdIHL-6to" },
+            {Authorization: `Bearer ${localStorage.getItem('token')}`},
             (frame) => {
                 console.log("Connected: " + frame);
 

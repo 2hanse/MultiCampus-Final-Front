@@ -27,7 +27,7 @@ function App() {
         <Route path='/user/find-password' element={<FindPasswordPage />} />
         <Route path='/user/chat/list' element={<ChatListPage />} />
         <Route path='/user/chat/invite' element={<ChatInvitePage />} />
-        <Route path='/user/chat/room/:roomId' element={<ChatRoomPage />} />
+        <Route path='/user/chat/room' element={<ChatRoomPage />} />
         <Route path="/boardmain" element={<BoardMainPage />} />
         <Route path='/user/phone-identification' element={<PhoneIdentificationPage />} />
         <Route path='/user/resetPassword' element={<ResetPasswordPage />} />

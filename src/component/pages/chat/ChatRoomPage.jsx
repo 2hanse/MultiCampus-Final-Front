@@ -3,14 +3,14 @@ import styled from "styled-components";
 import ChatHeader from "../../chat/ChatHeader";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import MessageInput from "../../chat/MessageInput";
 import Message from "../../chat/Message";
 import { getUserIdFromToken } from "../../api/jwt";
 
 function ChatRoomPage() {
     const localUserId = getUserIdFromToken(); // userId를 동적으로 가져옴
-    const { roomId } = useParams();
+    const { room } = useLocation().state || {};
     const [stompClient, setStompClient] = useState(null);
     const [messages, setMessages] = useState([]);
     const [showScrollToBottom, setShowScrollToBottom] = useState(false);
@@ -18,6 +18,16 @@ function ChatRoomPage() {
     const messagesEndRef = useRef(null);
     const messagesContainerRef = useRef(null);
     const firstLoad = useRef(true); // 첫 로드 여부
+
+    // 나 자신을 제외한 다른 유저들 필터링
+    const otherUsers = room.users.filter((user) => user.user_id !== localUserId);
+
+    // 채팅방 이름 결정 (1:1일 경우 상대방 닉네임, 단체일 경우 모든 유저 닉네임 취합)
+    const roomName = room.roomTitle
+        ? room.roomTitle
+        : otherUsers.length === 1
+        ? otherUsers[0].nickname
+        : otherUsers.map((user) => user.nickname).join(", ");
 
     useEffect(() => {
         const socket = new SockJS("http://localhost:8000/ws");
@@ -29,7 +39,7 @@ function ChatRoomPage() {
                 console.log("Connected: " + frame);
 
                 // 메시지 추가 구독
-                stomp.subscribe(`/sub/chat/message/add/${roomId}`, (message) => {
+                stomp.subscribe(`/sub/chat/message/add/${room.roomId}`, (message) => {
                     const receivedMsg = JSON.parse(message.body);
                     setMessages((prevMessages) => {
                         const isDuplicate = prevMessages.some((msg) => msg.msgId === receivedMsg.msgId);
@@ -57,7 +67,7 @@ function ChatRoomPage() {
                 });
 
                 // 메시지 목록 요청 (최초 100개)
-                stomp.send(`/pub/chat/message/list`, {}, JSON.stringify({ roomId: roomId, limit: 100, offset: null }));
+                stomp.send(`/pub/chat/message/list`, {}, JSON.stringify({ roomId: room.roomId, limit: 100, offset: null }));
             }
         );
 
@@ -116,7 +126,7 @@ function ChatRoomPage() {
             const smallestMsgId = messages.reduce((min, msg) => {
                 return msg.msgId < min ? msg.msgId : min;
               }, messages[0].msgId); // msgId 최솟값을 구함, 그래야 가장 위에 위치한 메시지 즉 가장 오래된 메시지 id 를 가져올 수 있기 떄문
-            stompClient.send(`/pub/chat/message/list`, {}, JSON.stringify({ roomId: roomId, limit: 15, offset: smallestMsgId }));
+            stompClient.send(`/pub/chat/message/list`, {}, JSON.stringify({ roomId: room.roomId, limit: 15, offset: smallestMsgId }));
         }
     };
 
@@ -144,7 +154,7 @@ function ChatRoomPage() {
     return (
         <Container>
             <ChatHeaderWrapper>
-                <ChatHeader title={"대화방 " + roomId} />
+                <ChatHeader title={roomName} />
             </ChatHeaderWrapper>
             <ChatListContainer ref={messagesContainerRef} onScroll={handleScroll}>
                 {messages.length > 0 ? (
@@ -219,7 +229,7 @@ function ChatRoomPage() {
                     Scroll to Latest Messages
                 </ScrollToBottomBar>
             )}
-            <MessageInput roomId={roomId} stompClient={stompClient} />
+            <MessageInput roomId={room.roomId} stompClient={stompClient} />
         </Container>
     );
 }
