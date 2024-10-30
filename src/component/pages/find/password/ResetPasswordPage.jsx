@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import Header from "../../../find-password/Header";
+import Header from "../../../layout/header/user/Header";
 import PasswordForm from "../../../find-password/findresult-password/PasswordForm";
 
 function ResetPasswordPage() {
   return (
     <PageWrapper>
         <main>
-            <Header />
+            <Header navigatePath="/user/phone-identification" title="비밀번호 찾기"/>
             <PasswordForm />
         </main>
     </PageWrapper>
