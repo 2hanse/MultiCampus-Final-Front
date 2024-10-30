@@ -6,7 +6,7 @@ import Search from "./assets/Search.png";
 const Header = () => {
     return (
         <HeaderBox>
-            <Input placeholder="위치 검색..." />
+            <Input placeholder="위치 검색" />
             <BookmarkBtn>
                 <img src={Bookmark}
                      alt='Bookmark'
