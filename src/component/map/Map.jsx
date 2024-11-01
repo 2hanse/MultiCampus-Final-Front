@@ -85,7 +85,7 @@ const Map = () => {
       id="map"
       style={{
         width: '430px',
-        height: '832px'
+        height: '932px'
       }}
     ></div>
   );
