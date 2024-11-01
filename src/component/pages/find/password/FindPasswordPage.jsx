@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import Header from "../../../find-password/Header";
+import Header from "../../../layout/header/user/Header";
 import PasswordRecoveryForm from "../../../find-password/PasswordRecoveryForm";
 
 function FindPasswordPage() {
   return (
     <PageWrapper>
-      <Header />
+      <Header navigatePath="/user/login" title="비밀번호 찾기"/>
       <main>
         <PasswordRecoveryForm />
       </main>

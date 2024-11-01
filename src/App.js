@@ -9,8 +9,13 @@ import FindPasswordPage from './component/pages/find/password/FindPasswordPage';
 import PhoneIdentificationPage from './component/pages/find/password/PhoneIdentificationPage';
 import ResetPasswordPage from './component/pages/find/password/ResetPasswordPage';
 import ResetPasswordResultPage from './component/pages/find/password/ResetPasswordResultPage';
+import ChatListPage from './component/pages/chat/ChatListPage';
 import MyLocationPage from './component/pages/MyLocationPage';
+import ChatInvitePage from './component/pages/chat/ChatInvitePage';
 import MapPage from './component/pages/MapPage';
+import ChangePasswordPage from './component/pages/reset/ChangePasswordPage';
+import ChangePasswordResultPage from './component/pages/reset/ChangePasswordResultPage';
+import ChatRoomPage from './component/pages/chat/ChatRoomPage';
 
 function App() {
   return (
@@ -22,12 +27,17 @@ function App() {
         <Route path='/user/find-email' element={<FindEmailPage />} />
         <Route path='/user/findResultEmailPage' element={<FindResultEmailPage />} />
         <Route path='/user/find-password' element={<FindPasswordPage />} />
+        <Route path='/user/chat/list' element={<ChatListPage />} />
+        <Route path='/user/chat/invite' element={<ChatInvitePage />} />
+        <Route path='/user/chat/room' element={<ChatRoomPage />} />
         <Route path="/boardmain" element={<BoardMainPage />} />
         <Route path='/user/phone-identification' element={<PhoneIdentificationPage />} />
         <Route path='/user/resetPassword' element={<ResetPasswordPage />} />
         <Route path='/user/resetPasswordResult' element={<ResetPasswordResultPage />} />
         <Route path="/mylocation" element={<MyLocationPage />} />
         <Route path="/homepage" element={<MapPage />} />
+        <Route path='/user/me/changePassword' element={<ChangePasswordPage/>}/>
+        <Route path='/user/me/changePasswordResult' element={<ChangePasswordResultPage />} />
       </Routes>
     </BrowserRouter>
   );

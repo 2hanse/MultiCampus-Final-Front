@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import Header from "../../../find-password/Header";
+import Header from "../../../layout/header/user/Header";
 import PhoneIdentification from "../../../find-password/phone-identification/PhoneIdentification";
 
 
 function PhoneIdentificationPage() {
   return (
     <PageWrapper>
-      <Header />
+      <Header navigatePath="/user/find-password" title="비밀번호 찾기"/>
       <main>
         <PhoneIdentification />
       </main>
