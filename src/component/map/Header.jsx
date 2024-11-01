@@ -3,11 +3,11 @@ import styled from "styled-components";
 import Bookmark from "./assets/Bookmark.png";
 import Search from "./assets/Search.png";
 
-const Header = ({ openBottomSheet }) => {
+const Header = (props) => {
     return (
         <HeaderBox>
             <Input placeholder="위치 검색" />
-            <BookmarkBtn onClick={openBottomSheet}>
+            <BookmarkBtn onClick={props.onClickBookmark}>
                 <img src={Bookmark}
                      alt='Bookmark'
                      style={{height: '20px'}} />
