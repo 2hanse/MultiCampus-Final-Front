@@ -3,11 +3,10 @@ import styled from "styled-components";
 import Footer from "../boardmain/Footer";
 import Header from "../map/Header";
 import Map from "../map/Map";
-import BottomSheet from "../bottomsheet/BottomSheet";
+import BottomSheet from "../map/bottomsheet/BottomSheet";
 
 function MapPage() {
 
-    /*
     // BottomSheet 상태 관리
     const [isOpen, setIsOpen] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
@@ -20,7 +19,6 @@ function MapPage() {
         setIsClosing(true); // 닫기 애니메이션 시작
         setTimeout(() => setIsOpen(false), 300); // 애니메이션 지속 시간 이후에 완전히 숨김
     };
-    */
 
     return (
         <Main>
