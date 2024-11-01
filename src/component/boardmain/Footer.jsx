@@ -28,6 +28,7 @@ const FooterBox = styled.footer`
     bottom: 0px;
     background-color: #FFFFFF;
     border: 0.5px solid #CAC4D0;
+    z-index: 10;
 `
 
 const BoardMainPage = styled.img`
