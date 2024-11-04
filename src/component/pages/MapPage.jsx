@@ -4,6 +4,7 @@ import Footer from "../boardmain/Footer";
 import Header from "../map/Header";
 import Map from "../map/Map";
 import { Sheet } from 'react-modal-sheet';
+import BookmarkList from "../bookmark/BookmarkList";
 
 function MapPage() {
 
@@ -16,12 +17,14 @@ function MapPage() {
             <Map />
             <CustomSheet    isOpen={isOpen}
                             onClose={() => setOpen(false)}
-                            snapPoints={[1000, 500, 0]}
+                            snapPoints={[700, 400, 0]}
                             initialSnap={1}
                             >
                 <Sheet.Container>
                     <Sheet.Header />
-                    <Sheet.Content>{/* 여기에 북마크 관련 컴포넌트 */} test</Sheet.Content>
+                    <Sheet.Content>
+                        <BookmarkList />
+                    </Sheet.Content>
                 </Sheet.Container>
                 <Sheet.Backdrop onClick={() => setOpen(false)}/>
             </CustomSheet>
