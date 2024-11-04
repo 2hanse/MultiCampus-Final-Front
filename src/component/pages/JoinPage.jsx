@@ -220,7 +220,7 @@ const JoinPage = () => {
   // 인증번호 요청 함수
   const handleVerificationRequest = () => {
     // 서버에 인증번호 발송 요청을 보냄
-    api.post('/send-one', { phoneNum })
+    api.post('/sms/send', { phoneNum })
         .then(response => {
             console.log('인증번호 발송 성공:', response.data);
             setIsVerificationSent(true); // 인증번호 발송 성공 시 입력 필드를 표시하기 위해 상태를 true로 설정
@@ -238,7 +238,7 @@ const JoinPage = () => {
   // 인증번호 검증 요청 함수
   const handleVerificationSubmit = () => {
     // 서버에 입력된 인증번호 검증 요청을 보냄
-    api.post('/verify-code', { phoneNum, verificationCode })
+    api.post('/sms/verify', { phoneNum, verificationCode })
         .then(response => {
             setIsVerificationSuccessful(response.data); // 서버의 응답에 따라 인증 성공 여부를 업데이트
             if (response.data) {
