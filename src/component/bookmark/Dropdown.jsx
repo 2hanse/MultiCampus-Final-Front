@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled              from 'styled-components';
 import dropdown            from "./assets/Dropdown.png";
 
-const Dropdown = () => {
+const Dropdown = ({ onSelect }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState('등록순');
 
@@ -10,6 +10,7 @@ const Dropdown = () => {
 
     const handleOptionClick = (option) => {
         setSelectedOption(option);
+        onSelect(option); // 선택한 옵션 전달
         setIsOpen(false);
     };
 

@@ -1,17 +1,24 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState } from "react";
+import styled              from "styled-components";
 
-function GroupItem({ name, author, count, isActive }) {
+function GroupItem({ name, author, count, isActive: initialIsActive }) {
+    const [isActive, setIsActive] = useState(initialIsActive);
+
+    const handleToggle = () => {
+        setIsActive(!isActive);
+    };
+    
     return (
         <ItemWrapper>
             <ItemContent>
-            <GroupName>
-                {name} <AuthorName>({author})</AuthorName>
-            </GroupName>
-            <GroupCount>개수 {count}/500</GroupCount>
+                <GroupName>
+                    {name} <AuthorName>({author})</AuthorName>
+                </GroupName>
+                <GroupCount>개수 {count}/500</GroupCount>
             </ItemContent>
-            <ExpandIcon src="https://cdn.builder.io/api/v1/image/assets/TEMP/f1541bad3fc27abbfb842592920ca5dba61084f952fe090a89d971ec02a989bf?placeholderIfAbsent=true&apiKey=a4eaf54e67064b758783ed5c744d50de" alt="Expand" />
-            <ToggleSwitch isActive={isActive} />
+            <ExpandIcon src="https://cdn.builder.io/api/v1/image/assets/TEMP/f1541bad3fc27abbfb842592920ca5dba61084f952fe090a89d971ec02a989bf?placeholderIfAbsent=true&apiKey=a4eaf54e67064b758783ed5c744d50de"
+                        alt="Expand" />
+            <ToggleSwitch isActive={isActive} onClick={handleToggle} />
         </ItemWrapper>
     );
 }
@@ -34,6 +41,7 @@ const ItemContent = styled.div`
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    padding-left: 20px;
 `;
 
 const GroupName = styled.h3`
@@ -57,7 +65,7 @@ const GroupCount = styled.p`
 const ExpandIcon = styled.img`
     position: absolute;
     top: 33px;
-    left: 16px;
+    left: 25px;
     aspect-ratio: 1;
     object-fit: contain;
     width: 24px;
@@ -65,13 +73,13 @@ const ExpandIcon = styled.img`
 
 const ToggleSwitch = styled.div`
     border-radius: 100px;
-    background-color: ${props => props.isActive ? "#757575" : "#ccc"};
+    background-color: ${props => props.isActive ? "#F4B183" : "#ccc"};
     position: absolute;
     top: 29px;
     right: 26px;
     width: 48px;
     height: 32px;
-    border: 1px solid #757575;
+    border: 1px solid ${props => props.isActive ? "#DFA67B" : "#ccc"};
     &::after {
         content: '';
         position: absolute;

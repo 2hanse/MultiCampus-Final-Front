@@ -1,21 +1,33 @@
-import React    from "react";
-import styled   from "styled-components";
-import Dropdown from "./Dropdown";
-import Edit     from "./assets/Edit.png";
-import GroupList from "./GroupList";
+import React, { useState }               from "react";
+import styled                            from "styled-components";
+import Dropdown                          from "./Dropdown";
+import Edit                              from "./assets/Edit.png";
+import GroupList                         from "./GroupList";
+import { groupData as initialGroupData } from "./GroupList";
 
 const BookmarkList = () => {
+    const [groupData, setGroupData] = useState(initialGroupData);
+
+    // 이름순 정렬 함수
+    const sortByName = () => {
+        const sortedData = [...groupData].sort((a, b) => a.name.localeCompare(b.name, "ko"));
+        setGroupData(sortedData);
+    };
+
+    // 등록순 (초기 상태) 함수
+    const resetToOriginal = () => {
+        setGroupData(initialGroupData);
+    };
+
     return (
         <Wrapper>
-            <GroupCount>그룹 N</GroupCount>
-            <Dropdown />
+            <GroupCount>그룹 {groupData.length}</GroupCount>
+            <Dropdown onSelect={(option) => (option === "이름순" ? sortByName() : resetToOriginal())} />
             <EditBtn>
                 <Icon src={Edit} alt="Edit" />
                 수정하기
             </EditBtn>
-            <GroupList>
-
-            </GroupList>
+            <GroupList />
         </Wrapper>
     );
 };
@@ -33,7 +45,7 @@ const Wrapper = styled.div`
 const GroupCount = styled.h1`
     position: absolute;
     width: 49px;
-    height: 19px;
+    height: 16px;
     left: 31px;
 
     font-family: 'Inter';
