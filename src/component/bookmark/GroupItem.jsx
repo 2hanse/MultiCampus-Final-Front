@@ -30,7 +30,7 @@ const ItemWrapper = styled.li`
     position: relative;
     display: flex;
     min-height: 60px;
-    width: 324px;
+    width: 315px;
     padding: 16px 16px 16px 50px;
     margin-bottom: 15px;
     align-items: center;

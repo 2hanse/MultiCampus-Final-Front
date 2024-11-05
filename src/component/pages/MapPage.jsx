@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-import Footer from "../boardmain/Footer";
-import Header from "../map/Header";
-import Map from "../map/Map";
-import { Sheet } from 'react-modal-sheet';
-import BookmarkList from "../bookmark/BookmarkList";
+import styled              from "styled-components";
+import Footer              from "../boardmain/Footer";
+import Header              from "../map/Header";
+import Map                 from "../map/Map";
+import { Sheet }           from 'react-modal-sheet';
+import BookmarkList        from "../bookmark/BookmarkList";
 
 function MapPage() {
 

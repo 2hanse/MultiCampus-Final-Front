@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
+import React    from "react";
+import styled   from "styled-components";
 import Bookmark from "./assets/Bookmark.png";
-import Search from "./assets/Search.png";
+import Search   from "./assets/Search.png";
 
 const Header = (props) => {
     return (

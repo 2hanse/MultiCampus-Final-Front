@@ -3,18 +3,16 @@ import styled    from "styled-components";
 import GroupItem from "./GroupItem";
 
 export const groupData = [
-    { name: "기본 그룹", author: "작성자명", count: "N", isActive: true },
-    { name: "부산 여행", author: "작성자명", count: "N", isActive: true },
-    { name: "제주 여행", author: "작성자명", count: "N", isActive: true },
+    { name: "기본 그룹", author: "작성자명", count: "N", isActive: false },
 ];
 
-function GroupList() {
+function GroupList({ groupData }) {
     return (
-    <ListWrapper>
-        {groupData.map((group, index) => (
-            <GroupItem key={index} {...group} />
-        ))}
-    </ListWrapper>
+        <ListWrapper>
+            {groupData.map((group, index) => (
+                <GroupItem key={index} {...group} />
+            ))}
+        </ListWrapper>
     );
 }
 
@@ -24,6 +22,8 @@ const ListWrapper = styled.ul`
     flex-direction: column;
     padding: 40px 0px;
     list-style-type: none;
+    overflow-y: auto;
+    align-items: center;
 `;
 
 export default GroupList;

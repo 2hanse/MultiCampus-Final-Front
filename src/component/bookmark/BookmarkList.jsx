@@ -4,6 +4,7 @@ import Dropdown                          from "./Dropdown";
 import Edit                              from "./assets/Edit.png";
 import GroupList                         from "./GroupList";
 import { groupData as initialGroupData } from "./GroupList";
+import Create                            from "./assets/Create.png";
 
 const BookmarkList = () => {
     const [groupData, setGroupData] = useState(initialGroupData);
@@ -23,18 +24,21 @@ const BookmarkList = () => {
         <Wrapper>
             <GroupCount>그룹 {groupData.length}</GroupCount>
             <Dropdown onSelect={(option) => (option === "이름순" ? sortByName() : resetToOriginal())} />
+            <CreateBtn>
+                <CreateImg src={Create} alt="Create" />
+            </CreateBtn>
             <EditBtn>
                 <Icon src={Edit} alt="Edit" />
                 수정하기
             </EditBtn>
-            <GroupList />
+            <GroupList groupData={groupData} />
         </Wrapper>
     );
 };
 
 const Wrapper = styled.div`
     display: flex;
-    position: absoulte;
+    position: absolute;
     width: 390px;
     height: 610px;
     flex-direction: column;
@@ -89,5 +93,24 @@ const Icon = styled.img`
     width: 15px;
     height: 15px;
 `;
+
+const CreateBtn = styled.button`
+    display: flex;
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    top: 6px;
+    left: 245px;
+    border: none;
+    flex-direction: column;
+    align-items: center;
+    background-color: #FFFFFF;
+    cursor: pointer;
+`;
+
+const CreateImg = styled.img`
+    width: 20px;
+    height: 20px;
+`
 
 export default BookmarkList;
