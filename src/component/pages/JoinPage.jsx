@@ -194,21 +194,23 @@ const JoinPage = () => {
   const [remainingTime, setRemainingTime] = useState(initialTime);
 
   useEffect(() => {
+    let timer;
+    if(isVerificationSent === true){
       // useEffect를 사용하여 컴포넌트가 마운트될 때 타이머 시작.
-      const timer = setInterval(() => {
-          // 남은 시간이 0보다 크면 1초씩 감소시킴.
-          if (remainingTime > 0) {
-              setRemainingTime((prevTime) => prevTime - 1);
-          } else {
-              // 남은 시간이 0이 되면 타이머 정지.
-              clearInterval(timer);
-          }
+      timer = setInterval(() => {
+        // 남은 시간이 0보다 크면 1초씩 감소시킴.
+        if (remainingTime > 0) {
+          setRemainingTime((prevTime) => prevTime - 1);
+        } else {
+          // 남은 시간이 0이 되면 타이머 정지.
+          clearInterval(timer);
+        }
       }, 1000);
-
+      }
       // 컴포넌트가 언마운트되면 타이머 정지
       return () => clearInterval(timer);
-      
-  }, [remainingTime]); // remainingTime이 변경될 때마다 useEffect가 다시 실행됨.
+    
+  }, [isVerificationSent]);
 
   // 시간을 분과 초로 변환하는 함수 정의.
   const formatTime = (timeInSeconds) => {
@@ -220,14 +222,19 @@ const JoinPage = () => {
   // 인증번호 요청 함수
   const handleVerificationRequest = () => {
     // 서버에 인증번호 발송 요청을 보냄
-    api.post('/sms/send', { phoneNum })
-        .then(response => {
-            console.log('인증번호 발송 성공:', response.data);
-            setIsVerificationSent(true); // 인증번호 발송 성공 시 입력 필드를 표시하기 위해 상태를 true로 설정
-        })
-        .catch(error => {
-            console.error('인증번호 발송 실패:', error);
-        });
+    api.post('/sms/send', phoneNum, {
+      headers: {
+        'Content-Type': 'text/plain'
+      }
+    })
+    .then(response => {
+        console.log('인증번호 발송 성공:', response.data);
+        setIsVerificationSent(true); // 인증번호 발송 성공 시 입력 필드를 표시하기 위해 상태를 true로 설정
+        setPhoneNumMessage('');
+    })
+    .catch(error => {
+        console.error('인증번호 발송 실패:', error);
+    });
   };
 
   // 인증번호 입력 값 업데이트 함수
@@ -238,7 +245,8 @@ const JoinPage = () => {
   // 인증번호 검증 요청 함수
   const handleVerificationSubmit = () => {
     // 서버에 입력된 인증번호 검증 요청을 보냄
-    api.post('/sms/verify', { phoneNum, verificationCode })
+    api.post('/sms/verify', { phone_number : phoneNum, 
+                              verifyCode: verificationCode })
         .then(response => {
             setIsVerificationSuccessful(response.data); // 서버의 응답에 따라 인증 성공 여부를 업데이트
             if (response.data) {

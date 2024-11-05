@@ -70,7 +70,14 @@ function EmailForm() {
         } else {
             try {
                 const response = await api.post("/users/find-email", idData);
-                navigate("/user/findResultEmailPage",{ state: { email: response.data.email }});
+                if(response.status === 204) {
+                  alert("해당 전화번호는 찾을 수 없습니다")
+                  setPhoneNum('');
+                  setAnswerQuestion('');
+                  questions = '';
+                } else if (response.status === 200 ) {
+                  navigate("/user/findResultEmailPage",{ state: { email: response.data.email }});
+                }
             } catch(err) {
                 console.log(err);
             }
