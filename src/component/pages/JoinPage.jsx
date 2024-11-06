@@ -325,7 +325,7 @@ const JoinPage = () => {
 
         <StyledInputField>
             <input type="text" placeholder="닉네임" onChange={onChangeNickName}/>
-            <StyledButton small onClick={checkNickName}>중복확인</StyledButton>
+            <StyledButton small onClick={checkNickName} type="button">중복확인</StyledButton>
         </StyledInputField>
         <Formbox>
         {nickName.length > 0 && <span className={`message ${isNickName ? 'success' : 'error'}`}>{nickNameMessage}</span>}
