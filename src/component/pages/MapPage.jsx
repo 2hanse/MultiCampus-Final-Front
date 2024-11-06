@@ -1,12 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Footer from "../boardmain/Footer";
 import Header from "../map/Header";
+import Map from "../map/Map";
+import BottomSheet from "../map/bottomsheet/BottomSheet";
 
 function MapPage() {
+
+    // BottomSheet 상태 관리
+    const [isOpen, setIsOpen] = useState(false);
+    const [isClosing, setIsClosing] = useState(false);
+
+    const openBottomSheet = () => {
+        setIsOpen(true);
+        setIsClosing(false); // 열 때는 닫기 애니메이션이 아님
+    };
+    const closeBottomSheet = () => {
+        setIsClosing(true); // 닫기 애니메이션 시작
+        setTimeout(() => setIsOpen(false), 300); // 애니메이션 지속 시간 이후에 완전히 숨김
+    };
+
     return (
         <Main>
-            <Header />
+            <Header openBottomSheet={openBottomSheet} />
+            <Map />
+            {isOpen && <BottomSheet onClose={closeBottomSheet} />}
             <Footer />
         </Main>
     )
@@ -19,11 +37,9 @@ const Main = styled.main`
     align-items: flex-start;
     width: 430px;
     max-height: 932px;
-    min-height: 632px;
-    height: auto;
+    min-height: 732px;
     background: #FFF4D2;
     margin: 0 auto;
-    padding: 187px 0px 100px 0px;
     border: 0.5px solid #CAC4D0;
 `
 
