@@ -5,11 +5,13 @@ import Header              from "../map/Header";
 import Map                 from "../map/Map";
 import { Sheet }           from 'react-modal-sheet';
 import BookmarkList        from "../bookmark/BookmarkList";
+import CreateBookmark      from "../bookmark/CreateBookmark";
 
 function MapPage() {
 
     // BottomSheet 상태 관리
-    const [isOpen, setOpen] = useState(false)
+    const [isOpen, setOpen] = useState(false);
+    const [isCreateOpen, setCreateOpen] = useState(false);
 
     return (
         <Main>
@@ -18,20 +20,56 @@ function MapPage() {
             <CustomSheet    isOpen={isOpen}
                             onClose={() => setOpen(false)}
                             snapPoints={[700, 400, 0]}
-                            initialSnap={1}
-                            >
+                            initialSnap={1}>
                 <Sheet.Container>
                     <Sheet.Header />
                     <Sheet.Content>
-                        <BookmarkList />
+                        <BookmarkList 
+                            onOpenCreate={() => {
+                                setOpen(false);
+                                setCreateOpen(true);
+                            }} />
                     </Sheet.Content>
                 </Sheet.Container>
                 <Sheet.Backdrop onClick={() => setOpen(false)}/>
+            </CustomSheet>
+            <CustomSheet isOpen={isCreateOpen}
+                         onClose={() => {
+                            setCreateOpen(false);
+                            setOpen(true);
+                         }}
+                         snapPoints={[700, 700, 0]} initialSnap={1}>
+                <Sheet.Container>
+                    <Sheet.Header />
+                    <Sheet.Content>
+                        <CreateBookmark onCancel={() => {
+                                            setCreateOpen(false);
+                                            setOpen(true);
+                                        }} />
+                    </Sheet.Content>
+                </Sheet.Container>
+                <Sheet.Backdrop onClick={() => {
+                                    setCreateOpen(false)
+                                    setOpen(true)
+                                }} />
             </CustomSheet>
             <Footer />
         </Main>
     )
 }
+
+const Main = styled.main`
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 430px;
+    max-height: 932px;
+    min-height: 732px;
+    background: #FFF4D2;
+    margin: 0 auto;
+    border: 0.5px solid #CAC4D0;
+`
 
 const CustomSheet = styled(Sheet)`
     display: flex;
@@ -56,7 +94,7 @@ const CustomSheet = styled(Sheet)`
         padding-top: 10px !important;
     }
     .react-modal-sheet-header {
-        /* custom styles */
+        cursor: pointer !important;
     }
     .react-modal-sheet-drag-indicator {
         background: #999 !important;
@@ -67,18 +105,5 @@ const CustomSheet = styled(Sheet)`
         margin: 10px 20px !important;
     }
 `;
-
-const Main = styled.main`
-    display: flex;
-    overflow: hidden;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 430px;
-    max-height: 932px;
-    min-height: 732px;
-    background: #FFF4D2;
-    margin: 0 auto;
-    border: 0.5px solid #CAC4D0;
-`
 
 export default MapPage;

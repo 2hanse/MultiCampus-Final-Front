@@ -6,7 +6,7 @@ import GroupList                         from "./GroupList";
 import { groupData as initialGroupData } from "./GroupList";
 import Create                            from "./assets/Create.png";
 
-const BookmarkList = () => {
+const BookmarkList = ({ onOpenCreate }) => {
     const [groupData, setGroupData] = useState(initialGroupData);
 
     // 이름순 정렬 함수
@@ -24,7 +24,7 @@ const BookmarkList = () => {
         <Wrapper>
             <GroupCount>그룹 {groupData.length}</GroupCount>
             <Dropdown onSelect={(option) => (option === "이름순" ? sortByName() : resetToOriginal())} />
-            <CreateBtn>
+            <CreateBtn onClick={onOpenCreate}>
                 <CreateImg src={Create} alt="Create" />
             </CreateBtn>
             <EditBtn>
