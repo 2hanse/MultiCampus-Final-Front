@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import ChatHeader from "../../chat/ChatHeader";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +7,7 @@ import UserListItem from "../../chat/user/UserListItem";
 import { getUserIdFromToken } from "../../api/jwt";
 import api from "../../api/axios";
 import Footer from "../../layout/footer/Footer";
+import Header from "../../layout/header/Header";
 
 
 function ChatInvitePage() {
@@ -102,9 +102,7 @@ function ChatInvitePage() {
 
   return (
     <Main>
-      <ChatHeaderContainer>
-          <ChatHeader title="채팅방 개설" />
-      </ChatHeaderContainer >
+      <Header title="채팅방 개설" />
       <InviteContainer>
         <Title>대화상대 추가</Title>
         <SearchBar>
@@ -151,13 +149,6 @@ const Main = styled.main`
     background: #ffffff;
     margin: 0 auto;
     border: 0.5px solid #CAC4D0;
-`;
-
-const ChatHeaderContainer = styled.div`
-  background-color: #ffd966;
-  width: 100%;
-  padding: 62px 28px 28px 28px;
-  box-sizing: border-box;
 `;
 
 const InviteContainer = styled.main`
