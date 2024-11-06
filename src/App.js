@@ -16,28 +16,55 @@ import MapPage from './component/pages/MapPage';
 import ChangePasswordPage from './component/pages/reset/ChangePasswordPage';
 import ChangePasswordResultPage from './component/pages/reset/ChangePasswordResultPage';
 import ChatRoomPage from './component/pages/chat/ChatRoomPage';
+import RestorantBoardPostingPage from './component/pages/RestorantBoardPostingPage';
+import FreeBoardPostingPage from './component/pages/FreeBoardPostingPage';
+import TourBoardPostingPage from './component/pages/TourBoardPostingPage';
+
+import Editor from './component/post-board/Editor';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<LoginPage />} />
+        <Route path="/" element={<LoginPage />} />
         <Route path="/user/login" element={<LoginPage />} />
-        <Route path='/user/join' element={<JoinPage />} />
-        <Route path='/user/find-email' element={<FindEmailPage />} />
-        <Route path='/user/findResultEmailPage' element={<FindResultEmailPage />} />
-        <Route path='/user/find-password' element={<FindPasswordPage />} />
-        <Route path='/user/chat/list' element={<ChatListPage />} />
-        <Route path='/user/chat/invite' element={<ChatInvitePage />} />
-        <Route path='/user/chat/room' element={<ChatRoomPage />} />
+        <Route path="/user/join" element={<JoinPage />} />
+        <Route path="/user/find-email" element={<FindEmailPage />} />
+        <Route
+          path="/user/findResultEmailPage"
+          element={<FindResultEmailPage />}
+        />
+        <Route path="/user/find-password" element={<FindPasswordPage />} />
+        <Route path="/user/chat/list" element={<ChatListPage />} />
+        <Route path="/user/chat/invite" element={<ChatInvitePage />} />
+        <Route path="/user/chat/room" element={<ChatRoomPage />} />
         <Route path="/boardmain" element={<BoardMainPage />} />
-        <Route path='/user/phone-identification' element={<PhoneIdentificationPage />} />
-        <Route path='/user/resetPassword' element={<ResetPasswordPage />} />
-        <Route path='/user/resetPasswordResult' element={<ResetPasswordResultPage />} />
+        <Route
+          path="/boardpost/restaurant"
+          element={<RestorantBoardPostingPage />}
+        />
+        <Route path="/boardpost/free" element={<FreeBoardPostingPage />} />
+        <Route path="/boardpost/tour" element={<TourBoardPostingPage />} />
+        <Route
+          path="/user/phone-identification"
+          element={<PhoneIdentificationPage />}
+        />
+        <Route path="/user/resetPassword" element={<ResetPasswordPage />} />
+        <Route
+          path="/user/resetPasswordResult"
+          element={<ResetPasswordResultPage />}
+        />
         <Route path="/mylocation" element={<MyLocationPage />} />
         <Route path="/homepage" element={<MapPage />} />
-        <Route path='/user/me/changePassword' element={<ChangePasswordPage/>}/>
-        <Route path='/user/me/changePasswordResult' element={<ChangePasswordResultPage />} />
+        <Route
+          path="/user/me/changePassword"
+          element={<ChangePasswordPage />}
+        />
+        <Route
+          path="/user/me/changePasswordResult"
+          element={<ChangePasswordResultPage />}
+        />
+        <Route path="drafttest" element={<Editor />} />
       </Routes>
     </BrowserRouter>
   );
