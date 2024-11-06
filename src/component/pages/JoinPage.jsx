@@ -411,6 +411,7 @@ const StyledForm = styled.form`
   max-width: 430px;
   max-height: 932px;
   width: 100%;
+  height: 100%;
   padding-top: 62px;
   flex-direction: column;
   overflow: hidden;
