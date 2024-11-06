@@ -111,6 +111,8 @@ const ChatInputContainer = styled.form`
   background-color: #fff2cc;
   display: flex;
   align-items: center;
+  width: 100%;
+  box-sizing: border-box;
   gap: 15px;
   color: #757575;
   padding: 12px 19px;

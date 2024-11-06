@@ -5,9 +5,6 @@ import styled from "styled-components";
 const ActionsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  line-height: normal;
-  width: 40%;
-  margin-left: 20px;
   @media (max-width: 991px) {
     width: 100%;
   }
@@ -26,10 +23,10 @@ const ActionButton = styled.button`
 `;
 
 const ButtonIcon = styled.img`
-  aspect-ratio: 1.36;
+  aspect-ratio: 1;
   object-fit: contain;
   object-position: center;
-  width: 30px;
+  width: 24px;
 `;
 
 function ChatActions() {
