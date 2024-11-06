@@ -38,7 +38,7 @@ function MapPage() {
                             setCreateOpen(false);
                             setOpen(true);
                          }}
-                         snapPoints={[700, 700, 0]} initialSnap={1}>
+                         snapPoints={[500, 500, 0]} initialSnap={1}>
                 <Sheet.Container>
                     <Sheet.Header />
                     <Sheet.Content>
