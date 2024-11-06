@@ -16,6 +16,7 @@ import MapPage from './component/pages/MapPage';
 import ChangePasswordPage from './component/pages/reset/ChangePasswordPage';
 import ChangePasswordResultPage from './component/pages/reset/ChangePasswordResultPage';
 import ChatRoomPage from './component/pages/chat/ChatRoomPage';
+import AlertPage from './component/pages/AlertPage';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path='/user/chat/list' element={<ChatListPage />} />
         <Route path='/user/chat/invite' element={<ChatInvitePage />} />
         <Route path='/user/chat/room' element={<ChatRoomPage />} />
+        <Route path='/user/alert' element={<AlertPage />} />
         <Route path="/boardmain" element={<BoardMainPage />} />
         <Route path='/user/phone-identification' element={<PhoneIdentificationPage />} />
         <Route path='/user/resetPassword' element={<ResetPasswordPage />} />
