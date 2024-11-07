@@ -67,6 +67,9 @@ function EmailForm() {
 
         if(phoneNum === "" || answerQuestion === "" || selectedQuestion === "") {
             alert("모두 입력해주세요");
+            setPhoneNum("");
+            setAnswerQuestion("");
+            setSelectedQuestion("");
         } else {
             try {
                 const response = await api.post("/users/find-email", idData);
@@ -77,7 +80,7 @@ function EmailForm() {
                   questions = '';
                 } else if (response.status === 200 ) {
                   console.log(response.data);
-                  navigate("/user/findResultEmailPage",{ state: { email: response.data.email }});
+                  navigate("/user/findResultEmailPage",{ state: { email: response.data }});
                 }
             } catch(err) {
                 console.log(err);
