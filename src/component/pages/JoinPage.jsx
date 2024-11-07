@@ -259,7 +259,7 @@ const JoinPage = () => {
             if (res.status === 200) {
               console.log("회원가입 성공");
               alert("회원가입 성공!");
-              alert("마이 페이지에 가시면 이미지변경이 가능합니다!")
+              alert("마이 페이지에 가시면 이미지변경이 가능합니다!");
               navigate("/");
             }
           })
