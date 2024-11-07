@@ -1,17 +1,24 @@
-import React, { useState } from "react";
-import styled              from "styled-components";
-import Footer              from "../boardmain/Footer";
-import Header              from "../map/Header";
-import Map                 from "../map/Map";
-import { Sheet }           from 'react-modal-sheet';
-import BookmarkList        from "../bookmark/BookmarkList";
-import CreateBookmark      from "../bookmark/CreateBookmark";
+import React, { useState, useEffect } from "react";
+import styled                         from "styled-components";
+import { useLocation }                from "react-router-dom";
+import Footer                         from "../boardmain/Footer";
+import Header                         from "../map/Header";
+import Map                            from "../map/Map";
+import { Sheet }                      from 'react-modal-sheet';
+import BookmarkList                   from "../bookmark/BookmarkList";
+import CreateBookmark                 from "../bookmark/CreateBookmark";
 
 function MapPage() {
 
-    // BottomSheet 상태 관리
-    const [isOpen, setOpen] = useState(false);
+    const location                      = useLocation();
+    const [isOpen,       setOpen      ] = useState(false);
     const [isCreateOpen, setCreateOpen] = useState(false);
+
+    useEffect(() => {
+        if (location.state?.openBookmarkSheet) {
+            setOpen(true);
+        }
+    }, [location.state]);
 
     return (
         <Main>
@@ -55,8 +62,8 @@ function MapPage() {
             </CustomSheet>
             <Footer />
         </Main>
-    )
-}
+    );
+};
 
 const Main = styled.main`
     display: flex;
