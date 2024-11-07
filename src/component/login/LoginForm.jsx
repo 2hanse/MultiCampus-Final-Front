@@ -70,6 +70,7 @@ function LoginForm() {
           navigate('/', { state: { userData: response.data } });
         }
       } catch (error) {
+        alert(error.response.data.errMsg);
         console.log('로그인 에러: ', error);
       }
     }
