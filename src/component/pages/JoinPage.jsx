@@ -4,6 +4,7 @@ import Header from "../layout/header/user/Header";
 import { ChevronDown } from "../join/Icons";
 import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
+import Timer from "../layout/timer/Timer";
 
 const JoinPage = () => {
 
@@ -188,46 +189,23 @@ const JoinPage = () => {
     setIsOpen(!isOpen);
   };
 
-  // 초기 타이머 시간 (초)을 정의함. 180초, 3분.
-  const initialTime = 180;
-  // 남은 시간을 상태로 관리함.
-  const [remainingTime, setRemainingTime] = useState(initialTime);
-
-  useEffect(() => {
-      // useEffect를 사용하여 컴포넌트가 마운트될 때 타이머 시작.
-      const timer = setInterval(() => {
-          // 남은 시간이 0보다 크면 1초씩 감소시킴.
-          if (remainingTime > 0) {
-              setRemainingTime((prevTime) => prevTime - 1);
-          } else {
-              // 남은 시간이 0이 되면 타이머 정지.
-              clearInterval(timer);
-          }
-      }, 1000);
-
-      // 컴포넌트가 언마운트되면 타이머 정지
-      return () => clearInterval(timer);
-      
-  }, [remainingTime]); // remainingTime이 변경될 때마다 useEffect가 다시 실행됨.
-
-  // 시간을 분과 초로 변환하는 함수 정의.
-  const formatTime = (timeInSeconds) => {
-      const minutes = Math.floor(timeInSeconds / 60);
-      const seconds = timeInSeconds % 60;
-      return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-  };
-
   // 인증번호 요청 함수
   const handleVerificationRequest = () => {
     // 서버에 인증번호 발송 요청을 보냄
-    api.post('/sms/send', { phoneNum })
-        .then(response => {
-            console.log('인증번호 발송 성공:', response.data);
-            setIsVerificationSent(true); // 인증번호 발송 성공 시 입력 필드를 표시하기 위해 상태를 true로 설정
-        })
-        .catch(error => {
-            console.error('인증번호 발송 실패:', error);
-        });
+    api.post('/sms/send', phoneNum, {
+      headers: {
+        'Content-Type': 'text/plain'
+      }
+    })
+    .then(response => {
+        console.log('인증번호 발송 성공:', response.data);
+        console.log(response.status)
+        setIsVerificationSent(true); // 인증번호 발송 성공 시 입력 필드를 표시하기 위해 상태를 true로 설정
+        setPhoneNumMessage('');
+    })
+    .catch(error => {
+        console.error('인증번호 발송 실패:', error);
+    });
   };
 
   // 인증번호 입력 값 업데이트 함수
@@ -238,7 +216,8 @@ const JoinPage = () => {
   // 인증번호 검증 요청 함수
   const handleVerificationSubmit = () => {
     // 서버에 입력된 인증번호 검증 요청을 보냄
-    api.post('/sms/verify', { phoneNum, verificationCode })
+    api.post('/sms/verify', { phoneNumber : phoneNum, 
+                              verifyCode: verificationCode })
         .then(response => {
             setIsVerificationSuccessful(response.data); // 서버의 응답에 따라 인증 성공 여부를 업데이트
             if (response.data) {
@@ -251,6 +230,12 @@ const JoinPage = () => {
             console.error('인증 실패:', error);
         });
   };
+
+  const handleTimeUp = () => {
+    setIsVerificationSent(false);
+    alert("시간 초과! 인증번호를 다시 요청해주세요.");
+  };
+
 
   // 회원가입 기능
   const onSubmit = useCallback( async (e) => {
@@ -340,7 +325,7 @@ const JoinPage = () => {
 
         <StyledInputField>
             <input type="text" placeholder="닉네임" onChange={onChangeNickName}/>
-            <StyledButton small onClick={checkNickName}>중복확인</StyledButton>
+            <StyledButton small onClick={checkNickName} type="button">중복확인</StyledButton>
         </StyledInputField>
         <Formbox>
         {nickName.length > 0 && <span className={`message ${isNickName ? 'success' : 'error'}`}>{nickNameMessage}</span>}
@@ -348,7 +333,9 @@ const JoinPage = () => {
 
         <StyledInputField>
             <input type="text" placeholder="전화번호( -를 제외하고 입력)" onChange={onChangePhoneNum}/>
-            <StyledButton small onClick={handleVerificationRequest}>인증</StyledButton>
+            <StyledButton   small 
+                            type="button"
+                            onClick={handleVerificationRequest}>인증</StyledButton>
         </StyledInputField>
         <Formbox>
         {phoneNum.length > 0 && <span className={`message ${isPhoneNum ? 'success' : 'error'}`}>{phoneNumMessage}</span>}
@@ -357,7 +344,7 @@ const JoinPage = () => {
         {/* 인증번호 입력 필드 및 확인 버튼, 인증번호 발송 후에만 표시됨 */}
         {isVerificationSent && (
           <div>
-            <Label>인증번호가 발송되었습니다: <span style={{ color: 'red' }}>{formatTime(remainingTime)}</span></Label>
+            <Label><Timer initialTime={180} onTimeUp={handleTimeUp} /></Label>
                 <StyledInputField>
                     <input
                         id="verification-code"
@@ -366,6 +353,7 @@ const JoinPage = () => {
                         onChange={handleVerificationCodeChange} // 입력된 인증번호를 상태에 저장
                     />
                     <StyledButton
+                        type="button"
                         onClick={handleVerificationSubmit}
                         small // 인증번호 확인 버튼 클릭 시 호출
                     >
@@ -423,6 +411,7 @@ const StyledForm = styled.form`
   max-width: 430px;
   max-height: 932px;
   width: 100%;
+  height: 100%;
   padding-top: 62px;
   flex-direction: column;
   overflow: hidden;
