@@ -34,23 +34,22 @@ function PasswordRecoveryForm() {
 
   //이메일 db 확인
   const onSubmit = async() => {
-    const data = {
-      email: email
-    };
-    try{
-      const response = await api.post("/users/email-exists",data);
-      if(response.status === 200) {
-        navigate("/user/findResultPasswordPage",{state: {email: response.data.email} });
-      } else if (response.status === 204) {
-        alert(response.data);
-      } else {
-        setEmailMessage(response.data.errMsg);
+      await api.post("/users/email-exists", email, {
+        headers: {
+          'Content-Type': 'text/plain'
+        }
+      }).then(() => {
+        setEmailMessage("존재하지 않는 이메일입니다.");
         setIsEmail(false);
-      }
-    } catch(err) {
-      console.log(err);
+      }).catch((err) => {
+        console.log(err);
+        if (err) {
+          if(err.response.status == 409) {
+            navigate("/user/findResultPasswordPage",{state: {email: err.response.data.email} });
+          }
+        }
+      });
     }
-  }
 
   return (
     <FormWrapper>
