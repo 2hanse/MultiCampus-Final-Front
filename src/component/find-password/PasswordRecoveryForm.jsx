@@ -63,7 +63,7 @@ function PasswordRecoveryForm() {
         <Formbox>
         {email.length > 0 && <span className={`message ${isEmail ? 'success' : 'error'}`}>{emailMessage}</span>}
         </Formbox>
-        <SubmitButton type="submit" onClick={onSubmit}>확인</SubmitButton>
+        <SubmitButton type="button" onClick={onSubmit}>확인</SubmitButton>
       </form>
     </FormWrapper>
   );

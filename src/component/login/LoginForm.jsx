@@ -67,7 +67,7 @@ function LoginForm() {
           const token = response.data.token;
           localStorage.setItem("token", token);
           console.log('유저 이메일: ' + response.data.email);
-          navigate('/', { state: { userData: response.data } });
+          navigate('/');
         }
       } catch (error) {
         alert(error.response.data.errMsg);

@@ -122,7 +122,7 @@ function EmailForm() {
         <label htmlFor="answer" className="security-question-label">질문에 대한 답변</label>
         <AnswerInput id="answer" type="text" placeholder="질문에 대한 답변" onChange={onChangeAnswerQuestion} />
       </FormField>
-      <SubmitButton type="submit" onClick={(e) => {IdFindSubmit(phoneNum, selectedQuestion, answerQuestion)}}>이메일 확인</SubmitButton>
+      <SubmitButton type="button" onClick={(e) => {IdFindSubmit(phoneNum, selectedQuestion, answerQuestion)}}>이메일 확인</SubmitButton>
     </FormWrapper>
   );
 }

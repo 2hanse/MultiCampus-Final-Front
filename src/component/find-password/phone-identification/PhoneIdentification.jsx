@@ -155,7 +155,7 @@ function PhoneIdentification() {
               </div>
             )}
 
-        <SubmitButton type="submit" onClick={onSubmit}>확인</SubmitButton>
+        <SubmitButton type="button" onClick={onSubmit}>확인</SubmitButton>
       </form>
     </FormWrapper>
   );

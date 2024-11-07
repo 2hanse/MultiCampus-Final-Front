@@ -81,7 +81,7 @@ function PasswordForm() {
     };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form>
         <label htmlFor="password" className="security-question-label">새 비밀번호</label>
         <InputWrapper>
             <Input  type="password" 
@@ -109,7 +109,7 @@ function PasswordForm() {
         </Formbox>
 
           
-        <SubmitButton type="submit">비밀번호 변경하기</SubmitButton>
+        <SubmitButton type="button" onClick={handleSubmit}>비밀번호 변경하기</SubmitButton>
         </Form>
   );
 }
