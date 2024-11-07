@@ -29,7 +29,7 @@ const CreateBookmark = ({ onCancel }) => {
             <InputName placeholder="그룹명을 입력하세요"
                        value={groupName}
                        onChange={handleInputChange} />
-            <IconSelect>아이콘 선택</IconSelect>
+            {/* <IconSelect>아이콘 선택</IconSelect> */}
             <CompleteBtn disabled={!groupName}>완료</CompleteBtn>
         </Wrapper>
     );

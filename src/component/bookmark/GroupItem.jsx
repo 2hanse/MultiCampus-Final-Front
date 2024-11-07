@@ -16,12 +16,14 @@ function GroupItem({ name, author, count, isActive: initialIsActive }) {
                 </GroupName>
                 <GroupCount>개수 {count}/500</GroupCount>
             </ItemContent>
+            {/*
             <ExpandIcon src="https://cdn.builder.io/api/v1/image/assets/TEMP/f1541bad3fc27abbfb842592920ca5dba61084f952fe090a89d971ec02a989bf?placeholderIfAbsent=true&apiKey=a4eaf54e67064b758783ed5c744d50de"
                         alt="Expand" />
+            */}
             <ToggleSwitch isActive={isActive} onClick={handleToggle} />
         </ItemWrapper>
     );
-}
+};
 
 const ItemWrapper = styled.li`
     border-radius: 10px;
@@ -30,8 +32,8 @@ const ItemWrapper = styled.li`
     position: relative;
     display: flex;
     min-height: 60px;
-    width: 315px;
-    padding: 16px 16px 16px 50px;
+    width: 340px;
+    padding: 16px 16px 16px 30px;
     margin-bottom: 15px;
     align-items: center;
 `;
@@ -41,7 +43,6 @@ const ItemContent = styled.div`
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    padding-left: 20px;
 `;
 
 const GroupName = styled.h3`

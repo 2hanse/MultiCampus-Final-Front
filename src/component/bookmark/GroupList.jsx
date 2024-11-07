@@ -3,7 +3,7 @@ import styled    from "styled-components";
 import GroupItem from "./GroupItem";
 
 export const groupData = [
-    { name: "기본 그룹", author: "작성자명", count: "N", isActive: false },
+    { name: "기본 그룹", author: "작성자명", count: "0", isActive: false },
 ];
 
 function GroupList({ groupData }) {

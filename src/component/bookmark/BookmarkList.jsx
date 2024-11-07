@@ -1,5 +1,6 @@
 import React, { useState }               from "react";
 import styled                            from "styled-components";
+import { useNavigate }                   from "react-router-dom";
 import Dropdown                          from "./Dropdown";
 import Edit                              from "./assets/Edit.png";
 import GroupList                         from "./GroupList";
@@ -8,6 +9,7 @@ import Create                            from "./assets/Create.png";
 
 const BookmarkList = ({ onOpenCreate }) => {
     const [groupData, setGroupData] = useState(initialGroupData);
+    const navigate                  = useNavigate();
 
     // 이름순 정렬 함수
     const sortByName = () => {
@@ -27,9 +29,9 @@ const BookmarkList = ({ onOpenCreate }) => {
             <CreateBtn onClick={onOpenCreate}>
                 <CreateImg src={Create} alt="Create" />
             </CreateBtn>
-            <EditBtn>
+            <EditBtn onClick={() => navigate("/homepage/editBookmark")}>
                 <Icon src={Edit} alt="Edit" />
-                수정하기
+                편집하기
             </EditBtn>
             <GroupList groupData={groupData} />
         </Wrapper>
