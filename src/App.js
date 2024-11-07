@@ -13,6 +13,7 @@ import ChatListPage from './component/pages/chat/ChatListPage';
 import MyLocationPage from './component/pages/MyLocationPage';
 import ChatInvitePage from './component/pages/chat/ChatInvitePage';
 import MapPage from './component/pages/MapPage';
+import EditBookmarkPage from './component/pages/EditBookmarkPage';
 import ChangePasswordPage from './component/pages/reset/ChangePasswordPage';
 import ChangePasswordResultPage from './component/pages/reset/ChangePasswordResultPage';
 import ChatRoomPage from './component/pages/chat/ChatRoomPage';
@@ -55,7 +56,7 @@ function App() {
           element={<ResetPasswordResultPage />}
         />
         <Route path="/mylocation" element={<MyLocationPage />} />
-        {/* <Route path="/homepage" element={<MapPage />} /> */}
+
         <Route
           path="/user/me/changePassword"
           element={<ChangePasswordPage />}
