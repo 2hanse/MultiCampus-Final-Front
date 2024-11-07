@@ -104,7 +104,7 @@ function PhoneIdentification() {
       const response = await api.post("/email-exists",data);
       if(response.status == 200) {
         navigate("/user/resetPassword",{state: {    email: userInfo.email,
-                                                    phone_number: response.data.phone_number
+                                                    phone_number: phoneNum
         } });
       } else {
         setPhoneNumMessage(response.data.errMsg);
