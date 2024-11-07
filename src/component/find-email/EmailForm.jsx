@@ -76,6 +76,7 @@ function EmailForm() {
                   setAnswerQuestion('');
                   questions = '';
                 } else if (response.status === 200 ) {
+                  console.log(response.data);
                   navigate("/user/findResultEmailPage",{ state: { email: response.data.email }});
                 }
             } catch(err) {

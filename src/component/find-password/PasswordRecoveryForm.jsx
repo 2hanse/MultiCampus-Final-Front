@@ -38,9 +38,11 @@ function PasswordRecoveryForm() {
       email: email
     };
     try{
-      const response = await api.post("/email-exists",data);
-      if(response.status == 200) {
+      const response = await api.post("/users/email-exists",data);
+      if(response.status === 200) {
         navigate("/user/findResultPasswordPage",{state: {email: response.data.email} });
+      } else if (response.status === 204) {
+        alert(response.data);
       } else {
         setEmailMessage(response.data.errMsg);
         setIsEmail(false);
