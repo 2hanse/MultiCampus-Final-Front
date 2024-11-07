@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import api from "../api/axios";
 
 function Footer() {
+
+  const [place, setPlace] = useState([]);
+
+  const getPlace = async() => {
+    try{
+      const response = await api.get()
+    } catch(err) {
+      console.log(err);
+    }
+  }
   return (
 
     <FooterWrapper>

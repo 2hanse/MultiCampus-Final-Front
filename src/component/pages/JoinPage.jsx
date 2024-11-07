@@ -216,7 +216,7 @@ const JoinPage = () => {
   // 인증번호 검증 요청 함수
   const handleVerificationSubmit = () => {
     // 서버에 입력된 인증번호 검증 요청을 보냄
-    api.post('/sms/verify', { phone_number : phoneNum, 
+    api.post('/sms/verify', { phoneNumber : phoneNum, 
                               verifyCode: verificationCode })
         .then(response => {
             setIsVerificationSuccessful(response.data); // 서버의 응답에 따라 인증 성공 여부를 업데이트
