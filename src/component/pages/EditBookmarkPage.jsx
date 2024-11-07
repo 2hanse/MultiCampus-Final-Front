@@ -3,7 +3,7 @@ import styled          from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Back            from "../mylocation/assets/Back.png";
 
-const EditBookmarkPage = () => {
+const EditBookmarkPage = ({ name, author, count }) => {
     const navigate = useNavigate();
 
     return (
@@ -12,10 +12,18 @@ const EditBookmarkPage = () => {
                 <BackPage src={Back} alt="Back" onClick={() => navigate("/homepage", { state: { openBookmarkSheet: true } })} />
                 <Title>그룹 목록 편집</Title>
             </HeaderBox>
+            <Warning>
+                ※ 삭제된 그룹은 복구가 불가합니다.
+            </Warning>
             <Content>
-                <Warning>
-                    ※ 삭제된 그룹은 복구가 불가합니다.
-                </Warning>
+                <ItemWrapper>
+                    <ItemContent>
+                        <GroupName>
+                            {name} <AuthorName>({author})</AuthorName>
+                        </GroupName>
+                        <GroupCount>개수 {count}/500</GroupCount>
+                    </ItemContent>
+                </ItemWrapper>
             </Content>
         </Main>
     );
@@ -80,9 +88,11 @@ const Content = styled.div`
     display: flex;
     position: absolute;
     width: 410px;
-    height: 793px;
-    top: 120px;
+    height: 730px;
+    margin-top: 160px;
     padding: 10px;
+
+    background-color: grey;
 `
 
 const Warning = styled.h3`
@@ -90,8 +100,7 @@ const Warning = styled.h3`
     position: absolute;
     justify-content: center;
     align-items: center;
-    top: 0px;
-    left: 20px;
+    margin: 130px 0px 10px 20px;
 
     font-family: 'sans-serif';
     font-style: normal;
@@ -102,5 +111,43 @@ const Warning = styled.h3`
     background: none;
     color: #ED6000;
 `
+
+const ItemWrapper = styled.li`
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+    position: relative;
+    display: flex;
+    min-height: 60px;
+    width: 340px;
+    padding: 16px 16px 16px 30px;
+    margin-bottom: 15px;
+    align-items: center;
+`;
+
+const ItemContent = styled.div`
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+`;
+
+const GroupName = styled.h3`
+    color: #757575;
+    letter-spacing: 0.5px;
+    font: 16px/24px Roboto, sans-serif;
+    margin: 0;
+`;
+
+const AuthorName = styled.span`
+    color: #757575;
+`;
+
+const GroupCount = styled.p`
+    color: var(--M3-sys-light-on-surface-variant, #49454f);
+    letter-spacing: 0.25px;
+    font: 14px/20px Roboto, sans-serif;
+    margin: 4px 0 0;
+`;
 
 export default EditBookmarkPage;

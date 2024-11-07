@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled                         from "styled-components";
-import { useLocation }                from "react-router-dom";
+import { useLocation, useNavigate }   from "react-router-dom";
 import Footer                         from "../boardmain/Footer";
 import Header                         from "../map/Header";
 import Map                            from "../map/Map";
@@ -11,6 +11,7 @@ import CreateBookmark                 from "../bookmark/CreateBookmark";
 function MapPage() {
 
     const location                      = useLocation();
+    const navigate                      = useNavigate();
     const [isOpen,       setOpen      ] = useState(false);
     const [isCreateOpen, setCreateOpen] = useState(false);
 
@@ -20,12 +21,19 @@ function MapPage() {
         }
     }, [location.state]);
 
+    const handleBackPageClick = () => {
+        navigate(-1, { state: { openBookmarkSheet: true } });
+    };
+
     return (
         <Main>
             <Header onClickBookmark={() => setOpen(true)} />
             <Map />
             <CustomSheet    isOpen={isOpen}
-                            onClose={() => setOpen(false)}
+                            onClose={() => {
+                                setOpen(false);
+                                navigate("/homepage", { replace: true });
+                            }}
                             snapPoints={[700, 400, 0]}
                             initialSnap={1}>
                 <Sheet.Container>
@@ -38,7 +46,10 @@ function MapPage() {
                             }} />
                     </Sheet.Content>
                 </Sheet.Container>
-                <Sheet.Backdrop onClick={() => setOpen(false)}/>
+                <Sheet.Backdrop onClick={() => {
+                                    setOpen(false);
+                                    navigate("/homepage", { replace: true });
+                                }} />
             </CustomSheet>
             <CustomSheet isOpen={isCreateOpen}
                          onClose={() => {
