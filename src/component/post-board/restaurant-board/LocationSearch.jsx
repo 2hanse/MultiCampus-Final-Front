@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
-const LocationSearch = () => {
+const LocationSearch = (selectedReceipt) => {
+  useEffect(() => {
+    console.log('전달된 selectedReceipt 값:', selectedReceipt);
+  }, [selectedReceipt]);
   return (
     <SearchContainer>
       <SearchIcon
@@ -9,7 +12,12 @@ const LocationSearch = () => {
         alt="Location"
       />
       <SearchInputWrapper>
-        <SearchInput type="text" placeholder="가게 주소" />
+        <SearchInput
+          type="text"
+          placeholder="가게 주소"
+          value={selectedReceipt.selectedReceipt}
+          readOnly
+        />
       </SearchInputWrapper>
     </SearchContainer>
   );

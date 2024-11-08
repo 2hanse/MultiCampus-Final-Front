@@ -1,11 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const ActionButtons = () => {
+const ActionButtons = ({ handleDraftSave, handleSubmit }) => {
   return (
     <ButtonContainer>
-      <ActionButton type="button">임시저장</ActionButton>
-      <ActionButton type="submit">등록</ActionButton>
+      <ActionButton type="button" onClick={handleDraftSave}>
+        임시저장
+      </ActionButton>
+      <ActionButton type="submit" onClick={handleSubmit}>
+        등록
+      </ActionButton>
     </ButtonContainer>
   );
 };

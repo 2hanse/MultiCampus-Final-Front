@@ -27,7 +27,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<MapPage />} />
         <Route path="/user/login" element={<LoginPage />} />
         <Route path="/user/join" element={<JoinPage />} />
         <Route path="/user/find-email" element={<FindEmailPage />} />
@@ -56,8 +56,7 @@ function App() {
           element={<ResetPasswordResultPage />}
         />
         <Route path="/mylocation" element={<MyLocationPage />} />
-        <Route path="/homepage" element={<MapPage />} />
-        <Route path="/homepage/editBookmark" element={<EditBookmarkPage />} />
+
         <Route
           path="/user/me/changePassword"
           element={<ChangePasswordPage />}

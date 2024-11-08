@@ -5,23 +5,21 @@ import EmailDisplay from "../../../find-email/findresult-email/EmailDisplay";
 
 function FindResultEmailPage() {
   return (
-    <main className="email-finder">
-      <EmailFinderWrapper>
-          <Header navigatePath="/user/find-email" title="이메일 찾기"/>
-          <hr />
-          <EmailDisplay />
-      </EmailFinderWrapper>
-    </main>
+    <EmailFinderWrapper>
+        <Header navigatePath="/user/find-email" title="이메일 찾기"/>
+        <hr />
+        <EmailDisplay />
+    </EmailFinderWrapper>
   );
 }
 
-const EmailFinderWrapper = styled.div`
+const EmailFinderWrapper = styled.main`
   background-color: #fff4d2;
   display: flex;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   border: 1px solid #000;
   max-width: 430px;
-  max-height: 566px;
+  max-height: 932px;
   width: 100%;
   flex-direction: column;
   overflow: hidden;
