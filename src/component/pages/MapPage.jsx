@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled                         from "styled-components";
-import { useLocation }                from "react-router-dom";
+import { useLocation, useNavigate }   from "react-router-dom";
 import Header                         from "../map/Header";
 import Map                            from "../map/Map";
 import { Sheet }                      from 'react-modal-sheet';
