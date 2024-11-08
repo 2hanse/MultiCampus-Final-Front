@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@ckeditor/ckeditor5-build-classic": "^43.3.0",
+    "@ckeditor/ckeditor5-build-classic": "^43.3.1",
     "@ckeditor/ckeditor5-react": "^9.3.1",
     "@draft-js-plugins/anchor": "^4.2.1",
     "@draft-js-plugins/editor": "^4.1.4",
@@ -15,9 +15,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.7",
-
     "framer-motion": "^11.11.10",
-
     "jquery": "^3.7.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -26,10 +24,7 @@
     "react-native-reanimated": "^3.16.1",
     "react-router-dom": "^6.26.2",
     "react-scripts": "5.0.1",
-
-
     "react-spring-bottom-sheet": "^3.4.1",
-
     "reanimated-bottom-sheet": "^1.0.0-alpha.22",
     "sockjs-client": "^1.6.1",
     "styled-components": "^6.1.13",

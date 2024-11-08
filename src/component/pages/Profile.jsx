@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; // React Router의 useNavigate 훅을 임포트
 
 // ProfileImage 컴포넌트
 const ProfileImage = ({ src, alt }) => {
@@ -29,12 +30,25 @@ const ProfileStats = () => {
 
 // ProfileHeader 컴포넌트
 const ProfileHeader = ({ nickname, statusMessage }) => {
+  const navigate = useNavigate(); // useNavigate 훅을 사용하여 네비게이션 처리
+
+  // back-button 클릭 시 myprofilepage로 이동
+  const handleBackButtonClick = () => {
+    navigate('/myprofilepage'); // 'myprofilepage'로 이동
+  };
+
+  // notifications-button 클릭 시 memberinfo로 이동
+  const handleNotificationsButtonClick = (e) => {
+    e.stopPropagation();
+    navigate('/memberinfo'); // 'memberinfo'로 이동
+  };
+
   return (
     <header className="profile-header">
-      <div className="profile-top">
+      <div className="back-button" onClick={handleBackButtonClick}> {/* 클릭 이벤트 추가 */}
         <ProfileImage src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" alt="Profile" />
         <h1 className="profile-nickname">{nickname}</h1>
-        <button className="edit-profile-button" aria-label="Edit profile">
+        <button className="notifications-button" aria-label="Edit profile" onClick={(e)=>{handleNotificationsButtonClick(e)}}>
           <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/75a8b4cc620548771893340c85cf407976981dbfdc941c79c0a38b05d9f27b4e?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" alt="" className="edit-icon" />
         </button>
       </div>
@@ -83,7 +97,8 @@ const Profile = () => {
       <style jsx>{`
         .profile-page {
           background-color: #fff4d2;
-          max-width: 480px;
+          max-width: 430px;
+          max-height: 932px;
           width: 100%;
           margin: 0 auto;
           padding-top: 62px;
@@ -94,11 +109,12 @@ const Profile = () => {
           color: #000;
           font: 400 17px Inter, sans-serif;
         }
-        .profile-top {
+        .back-button {
           display: flex;
           align-items: center;
           justify-content: space-between;
           margin-bottom: 50px;
+          cursor: pointer;
         }
         .profile-image {
           width: 24px;
@@ -109,7 +125,7 @@ const Profile = () => {
           font: 18px/1 Roboto, sans-serif;
           margin: 0;
         }
-        .edit-profile-button {
+        .notifications-button {
           background: none;
           border: none;
           padding: 0;
@@ -150,7 +166,7 @@ const Profile = () => {
         .profile-actions {
           display: flex;
           justify-content: center;
-          gap: 20px;
+          gap: 30px; /* 간격을 30px로 변경 */
           margin-bottom: 12px;
         }
         .action-button {

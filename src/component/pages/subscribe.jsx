@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 // CSS 스타일을 포함합니다.
 const styles = {
   subscriptionFeed: {
     backgroundColor: '#fff',
     display: 'flex',
-    maxWidth: '480px',
+    maxWidth: '430px',
+    maxHeight: '932px',
     width: '100%',
     flexDirection: 'column',
     overflow: 'hidden',
@@ -20,8 +21,7 @@ const styles = {
   },
   header: {
     backgroundColor: '#ffd966',
-    width: '100%',
-    padding: '62px 26px 25px',
+    padding: '62px 20px 25px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -53,13 +53,15 @@ const styles = {
     display: 'flex',
     marginTop: '18px',
     gap: '14px',
-    whiteSpace: 'nowrap',
     textAlign: 'center',
+    overflowX: 'auto', // 가로 스크롤 활성화
+    whiteSpace: 'nowrap', // 항목을 한 줄로 배열
   },
   followItem: {
     display: 'flex',
     flexDirection: 'column',
-    flex: '1',
+    flex: '0 0 auto', // 아이템 크기를 고정하여 축소되지 않게 설정
+    marginRight: '14px', // 항목 간 간격
   },
   avatar: {
     aspectRatio: '1',
@@ -132,36 +134,76 @@ const Header = () => {
       <img 
         src="https://cdn.builder.io/api/v1/image/assets/TEMP/a4043db299d9ceb138c2e374dca4840d7d3ff7f4252651ed455139c571b71f73?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" 
         alt="" 
-        style={styles.searchIcon} 
+        style={styles.menuIcon} 
       />
     </header>
   );
 };
 
 // FollowList 컴포넌트
-const followData = [
-  { id: 1, name: '닉네임' },
-  { id: 2, name: '닉네임' },
-  { id: 3, name: '닉네임' },
-  { id: 4, name: '닉네임' },
-  { id: 5, name: '닉네임' },
-];
-
 const FollowList = () => {
+  const followData = [
+    { id: 1, name: '닉네임1' },
+    { id: 2, name: '닉네임2' },
+    { id: 3, name: '닉네임3' },
+    { id: 4, name: '닉네임4' },
+    { id: 5, name: '닉네임5' },
+    { id: 6, name: '닉네임6' },
+    { id: 7, name: '닉네임7' },
+    { id: 8, name: '닉네임8' },
+    { id: 9, name: '닉네임9' },
+  ];
+
+  // 리스트를 참조할 ref
+  const listContainerRef = useRef(null);
+  const [scrollLeft, setScrollLeft] = useState(0); // 현재 스크롤 위치 상태
+
+  // FollowList가 렌더링될 때 스크롤 초기화 (첫 번째 항목으로 시작)
+  useEffect(() => {
+    if (listContainerRef.current) {
+      listContainerRef.current.scrollLeft = 0; // 처음에는 첫 번째 항목이 보이도록 설정
+    }
+  }, []);
+
+  // 하단바를 스크롤할 때 FollowList의 스크롤을 동기화하는 함수
+  const handleScroll = (e) => {
+    setScrollLeft(e.target.scrollLeft); // 하단바의 스크롤을 업데이트
+  };
+
+  // 마지막 항목을 정확하게 보이게 하기 위해 여유 공간을 추가
+  const getMaxScroll = () => {
+    const itemWidth = 60 + 14; // 각 항목의 너비 + 항목 간의 간격
+    const totalWidth = followData.length * itemWidth;
+    const containerWidth = listContainerRef.current?.offsetWidth || 0;
+
+    // 마지막 항목 뒤에 여유 공간을 두기 위해 추가적인 여백을 계산
+    const maxScroll = totalWidth - containerWidth + 20; // 마지막 항목 뒤에 20px 여유를 두기
+
+    return maxScroll > 0 ? maxScroll : 0;
+  };
+
   return (
     <section style={styles.followList}>
       <h2 style={styles.listTitle}>팔로우 목록</h2>
-      <div style={styles.listContainer}>
-        {followData.map((follow) => (
-          <div key={follow.id} style={styles.followItem}>
-            <img 
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/6ee173905dc76f5eb8751afce33590fc6c9b6307e6f75f96e670d592c05f636a?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" 
-              alt="" 
-              style={styles.avatar}
-            />
-            <span style={styles.nickname}>{follow.name}</span>
-          </div>
-        ))}
+      <div
+        style={{ ...styles.listContainer, overflowX: 'auto' }} // 기본 스크롤 활성화
+        ref={listContainerRef}
+        onScroll={handleScroll}
+      >
+        <div
+          style={{ display: 'flex', transition: 'transform 0.3s ease' }}
+        >
+          {followData.map((follow) => (
+            <div key={follow.id} style={styles.followItem}>
+              <img
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/6ee173905dc76f5eb8751afce33590fc6c9b6307e6f75f96e670d592c05f636a?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
+                alt="Avatar"
+                style={styles.avatar}
+              />
+              <span style={styles.nickname}>{follow.name}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

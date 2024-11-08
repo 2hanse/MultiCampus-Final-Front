@@ -1,7 +1,7 @@
 import React, { useState } from 'react'; // useState 임포트 추가
 import { useNavigate } from 'react-router-dom';
-import FollowConfirmationModal from './FollowConfirmationModal'; // 팔로우 모달 컴포넌트
-import UnfollowConfirmation from './UnfollowConfirmation'; // 언팔로우 모달 컴포넌트
+import FollowConfirmationModal from '../ProfilePage/FollowConfirmationModal'; // 팔로우 모달 컴포넌트
+import UnfollowConfirmation from '../ProfilePage/UnfollowConfirmation'; // 언팔로우 모달 컴포넌트
 
 const styles = {
   userProfile: {
@@ -149,7 +149,7 @@ const UserProfile = () => {
   const navigate = useNavigate();
 
   const handleProfileIconClick = () => {
-    navigate('/'); 
+    navigate('/myprofilepage'); 
   };
 
   const handleFollowButtonClick = () => {

@@ -1,18 +1,18 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import Header from './header';
-import Footer from './footer';
-import ImageComponent from './ImageComponent';
+import Header from '../ProfilePage/header';
+import Footer from '../ProfilePage/footer';
+import ImageComponent from '../ProfilePage/ImageComponent';
 
 function Stats() {
   const navigate = useNavigate();
 
   const stats = [
-    { number: "N", label: "게시글", onClick: () => navigate("/user-profile") },
+    { number: "N", label: "게시글", onClick: () => navigate("/profile") },
     { number: "N", label: "리뷰", onClick: () => navigate("/review-history") },
     { number: "N", label: "댓글", onClick: () => navigate("/comment-history") },
     { number: "N/N", label: "팔로우/팔로워", onClick: () => navigate("/user-profile") },
-    { number: "N", label: "북마크", onClick: () => navigate("/user-profile") },
+    { number: "N", label: "북마크", onClick: () => navigate("/profile") },
     { number: "N", label: "좋아요 게시글", onClick: () => navigate("/liked-posts") },
   ];
 
@@ -79,7 +79,7 @@ export default function MyProfilePage() {
           background-color: #fff4d2;
           display: flex;
           flex-direction: column;
-          max-width: 100vw;
+          max-width: 430px;
           height: 100vh;
           padding-top: 62px;
           overflow: hidden;
