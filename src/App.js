@@ -31,6 +31,7 @@ import Profile from './component/pages/Profile';
 import ImageComponent from './component/ProfilePage/ImageComponent';
 import CommentHistory from './component/pages/commentHistory';
 import SubscriptionFeed from './component/pages/subscribe';
+import AlertPage from './component/pages/AlertPage';
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
         <Route path="/user/chat/list" element={<ChatListPage />} />
         <Route path="/user/chat/invite" element={<ChatInvitePage />} />
         <Route path="/user/chat/room" element={<ChatRoomPage />} />
+        <Route path="/user/alert" element={<AlertPage />} />
         <Route path="/boardmain" element={<BoardMainPage />} />
         <Route
           path="/boardpost/restaurant"

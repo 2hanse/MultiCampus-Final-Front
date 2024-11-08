@@ -4,13 +4,15 @@ import 맛있는녀석들_로고   from "./assets/맛있는녀석들_로고.png"
 import 돋보기           from "./assets/돋보기.png";
 import 알림            from "./assets/알림.png";
 import 프로필           from "./assets/프로필.png";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+    const navigate = useNavigate();
     return (
         <HeaderBox>
             <Logo         src={맛있는녀석들_로고} alt="맛있는 녀석들 로고" />
             <Search       src={돋보기}         alt="Search" />
-            <Notification src={알림}           alt="Notification" />
+            <Notification src={알림}           alt="Notification" onClick={() => navigate("/user/alert")} />
             <Profile      src={프로필}         alt="Profile" />
         </HeaderBox>
     );
