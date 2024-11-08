@@ -7,6 +7,7 @@ import { useLocation, useParams } from "react-router-dom";
 import MessageInput from "../../chat/MessageInput";
 import Message from "../../chat/Message";
 import { getUserIdFromToken } from "../../api/jwt";
+import Footer from "../../layout/footer/Footer";
 
 function ChatRoomPage() {
     const localUserId = getUserIdFromToken(); // userId를 동적으로 가져옴
@@ -26,15 +27,15 @@ function ChatRoomPage() {
     const roomName = room.roomTitle
         ? room.roomTitle
         : otherUsers.length === 1
-        ? otherUsers[0].nickname
-        : otherUsers.map((user) => user.nickname).join(", ");
+            ? otherUsers[0].nickname
+            : otherUsers.map((user) => user.nickname).join(", ");
 
     useEffect(() => {
         const socket = new SockJS("http://localhost:8000/ws");
         const stomp = Stomp.over(socket);
 
         stomp.connect(
-            {Authorization: `Bearer ${localStorage.getItem('token')}`},
+            { Authorization: `Bearer ${localStorage.getItem('token')}` },
             (frame) => {
                 console.log("Connected: " + frame);
 
@@ -61,7 +62,7 @@ function ChatRoomPage() {
                         const uniqueMessages = combinedMessages.filter(
                             (msg, index, self) => index === self.findIndex((m) => m.msgId === msg.msgId)
                         );
-                        console.log("msgs" , uniqueMessages);
+                        console.log("msgs", uniqueMessages);
                         return uniqueMessages;
                     });
                 });
@@ -83,7 +84,7 @@ function ChatRoomPage() {
     // 스크롤을 맨 아래로 이동시키는 함수
     const scrollToBottom = (smooth = true) => {
         if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView( smooth ? { behavior: "smooth" } : undefined );
+            messagesEndRef.current.scrollIntoView(smooth ? { behavior: "smooth" } : undefined);
         }
     };
 
@@ -125,7 +126,7 @@ function ChatRoomPage() {
 
             const smallestMsgId = messages.reduce((min, msg) => {
                 return msg.msgId < min ? msg.msgId : min;
-              }, messages[0].msgId); // msgId 최솟값을 구함, 그래야 가장 위에 위치한 메시지 즉 가장 오래된 메시지 id 를 가져올 수 있기 떄문
+            }, messages[0].msgId); // msgId 최솟값을 구함, 그래야 가장 위에 위치한 메시지 즉 가장 오래된 메시지 id 를 가져올 수 있기 떄문
             stompClient.send(`/pub/chat/message/list`, {}, JSON.stringify({ roomId: room.roomId, limit: 15, offset: smallestMsgId }));
         }
     };
@@ -152,10 +153,10 @@ function ChatRoomPage() {
     }
 
     return (
-        <Container>
-            <ChatHeaderWrapper>
+        <Main>
+            <ChatHeaderContainer>
                 <ChatHeader title={roomName} />
-            </ChatHeaderWrapper>
+            </ChatHeaderContainer>
             <ChatListContainer ref={messagesContainerRef} onScroll={handleScroll}>
                 {messages.length > 0 ? (
                     messages.map((msg, idx) => {
@@ -200,16 +201,16 @@ function ChatRoomPage() {
                         }
                         return (
                             <div key={msg.msgId}>
-                                { isFirst && (
+                                {isFirst && (
                                     <DateContainer>
                                         {dateString}
                                     </DateContainer>
                                 )}
-                                <Message 
-                                    msg={msg} 
+                                <Message
+                                    msg={msg}
                                     displayTime={displayTime}
-                                    displayProfile={displayProfile} 
-                                    isSentByMe={msg.userId === localUserId} 
+                                    displayProfile={displayProfile}
+                                    isSentByMe={msg.userId === localUserId}
                                 />
                                 {displayDate && (
                                     <DateContainer>
@@ -230,9 +231,23 @@ function ChatRoomPage() {
                 </ScrollToBottomBar>
             )}
             <MessageInput roomId={room.roomId} stompClient={stompClient} />
-        </Container>
+            <Footer />
+        </Main>
     );
 }
+
+const Main = styled.main`
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 430px;
+    max-height: 932px;
+    min-height: 732px;
+    background: #ffffff;
+    margin: 0 auto;
+    border: 0.5px solid #CAC4D0;
+`;
 
 const DateContainer = styled.div`
     display: flex;
@@ -246,6 +261,7 @@ const DateContainer = styled.div`
     border-radius: 5px;
     width: 100%;
     text-align: center;
+    box-sizing: border-box;
 `;
 
 const ScrollToBottomBar = styled.div`
@@ -256,36 +272,35 @@ const ScrollToBottomBar = styled.div`
   cursor: pointer;
   text-align: center;
   width: 100%;
-  margin-bottom: 10px;
+  box-sizing: border-box;
 `;
 
-const Container = styled.div`
-  width: 100%;
-  max-width: 962px;
-`;
-
-const ChatHeaderWrapper = styled.div`
-  padding: 62px 26px 25px;
+const ChatHeaderContainer = styled.div`
   background-color: #ffd966;
-  display: flex;
-  gap: 20px;
-  @media (max-width: 991px) {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-  }
+  width: 100%;
+  padding: 62px 28px 28px 28px;
+  box-sizing: border-box;
 `;
 
 const ChatListContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 22px;
-  height: 70vh;
+  width: 100%;
+  height: 100vh;
   overflow-y: auto;
   align-items: stretch;
   color: #000;
   padding: 0 28px;
   font: 400 18px Inter, sans-serif;
+  box-sizing: border-box;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  -ms-overflow-style: none;  /* IE 및 Edge */
+  scrollbar-width: none;  /* Firefox */
 `;
 
 export default ChatRoomPage;

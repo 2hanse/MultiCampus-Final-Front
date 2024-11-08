@@ -1,13 +1,13 @@
-import React from "react";
-import styled from "styled-components";
+import React    from "react";
+import styled   from "styled-components";
 import Bookmark from "./assets/Bookmark.png";
-import Search from "./assets/Search.png";
+import Search   from "./assets/Search.png";
 
-const Header = () => {
+const Header = (props) => {
     return (
         <HeaderBox>
-            <Input placeholder="위치 검색..." />
-            <BookmarkBtn>
+            <Input placeholder="위치 검색" />
+            <BookmarkBtn onClick={props.onClickBookmark}>
                 <img src={Bookmark}
                      alt='Bookmark'
                      style={{height: '20px'}} />

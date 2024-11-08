@@ -3,6 +3,20 @@ import styled from "styled-components";
 import UserInfo from "./user/UserInfo";
 import LeaveButton from "./LeaveButton";
 
+
+// 단체방일 경우 여러 아바타를 버블 형식으로 처리하는 컴포넌트 (최대 3명 표시)
+const AvatarBubble = ({ images }) => {
+  const visibleImages = Array.isArray(images) ? images.slice(0, 3) : [images]; // 최대 3명까지만 표시
+
+  return (
+    <BubbleContainer numImages={visibleImages.length}>
+      {visibleImages.map((src, index) => (
+        <BubbleAvatar key={index} src={src} alt="Avatar" numImages={visibleImages.length} />
+      ))}
+    </BubbleContainer>
+  );
+};
+
 const ChatListItem = (props) => {
   const { room, userId, stompClient } = props;
 
@@ -34,32 +48,18 @@ const ChatListItem = (props) => {
   );
 };
 
-// 단체방일 경우 여러 아바타를 버블 형식으로 처리하는 컴포넌트 (최대 3명 표시)
-const AvatarBubble = ({ images }) => {
-  const visibleImages = Array.isArray(images) ? images.slice(0, 3) : [images]; // 최대 3명까지만 표시
-
-  return (
-    <BubbleContainer numImages={visibleImages.length}>
-      {visibleImages.map((src, index) => (
-        <BubbleAvatar key={index} src={src} alt="Avatar" numImages={visibleImages.length} />
-      ))}
-    </BubbleContainer>
-  );
-};
-
 // 스타일링 부분
 const ChatItemWrapper = styled.article`
   border-radius: 10px;
   background-color: #fff;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
   display: flex;
-  margin-top: 20px;
   width: 100%;
-  max-width: 391px;
-  gap: 20px;
   justify-content: space-between;
   padding: 13px 21px;
   border: 1px solid #dfa67b;
+  box-sizing: border-box;
+  margin-bottom: 20px;
 `;
 
 const UserSection = styled.div`
