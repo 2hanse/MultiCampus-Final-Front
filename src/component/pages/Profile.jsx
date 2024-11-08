@@ -38,7 +38,8 @@ const ProfileHeader = ({ nickname, statusMessage }) => {
   };
 
   // notifications-button 클릭 시 memberinfo로 이동
-  const handleNotificationsButtonClick = () => {
+  const handleNotificationsButtonClick = (e) => {
+    e.stopPropagation();
     navigate('/memberinfo'); // 'memberinfo'로 이동
   };
 
@@ -47,7 +48,7 @@ const ProfileHeader = ({ nickname, statusMessage }) => {
       <div className="back-button" onClick={handleBackButtonClick}> {/* 클릭 이벤트 추가 */}
         <ProfileImage src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" alt="Profile" />
         <h1 className="profile-nickname">{nickname}</h1>
-        <button className="notifications-button" aria-label="Edit profile" onClick={handleNotificationsButtonClick}>
+        <button className="notifications-button" aria-label="Edit profile" onClick={(e)=>{handleNotificationsButtonClick(e)}}>
           <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/75a8b4cc620548771893340c85cf407976981dbfdc941c79c0a38b05d9f27b4e?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" alt="" className="edit-icon" />
         </button>
       </div>
