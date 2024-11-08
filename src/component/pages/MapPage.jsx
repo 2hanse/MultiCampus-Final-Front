@@ -6,7 +6,7 @@ import Map                            from "../map/Map";
 import { Sheet }                      from 'react-modal-sheet';
 import BookmarkList                   from "../bookmark/BookmarkList";
 import CreateBookmark                 from "../bookmark/CreateBookmark";
-import Footer from "../layout/footer/Footer";
+import Footer                         from "../layout/footer/Footer";
 
 function MapPage() {
     const location                      = useLocation();
@@ -86,7 +86,7 @@ const Main = styled.main`
     background: #FFF4D2;
     margin: 0 auto;
     border: 0.5px solid #CAC4D0;
-`
+`;
 
 const CustomSheet = styled(Sheet)`
     display: flex;

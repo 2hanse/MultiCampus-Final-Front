@@ -4,7 +4,7 @@ import Header          from "../boardmain/Header";
 import BoardButtonForm from "../boardmain/BoardButtonForm";
 import HotPostForm     from "../boardmain/HotPostForm";
 import NewPostForm     from "../boardmain/NewPostForm";
-import Footer from "../layout/footer/Footer";
+import Footer          from "../layout/footer/Footer";
 
 function BoardMainPage() {
     return (
@@ -16,8 +16,8 @@ function BoardMainPage() {
             <Footer />
         </Main>
         
-    )
-}
+    );
+};
 
 const Main = styled.main`
     display: flex;
@@ -32,6 +32,6 @@ const Main = styled.main`
     margin: 0 auto;
     padding: 187px 0px 100px 0px;
     border: 0.5px solid #CAC4D0;
-`
+`;
 
 export default BoardMainPage;
