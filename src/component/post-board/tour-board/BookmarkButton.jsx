@@ -1,0 +1,56 @@
+import React from 'react';
+import styled from 'styled-components';
+
+const BookmarkButton = () => {
+  return (
+    <BookmarkWrapper>
+      <BookmarkInner>
+        <BookmarkIcon
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/0c01f1a85d200b1b09fb5e61cd22a3a93c6fa58372b4beac0be61fabd630c089?placeholderIfAbsent=true&apiKey=96b0aafc0bca4efc865afcf9a032943c"
+          alt=""
+        />
+        <BookmarkText>북마크 불러오기</BookmarkText>
+      </BookmarkInner>
+    </BookmarkWrapper>
+  );
+};
+
+const BookmarkWrapper = styled.div`
+  border-radius: 3px;
+  background-color: #fff;
+  border: 1px solid #b7b2b2;
+  display: flex;
+  margin-top: 14px;
+  width: 400;
+  flex-direction: column;
+  align-items: center;
+  font-size: 13px;
+  text-align: center;
+  justify-content: center;
+  padding: 21px 70px;
+`;
+
+const BookmarkInner = styled.button`
+  border-radius: 3px;
+  background-color: #fff;
+  border: 1px solid #b7b2b2;
+  display: flex;
+  width: 164px;
+  max-width: 100%;
+  gap: 18px;
+  padding: 10px 19px;
+  cursor: pointer;
+`;
+
+const BookmarkIcon = styled.img`
+  aspect-ratio: 0.8;
+  object-fit: contain;
+  object-position: center;
+  width: 12px;
+`;
+
+const BookmarkText = styled.span`
+  color: #757575;
+`;
+
+export default BookmarkButton;

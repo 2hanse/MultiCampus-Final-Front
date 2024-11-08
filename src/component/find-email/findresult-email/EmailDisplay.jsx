@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 function EmailDisplay() {
   const location = useLocation();
-  const emailResult = {...location.state};
+  const emailResult = { ...location.state };
 
   // const [email,setEmail] = useState("");
   // setEmail(emailResult);

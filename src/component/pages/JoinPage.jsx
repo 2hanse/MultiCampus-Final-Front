@@ -1,9 +1,10 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "../layout/header/user/Header";
 import { ChevronDown } from "../join/Icons";
 import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
+import Timer from "../layout/timer/Timer";
 
 const JoinPage = () => {
 
@@ -21,6 +22,9 @@ const JoinPage = () => {
   const [name, setName] = useState('');
   const [nickName, setNickName] = useState('');
   const [phoneNum, setPhoneNum] = useState('');
+  const [verificationCode, setVerificationCode] = useState(''); // 입력된 인증번호
+  const [isVerificationSent, setIsVerificationSent] = useState(false); // 인증번호 발송 여부
+  const [isVerificationSuccessful, setIsVerificationSuccessful] = useState(null); // 인증 성공 여부
 
   //오류메시지 상태저장
   const [emailMessage, setEmailMessage] = useState('');
@@ -185,6 +189,56 @@ const JoinPage = () => {
     setIsOpen(!isOpen);
   };
 
+  // 인증번호 요청 함수
+  const handleVerificationRequest = () => {
+    // 서버에 인증번호 발송 요청을 보냄
+    api.post('/sms/send', phoneNum, {
+      headers: {
+        'Content-Type': 'text/plain'
+      }
+    })
+    .then(response => {
+        console.log('인증번호 발송 성공:', response.data);
+        console.log(response.status)
+        setIsVerificationSent(true); // 인증번호 발송 성공 시 입력 필드를 표시하기 위해 상태를 true로 설정
+        setPhoneNumMessage('');
+    })
+    .catch(error => {
+      alert(error.response.data);
+      console.error('인증번호 발송 실패:', error);
+    });
+  };
+
+  // 인증번호 입력 값 업데이트 함수
+  const handleVerificationCodeChange = (event) => {
+    setVerificationCode(event.target.value); // 입력된 인증번호를 상태에 저장
+  };
+
+  // 인증번호 검증 요청 함수
+  const handleVerificationSubmit = () => {
+    // 서버에 입력된 인증번호 검증 요청을 보냄
+    api.post('/sms/verify', { phoneNumber : phoneNum, 
+                              verifyCode: verificationCode })
+        .then(response => {
+            setIsVerificationSuccessful(response.data); // 서버의 응답에 따라 인증 성공 여부를 업데이트
+            if (response.status == 200) {
+                alert('인증 성공!'); // 인증 성공 시 알림 표시
+            } else {
+                alert(response.data); // 인증 실패 시 알림 표시
+            }
+        })
+        .catch(error => {
+          alert(error.response.data);
+          console.error('인증 실패:', error);
+        });
+  };
+
+  const handleTimeUp = () => {
+    setIsVerificationSent(false);
+    alert("시간 초과! 인증번호를 다시 요청해주세요.");
+  };
+
+
   // 회원가입 기능
   const onSubmit = useCallback( async (e) => {
     e.preventDefault()
@@ -200,14 +254,15 @@ const JoinPage = () => {
             nickname: nickName,
             recover_q: selectedQuestion,
             recover_a: answerQuestion,
-            phone_number: phoneNum
+            phone_number: phoneNum,
+            verify_code: verificationCode
           })
           .then((res) => {
             console.log('response:', res);
             if (res.status === 200) {
               console.log("회원가입 성공");
               alert("회원가입 성공!");
-              alert("마이 페이지에 가시면 이미지변경이 가능합니다!")
+              alert("마이 페이지에 가시면 이미지변경이 가능합니다!");
               navigate("/");
             }
           })
@@ -273,7 +328,7 @@ const JoinPage = () => {
 
         <StyledInputField>
             <input type="text" placeholder="닉네임" onChange={onChangeNickName}/>
-            <StyledButton small onClick={checkNickName}>중복확인</StyledButton>
+            <StyledButton small onClick={checkNickName} type="button">중복확인</StyledButton>
         </StyledInputField>
         <Formbox>
         {nickName.length > 0 && <span className={`message ${isNickName ? 'success' : 'error'}`}>{nickNameMessage}</span>}
@@ -281,11 +336,35 @@ const JoinPage = () => {
 
         <StyledInputField>
             <input type="text" placeholder="전화번호( -를 제외하고 입력)" onChange={onChangePhoneNum}/>
-            <StyledButton small>인증</StyledButton>
+            <StyledButton   small 
+                            type="button"
+                            onClick={handleVerificationRequest}>인증</StyledButton>
         </StyledInputField>
         <Formbox>
         {phoneNum.length > 0 && <span className={`message ${isPhoneNum ? 'success' : 'error'}`}>{phoneNumMessage}</span>}
         </Formbox>
+
+        {/* 인증번호 입력 필드 및 확인 버튼, 인증번호 발송 후에만 표시됨 */}
+        {isVerificationSent && (
+          <div>
+            <Label><Timer initialTime={180} onTimeUp={handleTimeUp} /></Label>
+                <StyledInputField>
+                    <input
+                        id="verification-code"
+                        placeholder="인증번호를 입력하세요"
+                        value={verificationCode}
+                        onChange={handleVerificationCodeChange} // 입력된 인증번호를 상태에 저장
+                    />
+                    <StyledButton
+                        type="button"
+                        onClick={handleVerificationSubmit}
+                        small // 인증번호 확인 버튼 클릭 시 호출
+                    >
+                        확인
+                    </StyledButton>
+                </StyledInputField>
+              </div>
+            )}
 
 
         <label htmlFor="securityQuestion" className="security-question-label">
@@ -335,6 +414,7 @@ const StyledForm = styled.form`
   max-width: 430px;
   max-height: 932px;
   width: 100%;
+  height: 100%;
   padding-top: 62px;
   flex-direction: column;
   overflow: hidden;
@@ -368,6 +448,7 @@ const StyledForm = styled.form`
     align-self: flex-start;
     margin-top: 15px;
   }
+
 `;
 
 const Formbox = styled.div`
@@ -484,5 +565,13 @@ const StyledButton = styled.button`
   border: none;
   cursor: pointer;
   white-space: nowrap;
+`;
+
+const Label = styled.p`
+  color: #ce9971;
+  font-size: 15px;
+  align-self: flex-start;
+  margin-top: 1px;
+  margin-bottom: -10px;
 `;
 export default JoinPage;
