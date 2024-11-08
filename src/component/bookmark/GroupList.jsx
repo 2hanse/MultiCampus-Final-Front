@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
 import styled                         from "styled-components";
-import axios                          from "axios";
+import api                            from "../api/axios";
+import {getUserIdFromToken}             from "../api/jwt";
 import GroupItem                      from "./GroupItem";
 
 function GroupList() {
     const [groupData, setGroupData] = useState([]);
+    const user_id = getUserIdFromToken();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get("/bookmarks/place/{bookmark_id}");
+                const response = await api.get(`/bookmarks/${user_id}`);
+                console.log(user_id);
                 const transformedData = response.data.map(item => ({
                     name: item.bookmark_title,
-                    author: "작성자명",
+                    author: item.user_nickname,
                     count: item.list_count,
                     isActive: item.visibility
                 }));

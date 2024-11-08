@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled              from "styled-components";
 
-function GroupItem({ bookmark_title, author, list_count, visibility }) {
+function GroupItem({ name, author, list_count, visibility }) {
     const [isActive, setIsActive] = useState([]);
 
     const handleToggle = () => {
@@ -12,7 +12,7 @@ function GroupItem({ bookmark_title, author, list_count, visibility }) {
         <ItemWrapper>
             <ItemContent>
                 <GroupName>
-                    {bookmark_title} <AuthorName>({author})</AuthorName>
+                    {name} <AuthorName>({author})</AuthorName>
                 </GroupName>
                 <GroupCount>개수 {list_count}/500</GroupCount>
             </ItemContent>
