@@ -34,21 +34,22 @@ function PasswordRecoveryForm() {
 
   //이메일 db 확인
   const onSubmit = async() => {
-    const data = {
-      email: email
-    };
-    try{
-      const response = await api.post("/email-exists",data);
-      if(response.status == 200) {
-        navigate("/user/findResultPasswordPage",{state: {email: response.data.email} });
+    try {
+      const response = await api.post("/users/email-exists", email, {
+        headers: {
+          'Content-Type': 'text/plain'
+        }
+      })
+      if(response.status === 200) {
+        navigate("/user/phone-identification",{state: {email: email} });
       } else {
-        setEmailMessage(response.data.errMsg);
-        setIsEmail(false);
+        alert(response.data)
       }
+        
     } catch(err) {
-      console.log(err);
+      alert(err);
     }
-  }
+    }
 
   return (
     <FormWrapper>
@@ -63,7 +64,7 @@ function PasswordRecoveryForm() {
         <Formbox>
         {email.length > 0 && <span className={`message ${isEmail ? 'success' : 'error'}`}>{emailMessage}</span>}
         </Formbox>
-        <SubmitButton type="submit" onClick={onSubmit}>확인</SubmitButton>
+        <SubmitButton type="button" onClick={onSubmit}>확인</SubmitButton>
       </form>
     </FormWrapper>
   );

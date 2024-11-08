@@ -67,6 +67,9 @@ function EmailForm() {
 
         if(phoneNum === "" || answerQuestion === "" || selectedQuestion === "") {
             alert("모두 입력해주세요");
+            setPhoneNum("");
+            setAnswerQuestion("");
+            setSelectedQuestion("");
         } else {
             try {
                 const response = await api.post("/users/find-email", idData);
@@ -76,7 +79,8 @@ function EmailForm() {
                   setAnswerQuestion('');
                   questions = '';
                 } else if (response.status === 200 ) {
-                  navigate("/user/findResultEmailPage",{ state: { email: response.data.email }});
+                  console.log(response.data);
+                  navigate("/user/findResultEmailPage",{ state: { email: response.data }});
                 }
             } catch(err) {
                 console.log(err);
@@ -122,7 +126,7 @@ function EmailForm() {
         <label htmlFor="answer" className="security-question-label">질문에 대한 답변</label>
         <AnswerInput id="answer" type="text" placeholder="질문에 대한 답변" onChange={onChangeAnswerQuestion} />
       </FormField>
-      <SubmitButton type="submit" onClick={(e) => {IdFindSubmit(phoneNum, selectedQuestion, answerQuestion)}}>이메일 확인</SubmitButton>
+      <SubmitButton type="button" onClick={(e) => {IdFindSubmit(phoneNum, selectedQuestion, answerQuestion)}}>이메일 확인</SubmitButton>
     </FormWrapper>
   );
 }
