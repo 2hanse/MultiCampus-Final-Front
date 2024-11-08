@@ -127,7 +127,7 @@ const MemberInfo = () => {
           height: auto;
           background: #fff4d2;
           margin: 0 auto;
-          padding: 120px 0px 100px 0px;
+          padding: 62px 0px 100px 0px;
           border: 0.5px solid #cac4d0;
         }
         .header {
