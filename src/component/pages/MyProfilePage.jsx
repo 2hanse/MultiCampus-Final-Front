@@ -11,7 +11,7 @@ function Stats() {
     { number: "N", label: "게시글", onClick: () => navigate("/profile") },
     { number: "N", label: "리뷰", onClick: () => navigate("/review-history") },
     { number: "N", label: "댓글", onClick: () => navigate("/comment-history") },
-    { number: "N/N", label: "팔로우/팔로워", onClick: () => navigate("/user-profile") },
+    { number: "N/N", label: "팔로우/팔로워", onClick: () => navigate("/userprofile") },
     { number: "N", label: "북마크", onClick: () => navigate("/profile") },
     { number: "N", label: "좋아요 게시글", onClick: () => navigate("/liked-posts") },
   ];

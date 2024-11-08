@@ -28,7 +28,6 @@ import ReceiptsCollection from './component/pages/receiptsCollection';
 import UserProfile from './component/pages/userProfile';
 import MemberInfo from './component/pages/memberinfo';
 import Profile from './component/pages/Profile'; 
-import ImageComponent from './component/ProfilePage/ImageComponent';
 import CommentHistory from './component/pages/commentHistory';
 import SubscriptionFeed from './component/pages/subscribe';
 

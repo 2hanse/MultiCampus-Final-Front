@@ -72,11 +72,15 @@ const MemberInfo = () => {
         <h2 className="section-title">계정</h2>
         <div className="account-info">
           <div className="info-row">
-            <span className="info-label">
+            <span
+              className="info-label"
+              onClick={() => navigate("/user/me/changePassword")}
+              style={{ cursor: "pointer", color: "#dfa67b" }}
+            >
               비밀번호 변경
-              <br />
-              이메일
             </span>
+            <br />
+            <span className="info-label">이메일</span>
           </div>
         </div>
       </section>
@@ -223,8 +227,9 @@ const MemberInfo = () => {
         }
         .info-row {
           display: flex;
-          justify-content: space-between;
-          align-items: center;
+          flex-direction: column; /* 세로로 배치 */
+          justify-content: flex-start;
+          align-items: flex-start;
         }
         .info-label {
           color: #dfa67b;
