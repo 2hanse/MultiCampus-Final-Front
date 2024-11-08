@@ -29,7 +29,7 @@ const BookmarkList = ({ onOpenCreate }) => {
             <CreateBtn onClick={onOpenCreate}>
                 <CreateImg src={Create} alt="Create" />
             </CreateBtn>
-            <EditBtn onClick={() => navigate("/homepage/editBookmark")}>
+            <EditBtn onClick={() => navigate("/editbookmark")}>
                 <Icon src={Edit} alt="Edit" />
                 편집하기
             </EditBtn>

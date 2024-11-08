@@ -5,16 +5,23 @@ import Talk     from "./assets/Talk.png";
 import Top      from "./assets/Top.png";
 import Travel   from "./assets/Travel.png";
 import Bookmark from "./assets/Bookmark.png";
+import { useNavigate } from "react-router-dom";
 
 
 const BoardButtonForm = () => {
+    const navigate = useNavigate();
+
     return (
         <Wrapper>
             <FoodBoard     src={Meal}     alt="Meal" />
             <TalkBoard     src={Talk}     alt="Talk" />
             <TopBoard      src={Top}      alt="Top" />
             <TravelBoard   src={Travel}   alt="Travel" />
-            <BookmarkBoard src={Bookmark} alt="Bookmark" />
+            <BookmarkBoard
+                src={Bookmark}
+                alt="Bookmark"
+                onClick={() => navigate("/", { state: { openBookmarkSheet: true } })}
+            />
         </Wrapper>
     );
 }
