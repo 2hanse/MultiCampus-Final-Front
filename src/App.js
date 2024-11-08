@@ -20,13 +20,31 @@ import ChatRoomPage from './component/pages/chat/ChatRoomPage';
 import RestorantBoardPostingPage from './component/pages/RestorantBoardPostingPage';
 import FreeBoardPostingPage from './component/pages/FreeBoardPostingPage';
 import TourBoardPostingPage from './component/pages/TourBoardPostingPage';
-
 import Editor from './component/post-board/Editor';
+import MyProfilePage from './component/pages/MyProfilePage';
+import ReviewHistory from './component/pages/reviewpage';
+import LikedPosts from './component/pages/likedPost';
+import ReceiptsCollection from './component/pages/receiptsCollection';
+import UserProfile from './component/pages/userProfile';
+import MemberInfo from './component/pages/memberinfo';
+import Profile from './component/pages/Profile'; 
+import ImageComponent from './component/ProfilePage/ImageComponent';
+import CommentHistory from './component/pages/commentHistory';
+import SubscriptionFeed from './component/pages/subscribe';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/review-history" element={<ReviewHistory />} />
+        <Route path="/comment-history" element={<CommentHistory />} />
+        <Route path="/liked-posts" element={<LikedPosts />} />
+        <Route path="/receipt-collection" element={<ReceiptsCollection />} />
+        <Route path="/user-profile" element={<UserProfile />} />
+        <Route path="/memberinfo" element={<MemberInfo />} />
+        <Route path="/profile" element={<Profile/>} />
+        <Route path="/subscribe" element={<SubscriptionFeed />} />
+        <Route path="/myprofilepage" element={<MyProfilePage />} />
         <Route path="/" element={<MapPage />} />
         <Route path="/user/login" element={<LoginPage />} />
         <Route path="/user/join" element={<JoinPage />} />

@@ -104,7 +104,7 @@ function ReviewHistory() {
   const navigate = useNavigate(); // useNavigate 훅 사용
 
   const handleBackButtonClick = () => {
-    navigate('/'); // 루트 경로로 이동
+    navigate('/myprofilepage'); // 루트 경로로 이동
   };
 
   return (
@@ -141,7 +141,8 @@ function ReviewHistory() {
         .review-history-page {
           background-color: #fff;
           display: flex;
-          max-width: 480px;
+          max-width: 430px;
+          max-height: 932px;
           width: 100%;
           flex-direction: column;
           overflow: hidden;
