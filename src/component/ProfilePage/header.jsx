@@ -4,8 +4,14 @@ import { useNavigate } from 'react-router-dom';
 export default function Header() {
   const navigate = useNavigate();
 
+  // 상태 아이콘 클릭 시 memberinfo 페이지로 이동
   const handleStatusIconClick = () => {
-    navigate('/memberinfo'); // memberinfo.jsx 페이지로 이동
+    navigate('/memberinfo');
+  };
+
+  // 뒤로가기 아이콘 클릭 시 MapPage로 이동
+  const handleBackIconClick = () => {
+    navigate('/'); // MapPage로 이동
   };
 
   return (
@@ -15,8 +21,9 @@ export default function Header() {
           <img
             loading="lazy"
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
-            alt="프로필 아이콘"
-            className="profile-icon"
+            alt="뒤로 가기"
+            className="back-icon"
+            onClick={handleBackIconClick} // 클릭 시 MapPage로 이동
           />
         </div>
         <div className="member-status">
@@ -48,11 +55,12 @@ export default function Header() {
           display: flex;
           align-items: center;
         }
-        .profile-icon {
+        .back-icon {
           aspect-ratio: 1;
           object-fit: cover;
           width: 24px;
           margin-right: 10px;
+          cursor: pointer; // 클릭 가능 표시
         }
         .nickname-container {
           white-space: nowrap;

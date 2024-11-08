@@ -114,7 +114,9 @@ export default function CommentHistory() {
           display: flex;
           max-width: 430px; /* 너비를 430px로 조정 */
           width: 100%;
-          height: 932px; /* 높이를 932px로 조정 */
+          max-height: 932px; /* 최대 높이 932px */
+          min-height: 632px; /* 최소 높이 632px */
+          height: auto;
           flex-direction: column;
           overflow: hidden;
           align-items: center;

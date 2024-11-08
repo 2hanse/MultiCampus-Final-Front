@@ -20,7 +20,7 @@ function PostItem({ time, title, content }) {
 }
 
 export default function LikedPosts() {
-  const navigate = useNavigate(); // useNavigate 훅 사용
+  const navigate = useNavigate();
   const posts = [
     { time: 'n분 전', title: '[동네주민] 게시글 제목', content: '게시글 본문(20자)' },
     { time: 'n분 전', title: '[동네주민] 게시글 제목', content: '게시글 본문(20자)' },
@@ -34,7 +34,7 @@ export default function LikedPosts() {
   return (
     <main className="liked-posts-page">
       <header className="page-header">
-        <button onClick={() => navigate(-1)} className="back-button"> {/* 이전 페이지로 이동 */}
+        <button onClick={() => navigate(-1)} className="back-button">
           <img 
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" 
             alt=""
@@ -75,7 +75,7 @@ export default function LikedPosts() {
         .liked-posts-page {
           background: #fff;
           display: flex;
-          max-width: 480px;
+          max-width: 430px;
           width: 100%;
           flex-direction: column;
           overflow: hidden;
@@ -98,8 +98,8 @@ export default function LikedPosts() {
           border: none;
           padding: 0;
           cursor: pointer;
-          padding-right: 50px; /* 기존 100px에서 50px로 줄임 */
-          margin-left: 20px; /* 추가된 왼쪽 마진 */
+          padding-right: 50px;
+          margin-left: 20px;
         }
 
         .search-button {

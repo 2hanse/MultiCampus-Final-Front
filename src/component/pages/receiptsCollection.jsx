@@ -63,7 +63,8 @@ function ReceiptCollection() {
       <style jsx>{`
         .receipt-collection {
           background: rgba(255, 244, 210, 1);
-          max-width: 480px;
+          max-width: 430px;
+          max-height: 932px;
           width: 100%;
           padding: 62px 0 0;
           margin: 0 auto;
