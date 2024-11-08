@@ -220,7 +220,7 @@ const JoinPage = () => {
   // 인증번호 요청 함수
   const handleVerificationRequest = () => {
     // 서버에 인증번호 발송 요청을 보냄
-    api.post('/sms/send', { phoneNum })
+    api.post('/sms/send', phoneNum)
         .then(response => {
             console.log('인증번호 발송 성공:', response.data);
             setIsVerificationSent(true); // 인증번호 발송 성공 시 입력 필드를 표시하기 위해 상태를 true로 설정
