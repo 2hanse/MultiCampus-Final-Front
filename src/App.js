@@ -28,7 +28,6 @@ import ReceiptsCollection from './component/pages/receiptsCollection';
 import UserProfile from './component/pages/userProfile';
 import MemberInfo from './component/pages/memberinfo';
 import Profile from './component/pages/Profile'; 
-import ImageComponent from './component/ProfilePage/ImageComponent';
 import CommentHistory from './component/pages/commentHistory';
 import SubscriptionFeed from './component/pages/subscribe';
 import AlertPage from './component/pages/AlertPage';
@@ -47,6 +46,7 @@ function App() {
         <Route path="/subscribe" element={<SubscriptionFeed />} />
         <Route path="/myprofilepage" element={<MyProfilePage />} />
         <Route path="/" element={<MapPage />} />
+        <Route path="/editbookmark" element={<EditBookmarkPage />} />
         <Route path="/user/login" element={<LoginPage />} />
         <Route path="/user/join" element={<JoinPage />} />
         <Route path="/user/find-email" element={<FindEmailPage />} />
