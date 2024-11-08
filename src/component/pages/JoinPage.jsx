@@ -204,7 +204,8 @@ const JoinPage = () => {
         setPhoneNumMessage('');
     })
     .catch(error => {
-        console.error('인증번호 발송 실패:', error);
+      alert(error.response.data);
+      console.error('인증번호 발송 실패:', error);
     });
   };
 
@@ -220,14 +221,15 @@ const JoinPage = () => {
                               verifyCode: verificationCode })
         .then(response => {
             setIsVerificationSuccessful(response.data); // 서버의 응답에 따라 인증 성공 여부를 업데이트
-            if (response.data) {
+            if (response.status == 200) {
                 alert('인증 성공!'); // 인증 성공 시 알림 표시
             } else {
-                alert('인증 실패! 다시 시도해주세요.'); // 인증 실패 시 알림 표시
+                alert(response.data); // 인증 실패 시 알림 표시
             }
         })
         .catch(error => {
-            console.error('인증 실패:', error);
+          alert(error.response.data);
+          console.error('인증 실패:', error);
         });
   };
 
@@ -252,14 +254,15 @@ const JoinPage = () => {
             nickname: nickName,
             recover_q: selectedQuestion,
             recover_a: answerQuestion,
-            phone_number: phoneNum
+            phone_number: phoneNum,
+            verify_code: verificationCode
           })
           .then((res) => {
             console.log('response:', res);
             if (res.status === 200) {
               console.log("회원가입 성공");
               alert("회원가입 성공!");
-              alert("마이 페이지에 가시면 이미지변경이 가능합니다!")
+              alert("마이 페이지에 가시면 이미지변경이 가능합니다!");
               navigate("/");
             }
           })
