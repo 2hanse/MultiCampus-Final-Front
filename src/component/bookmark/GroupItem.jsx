@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styled              from "styled-components";
 
-function GroupItem({ name, author, count, isActive: initialIsActive }) {
-    const [isActive, setIsActive] = useState(initialIsActive);
+function GroupItem({ name, author, list_count, visibility }) {
+    const [isActive, setIsActive] = useState([]);
 
     const handleToggle = () => {
         setIsActive(!isActive);
@@ -14,13 +14,13 @@ function GroupItem({ name, author, count, isActive: initialIsActive }) {
                 <GroupName>
                     {name} <AuthorName>({author})</AuthorName>
                 </GroupName>
-                <GroupCount>개수 {count}/500</GroupCount>
+                <GroupCount>개수 {list_count}/500</GroupCount>
             </ItemContent>
             {/*
             <ExpandIcon src="https://cdn.builder.io/api/v1/image/assets/TEMP/f1541bad3fc27abbfb842592920ca5dba61084f952fe090a89d971ec02a989bf?placeholderIfAbsent=true&apiKey=a4eaf54e67064b758783ed5c744d50de"
                         alt="Expand" />
             */}
-            <ToggleSwitch isActive={isActive} onClick={handleToggle} />
+            <ToggleSwitch isActive={visibility} onClick={handleToggle} />
         </ItemWrapper>
     );
 };

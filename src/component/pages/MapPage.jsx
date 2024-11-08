@@ -29,7 +29,10 @@ function MapPage() {
             <Header onClickBookmark={() => setOpen(true)} />
             <Map />
             <CustomSheet    isOpen={isOpen}
-                            onClose={() => setOpen(false)}
+                            onClose={() => {
+                                setOpen(false);
+                                navigate("/homepage", { replace: true });
+                            }}
                             snapPoints={[700, 400, 0]}
                             initialSnap={1}>
                 <Sheet.Container>
@@ -44,8 +47,8 @@ function MapPage() {
                 </Sheet.Container>
                 <Sheet.Backdrop onClick={() => {
                                     setOpen(false);
-                                    navigate("/", { replace: true });
-                                }}/>
+                                    navigate("/homepage", { replace: true });
+                                }} />
             </CustomSheet>
             <CustomSheet isOpen={isCreateOpen}
                          onClose={() => {

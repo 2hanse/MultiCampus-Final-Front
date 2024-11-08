@@ -1,12 +1,33 @@
-import React     from "react";
-import styled    from "styled-components";
-import GroupItem from "./GroupItem";
+import React, { useEffect, useState } from "react";
+import styled                         from "styled-components";
+import api                            from "../api/axios";
+import {getUserIdFromToken}             from "../api/jwt";
+import GroupItem                      from "./GroupItem";
 
-export const groupData = [
-    { name: "기본 그룹", author: "작성자명", count: "0", isActive: false },
-];
+function GroupList() {
+    const [groupData, setGroupData] = useState([]);
+    const user_id = getUserIdFromToken();
 
-function GroupList({ groupData }) {
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await api.get(`/bookmarks/${user_id}`);
+                console.log(user_id);
+                const transformedData = response.data.map(item => ({
+                    name: item.bookmark_title,
+                    author: item.user_nickname,
+                    count: item.list_count,
+                    isActive: item.visibility
+                }));
+                setGroupData(transformedData);
+            } catch (error) {
+                console.error("Error fetching data: ", error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
     return (
         <ListWrapper>
             {groupData.map((group, index) => (
