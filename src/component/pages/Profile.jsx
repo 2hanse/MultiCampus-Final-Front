@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'; // React Router의 useNavigate 훅을 임포트
-
+import Footer from '../layout/footer/Footer';
 // ProfileImage 컴포넌트
 const ProfileImage = ({ src, alt }) => {
   return <img src={src} alt={alt} className="profile-image" />;
@@ -82,8 +82,7 @@ const ProfileContent = () => {
   return (
     <main className="profile-content">
       <ProfileActions />
-      <hr className="content-divider" />
-      <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/cb717e0c0f0cfa324931c379390c6d597d7e19a8ae52107e48c0c335177a4d41?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" alt="Profile content" className="content-image" />
+      <Footer/>
     </main>
   );
 };
@@ -180,12 +179,7 @@ const Profile = () => {
           height: 30px;
           object-fit: contain;
         }
-        .content-divider {
-          border: none;
-          height: 1px;
-          background-color: #cac4d0;
-          margin: 0 0 12px;
-        }
+        
         .content-image {
           width: 100%;
           height: auto;
