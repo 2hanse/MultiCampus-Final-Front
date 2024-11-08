@@ -1,9 +1,12 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import Footer from "../boardmain/Footer";
-import Header from "../map/Header";
-import Map from "../map/Map";
-import BottomSheet from "../map/bottomsheet/BottomSheet";
+import React, { useState, useEffect } from "react";
+import styled                         from "styled-components";
+import { useLocation }                from "react-router-dom";
+import Header                         from "../map/Header";
+import Map                            from "../map/Map";
+import { Sheet }                      from 'react-modal-sheet';
+import BookmarkList                   from "../bookmark/BookmarkList";
+import CreateBookmark                 from "../bookmark/CreateBookmark";
+import Footer from "../layout/footer/Footer";
 
 function MapPage() {
 

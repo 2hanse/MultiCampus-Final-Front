@@ -5,16 +5,18 @@ import Feed   from "./assets/Feed.png";
 import Map    from "./assets/Map.png";
 import Chat   from "./assets/Chat.png";
 import Person from "./assets/Person.png";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
+    const navigate = useNavigate();
 
     return (
         <FooterBox>
-            <BoardMainPage src={Home}   alt="Home" />
-            <FeedPage      src={Feed}   alt="Feed" />
-            <MapPage       src={Map}    alt="Map" />
-            <ChatPage      src={Chat}   alt="Chat" />
-            <MyPage        src={Person} alt="Person" />
+            <BoardMainPage src={Home}   alt="Home" onClick={() => navigate("/boardmain")} />
+            <FeedPage      src={Feed}   alt="Feed" onClick={() => navigate("/subscribe")} />
+            <MapPage       src={Map}    alt="Map" onClick={() => navigate("/")} />
+            <ChatPage      src={Chat}   alt="Chat" onClick={() => navigate("/user/chat/list")} />
+            <MyPage        src={Person} alt="Person" onClick={() => navigate("/myprofilepage")} />
         </FooterBox>
     );
 }

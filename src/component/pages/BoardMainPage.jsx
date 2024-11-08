@@ -4,7 +4,7 @@ import Header          from "../boardmain/Header";
 import BoardButtonForm from "../boardmain/BoardButtonForm";
 import HotPostForm     from "../boardmain/HotPostForm";
 import NewPostForm     from "../boardmain/NewPostForm";
-import Footer          from "../boardmain/Footer";
+import Footer from "../layout/footer/Footer";
 
 function BoardMainPage() {
     return (
