@@ -46,6 +46,7 @@ function App() {
         <Route path="/subscribe" element={<SubscriptionFeed />} />
         <Route path="/myprofilepage" element={<MyProfilePage />} />
         <Route path="/" element={<MapPage />} />
+        <Route path="/editbookmark" element={<EditBookmarkPage />} />
         <Route path="/user/login" element={<LoginPage />} />
         <Route path="/user/join" element={<JoinPage />} />
         <Route path="/user/find-email" element={<FindEmailPage />} />
