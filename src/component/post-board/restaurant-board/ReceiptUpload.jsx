@@ -1,25 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Camera from '../asset/camera.png';
-import { useNavigate } from 'react-router-dom';
 
-const ReceiptUpload = ({ receipts, handleCameraButtonClick }) => {
-  // 토글형식
-  const [isListVisible, setIsListVisible] = useState(false);
-  const [selectedReceipt, setSelectedReceipt] = useState(null);
-
-  const navigate = useNavigate();
-
-  const toggleList = () => {
-    setIsListVisible((prev) => !prev);
-  };
-
-  const handleReceiptClick = (receipt) => {
-    setSelectedReceipt(receipt); // 선택한 데이터를 저장
-    navigate('/boardpost/restaurant', { state: { receipt } });
-    setIsListVisible(false); // 목록닫기
-  };
-
+const ReceiptUpload = ({
+  receipts,
+  handleCameraButtonClick,
+  handleReceiptClick,
+  toggleList,
+  isListVisible,
+}) => {
   return (
     <UploadContainer>
       <UploadButton onClick={toggleList}>
@@ -30,9 +19,9 @@ const ReceiptUpload = ({ receipts, handleCameraButtonClick }) => {
         {/* UploadButton 바로 아래에 데이터 목록 표시 */}
         {isListVisible && (
           <DataList>
-            {receipts.map((receipt, index) => (
-              <DataItem key={index} onClick={() => handleReceiptClick(receipt)}>
-                {receipt}
+            {receipts.map((receipt) => (
+              <DataItem onClick={() => handleReceiptClick(receipt)}>
+                {receipt.restaurant_name}
               </DataItem>
             ))}
           </DataList>

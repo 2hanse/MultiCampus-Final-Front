@@ -55,11 +55,4 @@ const InputTitle = styled.textarea`
   font-size: 13px; /* 텍스트 크기 조정 */
 `;
 
-const EditorWrapper = styled.div`
-  width: 100%;
-  height: 400px;
-  border: 1px solid #ccc; /* 경계선 추가 */
-  border-radius: 5px; /* 모서리 둥글게 */
-`;
-
 export default Editor;

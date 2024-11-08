@@ -21,8 +21,13 @@ const RestorantBoardPostingPage = () => {
   // 3. 내용
   const [content, setContent] = useState('');
   // 4. 가게 주소(보여주기용)
-  const location = useLocation();
-  const selectedReceipt = location.state?.receipt; // 옵셔널 체이닝 사용
+  // const location = useLocation();
+  // const selectedReceipt = location.state?.receipt; // 옵셔널 체이닝 사용
+  const [selectedReceipt, setSelectedReceipt] = useState('');
+
+  // 토글형식
+  const [isListVisible, setIsListVisible] = useState(false);
+
   const [uploadedReceipt, setUploadedReceipt] = useState('');
   // 값이 변경될 때마다 현재 선택된 영수증 값 설정
   const [currentReceipt, setCurrentReceipt] = useState(
@@ -229,6 +234,17 @@ const RestorantBoardPostingPage = () => {
     }));
   };
 
+  const handleReceiptClick = (receipt) => {
+    console.log('개별 영수증 클릭' + receipt);
+    setSelectedReceipt(receipt); // 선택한 데이터를 저장
+
+    setIsListVisible(false); // 목록닫기
+  };
+
+  const toggleList = () => {
+    setIsListVisible((prev) => !prev);
+  };
+
   return (
     <PageContainer>
       <Header />
@@ -236,6 +252,9 @@ const RestorantBoardPostingPage = () => {
         <ReceiptUpload
           receipts={receipts}
           handleCameraButtonClick={handleCameraButtonClick}
+          handleReceiptClick={handleReceiptClick}
+          toggleList={toggleList}
+          isListVisible={isListVisible}
         />
         <Editor
           title={title}
