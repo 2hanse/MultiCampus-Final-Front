@@ -16,7 +16,7 @@ function CommentItem({ timestamp, content, postTitle }) {
           background-color: #fff;
           position: relative;
           display: flex;
-          min-height: 72px;
+          max-height: 932px;
           width: 100%;
           flex-direction: column;
           justify-content: center;
@@ -113,13 +113,12 @@ export default function CommentHistory() {
           background-color: #fff;
           display: flex;
           max-width: 430px; /* 너비를 430px로 조정 */
-          width: 100%;
           max-height: 932px; /* 최대 높이 932px */
           min-height: 632px; /* 최소 높이 632px */
           height: auto;
           flex-direction: column;
-          overflow: hidden;
-          align-items: center;
+          
+          align-items: flex-start;
           margin: 0 auto;
         }
 

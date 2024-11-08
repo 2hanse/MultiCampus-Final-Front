@@ -77,7 +77,6 @@ const MemberInfo = () => {
               <br />
               이메일
             </span>
-            <span className="info-value">####@#####</span>
           </div>
         </div>
       </section>
