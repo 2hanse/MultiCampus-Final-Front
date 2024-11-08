@@ -3,6 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^43.3.1",
+    "@ckeditor/ckeditor5-react": "^9.3.1",
+    "@draft-js-plugins/anchor": "^4.2.1",
+    "@draft-js-plugins/editor": "^4.1.4",
+    "@draft-js-plugins/image": "^4.1.4",
+    "@draft-js-plugins/inline-toolbar": "^4.2.1",
+    "@draft-js-plugins/linkify": "^4.2.2",
     "@stomp/stompjs": "^7.0.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -13,6 +20,7 @@
     "jquery": "^3.7.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-modal-sheet": "^3.3.0",
     "react-native-gesture-handler": "^2.20.2",
     "react-native-reanimated": "^3.16.1",
     "react-router-dom": "^6.26.2",
@@ -21,6 +29,7 @@
     "reanimated-bottom-sheet": "^1.0.0-alpha.22",
     "sockjs-client": "^1.6.1",
     "styled-components": "^6.1.13",
+    "styled-jsx": "^5.1.6",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -46,5 +55,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }

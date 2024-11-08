@@ -22,6 +22,7 @@ const Main = styled.main`
   max-width: 430px;
   max-height: 932px;
   width: 100%;
+  height: 100%;
   flex-direction: column;
   overflow: hidden;
   margin: 0 auto;
