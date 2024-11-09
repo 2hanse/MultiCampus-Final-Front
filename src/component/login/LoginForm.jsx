@@ -66,7 +66,6 @@ function LoginForm() {
           alert('로그인 성공! ');
           const token = response.data.token;
           localStorage.setItem("token", token);
-          console.log('유저 이메일: ' + response.data.email);
           navigate('/');
         }
       } catch (error) {
