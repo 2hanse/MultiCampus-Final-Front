@@ -60,8 +60,9 @@ function PasswordForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const newPwd = {
+            phone_number: userInfo.phoneNumber,
+            verify_code: userInfo.verifyCode,
             email: userInfo.email,
-            phone_number: userInfo.phone_number,
             new_password: password
         };
         if(password === "" || passwordConfirm === "") {
@@ -172,7 +173,7 @@ const SubmitButton = styled.button`
   border-radius: 10px;
   background-color: #ffd966;
   width: 96%;
-  font-size: 19px;
+  font-size: 16px;
   color: #785a00;
   white-space: nowrap;
   text-align: center;

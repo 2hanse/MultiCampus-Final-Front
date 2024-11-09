@@ -98,6 +98,10 @@ function PhoneIdentification() {
 
   // 인증번호 검증 요청 함수
   const handleVerificationSubmit = () => {
+    const data = {
+      email: userInfo.email,
+      phoneNumber: phoneNum
+    };
     // 서버에 입력된 인증번호 검증 요청을 보냄
     api.post('/sms/verify', { phoneNumber : phoneNum, 
                               verifyCode: verificationCode })
@@ -105,12 +109,16 @@ function PhoneIdentification() {
             setIsVerificationSuccessful(response.data); // 서버의 응답에 따라 인증 성공 여부를 업데이트
             if (response.status === 200) {
                 alert('인증 성공!'); // 인증 성공 시 알림 표시
+                navigate("/user/resetPassword",{state: {    email: userInfo.email,
+                                                            phoneNumber: phoneNum,
+                                                            verifyCode: verificationCode } });
             } else {
                 alert('인증 실패! 다시 시도해주세요.'); // 인증 실패 시 알림 표시
             }
         })
         .catch(error => {
             console.error('인증 실패:', error);
+            alert(error);
         });
   };
 
@@ -121,26 +129,26 @@ function PhoneIdentification() {
   };
 
 
-  //휴대폰 및 이메일 서버로 전송
-  const onSubmit = async() => {
-    const data = {
-      email: userInfo.email,
-      phoneNumber: phoneNum
-    };
-    try{
-      const response = await api.post("/email-exists",data);
-      if(response.status == 200) {
-        navigate("/user/resetPassword",{state: {    email: userInfo.email,
-                                                    phoneNumber: phoneNum
-        } });
-      } else {
-        setPhoneNumMessage(response.data.errMsg);
-        setIsPhoneNum(false);
-      }
-    } catch(err) {
-      console.log(err);
-    }
-  }
+  // //휴대폰 및 이메일 서버로 전송
+  // const onSubmit = async() => {
+  //   const data = {
+  //     email: userInfo.email,
+  //     phoneNumber: phoneNum
+  //   };
+  //   try{
+  //     const response = await api.post("/email-exists",data);
+  //     if(response.status == 200) {
+  //       navigate("/user/resetPassword",{state: {    email: userInfo.email,
+  //                                                   phoneNumber: phoneNum
+  //       } });
+  //     } else {
+  //       setPhoneNumMessage(response.data.errMsg);
+  //       setIsPhoneNum(false);
+  //     }
+  //   } catch(err) {
+  //     console.log(err);
+  //   }
+  // }
 
   return (
     <FormWrapper>
@@ -184,7 +192,7 @@ function PhoneIdentification() {
               </div>
             )}
 
-        <SubmitButton type="button" onClick={onSubmit}>확인</SubmitButton>
+        {/* <SubmitButton type="button" onClick={onSubmit}>확인</SubmitButton> */}
       </form>
     </FormWrapper>
   );
