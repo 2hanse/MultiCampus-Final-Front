@@ -13,6 +13,7 @@ const EditBookmarkPage = () => {
     const navigate                  = useNavigate();
     const [isEditOpen, setEditOpen] = useState(false);
     const [groupData, setGroupData] = useState([]);
+    const [currentEditingGroup, setCurrentEdittingGroup] = useState();
 
     const fetchData = async () => {
         try {
@@ -26,6 +27,11 @@ const EditBookmarkPage = () => {
     useEffect(() => {
         fetchData();
     }, []);
+
+    const handleEditClick = (group) => {
+        setCurrentEdittingGroup(group);
+        setEditOpen(true);
+    };
 
     const handleDeleteClick = (group) => {
         api.delete(`/bookmarks/${group.bookmark_id}`)
@@ -55,7 +61,7 @@ const EditBookmarkPage = () => {
                                 </GroupName>
                                 <GroupCount>개수 {group.list_count}/500</GroupCount>
                             </ItemContent>
-                            <EditBtn onClick={() => setEditOpen(true)}>
+                            <EditBtn onClick={() => handleEditClick(group)}>
                                 <Icon src={Edit} alt="Edit" />
                             </EditBtn>
                             <DeleteBtn onClick={() => handleDeleteClick(group)}>
@@ -73,9 +79,7 @@ const EditBookmarkPage = () => {
                 <Sheet.Container>
                     <Sheet.Header />
                     <Sheet.Content>
-                        <EditBookmark onCancel={() => {
-                                            setEditOpen(false);
-                                        }} />
+                        <EditBookmark onCancel={() => setEditOpen(false)} group={currentEditingGroup} fetchData={() => fetchData()} />
                     </Sheet.Content>
                 </Sheet.Container>
                 <Sheet.Backdrop onClick={() => {

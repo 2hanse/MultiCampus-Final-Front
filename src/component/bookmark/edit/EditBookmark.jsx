@@ -1,14 +1,40 @@
 import React, { useState } from "react";
 import styled              from "styled-components";
+import {cloneDeep} from 'lodash';
+import api from "../../api/axios";
 
-const EditBookmark = ({ onCancel }) => {
+const EditBookmark = ({ onCancel, group, fetchData }) => {
     const [isPublished, setIsPublished] = useState(false);
     const [groupName, setGroupName] = useState("");  // InputName의 상태 추가
+    const [firstStates, setFirstStates] = useState([]);
 
-    // Input 값 변경 시 호출되는 함수
+    useState(() => {
+        setIsPublished(group.visibility);
+        setGroupName(group.bookmark_title);
+        setFirstStates(cloneDeep(group));
+    }, [group]);
+
     const handleInputChange = (e) => {
         setGroupName(e.target.value);
     };
+
+    const isChanged = () => {
+        if (firstStates.visibility != isPublished) {
+            return false;
+        }
+        if (firstStates.bookmark_title !== groupName)
+            return false;
+        return true;
+    }
+
+    const onCompleteClick = () => {
+        api.put(`/bookmarks/${group.bookmark_id}`, {bookmark_title: groupName, visibility: isPublished, icon_type: null})
+            .then((res) => {
+                fetchData();
+                onCancel();
+            })
+            .catch((err) => alert(`북마크를 수정하는중 에러가 발생하였습니다. (${err})`));
+    }
 
     return (
         <Wrapper>
@@ -29,7 +55,7 @@ const EditBookmark = ({ onCancel }) => {
             <InputName placeholder="그룹명을 입력하세요"
                        value={groupName}
                        onChange={handleInputChange} />
-            <CompleteBtn disabled={!groupName}>완료</CompleteBtn>
+            <CompleteBtn disabled={isChanged()} onClick={() => onCompleteClick()}>완료</CompleteBtn>
         </Wrapper>
     );
 };
