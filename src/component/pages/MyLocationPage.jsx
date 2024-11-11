@@ -3,7 +3,7 @@ import styled              from "styled-components";
 import Header              from "../mylocation/Header";
 import SearchForm          from "../mylocation/SearchForm";
 import CompleteButtonForm  from "../mylocation/CompleteButtonForm";
-import Footer              from "../boardmain/Footer";
+import Footer              from "../layout/footer/Footer";
 
 function MyLocationPage() {
 
@@ -16,8 +16,8 @@ function MyLocationPage() {
             <CompleteButtonForm outputValue={outputValue} />
             <Footer />
         </Main>
-    )
-}
+    );
+};
 
 const Main = styled.main`
     display: flex;
@@ -32,6 +32,6 @@ const Main = styled.main`
     margin: 0 auto;
     padding: 119px 0px 100px 0px;
     border: 0.5px solid #CAC4D0;
-`
+`;
 
 export default MyLocationPage;

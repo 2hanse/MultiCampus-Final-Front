@@ -4,6 +4,12 @@ function Timer({ initialTime, onTimeUp }) {
   const [remainingTime, setRemainingTime] = useState(initialTime);
 
   useEffect(() => {
+    console.log(`Timer initialized with: ${initialTime}`);
+    // initialTime이 변경될 때 remainingTime을 재설정
+    setRemainingTime(initialTime);
+  }, [initialTime]);
+
+  useEffect(() => {
     let timer;
     if (remainingTime > 0) {
       timer = setInterval(() => {
@@ -21,6 +27,8 @@ function Timer({ initialTime, onTimeUp }) {
     const seconds = timeInSeconds % 60;
     return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   };
+
+
 
   return (
     <div>

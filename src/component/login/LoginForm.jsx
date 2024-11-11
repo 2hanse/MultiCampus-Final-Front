@@ -65,8 +65,9 @@ function LoginForm() {
         if (response.status === 200) {
           alert('로그인 성공! ');
           const token = response.data.token;
-          localStorage.setItem('token', token);
-          console.log('유저 이메일: ' + response.data.email);
+
+          localStorage.setItem("token", token);
+
           navigate('/');
         }
       } catch (error) {
@@ -76,50 +77,40 @@ function LoginForm() {
     }
   };
 
-  return (
-    <Form onSubmit={handleSubmit}>
-      <label htmlFor="email" className="security-question-label">
-        이메일
-      </label>
-      <InputWrapper>
-        <Input
-          type="email"
-          placeholder="이메일을 입력해주세요"
-          name="email"
-          value={email}
-          onChange={onChangeEmail}
-        />
-      </InputWrapper>
-      <Formbox>
-        {email.length > 0 && (
-          <span className={`message ${isEmail ? 'success' : 'error'}`}>
-            {emailMessage}
-          </span>
-        )}
-      </Formbox>
+  const onGuest = () => {
+    navigate('/homepage');
+  }
 
-      <label htmlFor="password" className="security-question-label">
-        비밀번호
-      </label>
-      <InputWrapper>
-        <Input
-          type="password"
-          placeholder="비밀번호를 입력해주세요"
-          name="password"
-          value={password}
-          onChange={onChangePassword}
-        />
-      </InputWrapper>
-      <Formbox>
-        {password.length > 0 && (
-          <span className={`message ${isPassword ? 'success' : 'error'}`}>
-            {passwordMessage}
-          </span>
-        )}
-      </Formbox>
-      <SubmitButton type="submit">로그인</SubmitButton>
-    </Form>
-  );
+    return (
+        <Form onSubmit={handleSubmit}>
+          <label htmlFor="email" className="security-question-label">이메일</label>
+          <InputWrapper>
+              <Input  type="email" 
+                      placeholder="이메일을 입력해주세요" 
+                      name="email"
+                      value={email} 
+                      onChange={onChangeEmail}/>
+          </InputWrapper>
+          <Formbox>
+          {email.length > 0 && <span className={`message ${isEmail ? 'success' : 'error'}`}>{emailMessage}</span>}
+          </Formbox>
+
+          <label htmlFor="password" className="security-question-label">비밀번호</label>
+          <InputWrapper>
+              <Input  type="password" 
+                      placeholder="비밀번호를 입력해주세요"
+                      name="password"
+                      value={password}
+                      onChange={onChangePassword}
+                      />
+          </InputWrapper>
+          <Formbox>
+          {password.length > 0 && <span className={`message ${isPassword ? 'success' : 'error'}`}>{passwordMessage}</span>}
+          </Formbox>
+          <SubmitButton type="submit">로그인</SubmitButton>
+          <SubmitButton2 type="button" onClick={onGuest}>게스트로 이용하기</SubmitButton2>
+        </Form>
+    );
 }
 
 const Form = styled.form`
@@ -180,6 +171,20 @@ const SubmitButton = styled.button`
   width: 100%;
   font-size: 19px;
   color: #785a00;
+  white-space: nowrap;
+  text-align: center;
+  margin: 26px 0 0 0px;
+  padding: 10px 8px;
+  border: none;
+  cursor: pointer;
+`;
+
+const SubmitButton2 = styled.button`
+  border-radius: 10px;
+  background-color: #D5CBAE;
+  width: 100%;
+  font-size: 19px;
+  color: #785A00;
   white-space: nowrap;
   text-align: center;
   margin: 26px 0 0 0px;

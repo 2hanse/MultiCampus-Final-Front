@@ -30,6 +30,8 @@ import Profile from './component/pages/Profile';
 import CommentHistory from './component/pages/commentHistory';
 import SubscriptionFeed from './component/pages/subscribe';
 import AlertPage from './component/pages/AlertPage';
+import RestaurantBoard from './component/pages/board/RestaurantBoard';
+import PostPage from './component/pages/board/PostPage'
 
 function App() {
   return (
@@ -44,9 +46,9 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/subscribe" element={<SubscriptionFeed />} />
         <Route path="/myprofilepage" element={<MyProfilePage />} />
-        <Route path="/" element={<MapPage />} />
+        <Route path="/homepage" element={<MapPage />} />
         <Route path="/editbookmark" element={<EditBookmarkPage />} />
-        <Route path="/user/login" element={<LoginPage />} />
+        <Route path="/" element={<LoginPage />} />
         <Route path="/user/join" element={<JoinPage />} />
         <Route path="/user/find-email" element={<FindEmailPage />} />
         <Route
@@ -84,6 +86,13 @@ function App() {
           path="/user/me/changePasswordResult"
           element={<ChangePasswordResultPage />}
         />
+
+        <Route path="/homepage" element={<MapPage />} />
+        <Route path='/user/me/changePassword' element={<ChangePasswordPage/>}/>
+        <Route path='/user/me/changePasswordResult' element={<ChangePasswordResultPage />} />
+        <Route path='/board/RestaurantBoard' element={<RestaurantBoard/>}/>
+        <Route path='/board/PostPage' element={<PostPage/>}/>
+
       </Routes>
     </BrowserRouter>
   );

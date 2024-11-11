@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { useLocation, useNavigate } from 'react-router-dom';
-import Header from '../map/Header';
-import Map from '../map/Map';
-import { Sheet } from 'react-modal-sheet';
-import BookmarkList from '../bookmark/BookmarkList';
-import CreateBookmark from '../bookmark/CreateBookmark';
-import Footer from '../layout/footer/Footer';
+import React, { useState, useEffect } from "react";
+import styled                         from "styled-components";
+import { useLocation, useNavigate }   from "react-router-dom";
+import Header                         from "../map/Header";
+import Map                            from "../map/Map";
+import { Sheet }                      from 'react-modal-sheet';
+import BookmarkList                   from "../bookmark/BookmarkList";
+import CreateBookmark                 from "../bookmark/CreateBookmark";
+import Footer                         from "../layout/footer/Footer";
+
 
 function MapPage() {
   const location = useLocation();
@@ -88,16 +89,16 @@ function MapPage() {
 }
 
 const Main = styled.main`
-  display: flex;
-  overflow: hidden;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 430px;
-  max-height: 932px;
-  min-height: 732px;
-  background: #fff4d2;
-  margin: 0 auto;
-  border: 0.5px solid #cac4d0;
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 430px;
+    max-height: 932px;
+    min-height: 732px;
+    background: #FFF4D2;
+    margin: 0 auto;
+    border: 0.5px solid #CAC4D0;
 `;
 
 const CustomSheet = styled(Sheet)`
