@@ -1,13 +1,15 @@
 import React, { useState } from 'react'; // useState 임포트 추가
+import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import FollowConfirmationModal from '../ProfilePage/FollowConfirmationModal'; // 팔로우 모달 컴포넌트
 import UnfollowConfirmation from '../ProfilePage/UnfollowConfirmation'; // 언팔로우 모달 컴포넌트
+import Footer from '../layout/footer/Footer';
 
 const styles = {
   userProfile: {
     backgroundColor: '#fff4d2',
     display: 'flex',
-    maxWidth: '480px',
+    maxWidth: '430px',
     width: '100%',
     paddingTop: '62px',
     flexDirection: 'column',
@@ -136,20 +138,18 @@ const styles = {
     borderTop: '1px solid #cac4d0',
     margin: '12px 0',
   },
-  footerImage: {
-    width: '100%',
-    objectFit: 'contain',
-  },
 };
 
 const UserProfile = () => {
+  const { id } = useParams();
+  console.log(id);
   const [isModalOpen, setIsModalOpen] = useState(false); // 팔로우 모달 상태
   const [isUnfollowModalOpen, setIsUnfollowModalOpen] = useState(false); // 언팔로우 모달 상태
   const [isFollowing, setIsFollowing] = useState(false); // 팔로우 상태
   const navigate = useNavigate();
 
   const handleProfileIconClick = () => {
-    navigate('/myprofilepage'); 
+    navigate(-1); 
   };
 
   const handleFollowButtonClick = () => {
@@ -184,11 +184,7 @@ const UserProfile = () => {
         isFollowing={isFollowing}
       />
       <ProfileContent />
-      <img
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/736ac1aa27ad8f949e50ba8f925d49388dfa94ac68a35a17932cf80f7b9d61ed?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
-        alt="Footer"
-        style={styles.footerImage}
-      />
+      <Footer/>
 
       {/* 팔로우 모달 */}
       {isModalOpen && <FollowConfirmationModal username="닉네임" closeModal={closeFollowModal} />}

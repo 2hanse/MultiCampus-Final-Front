@@ -1,5 +1,6 @@
 import * as React from "react";
-import { useNavigate } from "react-router-dom"; // useNavigate 추가
+import { useNavigate } from "react-router-dom";
+import Footer from '../layout/footer/Footer'; // Footer import 추가
 
 const receiptData = [
   {
@@ -32,12 +33,12 @@ const receiptData = [
 ];
 
 function ReceiptCollection() {
-  const navigate = useNavigate(); // useNavigate 훅 사용
+  const navigate = useNavigate();
   
   return (
     <main className="receipt-collection">
       <header className="collection-header">
-        <button onClick={() => navigate(-1)} className="back-icon"> {/* back-icon 클릭 시 이전 페이지로 이동 */}
+        <button onClick={() => navigate(-1)} className="back-icon">
           <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" alt="" />
         </button>
         <h1 className="collection-title">영수증 모음집</h1>
@@ -58,7 +59,7 @@ function ReceiptCollection() {
         ))}
       </section>
 
-      <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/cb717e0c0f0cfa324931c379390c6d597d7e19a8ae52107e48c0c335177a4d41?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" alt="" className="footer-image" />
+      <Footer /> {/* Footer 추가 */}
 
       <style jsx>{`
         .receipt-collection {
@@ -130,13 +131,6 @@ function ReceiptCollection() {
           display: flex;
           gap: 15px;
         }
-
-        .footer-image {
-          width: 100%;
-          aspect-ratio: 4.29;
-          object-fit: contain;
-          margin-top: 40px;
-        }
       `}</style>
     </main>
   );
@@ -185,4 +179,3 @@ function ReceiptCard({ imageSrc, restaurantName, phoneNumber, address, paymentTi
 }
 
 export default ReceiptCollection;
-

@@ -40,6 +40,7 @@ function App() {
         <Route path="/liked-posts" element={<LikedPosts />} />
         <Route path="/receipt-collection" element={<ReceiptsCollection />} />
         <Route path="/user-profile" element={<UserProfile />} />
+        <Route path="/user-profile/:id" element={<UserProfile />} />
         <Route path="/memberinfo" element={<MemberInfo />} />
         <Route path="/profile" element={<Profile/>} />
         <Route path="/subscribe" element={<SubscriptionFeed />} />
