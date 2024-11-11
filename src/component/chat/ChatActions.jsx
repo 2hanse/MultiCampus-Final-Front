@@ -20,6 +20,8 @@ const ActionButton = styled.button`
   border: none;
   padding: 0;
   cursor: pointer;
+  width: 24px;
+  height: 24px;
 `;
 
 const ButtonIcon = styled.img`
@@ -27,6 +29,7 @@ const ButtonIcon = styled.img`
   object-fit: contain;
   object-position: center;
   width: 24px;
+  height: 24px;
 `;
 
 function ChatActions() {

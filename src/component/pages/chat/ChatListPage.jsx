@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import ChatHeader from "../../chat/ChatHeader";
 import ChatActions from "../../chat/ChatActions";
 import ChatListItem from "../../chat/ChatListItem";
 import SockJS from "sockjs-client";
@@ -9,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { getUserIdFromToken } from "../../api/jwt";
 import Footer from "../../layout/footer/Footer";
 import api from "../../api/axios";
+import Header from "../../layout/header/Header";
 
 function ChatListPage() {
   const localUserId = getUserIdFromToken(); // userId를 동적으로 가져옴
@@ -65,11 +65,9 @@ function ChatListPage() {
 
   return (
     <Main>
-      <ChatHeaderContainer>
-          <ChatHeader title="채팅 목록" actions={
-            <ChatActions />
-          } />
-      </ChatHeaderContainer>
+      <Header title="채팅 목록" actions={
+        <ChatActions />
+      } />
       <ChatListContainer>
         {chatRooms.length > 0 ? (
           chatRooms.map((room) => (
@@ -99,13 +97,6 @@ const Main = styled.main`
     background: #ffffff;
     margin: 0 auto;
     border: 0.5px solid #CAC4D0;
-`;
-
-const ChatHeaderContainer = styled.div`
-  background-color: #ffd966;
-  width: 100%;
-  padding: 62px 28px 28px 28px;
-  box-sizing: border-box;
 `;
 
 const ChatListContainer = styled.div`

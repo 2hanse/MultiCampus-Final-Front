@@ -4,13 +4,16 @@ import 맛있는녀석들_로고   from "./assets/맛있는녀석들_로고.png"
 import 돋보기           from "./assets/돋보기.png";
 import 알림            from "./assets/알림.png";
 import 프로필           from "./assets/프로필.png";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+    const navigate = useNavigate();
     return (
         <HeaderBox>
             <Logo         src={맛있는녀석들_로고} alt="맛있는 녀석들 로고" />
+            <MyLocation>지역 미설정</MyLocation>
             <Search       src={돋보기}         alt="Search" />
-            <Notification src={알림}           alt="Notification" />
+            <Notification src={알림}           alt="Notification" onClick={() => navigate("/user/alert")} />
             <Profile      src={프로필}         alt="Profile" />
         </HeaderBox>
     );
@@ -65,6 +68,26 @@ const Profile = styled.img`
     top: 141px;
 
     cursor: pointer;
+`
+
+const MyLocation = styled.text`
+    position: absolute;
+    width: 200px;
+    height: 42px;
+    left: 24px;
+    top: 135px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+    display: flex;
+    align-items: center;
+
+    color: #000000;
+
+    border: none;
 `
 
 export default Header;

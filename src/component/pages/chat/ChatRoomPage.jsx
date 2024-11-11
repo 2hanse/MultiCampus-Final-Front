@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
-import ChatHeader from "../../chat/ChatHeader";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import MessageInput from "../../chat/MessageInput";
 import Message from "../../chat/Message";
 import { getUserIdFromToken } from "../../api/jwt";
 import Footer from "../../layout/footer/Footer";
+import Header from "../../layout/header/Header";
 
 function ChatRoomPage() {
     const localUserId = getUserIdFromToken(); // userId를 동적으로 가져옴
@@ -154,9 +154,7 @@ function ChatRoomPage() {
 
     return (
         <Main>
-            <ChatHeaderContainer>
-                <ChatHeader title={roomName} />
-            </ChatHeaderContainer>
+            <Header title={roomName} />
             <ChatListContainer ref={messagesContainerRef} onScroll={handleScroll}>
                 {messages.length > 0 ? (
                     messages.map((msg, idx) => {
@@ -272,13 +270,6 @@ const ScrollToBottomBar = styled.div`
   cursor: pointer;
   text-align: center;
   width: 100%;
-  box-sizing: border-box;
-`;
-
-const ChatHeaderContainer = styled.div`
-  background-color: #ffd966;
-  width: 100%;
-  padding: 62px 28px 28px 28px;
   box-sizing: border-box;
 `;
 

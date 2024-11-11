@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import styled                         from "styled-components";
-import { useLocation }                from "react-router-dom";
-import Footer                         from "../boardmain/Footer";
+import { useLocation, useNavigate }   from "react-router-dom";
 import Header                         from "../map/Header";
 import Map                            from "../map/Map";
 import { Sheet }                      from 'react-modal-sheet';
 import BookmarkList                   from "../bookmark/BookmarkList";
 import CreateBookmark                 from "../bookmark/CreateBookmark";
+import Footer                         from "../layout/footer/Footer";
 
 function MapPage() {
-
     const location                      = useLocation();
+    const navigate                      = useNavigate();
     const [isOpen,       setOpen      ] = useState(false);
     const [isCreateOpen, setCreateOpen] = useState(false);
 
@@ -20,12 +20,19 @@ function MapPage() {
         }
     }, [location.state]);
 
+    const handleBackPageClick = () => {
+        navigate(-1, { state: { openBookmarkSheet: true } });
+    };
+
     return (
         <Main>
             <Header onClickBookmark={() => setOpen(true)} />
             <Map />
             <CustomSheet    isOpen={isOpen}
-                            onClose={() => setOpen(false)}
+                            onClose={() => {
+                                setOpen(false);
+                                navigate("/homepage", { replace: true });
+                            }}
                             snapPoints={[700, 400, 0]}
                             initialSnap={1}>
                 <Sheet.Container>
@@ -38,7 +45,10 @@ function MapPage() {
                             }} />
                     </Sheet.Content>
                 </Sheet.Container>
-                <Sheet.Backdrop onClick={() => setOpen(false)}/>
+                <Sheet.Backdrop onClick={() => {
+                                    setOpen(false);
+                                    navigate("/homepage", { replace: true });
+                                }} />
             </CustomSheet>
             <CustomSheet isOpen={isCreateOpen}
                          onClose={() => {
@@ -76,7 +86,7 @@ const Main = styled.main`
     background: #FFF4D2;
     margin: 0 auto;
     border: 0.5px solid #CAC4D0;
-`
+`;
 
 const CustomSheet = styled(Sheet)`
     display: flex;

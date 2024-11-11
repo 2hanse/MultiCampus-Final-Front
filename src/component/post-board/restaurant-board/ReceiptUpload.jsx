@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Camera from '../asset/camera.png';
 import { useNavigate } from 'react-router-dom';
 
-const ReceiptUpload = ({ receipts }) => {
+const ReceiptUpload = ({ receipts, handleCameraButtonClick }) => {
   // 토글형식
   const [isListVisible, setIsListVisible] = useState(false);
   const [selectedReceipt, setSelectedReceipt] = useState(null);
@@ -16,7 +16,7 @@ const ReceiptUpload = ({ receipts }) => {
 
   const handleReceiptClick = (receipt) => {
     setSelectedReceipt(receipt); // 선택한 데이터를 저장
-    navigate('/boardpost/restaurant', { state: { receipt: selectedReceipt } });
+    navigate('/boardpost/restaurant', { state: { receipt } });
     setIsListVisible(false); // 목록닫기
   };
 
@@ -39,7 +39,7 @@ const ReceiptUpload = ({ receipts }) => {
         )}
         <UploadText>영수증 불러오기</UploadText>
       </UploadButton>
-      <PhotoButton>
+      <PhotoButton onClick={handleCameraButtonClick}>
         <img
           src={Camera}
           alt="Camera"

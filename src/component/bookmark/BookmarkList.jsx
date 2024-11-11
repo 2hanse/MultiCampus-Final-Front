@@ -4,11 +4,10 @@ import { useNavigate }                   from "react-router-dom";
 import Dropdown                          from "./Dropdown";
 import Edit                              from "./assets/Edit.png";
 import GroupList                         from "./GroupList";
-import { groupData as initialGroupData } from "./GroupList";
 import Create                            from "./assets/Create.png";
 
 const BookmarkList = ({ onOpenCreate }) => {
-    const [groupData, setGroupData] = useState(initialGroupData);
+    const [groupData, setGroupData] = useState([]);
     const navigate                  = useNavigate();
 
     // 이름순 정렬 함수
@@ -19,7 +18,7 @@ const BookmarkList = ({ onOpenCreate }) => {
 
     // 등록순 (초기 상태) 함수
     const resetToOriginal = () => {
-        setGroupData(initialGroupData);
+        setGroupData([]);
     };
 
     return (
@@ -29,7 +28,7 @@ const BookmarkList = ({ onOpenCreate }) => {
             <CreateBtn onClick={onOpenCreate}>
                 <CreateImg src={Create} alt="Create" />
             </CreateBtn>
-            <EditBtn onClick={() => navigate("/homepage/editBookmark")}>
+            <EditBtn onClick={() => navigate("/editbookmark")}>
                 <Icon src={Edit} alt="Edit" />
                 편집하기
             </EditBtn>
