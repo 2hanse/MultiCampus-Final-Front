@@ -1,10 +1,37 @@
-import React           from "react";
-import styled          from "styled-components";
-import { useNavigate } from "react-router-dom";
-import Back            from "../mylocation/assets/Back.png";
+import React, { useEffect, useState } from "react";
+import styled                         from "styled-components";
+import api                            from "../api/axios";
+import { getUserIdFromToken }         from "../api/jwt";
+import { useNavigate }                from "react-router-dom";
+import Back                           from "../mylocation/assets/Back.png";
+import Edit                           from "../bookmark/assets/Edit.png";
+import Delete                         from "../bookmark/assets/Delete.png";
+import DeleteModal                    from "../bookmark/edit/DeleteModal";
 
-const EditBookmarkPage = ({ name, author, count }) => {
+const EditBookmarkPage = ({ name, author, list_count }) => {
     const navigate = useNavigate();
+    const [groupData, setGroupData] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const user_id = getUserIdFromToken();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await api.get(`/bookmarks`);
+                console.log(user_id);
+                const transformedData = response.data.map(item => ({
+                    name: item.bookmark_title,
+                    author: item.user_nickname,
+                    count: item.list_count,
+                }));
+                setGroupData(transformedData);
+            } catch (error) {
+                console.error("Error fetching data: ", error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     return (
         <Main>
@@ -15,16 +42,27 @@ const EditBookmarkPage = ({ name, author, count }) => {
             <Warning>
                 ※ 삭제된 그룹은 복구가 불가합니다.
             </Warning>
-            <Content>
-                <ItemWrapper>
-                    <ItemContent>
-                        <GroupName>
-                            {name} <AuthorName>({author})</AuthorName>
-                        </GroupName>
-                        <GroupCount>개수 {count}/500</GroupCount>
-                    </ItemContent>
-                </ItemWrapper>
+            <Content groupData={groupData}>
+                <ListWrapper >
+                    {groupData.map((group, index) => (
+                        <ItemWrapper key={index} {...group} >
+                            <ItemContent>
+                                <GroupName>
+                                    {name} <AuthorName>({author})</AuthorName>
+                                </GroupName>
+                                <GroupCount>개수 {list_count}/500</GroupCount>
+                            </ItemContent>
+                            <EditBtn>
+                                <Icon src={Edit} alt="Edit" />
+                            </EditBtn>
+                            <DeleteBtn onClick={() => setIsModalOpen(true)}>
+                                <Icon src={Delete} alt="Delete" />
+                            </DeleteBtn>
+                        </ItemWrapper>
+                    ))}
+                </ListWrapper>
             </Content>
+            <DeleteModal isOpen={isModalOpen} onRequestClose={() => setIsModalOpen(false)} />
         </Main>
     );
 };
@@ -89,10 +127,8 @@ const Content = styled.div`
     position: absolute;
     width: 410px;
     height: 730px;
-    margin-top: 160px;
+    margin-top: 150px;
     padding: 10px;
-
-    background-color: grey;
 `
 
 const Warning = styled.h3`
@@ -111,6 +147,16 @@ const Warning = styled.h3`
     background: none;
     color: #ED6000;
 `
+
+const ListWrapper = styled.ul`
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    padding: 0px 0px;
+    list-style-type: none;
+    overflow-y: auto;
+    align-items: center;
+`;
 
 const ItemWrapper = styled.li`
     border-radius: 10px;
@@ -148,6 +194,45 @@ const GroupCount = styled.p`
     letter-spacing: 0.25px;
     font: 14px/20px Roboto, sans-serif;
     margin: 4px 0 0;
+`;
+
+const EditBtn = styled.button`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+
+    border: none;
+    background-color: #fff;
+    cursor: pointer;
+
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    right: 65px;
+`
+
+const DeleteBtn = styled.button`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+
+    border: none;
+    background-color: #fff;
+    cursor: pointer;
+
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    right: 25px;
+`
+
+const Icon = styled.img`
+    width: 15px;
+    height: 15px;
 `;
 
 export default EditBookmarkPage;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled                         from "styled-components";
 import api                            from "../api/axios";
-import {getUserIdFromToken}             from "../api/jwt";
+import { getUserIdFromToken }         from "../api/jwt";
 import GroupItem                      from "./GroupItem";
 
 function GroupList() {
@@ -11,7 +11,7 @@ function GroupList() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await api.get(`/bookmarks/${user_id}`);
+                const response = await api.get(`/bookmarks`);
                 console.log(user_id);
                 const transformedData = response.data.map(item => ({
                     name: item.bookmark_title,
