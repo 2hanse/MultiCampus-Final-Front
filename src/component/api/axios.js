@@ -1,15 +1,15 @@
-import axios from "axios";
+import axios from 'axios';
 
 const api = axios.create({
-  baseURL: "http://211.225.141.117:8000/",
+  baseURL: 'http://localhost:8000/',
 });
 
 // 요청 인터셉터 추가 - Authorization 헤더 자동 설정
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token"); // 로컬저장소에서 토큰 가져오기
+    const token = localStorage.getItem('token'); // 로컬저장소에서 토큰 가져오기
     if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
+      config.headers['Authorization'] = `Bearer ${token}`;
     }
     return config;
   },

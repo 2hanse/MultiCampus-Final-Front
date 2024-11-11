@@ -2,7 +2,13 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import styled from 'styled-components';
 
-const Editor = ({ title, setTitle, content, setContent, uploadPlugin }) => {
+const Editor = ({
+  title,
+  setTitle,
+  content,
+  handleContentChange,
+  uploadPlugin,
+}) => {
   return (
     <div className="Editor">
       <TitleWrapper>
@@ -22,10 +28,7 @@ const Editor = ({ title, setTitle, content, setContent, uploadPlugin }) => {
           uploadPlugin(editor);
           console.log('Editor is ready to use!', editor);
         }}
-        onChange={(event, editor) => {
-          setContent(editor.getData());
-          console.log({ event, editor, content });
-        }}
+        onChange={(event, editor) => handleContentChange(event, editor)}
         onBlur={(event, editor) => {
           console.log('Blur.', editor);
         }}

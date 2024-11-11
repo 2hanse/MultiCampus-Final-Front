@@ -1,16 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const BookmarkButton = () => {
+import BookmarkItem from './BookmarkItem';
+
+const BookmarkButton = ({ bookmarkList, handleBookmarkInnerClick }) => {
   return (
     <BookmarkWrapper>
-      <BookmarkInner>
+      <BookmarkInner onClick={handleBookmarkInnerClick}>
         <BookmarkIcon
           src="https://cdn.builder.io/api/v1/image/assets/TEMP/0c01f1a85d200b1b09fb5e61cd22a3a93c6fa58372b4beac0be61fabd630c089?placeholderIfAbsent=true&apiKey=96b0aafc0bca4efc865afcf9a032943c"
           alt=""
         />
         <BookmarkText>북마크 불러오기</BookmarkText>
       </BookmarkInner>
+      <BookmarkList>
+        {bookmarkList.map((bookmark) => (
+          <BookmarkItem key={bookmark.id} {...bookmark} />
+        ))}
+      </BookmarkList>
     </BookmarkWrapper>
   );
 };
@@ -51,6 +58,15 @@ const BookmarkIcon = styled.img`
 
 const BookmarkText = styled.span`
   color: #757575;
+`;
+
+const BookmarkList = styled.ul`
+  display: flex;
+  margin-top: 24px;
+  width: 100%;
+  flex-direction: column;
+  padding: 0 35px;
+  list-style-type: none;
 `;
 
 export default BookmarkButton;
