@@ -34,7 +34,7 @@ const EditBookmarkPage = () => {
     return (
         <Main>
             <HeaderBox>
-                <BackPage src={Back} alt="Back" onClick={() => navigate("/", { state: { openBookmarkSheet: true } })} />
+                <BackPage src={Back} alt="Back" onClick={() => navigate("/homepage", { state: { openBookmarkSheet: true } })} />
                 <Title>그룹 목록 편집</Title>
             </HeaderBox>
             <Warning>
