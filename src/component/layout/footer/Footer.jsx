@@ -1,14 +1,14 @@
-import React from "react";
+import React  from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import Home from "./assets/Home.png";
-import Feed from "./assets/Feed.png";
-import Map from "./assets/Map.png";
-import Chat from "./assets/Chat.png";
+import Home   from "./assets/Home.png";
+import Feed   from "./assets/Feed.png";
+import Map    from "./assets/Map.png";
+import Chat   from "./assets/Chat.png";
 import Person from "./assets/Person.png";
 import onHome from "./assets/onHome.png";
 import onFeed from "./assets/onFeed.png";
-import onMap from "./assets/onMap.png";
+import onMap  from "./assets/onMap.png";
 import onChat from "./assets/onChat.png";
 
 const Footer = ({ isLoggedIn, profileImageUrl }) => {
@@ -18,7 +18,7 @@ const Footer = ({ isLoggedIn, profileImageUrl }) => {
     const tabs = [
         { name: "home", path: "/boardmain",      defaultImg: Home, activeImg: onHome },
         { name: "feed", path: "/subscribe",      defaultImg: Feed, activeImg: onFeed },
-        { name: "map",  path: "/homepage",       defaultImg: Map,  activeImg: onMap },
+        { name: "map",  path: "/homepage",       defaultImg: Map,  activeImg: onMap  },
         { name: "chat", path: "/user/chat/list", defaultImg: Chat, activeImg: onChat }
     ];
 
