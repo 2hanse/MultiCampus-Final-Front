@@ -73,12 +73,11 @@ function PasswordForm() {
         try {
             const response = await api.put("/users/reset-password", newPwd);
             if (response.status === 200) {
-                //console.log('유저 이메일: ' + response.data.email);
-                //console.log('새 비밀번호: ' + response.data.new_password); 
                 navigate('/user/resetPasswordResult');
             }
         } catch (err) {
             console.log('비밀번호 에러: ', err);
+            alert(err);
         }
         }
     };
