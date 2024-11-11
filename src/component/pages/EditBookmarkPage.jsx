@@ -9,23 +9,16 @@ import Edit                           from "../bookmark/assets/Edit.png";
 import Delete                         from "../bookmark/assets/Delete.png";
 import EditBookmark                   from "../bookmark/edit/EditBookmark";
 
-const EditBookmarkPage = ({ name, author, list_count }) => {
+const EditBookmarkPage = () => {
     const navigate                  = useNavigate();
     const [isEditOpen, setEditOpen] = useState(false);
     const [groupData, setGroupData] = useState([]);
-    const user_id                   = getUserIdFromToken();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await api.get(`/bookmarks`);
-                console.log(user_id);
-                const transformedData = response.data.map(item => ({
-                    name: item.bookmark_title,
-                    author: item.user_nickname,
-                    count: item.list_count,
-                }));
-                setGroupData(transformedData);
+                setGroupData(response.data);
             } catch (error) {
                 console.error("Error fetching data: ", error);
             }
@@ -53,9 +46,9 @@ const EditBookmarkPage = ({ name, author, list_count }) => {
                         <ItemWrapper key={index} {...group} >
                             <ItemContent>
                                 <GroupName>
-                                    {name} <AuthorName>({author})</AuthorName>
+                                    {group.bookmark_title} <AuthorName>({group.user_nickname})</AuthorName>
                                 </GroupName>
-                                <GroupCount>개수 {list_count}/500</GroupCount>
+                                <GroupCount>개수 {group.list_count}/500</GroupCount>
                             </ItemContent>
                             <EditBtn onClick={() => setEditOpen(true)}>
                                 <Icon src={Edit} alt="Edit" />

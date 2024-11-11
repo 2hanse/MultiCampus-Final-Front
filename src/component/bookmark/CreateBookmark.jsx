@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled              from "styled-components";
+import api from "../api/axios";
 
 const CreateBookmark = ({ onCancel }) => {
     const [isPublished, setIsPublished] = useState(false);
@@ -8,6 +9,20 @@ const CreateBookmark = ({ onCancel }) => {
     // Input 값 변경 시 호출되는 함수
     const handleInputChange = (e) => {
         setGroupName(e.target.value);
+    };
+
+    const onComplete = () => {
+        api.post('/bookmarks', {bookmark_title: groupName, visibility: isPublished}).then(
+            (res) => {
+                if (res.status == 200) {
+                    onCancel();
+                }
+            }
+        ).catch(
+            (err) => {
+                alert("북마크를 생성하는중 알 수 없는 에러가 발생했습니다: " + err);
+            }
+        );
     };
 
     return (
@@ -30,7 +45,7 @@ const CreateBookmark = ({ onCancel }) => {
                        value={groupName}
                        onChange={handleInputChange} />
             {/* <IconSelect>아이콘 선택</IconSelect> */}
-            <CompleteBtn disabled={!groupName}>완료</CompleteBtn>
+            <CompleteBtn disabled={!groupName} onClick={() => onComplete()}>완료</CompleteBtn>
         </Wrapper>
     );
 };
