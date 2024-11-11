@@ -1,10 +1,46 @@
-import React           from "react";
-import styled          from "styled-components";
-import { useNavigate } from "react-router-dom";
-import Back            from "../mylocation/assets/Back.png";
+import React, { useEffect, useState } from "react";
+import styled                         from "styled-components";
+import api                            from "../api/axios";
+import { getUserIdFromToken }         from "../api/jwt";
+import { useNavigate }                from "react-router-dom";
+import { Sheet }                      from 'react-modal-sheet';
+import Back                           from "../mylocation/assets/Back.png";
+import Edit                           from "../bookmark/assets/Edit.png";
+import Delete                         from "../bookmark/assets/Delete.png";
+import EditBookmark                   from "../bookmark/edit/EditBookmark";
 
-const EditBookmarkPage = ({ name, author, count }) => {
-    const navigate = useNavigate();
+const EditBookmarkPage = () => {
+    const navigate                  = useNavigate();
+    const [isEditOpen, setEditOpen] = useState(false);
+    const [groupData, setGroupData] = useState([]);
+    const [currentEditingGroup, setCurrentEdittingGroup] = useState();
+
+    const fetchData = async () => {
+        try {
+            const response = await api.get(`/bookmarks`);
+            setGroupData(response.data);
+        } catch (error) {
+            console.error("Error fetching data: ", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const handleEditClick = (group) => {
+        setCurrentEdittingGroup(group);
+        setEditOpen(true);
+    };
+
+    const handleDeleteClick = (group) => {
+        api.delete(`/bookmarks/${group.bookmark_id}`)
+            .then((res) => { 
+                fetchData();
+                alert("북마크 그룹을 삭제하였습니다.");
+            })
+            .catch((err) => alert(`북마크를 삭제하는데 실패했습니다. (${err}`));
+    };
 
     return (
         <Main>
@@ -15,16 +51,41 @@ const EditBookmarkPage = ({ name, author, count }) => {
             <Warning>
                 ※ 삭제된 그룹은 복구가 불가합니다.
             </Warning>
-            <Content>
-                <ItemWrapper>
-                    <ItemContent>
-                        <GroupName>
-                            {name} <AuthorName>({author})</AuthorName>
-                        </GroupName>
-                        <GroupCount>개수 {count}/500</GroupCount>
-                    </ItemContent>
-                </ItemWrapper>
+            <Content groupData={groupData}>
+                <ListWrapper >
+                    {groupData.map((group, index) => (
+                        <ItemWrapper key={index} {...group} >
+                            <ItemContent>
+                                <GroupName>
+                                    {group.bookmark_title} <AuthorName>({group.user_nickname})</AuthorName>
+                                </GroupName>
+                                <GroupCount>개수 {group.list_count}/500</GroupCount>
+                            </ItemContent>
+                            <EditBtn onClick={() => handleEditClick(group)}>
+                                <Icon src={Edit} alt="Edit" />
+                            </EditBtn>
+                            <DeleteBtn onClick={() => handleDeleteClick(group)}>
+                                <Icon src={Delete} alt="Delete" />
+                            </DeleteBtn>
+                        </ItemWrapper>
+                    ))}
+                </ListWrapper>
             </Content>
+            <CustomSheet isOpen={isEditOpen}
+                         onClose={() => {
+                            setEditOpen(true);
+                         }}
+                         snapPoints={[500, 500, 0]} initialSnap={1}>
+                <Sheet.Container>
+                    <Sheet.Header />
+                    <Sheet.Content>
+                        <EditBookmark onCancel={() => setEditOpen(false)} group={currentEditingGroup} fetchData={() => fetchData()} />
+                    </Sheet.Content>
+                </Sheet.Container>
+                <Sheet.Backdrop onClick={() => {
+                                    setEditOpen(false)
+                                }} />
+            </CustomSheet>
         </Main>
     );
 };
@@ -89,10 +150,8 @@ const Content = styled.div`
     position: absolute;
     width: 410px;
     height: 730px;
-    margin-top: 160px;
+    margin-top: 150px;
     padding: 10px;
-
-    background-color: grey;
 `
 
 const Warning = styled.h3`
@@ -111,6 +170,16 @@ const Warning = styled.h3`
     background: none;
     color: #ED6000;
 `
+
+const ListWrapper = styled.ul`
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    padding: 0px 0px;
+    list-style-type: none;
+    overflow-y: auto;
+    align-items: center;
+`;
 
 const ItemWrapper = styled.li`
     border-radius: 10px;
@@ -148,6 +217,80 @@ const GroupCount = styled.p`
     letter-spacing: 0.25px;
     font: 14px/20px Roboto, sans-serif;
     margin: 4px 0 0;
+`;
+
+const EditBtn = styled.button`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+
+    border: none;
+    background-color: #fff;
+    cursor: pointer;
+
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    right: 65px;
+`
+
+const DeleteBtn = styled.button`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+
+    border: none;
+    background-color: #fff;
+    cursor: pointer;
+
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    right: 25px;
+`
+
+const Icon = styled.img`
+    width: 15px;
+    height: 15px;
+`;
+
+const CustomSheet = styled(Sheet)`
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    max-width: 430px;
+    z-index: 5;
+
+    /* sheet 라이브러리 css 덮어 쓰려면 !important 끝에 들어가야합니다 */
+    .react-modal-sheet-backdrop {
+        position: absolute !important;
+        width: 430px !important;
+        margin-bottom: 100px !important;
+        background-color: rgba(0, 0, 0, 0.1) !important;
+    }
+    .react-modal-sheet-container {
+        background-color: #FFFFFF !important;
+        border-radius: 20px 20px 0px 0px !important;
+        padding-top: 10px !important;
+    }
+    .react-modal-sheet-header {
+        cursor: pointer !important;
+    }
+    .react-modal-sheet-drag-indicator {
+        background: #999 !important;
+        border-radius: 5px !important;
+        cursor: grab;
+    }
+    .react-modal-sheet-content {
+        margin: 10px 20px !important;
+    }
 `;
 
 export default EditBookmarkPage;
