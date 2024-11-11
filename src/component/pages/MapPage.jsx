@@ -15,7 +15,9 @@ function MapPage() {
     const navigate                      = useNavigate();
     const [isOpen,       setOpen      ] = useState(false);
     const [isCreateOpen, setCreateOpen] = useState(false);
+    const [isPlaceInfoOpen, setPlaceInfoOpen] = useState(false);
     const [places,       setPlaces    ] = useState([]);
+    const [selectedPlaces, setSelectedPlaces] = useState();
 
     useEffect(() => {
         if (location.state?.openBookmarkSheet) {
@@ -50,6 +52,12 @@ function MapPage() {
                             }, // 마커이미지의 크기입니다
                         }}
                         title={place.placeName} // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+                        onClick={(marker) => {
+                            setSelectedPlaces(marker.getTitle());
+                            console.log(marker);
+                            console.log(selectedPlaces);
+                            setPlaceInfoOpen(true);
+                        }}
                         />
                     ))}
             </Map>
@@ -93,6 +101,25 @@ function MapPage() {
                 <Sheet.Backdrop onClick={() => {
                                     setCreateOpen(false)
                                     setOpen(true)
+                                }} />
+            </CustomSheet>
+            <CustomSheet isOpen={isPlaceInfoOpen}
+                         onClose={() => {
+                            setCreateOpen(false);
+                            setOpen(false);
+                            setPlaceInfoOpen(false);
+                         }}
+                         snapPoints={[500, 500, 0]} initialSnap={1}>
+                <Sheet.Container>
+                    <Sheet.Header />
+                    <Sheet.Content>
+                        선택된 {selectedPlaces}
+                    </Sheet.Content>
+                </Sheet.Container>
+                <Sheet.Backdrop onClick={() => {
+                            setCreateOpen(false);
+                            setOpen(false);
+                            setPlaceInfoOpen(false);
                                 }} />
             </CustomSheet>
             <Footer />
