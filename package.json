@@ -21,6 +21,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-kakao-maps-sdk": "^1.1.27",
+    "react-modal": "^3.16.1",
     "react-modal-sheet": "^3.3.0",
     "react-native-gesture-handler": "^2.20.2",
     "react-native-reanimated": "^3.16.1",

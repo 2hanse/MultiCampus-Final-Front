@@ -9,6 +9,7 @@ import Footer                         from "../layout/footer/Footer";
 import { Map, MapMarker }                        from "react-kakao-maps-sdk"
 import axios from "axios";
 import api from "../api/axios";
+import PlaceInfoSheet from "../map/PlaceInfoSheet";
 
 function MapPage() {
     const location                      = useLocation();
@@ -29,8 +30,11 @@ function MapPage() {
         api.get("/place/list")
         .then((res) => {
             setPlaces(res.data);
+            //console.log(res.data);
         });
     }, []);
+
+    const selectedPlaceData = places.find(place => place.placeName === selectedPlaces);
 
     const handleBackPageClick = () => {
         navigate(-1, { state: { openBookmarkSheet: true } });
@@ -109,11 +113,15 @@ function MapPage() {
                             setOpen(false);
                             setPlaceInfoOpen(false);
                          }}
-                         snapPoints={[500, 500, 0]} initialSnap={1}>
+                         snapPoints={[500, 500, 0]} initialSnap={1}
+                         style={{zIndex: 10}}>
                 <Sheet.Container>
                     <Sheet.Header />
                     <Sheet.Content>
-                        선택된 {selectedPlaces}
+                        <PlaceInfoSheet style={{zIndex: 100}}
+                                        placeName={selectedPlaceData?.placeName} 
+                                        placeAddress={selectedPlaceData?.placeAddress} 
+                                        placeTele={selectedPlaceData?.placeTele}/>
                     </Sheet.Content>
                 </Sheet.Container>
                 <Sheet.Backdrop onClick={() => {
@@ -174,5 +182,7 @@ const CustomSheet = styled(Sheet)`
         margin: 10px 20px !important;
     }
 `;
+
+
 
 export default MapPage;
