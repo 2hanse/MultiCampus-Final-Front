@@ -1,18 +1,17 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import 맛있는녀석들_로고   from "./assets/맛있는녀석들_로고.png";
 
 function Header() {
   return (
     <Wrapper>
     <HeaderWrapper>
-        <NavLink to={"/"}>
-          <Logo loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" alt="Logo" />
-        </NavLink>
+      <Logo         src={맛있는녀석들_로고} alt="맛있는 녀석들 로고" />
     </HeaderWrapper>
    
-    <Title>맛잘알이 되는 길</Title>
-    <Subtitle>나만의 맛집을 공유해보세요</Subtitle>
+    <Title>우리 동네의<br />숨은 맛집</Title>
+    <Subtitle>동네 맛집을 공유해요</Subtitle>
     </Wrapper>
   );
 }
@@ -35,25 +34,26 @@ const HeaderWrapper = styled.header`
 `;
 
 const Wrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 220px;
   max-width: 100%;
   white-space: nowrap;
-  text-align: center;
+
   justify-content: space-between;
 `;
 
 const Logo = styled.img`
-  aspect-ratio: 1;
-  object-fit: contain;
-  object-position: center;
-  width: 24px;
-  cursor: pointer;
-`;
+    position: absolute;
+    width: 85px;
+    height: 85px;
+    left: calc(60% - 85px/2 + 0.5px);
+    top: 58px;
+    border-radius: 50px;
+`
 
-const Title = styled.h1`
+const Title = styled.b`
   color: #e1650f;
   font-size: 40px;
   margin: 54px 0 0 45px;

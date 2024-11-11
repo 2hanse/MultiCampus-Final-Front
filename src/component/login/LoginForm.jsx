@@ -75,6 +75,10 @@ function LoginForm() {
     }
   };
 
+  const onGuest = () => {
+    navigate('/homepage');
+  }
+
     return (
         <Form onSubmit={handleSubmit}>
           <label htmlFor="email" className="security-question-label">이메일</label>
@@ -102,6 +106,7 @@ function LoginForm() {
           {password.length > 0 && <span className={`message ${isPassword ? 'success' : 'error'}`}>{passwordMessage}</span>}
           </Formbox>
           <SubmitButton type="submit">로그인</SubmitButton>
+          <SubmitButton2 type="button" onClick={onGuest}>게스트로 이용하기</SubmitButton2>
         </Form>
     );
 }
@@ -164,6 +169,20 @@ const SubmitButton = styled.button`
   width: 100%;
   font-size: 19px;
   color: #785a00;
+  white-space: nowrap;
+  text-align: center;
+  margin: 26px 0 0 0px;
+  padding: 10px 8px;
+  border: none;
+  cursor: pointer;
+`;
+
+const SubmitButton2 = styled.button`
+  border-radius: 10px;
+  background-color: #D5CBAE;
+  width: 100%;
+  font-size: 19px;
+  color: #785A00;
   white-space: nowrap;
   text-align: center;
   margin: 26px 0 0 0px;
