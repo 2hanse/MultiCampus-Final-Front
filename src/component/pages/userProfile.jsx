@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import FollowConfirmationModal from '../ProfilePage/FollowConfirmationModal'; // 팔로우 모달 컴포넌트
 import UnfollowConfirmation from '../ProfilePage/UnfollowConfirmation'; // 언팔로우 모달 컴포넌트
 import Footer from '../layout/footer/Footer';
+import BookmarkConfirmationModal from '../ProfilePage/BookmarkConfirmationModal';
 
 const styles = {
   userProfile: {
@@ -19,13 +20,9 @@ const styles = {
     color: '#000',
   },
   profileHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '40px',
     padding: '0 28px',
-    whiteSpace: 'nowrap',
-    textAlign: 'center',
-    font: '18px/1 Roboto, sans-serif',
+    color:'#000',
+    font: '400 17px Inter, sans-serif'
   },
   profileIcon: {
     width: '24px',
@@ -36,6 +33,7 @@ const styles = {
   nickname: {
     marginTop: '15px',
     fontSize: '18px',
+    marginBottom: '10px',
   },
   settingsIcon: {
     width: '15px',
@@ -136,16 +134,55 @@ const styles = {
     width: '100%',
     border: 'none',
     borderTop: '1px solid #cac4d0',
-    margin: '12px 0',
+    margin: 0,
+  },
+  timestamp: {
+    color: '#49454f',
+    letterSpacing: '0.5px',
+    font: '500 12px/16px Roboto, sans-serif',
+  },
+  title: {
+    color: '#1d1b20',
+    letterSpacing: '0.5px',
+    font: '16px/24px Roboto, sans-serif',
+    margin: '4px 0',
+  },
+  content: {
+    color: '#49454f',
+    letterSpacing: '0.25px',
+    font: '14px/20px Roboto, sans-serif',
+    margin: '0',
   },
 };
+
+const reviewData = [
+  { timestamp: "n분 전", title: "[동네주민] 게시글 제목", content: "게시글 본문(20자)" },
+  { timestamp: "n분 전", title: "[동네주민] 게시글 제목", content: "게시글 본문(20자)" },
+  { timestamp: "n분 전", title: "게시글 제목", content: "게시글 본문(20자)" },
+  { timestamp: "n분 전", title: "게시글 제목", content: "게시글 본문(20자)" },
+  { timestamp: "yy.mm.dd", title: "게시글 제목", content: "게시글 본문(20자)" },
+  { timestamp: "yy.mm.dd", title: "게시글 제목", content: "게시글 본문(20자)" },
+];
+
+// ReviewListItem 컴포넌트
+function ReviewListItem({ timestamp, title, content }) {
+  return (
+    <article>
+      <hr />
+      <time style={styles.timestamp}>{timestamp}</time>
+      <h2 style={styles.title}>{title}</h2>
+      <p style={styles.content}>{content}</p>
+    </article>
+  );
+}
 
 const UserProfile = () => {
   const { id } = useParams();
   console.log(id);
-  const [isModalOpen, setIsModalOpen] = useState(false); // 팔로우 모달 상태
-  const [isUnfollowModalOpen, setIsUnfollowModalOpen] = useState(false); // 언팔로우 모달 상태
-  const [isFollowing, setIsFollowing] = useState(false); // 팔로우 상태
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUnfollowModalOpen, setIsUnfollowModalOpen] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [isBookmarkModalOpen, setIsBookmarkModalOpen] = useState(false); // 북마크 모달 상태 추가
   const navigate = useNavigate();
 
   const handleProfileIconClick = () => {
@@ -154,24 +191,33 @@ const UserProfile = () => {
 
   const handleFollowButtonClick = () => {
     if (isFollowing) {
-      setIsUnfollowModalOpen(true); // 이미 팔로우 중이면 언팔로우 모달 열기
+      setIsUnfollowModalOpen(true); 
     } else {
-      setIsModalOpen(true); // 팔로우 중이 아니면 팔로우 모달 열기
+      setIsModalOpen(true); 
     }
   };
 
   const closeFollowModal = (followConfirmed) => {
     if (followConfirmed) {
-      setIsFollowing(true); // 팔로우 확정되면 상태 업데이트
+      setIsFollowing(true); 
     }
-    setIsModalOpen(false); // 팔로우 모달 닫기
+    setIsModalOpen(false); 
   };
 
   const closeUnfollowModal = (unfollowConfirmed) => {
     if (unfollowConfirmed) {
-      setIsFollowing(false); // 언팔로우 확정되면 상태 업데이트
+      setIsFollowing(false); 
     }
-    setIsUnfollowModalOpen(false); // 언팔로우 모달 닫기
+    setIsUnfollowModalOpen(false); 
+  };
+
+  const handleBookmarkIconClick = () => {
+    setIsBookmarkModalOpen(true); // 북마크 모달 열기
+  };
+
+  const closeBookmarkModal = (confirmed) => {
+    // 북마크 저장 로직이 필요하다면 여기에 추가
+    setIsBookmarkModalOpen(false); // 모달 닫기
   };
 
   return (
@@ -183,14 +229,17 @@ const UserProfile = () => {
         handleFollowButtonClick={handleFollowButtonClick}
         isFollowing={isFollowing}
       />
-      <ProfileContent />
-      <Footer/>
+      <ProfileContent handleBookmarkIconClick={handleBookmarkIconClick} /> {/* 북마크 클릭 핸들러 추가 */}
+      <Footer />
 
       {/* 팔로우 모달 */}
       {isModalOpen && <FollowConfirmationModal username="닉네임" closeModal={closeFollowModal} />}
       
       {/* 언팔로우 모달 */}
       {isUnfollowModalOpen && <UnfollowConfirmation username="닉네임" closeModal={closeUnfollowModal} />}
+
+      {/* 북마크 모달 */}
+      {isBookmarkModalOpen && <BookmarkConfirmationModal nickname="닉네임" closeModal={closeBookmarkModal} />}
     </div>
   );
 };
@@ -199,7 +248,7 @@ const ProfileHeader = ({ handleProfileIconClick }) => {
   const navigate = useNavigate();
 
   const handleSettingsClick = () => {
-    navigate('/memberinfo');
+    navigate('/myprofilepage');
   };
 
   return (
@@ -210,7 +259,10 @@ const ProfileHeader = ({ handleProfileIconClick }) => {
         style={styles.profileIcon}
         onClick={handleProfileIconClick}
       />
-      <h1 style={styles.nickname}>닉네임</h1>
+      <div>
+        <h1 style={styles.nickname}>닉네임</h1>
+        <hr style={styles.divider} /> {/* 닉네임 아래에 선 추가 */}
+      </div>
       <img
         src="https://cdn.builder.io/api/v1/image/assets/TEMP/98fd1e5fbd5f0c9367d03b9713c2dbc57fd8cf5b3f36e16cbd8c18f78188a0bb?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
         alt="Settings Icon"
@@ -223,6 +275,7 @@ const ProfileHeader = ({ handleProfileIconClick }) => {
 
 const ProfileStats = () => {
   return (
+    
     <section style={styles.profileStats}>
       <img
         src="https://cdn.builder.io/api/v1/image/assets/TEMP/b7a38cc5eac3bdddc15bd83f752ef5b7883c36669787fc9f39a59bad39fb1d40?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
@@ -259,14 +312,13 @@ const ProfileActions = ({ handleFollowButtonClick, isFollowing }) => {
         onClick={handleFollowButtonClick}
       >
         {isFollowing ? '팔로잉' : '팔로우'}
-        
       </button>
       <button style={styles.messageButton}>메시지</button>
     </div>
   );
 };
 
-const ProfileContent = () => {
+const ProfileContent = ({ handleBookmarkIconClick }) => {
   return (
     <section style={styles.profileContent}>
       <nav style={styles.contentNav}>
@@ -283,11 +335,15 @@ const ProfileContent = () => {
         <img
           src="https://cdn.builder.io/api/v1/image/assets/TEMP/b18b77b5d6ce2798eaa729bc37d9585e29111b1ff6db2012daebed19d8146a53?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
           alt="Nav Icon"
-          style={styles.navIcon}
+          style={{ ...styles.navIcon, cursor: "pointer" }} // 커서가 pointer로 변경
+          onClick={handleBookmarkIconClick} // 이미지 클릭 시 북마크 모달 열기
         />
       </nav>
-      <hr style={styles.divider} />
-      <p>여기에 콘텐츠를 추가하세요.</p>
+      <section style={styles.reviewList}>
+        {reviewData.map((review, index) => (
+          <ReviewListItem key={index} {...review} />
+        ))}
+      </section>
     </section>
   );
 };

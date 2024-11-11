@@ -30,6 +30,7 @@ const styles = {
   title: {
     color: '#000',
     textAlign: 'center',
+    marginright: '10px',
     font: '400 18px/1 Roboto, sans-serif',
   },
   followList: {

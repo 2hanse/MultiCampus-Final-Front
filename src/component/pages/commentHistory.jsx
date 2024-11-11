@@ -116,89 +116,89 @@ export default function CommentHistory() {
       </section>
       <Footer /> {/* Footer 추가 */}
       <style jsx>{`
-  .comment-history-page {
-    display: flex;
-    overflow: hidden;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 430px;
-    max-height: 932px;
-    min-height: 732px;
-    background: #ffffff;
-    margin: 0 auto;
-    border: 0.5px solid #cac4d0;
-  }
+        .comment-history-page {
+          display: flex;
+          overflow: hidden;
+          flex-direction: column;
+          align-items: flex-start;
+          width: 430px;
+          max-height: 932px;
+          min-height: 732px;
+          background: #ffffff;
+          margin: 0 auto;
+          border: 0.5px solid #cac4d0;
+        }
 
-  .header-section {
-    background-color: #fff4d2;
-    width: 100%;
-    padding: 30px 26px;  /* padding을 고정값으로 설정 */
-    box-sizing: border-box;
-    height: 150px; /* 고정된 높이 설정 */
-  }
+        .header-section {
+          background-color: #fff4d2;
+          width: 100%;
+          padding: 30px 26px; /* padding을 고정값으로 설정 */
+          box-sizing: border-box;
+          height: 150px; /* 고정된 높이 설정 */
+        }
 
-  .header-content {
-    gap: 20px;
-    display: flex;
-    justify-content: space-between; /* 요소들을 가로로 배치 */
-    max-width: 430px;
-    align-items: center; /* 세로 중앙 정렬 */
-  }
+        .header-content {
+          gap: 20px;
+          display: flex;
+          justify-content: space-between; /* 요소들을 가로로 배치 */
+          max-width: 430px;
+          align-items: center; /* 세로 중앙 정렬 */
+        }
 
-  .back-button {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    padding-right: 50px;
-    margin-left: 20px;
-  }
+        .back-button {
+          background: none;
+          border: none;
+          padding: 0;
+          cursor: pointer;
+          padding-right: 50px;
+          margin-left: 20px;
+        }
 
-  .header-title {
-    width: 60%;
-  }
+        .header-title {
+          width: 60%;
+        }
 
-  .search-button {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    padding-left: 50px;
-    margin-right: 30px;
-  }
+        .search-button {
+          background: none;
+          border: none;
+          padding: 0;
+          cursor: pointer;
+          padding-left: 50px;
+          margin-right: 30px;
+        }
 
-  .icon {
-    aspect-ratio: 1;
-    object-fit: contain;
-    object-position: center;
-    width: 24px;
-  }
+        .icon {
+          aspect-ratio: 1;
+          object-fit: contain;
+          object-position: center;
+          width: 24px;
+        }
 
-  .title {
-    color: #000;
-    text-align: center;
-    margin-top: 15px;
-    font: 400 18px/1 Roboto, sans-serif;
-  }
+        .title {
+          color: #000;
+          text-align: center;
+          margin-top: 15px;
+          font: 400 18px/1 Roboto, sans-serif;
+        }
 
-  .sort-section {
-    display: flex;
-    color: #000;
-    text-align: center;
-    margin: 27px 38px 0 0;
-    font: 400 13px/1 Roboto, sans-serif;
-    align-self: flex-end;
-  }
+        .sort-section {
+          display: flex;
+          color: #000;
+          text-align: center;
+          margin: 27px 38px 0 0;
+          font: 400 13px/1 Roboto, sans-serif;
+          align-self: flex-end;
+        }
 
-  .sort-text {
-    flex-grow: 1;
-    margin: auto 0;
-  }
+        .sort-text {
+          flex-grow: 1;
+          margin: auto 0;
+        }
 
-  .comment-list {
-    width: 100%; /* 리스트 너비도 Footer에 맞춰서 조정 */
-  }
-`}</style>
+        .comment-list {
+          width: 100%; /* 리스트 너비도 Footer에 맞춰서 조정 */
+        }
+      `}</style>
     </main>
   );
 }
