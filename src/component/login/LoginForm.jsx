@@ -1,10 +1,9 @@
-import React, { useCallback, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import api from "../api/axios";
+import React, { useCallback, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import api from '../api/axios';
 
 function LoginForm() {
-    
   //페이지 이동
   const navigate = useNavigate();
 
@@ -23,49 +22,52 @@ function LoginForm() {
   // 이메일 유효성 검사
   const onChangeEmail = useCallback((e) => {
     const emailRegex =
-      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
-    const emailCurrent = e.target.value
-    setEmail(emailCurrent)
+      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    const emailCurrent = e.target.value;
+    setEmail(emailCurrent);
 
     if (!emailRegex.test(emailCurrent)) {
-      setEmailMessage('이메일 형식이 틀렸어요! 다시 확인해주세요 ㅜ ㅜ')
-      setIsEmail(false)
+      setEmailMessage('이메일 형식이 틀렸어요! 다시 확인해주세요 ㅜ ㅜ');
+      setIsEmail(false);
     } else {
-      setEmailMessage('올바른 이메일 형식이에요 : )')
-      setIsEmail(true)
+      setEmailMessage('올바른 이메일 형식이에요 : )');
+      setIsEmail(true);
     }
-  }, [])
+  }, []);
 
   // 비밀번호 유효성 검사
   const onChangePassword = useCallback((e) => {
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
-    const passwordCurrent = e.target.value
-    setPassword(passwordCurrent)
+    const passwordRegex =
+      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+    const passwordCurrent = e.target.value;
+    setPassword(passwordCurrent);
 
     if (!passwordRegex.test(passwordCurrent)) {
-      setPasswordMessage('숫자+영문자+특수문자로 8자리이상 입력해주세요')
-      setIsPassword(false)
+      setPasswordMessage('숫자+영문자+특수문자로 8자리이상 입력해주세요');
+      setIsPassword(false);
     } else {
-      setPasswordMessage('안전한 비밀번호에요 : )')
-      setIsPassword(true)
+      setPasswordMessage('안전한 비밀번호에요 : )');
+      setIsPassword(true);
     }
-  }, [])
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if( email === "" || password === "") {
-      alert("모두 입력해주세요");
+    if (email === '' || password === '') {
+      alert('모두 입력해주세요');
     } else {
       try {
-        //console.log(email, password);
-        const response = await api.post("/users/login",{
+        console.log(email, password);
+        const response = await api.post('/users/login', {
           email: email,
-          password: password
+          password: password,
         });
         if (response.status === 200) {
           alert('로그인 성공! ');
           const token = response.data.token;
+
           localStorage.setItem("token", token);
+
           navigate('/');
         }
       } catch (error) {
@@ -157,7 +159,7 @@ const Input = styled.input`
   background-color: #fff;
   width: 100%;
   font-size: 15px;
-  
+
   padding: 10px 8px;
   border: 1px solid #ffd966;
   box-sizing: border-box;

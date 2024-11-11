@@ -8,10 +8,10 @@ import RatingSection from '../post-board/restaurant-board/RatingSection';
 import ActionButtons from '../post-board/restaurant-board/ActionButtons';
 import Editor from '../post-board/Editor';
 import api from '../api/axios';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const RestorantBoardPostingPage = () => {
-  const category = '식당';
+  const category = 'restaurant';
   const navigate = useNavigate();
 
   // 1. 영수증
@@ -20,14 +20,19 @@ const RestorantBoardPostingPage = () => {
   const [title, setTitle] = useState('');
   // 3. 내용
   const [content, setContent] = useState('');
-  // 4. 가게 주소(보여주기용)
-  const location = useLocation();
-  const selectedReceipt = location.state?.receipt; // 옵셔널 체이닝 사용
+  // 4. 영수증 불러오기에서 선택된 영수증 정보
+  const [selectedReceipt, setSelectedReceipt] = useState(null);
+  // 5. 카메라에서 선택한 영수증 정보
   const [uploadedReceipt, setUploadedReceipt] = useState('');
+
+  // 영수증 리스트 토글관리
+  const [isListVisible, setIsListVisible] = useState(false);
+
   // 값이 변경될 때마다 현재 선택된 영수증 값 설정
   const [currentReceipt, setCurrentReceipt] = useState(
     selectedReceipt || uploadedReceipt
   );
+
   // 5. 리뷰(별점)
   const [ratings, setRatings] = useState({
     rate_flavor: 0,
@@ -42,12 +47,12 @@ const RestorantBoardPostingPage = () => {
 
     const savedDraft = localStorage.getItem('draftPost');
     if (savedDraft) {
-      const { title, content, uploadedReceipt, currentReceipt, ratings } =
+      const { title, content, currentReceipt, ratings } =
         JSON.parse(savedDraft);
       setTitle(title);
       setContent(content);
       setUploadedReceipt(uploadedReceipt);
-      setCurrentReceipt(currentReceipt || uploadedReceipt); // savedDraft에서 currentReceipt가 없다면 uploadedReceipt로 설정
+      setCurrentReceipt(currentReceipt); // savedDraft에서 currentReceipt가 없다면 uploadedReceipt로 설정
       setRatings(ratings);
     }
 
@@ -64,7 +69,6 @@ const RestorantBoardPostingPage = () => {
     const draft = {
       title,
       content,
-      uploadedReceipt,
       currentReceipt,
       ratings,
     };
@@ -75,7 +79,7 @@ const RestorantBoardPostingPage = () => {
   };
 
   // 게시글 작성 버튼 관련
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // if (title.length < 1) {
     //   titleRef.current.focus();
     //   return;
@@ -84,10 +88,10 @@ const RestorantBoardPostingPage = () => {
     const data = {
       board: { title, content },
       review: { ...ratings },
-      receipt: { selectedReceipt },
+      receipt: currentReceipt,
     };
 
-    api.post(`/boards/${category}`, data).then((res) => {
+    await api.post(`/boards/${category}`, data).then((res) => {
       if (res.status === 200) {
         // 게시물 작성 후 로컬스토리지에서 임시 저장된 데이터 삭제
         localStorage.removeItem('draftPost');
@@ -229,6 +233,29 @@ const RestorantBoardPostingPage = () => {
     }));
   };
 
+  const toggleList = () => {
+    setIsListVisible((prev) => !prev);
+  };
+
+  // 영수증 선택
+  const handleReceiptClick = (receipt) => {
+    setSelectedReceipt(receipt); // 선택한 데이터를 저장
+    setIsListVisible(false); // 목록닫기
+  };
+
+  // 태그 없애는 메서드
+  const removeHtmlTags = (html) => {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.textContent || '';
+  };
+
+  const handleContentChange = (event, editor) => {
+    const rawContent = editor.getData(); // HTML이 포함된 데이터
+    const plainTextContent = removeHtmlTags(rawContent); // HTML 태그 제거
+    setContent(plainTextContent);
+    console.log('테그 제거된 값 ' + plainTextContent); // 태그가 제거된 순수 텍스트 확인
+  };
+
   return (
     <PageContainer>
       <Header />
@@ -236,12 +263,15 @@ const RestorantBoardPostingPage = () => {
         <ReceiptUpload
           receipts={receipts}
           handleCameraButtonClick={handleCameraButtonClick}
+          isListVisible={isListVisible}
+          toggleList={toggleList}
+          handleReceiptClick={handleReceiptClick}
         />
         <Editor
           title={title}
           setTitle={setTitle}
           content={content}
-          setContent={setContent}
+          handleContentChange={handleContentChange}
           uploadPlugin={uploadPlugin}
         />
         <LocationSearch selectedReceipt={selectedReceipt || uploadedReceipt} />
