@@ -2,23 +2,33 @@ import React, { useState, useEffect } from "react";
 import styled                         from "styled-components";
 import { useLocation, useNavigate }   from "react-router-dom";
 import Header                         from "../map/Header";
-import Map                            from "../map/Map";
 import { Sheet }                      from 'react-modal-sheet';
 import BookmarkList                   from "../bookmark/BookmarkList";
 import CreateBookmark                 from "../bookmark/CreateBookmark";
 import Footer                         from "../layout/footer/Footer";
+import { Map, MapMarker }                        from "react-kakao-maps-sdk"
+import axios from "axios";
+import api from "../api/axios";
 
 function MapPage() {
     const location                      = useLocation();
     const navigate                      = useNavigate();
     const [isOpen,       setOpen      ] = useState(false);
     const [isCreateOpen, setCreateOpen] = useState(false);
+    const [places,       setPlaces    ] = useState([]);
 
     useEffect(() => {
         if (location.state?.openBookmarkSheet) {
             setOpen(true);
         }
     }, [location.state]);
+
+    useEffect(() => {
+        api.get("/place/list")
+        .then((res) => {
+            setPlaces(res.data);
+        });
+    }, []);
 
     const handleBackPageClick = () => {
         navigate(-1, { state: { openBookmarkSheet: true } });
@@ -27,7 +37,22 @@ function MapPage() {
     return (
         <Main>
             <Header onClickBookmark={() => setOpen(true)} />
-            <Map />
+            <Map center={{ lat: 33.5563, lng: 126.79581 }} style={{width: "430px", height: "932px"}}>
+                {places.map((place) => (
+                        <MapMarker
+                        key={`${place.place_id}`}
+                        position={{lat: place.placeLat, lng: place.placeLng}} // 마커를 표시할 위치
+                        image={{
+                            src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png", // 마커이미지의 주소입니다
+                            size: {
+                            width: 24,
+                            height: 35
+                            }, // 마커이미지의 크기입니다
+                        }}
+                        title={place.placeName} // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+                        />
+                    ))}
+            </Map>
             <CustomSheet    isOpen={isOpen}
                             onClose={() => {
                                 setOpen(false);
