@@ -35,19 +35,14 @@ function PasswordRecoveryForm() {
   //이메일 db 확인
   const onSubmit = async() => {
     try {
-      const response = await api.post("/users/email-exists", email, {
+      await api.post("/users/email-exists", email, {
         headers: {
           'Content-Type': 'text/plain'
         }
       })
-      if(response.status === 200) {
-        navigate("/user/phone-identification",{state: {email: email} });
-      } else {
-        alert(response.data)
-      }
         
     } catch(err) {
-      alert(err);
+      navigate("/user/phone-identification",{state: {email: email} });
     }
     }
 

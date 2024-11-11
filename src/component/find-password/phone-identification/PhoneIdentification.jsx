@@ -27,6 +27,10 @@ function PhoneIdentification() {
   // 유효성 검사
   const [isPhoneNum, setIsPhoneNum] = useState(false);
 
+  // 타이머 시간
+  const [timer, setTimer] = useState(180);
+  const [forceUpdate, setForceUpdate] = useState(0); // 강제 렌더링
+
   // 전화번호 유효성 검사
   const onChangePhoneNum = useCallback((e) => {
     const phoneNumRegex = /^01(?:0|1|[6-9])(?:\d{3}|\d{4})\d{4}$/
@@ -65,6 +69,28 @@ function PhoneIdentification() {
     });
   };
 
+  // 재인증번호 요청 함수
+  const reHandleVerificationRequest = () => {
+    // 서버에 인증번호 발송 요청을 보냄
+    api.post('/sms/send', phoneNum, {
+      headers: {
+        'Content-Type': 'text/plain'
+      }
+    })
+    .then(response => {
+      setTimer(180);
+      console.log('재인증번호 발송 성공:', response.data);
+      setForceUpdate(prev => prev + 1); // 강제 리렌더링을 위한 상태 변경
+      console.log(timer);
+      setIsVerificationSent(true); // 인증번호 발송 성공 시 입력 필드를 표시하기 위해 상태를 true로 설정
+      setPhoneNumMessage('');
+    })
+    .catch(error => {
+      alert(error.response.data);
+      console.error('인증번호 발송 실패:', error);
+    });
+  };
+
   // 인증번호 입력 값 업데이트 함수
   const handleVerificationCodeChange = (event) => {
     setVerificationCode(event.target.value); // 입력된 인증번호를 상태에 저장
@@ -72,48 +98,57 @@ function PhoneIdentification() {
 
   // 인증번호 검증 요청 함수
   const handleVerificationSubmit = () => {
+    const data = {
+      email: userInfo.email,
+      phoneNumber: phoneNum
+    };
     // 서버에 입력된 인증번호 검증 요청을 보냄
-    api.post('/sms/verify', { phone_number : phoneNum, 
+    api.post('/sms/verify', { phoneNumber : phoneNum, 
                               verifyCode: verificationCode })
         .then(response => {
             setIsVerificationSuccessful(response.data); // 서버의 응답에 따라 인증 성공 여부를 업데이트
-            if (response.data) {
+            if (response.status === 200) {
                 alert('인증 성공!'); // 인증 성공 시 알림 표시
+                navigate("/user/resetPassword",{state: {    email: userInfo.email,
+                                                            phoneNumber: phoneNum,
+                                                            verifyCode: verificationCode } });
             } else {
                 alert('인증 실패! 다시 시도해주세요.'); // 인증 실패 시 알림 표시
             }
         })
         .catch(error => {
             console.error('인증 실패:', error);
+            alert(error);
         });
   };
 
   const handleTimeUp = () => {
     setIsVerificationSent(false);
     alert("시간 초과! 인증번호를 다시 요청해주세요.");
+    setVerificationCode("");
   };
 
 
-  //휴대폰 및 이메일 서버로 전송
-  const onSubmit = async() => {
-    const data = {
-      email: userInfo.email,
-      phone_number: phoneNum
-    };
-    try{
-      const response = await api.post("/email-exists",data);
-      if(response.status == 200) {
-        navigate("/user/resetPassword",{state: {    email: userInfo.email,
-                                                    phone_number: phoneNum
-        } });
-      } else {
-        setPhoneNumMessage(response.data.errMsg);
-        setIsPhoneNum(false);
-      }
-    } catch(err) {
-      console.log(err);
-    }
-  }
+  // //휴대폰 및 이메일 서버로 전송
+  // const onSubmit = async() => {
+  //   const data = {
+  //     email: userInfo.email,
+  //     phoneNumber: phoneNum
+  //   };
+  //   try{
+  //     const response = await api.post("/email-exists",data);
+  //     if(response.status == 200) {
+  //       navigate("/user/resetPassword",{state: {    email: userInfo.email,
+  //                                                   phoneNumber: phoneNum
+  //       } });
+  //     } else {
+  //       setPhoneNumMessage(response.data.errMsg);
+  //       setIsPhoneNum(false);
+  //     }
+  //   } catch(err) {
+  //     console.log(err);
+  //   }
+  // }
 
   return (
     <FormWrapper>
@@ -126,7 +161,9 @@ function PhoneIdentification() {
                     onChange={onChangePhoneNum}/>
             <StyledButton   small
                             type="button"
-                            onClick={handleVerificationRequest}>인증</StyledButton>
+                            onClick={!isVerificationSent ? handleVerificationRequest : reHandleVerificationRequest}>
+                              {!isVerificationSent ? "인증" : "재인증"}
+                            </StyledButton>
         </StyledInputField>
         <Formbox>
         {phoneNum.length > 0 && <span className={`message ${isPhoneNum ? 'success' : 'error'}`}>{phoneNumMessage}</span>}
@@ -135,7 +172,7 @@ function PhoneIdentification() {
         {/* 인증번호 입력 필드 및 확인 버튼, 인증번호 발송 후에만 표시됨 */}
         {isVerificationSent && (
           <div>
-            <Label><Timer initialTime={180} onTimeUp={handleTimeUp} /></Label>
+            <Label><Timer key={`timer-${timer}-${forceUpdate}`} initialTime={timer} onTimeUp={handleTimeUp} /></Label>
             
                 <StyledInputField>
                     <input
@@ -155,7 +192,7 @@ function PhoneIdentification() {
               </div>
             )}
 
-        <SubmitButton type="button" onClick={onSubmit}>확인</SubmitButton>
+        {/* <SubmitButton type="button" onClick={onSubmit}>확인</SubmitButton> */}
       </form>
     </FormWrapper>
   );
