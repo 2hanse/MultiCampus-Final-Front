@@ -31,6 +31,8 @@ import Profile from './component/pages/Profile';
 import CommentHistory from './component/pages/commentHistory';
 import SubscriptionFeed from './component/pages/subscribe';
 import AlertPage from './component/pages/AlertPage';
+import RestaurantBoard from './component/pages/board/RestaurantBoard';
+import PostPage from './component/pages/board/PostPage'
 
 function App() {
   return (
@@ -86,6 +88,11 @@ function App() {
           element={<ChangePasswordResultPage />}
         />
         <Route path="drafttest" element={<Editor />} />
+        <Route path="/homepage" element={<MapPage />} />
+        <Route path='/user/me/changePassword' element={<ChangePasswordPage/>}/>
+        <Route path='/user/me/changePasswordResult' element={<ChangePasswordResultPage />} />
+        <Route path='/board/RestaurantBoard' element={<RestaurantBoard/>}/>
+        <Route path='/board/PostPage' element={<PostPage/>}/>
       </Routes>
     </BrowserRouter>
   );
