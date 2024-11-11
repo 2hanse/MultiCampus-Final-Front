@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Home from "./assets/Home.png";
@@ -6,17 +6,47 @@ import Feed from "./assets/Feed.png";
 import Map from "./assets/Map.png";
 import Chat from "./assets/Chat.png";
 import Person from "./assets/Person.png";
+import onHome from "./assets/onHome.png";
+import onFeed from "./assets/onFeed.png";
+import onMap from "./assets/onMap.png";
+import onChat from "./assets/onChat.png";
 
 const Footer = () => {
     const navigate = useNavigate();
+    const [activeTab, setActiveTab] = useState("home");
+
+    const handleNavigation = (tabName, path) => {
+        setActiveTab(tabName);
+        navigate(path);
+    };
 
     return (
         <FooterBox>
-            <BoardMainPage src={Home}   alt="Home" onClick={() => navigate("/boardmain")} />
-            <FeedPage      src={Feed}   alt="Feed" onClick={() => navigate("/subscribe")} />
-            <MapPage       src={Map}    alt="Map" onClick={() => navigate("/")} />
-            <ChatPage      src={Chat}   alt="Chat" onClick={() => navigate("/user/chat/list")} />
-            <MyPage        src={Person} alt="Person" onClick={() => navigate("/myprofilepage")} />
+            <BoardMainPage
+                src={activeTab === "home" ? onHome : Home}
+                alt="Home"
+                onClick={() => navigate("/boardmain")}
+            />
+            <FeedPage
+                src={activeTab === "Feed" ? onFeed : Feed}
+                alt="Feed"
+                onClick={() => navigate("/subscribe")}
+            />
+            <MapPage
+                src={activeTab === "Map" ? onMap : Map}
+                alt="Map"
+                onClick={() => navigate("/")}
+            />
+            <ChatPage
+                src={activeTab === "Chat" ? onChat : Chat}
+                alt="Chat"
+                onClick={() => navigate("/user/chat/list")}
+            />
+            <MyPage
+                src={Person}
+                alt="Person"
+                onClick={() => navigate("/myprofilepage")}
+            />
         </FooterBox>
     );
 };
@@ -30,6 +60,7 @@ const FooterBox = styled.footer`
     bottom: 0px;
     background-color: #FFFFFF;
     border: 0.5px solid #CAC4D0;
+    z-index: 10;
 `;
 
 const BoardMainPage = styled.img`
