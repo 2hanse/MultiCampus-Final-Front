@@ -4,14 +4,13 @@ import api                            from "../api/axios";
 import { getUserIdFromToken }         from "../api/jwt";
 import GroupItem                      from "./GroupItem";
 
-function GroupList() {
-    const [groupData, setGroupData] = useState([]);
+function GroupList(props) {
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await api.get(`/bookmarks`);
-                setGroupData(response.data);
+                props.setGroupData(response.data);
             } catch (error) {
                 console.error("Error fetching data: ", error);
             }
@@ -22,8 +21,8 @@ function GroupList() {
 
     return (
         <ListWrapper>
-            {groupData.map((group) => (
-                <GroupItem key={group.bookmark_id} {...group} />
+            {props.groupData.map((group) => (
+                <GroupItem key={group.bookmark_id} {...{group, props}} />
             ))}
         </ListWrapper>
     );

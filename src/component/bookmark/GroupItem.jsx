@@ -5,6 +5,7 @@ function GroupItem(props) {
     const [isActive, setIsActive] = useState([]);
 
     const handleToggle = () => {
+        props.isActive = true;
         setIsActive((prev) => !prev);
     };
     

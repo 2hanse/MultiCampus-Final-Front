@@ -19,6 +19,7 @@ function MapPage() {
     const [isPlaceInfoOpen, setPlaceInfoOpen] = useState(false);
     const [places,       setPlaces    ] = useState([]);
     const [selectedPlaces, setSelectedPlaces] = useState();
+    const [bookmarkPlaces, setBoomarkPlaces] = useState([]);
 
     useEffect(() => {
         if (location.state?.openBookmarkSheet) {
@@ -79,7 +80,8 @@ function MapPage() {
                             onOpenCreate={() => {
                                 setOpen(false);
                                 setCreateOpen(true);
-                            }} />
+                            }} 
+                            setBoomarkPlaces={setBoomarkPlaces}/>
                     </Sheet.Content>
                 </Sheet.Container>
                 <Sheet.Backdrop onClick={() => {
