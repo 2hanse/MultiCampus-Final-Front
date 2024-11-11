@@ -3,16 +3,17 @@ import styled                         from "styled-components";
 import api                            from "../api/axios";
 import { getUserIdFromToken }         from "../api/jwt";
 import { useNavigate }                from "react-router-dom";
+import { Sheet }                      from 'react-modal-sheet';
 import Back                           from "../mylocation/assets/Back.png";
 import Edit                           from "../bookmark/assets/Edit.png";
 import Delete                         from "../bookmark/assets/Delete.png";
-import DeleteModal                    from "../bookmark/edit/DeleteModal";
+import EditBookmark                   from "../bookmark/edit/EditBookmark";
 
 const EditBookmarkPage = ({ name, author, list_count }) => {
-    const navigate = useNavigate();
+    const navigate                  = useNavigate();
+    const [isEditOpen, setEditOpen] = useState(false);
     const [groupData, setGroupData] = useState([]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const user_id = getUserIdFromToken();
+    const user_id                   = getUserIdFromToken();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -33,6 +34,10 @@ const EditBookmarkPage = ({ name, author, list_count }) => {
         fetchData();
     }, []);
 
+    const handleDeleteClick = () => {
+        alert("북마크 그룹을 삭제하였습니다.");
+    };
+
     return (
         <Main>
             <HeaderBox>
@@ -52,17 +57,33 @@ const EditBookmarkPage = ({ name, author, list_count }) => {
                                 </GroupName>
                                 <GroupCount>개수 {list_count}/500</GroupCount>
                             </ItemContent>
-                            <EditBtn>
+                            <EditBtn onClick={() => setEditOpen(true)}>
                                 <Icon src={Edit} alt="Edit" />
                             </EditBtn>
-                            <DeleteBtn onClick={() => setIsModalOpen(true)}>
+                            <DeleteBtn onClick={handleDeleteClick}>
                                 <Icon src={Delete} alt="Delete" />
                             </DeleteBtn>
                         </ItemWrapper>
                     ))}
                 </ListWrapper>
             </Content>
-            <DeleteModal isOpen={isModalOpen} onRequestClose={() => setIsModalOpen(false)} />
+            <CustomSheet isOpen={isEditOpen}
+                         onClose={() => {
+                            setEditOpen(true);
+                         }}
+                         snapPoints={[500, 500, 0]} initialSnap={1}>
+                <Sheet.Container>
+                    <Sheet.Header />
+                    <Sheet.Content>
+                        <EditBookmark onCancel={() => {
+                                            setEditOpen(false);
+                                        }} />
+                    </Sheet.Content>
+                </Sheet.Container>
+                <Sheet.Backdrop onClick={() => {
+                                    setEditOpen(false)
+                                }} />
+            </CustomSheet>
         </Main>
     );
 };
@@ -233,6 +254,41 @@ const DeleteBtn = styled.button`
 const Icon = styled.img`
     width: 15px;
     height: 15px;
+`;
+
+const CustomSheet = styled(Sheet)`
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    max-width: 430px;
+    z-index: 5;
+
+    /* sheet 라이브러리 css 덮어 쓰려면 !important 끝에 들어가야합니다 */
+    .react-modal-sheet-backdrop {
+        position: absolute !important;
+        width: 430px !important;
+        margin-bottom: 100px !important;
+        background-color: rgba(0, 0, 0, 0.1) !important;
+    }
+    .react-modal-sheet-container {
+        background-color: #FFFFFF !important;
+        border-radius: 20px 20px 0px 0px !important;
+        padding-top: 10px !important;
+    }
+    .react-modal-sheet-header {
+        cursor: pointer !important;
+    }
+    .react-modal-sheet-drag-indicator {
+        background: #999 !important;
+        border-radius: 5px !important;
+        cursor: grab;
+    }
+    .react-modal-sheet-content {
+        margin: 10px 20px !important;
+    }
 `;
 
 export default EditBookmarkPage;
