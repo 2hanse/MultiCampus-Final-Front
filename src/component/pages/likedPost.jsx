@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import Footer from '../layout/footer/Footer'; // Import Footer component
 
 function PostItem({ time, title, content }) {
   return (
@@ -42,7 +43,7 @@ export default function LikedPosts() {
         </button>
         <h1 className="header-title">좋아요 누른 게시글</h1>
         <img 
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/a4043db299d9ceb138c2e374dca4840d7d3ff7f4252651ed455139c571b71f73?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" 
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/a4043db299d9ceb138c2e374dca4840d7d3ff7f4252651ed455139c571b71f73?placeholderIfAbsent=true&apiKey=f3a728c5dc79403f4" 
           alt=""
           className="search-button" 
         />
@@ -66,11 +67,8 @@ export default function LikedPosts() {
         ))}
       </section>
 
-      <img 
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/cb717e0c0f0cfa324931c379390c6d597d7e19a8ae52107e48c0c335177a4d41?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" 
-        alt=""
-        className="navigation-bar"
-      />
+      <Footer /> {/* Add Footer component here */}
+      
       <style jsx>{`
         .liked-posts-page {
           background: #fff;
@@ -140,13 +138,6 @@ export default function LikedPosts() {
           flex-direction: column;
           gap: 11px;
           margin-top: 9px;
-        }
-
-        .navigation-bar {
-          width: 100%;
-          aspect-ratio: 4.29;
-          object-fit: contain;
-          margin-top: 82px;
         }
 
         .post-item {

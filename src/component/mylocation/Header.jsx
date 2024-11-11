@@ -1,11 +1,18 @@
 import React  from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import Back   from "./assets/Back.png";
 
 const Header = () => {
+    const navigate = useNavigate();
+
+    const handleBackClick = () => {
+        navigate(-1);  // 이전 페이지로 이동
+    };
+
     return (
         <HeaderBox>
-            <BackPage src={Back} alt="Back" />
+            <BackPage src={Back} alt="Back" onClick={handleBackClick}/>
             <Title>내 동네 설정</Title>
         </HeaderBox>
     );

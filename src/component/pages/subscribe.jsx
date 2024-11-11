@@ -1,4 +1,6 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Footer from '../layout/footer/Footer';
 
 // CSS 스타일을 포함합니다.
 const styles = {
@@ -12,15 +14,8 @@ const styles = {
     overflow: 'hidden',
     margin: '0 auto',
   },
-  feedContent: {
-    aspectRatio: '4.29',
-    objectFit: 'contain',
-    objectPosition: 'center',
-    width: '100%',
-    marginTop: '487px',
-  },
   header: {
-    backgroundColor: '#ffd966',
+    backgroundColor: '#fff4d2',
     padding: '62px 20px 25px',
     display: 'flex',
     justifyContent: 'space-between',
@@ -112,11 +107,7 @@ const SubscriptionFeed = () => {
       <Divider />
       <ActionButtons />
       <Divider />
-      <img 
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/736ac1aa27ad8f949e50ba8f925d49388dfa94ac68a35a17932cf80f7b9d61ed?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" 
-        alt="Subscription feed content" 
-        style={styles.feedContent}
-      />
+      <Footer /> {/* Footer 추가 (import한 Footer 사용) */}
     </main>
   );
 };
@@ -125,15 +116,17 @@ const SubscriptionFeed = () => {
 const Header = () => {
   return (
     <header style={styles.header}>
-      <img 
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" 
-        alt="" 
-        style={styles.menuIcon} 
-      />
+      <Link to="/myprofilepage">
+        <img 
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" 
+          alt="Menu Icon" 
+          style={styles.menuIcon} 
+        />
+      </Link>
       <h1 style={styles.title}>구독 피드</h1>
       <img 
         src="https://cdn.builder.io/api/v1/image/assets/TEMP/a4043db299d9ceb138c2e374dca4840d7d3ff7f4252651ed455139c571b71f73?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" 
-        alt="" 
+        alt="Menu Icon" 
         style={styles.menuIcon} 
       />
     </header>
@@ -154,54 +147,22 @@ const FollowList = () => {
     { id: 9, name: '닉네임9' },
   ];
 
-  // 리스트를 참조할 ref
-  const listContainerRef = useRef(null);
-  const [scrollLeft, setScrollLeft] = useState(0); // 현재 스크롤 위치 상태
-
-  // FollowList가 렌더링될 때 스크롤 초기화 (첫 번째 항목으로 시작)
-  useEffect(() => {
-    if (listContainerRef.current) {
-      listContainerRef.current.scrollLeft = 0; // 처음에는 첫 번째 항목이 보이도록 설정
-    }
-  }, []);
-
-  // 하단바를 스크롤할 때 FollowList의 스크롤을 동기화하는 함수
-  const handleScroll = (e) => {
-    setScrollLeft(e.target.scrollLeft); // 하단바의 스크롤을 업데이트
-  };
-
-  // 마지막 항목을 정확하게 보이게 하기 위해 여유 공간을 추가
-  const getMaxScroll = () => {
-    const itemWidth = 60 + 14; // 각 항목의 너비 + 항목 간의 간격
-    const totalWidth = followData.length * itemWidth;
-    const containerWidth = listContainerRef.current?.offsetWidth || 0;
-
-    // 마지막 항목 뒤에 여유 공간을 두기 위해 추가적인 여백을 계산
-    const maxScroll = totalWidth - containerWidth + 20; // 마지막 항목 뒤에 20px 여유를 두기
-
-    return maxScroll > 0 ? maxScroll : 0;
-  };
-
   return (
     <section style={styles.followList}>
       <h2 style={styles.listTitle}>팔로우 목록</h2>
-      <div
-        style={{ ...styles.listContainer, overflowX: 'auto' }} // 기본 스크롤 활성화
-        ref={listContainerRef}
-        onScroll={handleScroll}
-      >
-        <div
-          style={{ display: 'flex', transition: 'transform 0.3s ease' }}
-        >
+      <div style={styles.listContainer}>
+        <div style={{ display: 'flex', transition: 'transform 0.3s ease' }}>
           {followData.map((follow) => (
-            <div key={follow.id} style={styles.followItem}>
-              <img
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/6ee173905dc76f5eb8751afce33590fc6c9b6307e6f75f96e670d592c05f636a?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
-                alt="Avatar"
-                style={styles.avatar}
-              />
-              <span style={styles.nickname}>{follow.name}</span>
-            </div>
+            <Link to={`/user-profile/${follow.id}`} key={follow.id} style={{ textDecoration: 'none' }}>
+              <div style={styles.followItem}>
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/6ee173905dc76f5eb8751afce33590fc6c9b6307e6f75f96e670d592c05f636a?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
+                  alt="Avatar"
+                  style={styles.avatar}
+                />
+                <span style={styles.nickname}>{follow.name}</span>
+              </div>
+            </Link>
           ))}
         </div>
       </div>
