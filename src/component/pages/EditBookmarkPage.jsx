@@ -14,21 +14,26 @@ const EditBookmarkPage = () => {
     const [isEditOpen, setEditOpen] = useState(false);
     const [groupData, setGroupData] = useState([]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await api.get(`/bookmarks`);
-                setGroupData(response.data);
-            } catch (error) {
-                console.error("Error fetching data: ", error);
-            }
-        };
+    const fetchData = async () => {
+        try {
+            const response = await api.get(`/bookmarks`);
+            setGroupData(response.data);
+        } catch (error) {
+            console.error("Error fetching data: ", error);
+        }
+    };
 
+    useEffect(() => {
         fetchData();
     }, []);
 
-    const handleDeleteClick = () => {
-        alert("북마크 그룹을 삭제하였습니다.");
+    const handleDeleteClick = (group) => {
+        api.delete(`/bookmarks/${group.bookmark_id}`)
+            .then((res) => { 
+                fetchData();
+                alert("북마크 그룹을 삭제하였습니다.");
+            })
+            .catch((err) => alert(`북마크를 삭제하는데 실패했습니다. (${err}`));
     };
 
     return (
@@ -53,7 +58,7 @@ const EditBookmarkPage = () => {
                             <EditBtn onClick={() => setEditOpen(true)}>
                                 <Icon src={Edit} alt="Edit" />
                             </EditBtn>
-                            <DeleteBtn onClick={handleDeleteClick}>
+                            <DeleteBtn onClick={() => handleDeleteClick(group)}>
                                 <Icon src={Delete} alt="Delete" />
                             </DeleteBtn>
                         </ItemWrapper>
