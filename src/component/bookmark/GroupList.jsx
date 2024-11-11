@@ -1,25 +1,17 @@
 import React, { useEffect, useState } from "react";
 import styled                         from "styled-components";
 import api                            from "../api/axios";
-import {getUserIdFromToken}             from "../api/jwt";
+import { getUserIdFromToken }         from "../api/jwt";
 import GroupItem                      from "./GroupItem";
 
 function GroupList() {
     const [groupData, setGroupData] = useState([]);
-    const user_id = getUserIdFromToken();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await api.get(`/bookmarks/${user_id}`);
-                console.log(user_id);
-                const transformedData = response.data.map(item => ({
-                    name: item.bookmark_title,
-                    author: item.user_nickname,
-                    count: item.list_count,
-                    isActive: item.visibility
-                }));
-                setGroupData(transformedData);
+                const response = await api.get(`/bookmarks`);
+                setGroupData(response.data);
             } catch (error) {
                 console.error("Error fetching data: ", error);
             }
@@ -30,8 +22,8 @@ function GroupList() {
 
     return (
         <ListWrapper>
-            {groupData.map((group, index) => (
-                <GroupItem key={index} {...group} />
+            {groupData.map((group) => (
+                <GroupItem key={group.bookmark_id} {...group} />
             ))}
         </ListWrapper>
     );
