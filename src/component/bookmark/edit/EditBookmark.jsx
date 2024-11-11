@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import styled              from "styled-components";
-import api from "../api/axios";
 
-const CreateBookmark = ({ onCancel }) => {
+const EditBookmark = ({ onCancel }) => {
     const [isPublished, setIsPublished] = useState(false);
     const [groupName, setGroupName] = useState("");  // InputName의 상태 추가
 
@@ -11,23 +10,9 @@ const CreateBookmark = ({ onCancel }) => {
         setGroupName(e.target.value);
     };
 
-    const onComplete = () => {
-        api.post('/bookmarks', {bookmark_title: groupName, visibility: isPublished}).then(
-            (res) => {
-                if (res.status == 200) {
-                    onCancel();
-                }
-            }
-        ).catch(
-            (err) => {
-                alert("북마크를 생성하는중 알 수 없는 에러가 발생했습니다: " + err);
-            }
-        );
-    };
-
     return (
         <Wrapper>
-            <Title>새 그룹 추가</Title>
+            <Title>그룹 편집하기</Title>
             <CancelBtn onClick={onCancel}>취소</CancelBtn>
             <Text>공개 허용</Text>
             <PublishBtn isPublished={isPublished}
@@ -44,8 +29,7 @@ const CreateBookmark = ({ onCancel }) => {
             <InputName placeholder="그룹명을 입력하세요"
                        value={groupName}
                        onChange={handleInputChange} />
-            {/* <IconSelect>아이콘 선택</IconSelect> */}
-            <CompleteBtn disabled={!groupName} onClick={() => onComplete()}>완료</CompleteBtn>
+            <CompleteBtn disabled={!groupName}>완료</CompleteBtn>
         </Wrapper>
     );
 };
@@ -56,8 +40,7 @@ const Wrapper = styled.div`
     flex-direction: column;
     align-items: flex-start;
     width: 390px;
-    height: 610px;
-    margin: 0 auto;
+    height: 700px;
 `
 
 const CancelBtn = styled.button`
@@ -215,23 +198,6 @@ const InputName = styled.input`
     }
 `
 
-const IconSelect = styled.h1`
-    display: flex;
-    position: absolute;
-    justify-content: center;
-    align-items: center;
-    top: 200px;
-
-    font-family: 'sans-serif';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 100%;
-
-    background: none;
-    color: #000000;
-`
-
 const CompleteBtn = styled.button`
     display: flex;
     position: absolute;
@@ -254,4 +220,4 @@ const CompleteBtn = styled.button`
     cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
 `
 
-export default CreateBookmark;
+export default EditBookmark;

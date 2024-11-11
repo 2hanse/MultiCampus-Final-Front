@@ -2,91 +2,140 @@ import React, { useState, useEffect } from "react";
 import styled                         from "styled-components";
 import { useLocation, useNavigate }   from "react-router-dom";
 import Header                         from "../map/Header";
-import Map                            from "../map/Map";
 import { Sheet }                      from 'react-modal-sheet';
 import BookmarkList                   from "../bookmark/BookmarkList";
 import CreateBookmark                 from "../bookmark/CreateBookmark";
 import Footer                         from "../layout/footer/Footer";
-
+import { Map, MapMarker }                        from "react-kakao-maps-sdk"
+import axios from "axios";
+import api from "../api/axios";
+import PlaceInfoSheet from "../map/PlaceInfoSheet";
 
 function MapPage() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const [isOpen, setOpen] = useState(false);
-  const [isCreateOpen, setCreateOpen] = useState(false);
+    const location                      = useLocation();
+    const navigate                      = useNavigate();
+    const [isOpen,       setOpen      ] = useState(false);
+    const [isCreateOpen, setCreateOpen] = useState(false);
+    const [isPlaceInfoOpen, setPlaceInfoOpen] = useState(false);
+    const [places,       setPlaces    ] = useState([]);
+    const [selectedPlaces, setSelectedPlaces] = useState();
+    const [bookmarkPlaces, setBoomarkPlaces] = useState([]);
 
-  useEffect(() => {
-    if (location.state?.openBookmarkSheet) {
-      setOpen(true);
-    }
-  }, [location.state]);
+    useEffect(() => {
+        if (location.state?.openBookmarkSheet) {
+            setOpen(true);
+        }
+    }, [location.state]);
+
+    useEffect(() => {
+        api.get("/place/list")
+        .then((res) => {
+            setPlaces(res.data);
+            //console.log(res.data);
+        });
+    }, []);
+
+    const selectedPlaceData = places.find(place => place.placeName === selectedPlaces);
 
   const handleBackPageClick = () => {
     navigate(-1, { state: { openBookmarkSheet: true } });
   };
 
-  return (
-    <Main>
-      <Header onClickBookmark={() => setOpen(true)} />
-      <Map />
-      <CustomSheet
-        isOpen={isOpen}
-        onClose={() => {
-          setOpen(false);
-          navigate('/homepage', { replace: true });
-        }}
-        snapPoints={[700, 400, 0]}
-        initialSnap={1}
-      >
-        <Sheet.Container>
-          <Sheet.Header />
-          <Sheet.Content>
-            <BookmarkList
-              onOpenCreate={() => {
-                setOpen(false);
-                setCreateOpen(true);
-              }}
-            />
-          </Sheet.Content>
-        </Sheet.Container>
-        <Sheet.Backdrop
-          onClick={() => {
-            setOpen(false);
-            navigate('/homepage', { replace: true });
-          }}
-        />
-      </CustomSheet>
-      <CustomSheet
-        isOpen={isCreateOpen}
-        onClose={() => {
-          setCreateOpen(false);
-          setOpen(true);
-        }}
-        snapPoints={[500, 500, 0]}
-        initialSnap={1}
-      >
-        <Sheet.Container>
-          <Sheet.Header />
-          <Sheet.Content>
-            <CreateBookmark
-              onCancel={() => {
-                setCreateOpen(false);
-                setOpen(true);
-              }}
-            />
-          </Sheet.Content>
-        </Sheet.Container>
-        <Sheet.Backdrop
-          onClick={() => {
-            setCreateOpen(false);
-            setOpen(true);
-          }}
-        />
-      </CustomSheet>
-      <Footer />
-    </Main>
-  );
-}
+    return (
+        <Main>
+            <Header onClickBookmark={() => setOpen(true)} />
+            <Map center={{ lat: 33.5563, lng: 126.79581 }} style={{width: "430px", height: "932px"}}>
+                {places.map((place) => (
+                        <MapMarker
+                        key={`${place.place_id}`}
+                        position={{lat: place.placeLat, lng: place.placeLng}} // 마커를 표시할 위치
+                        image={{
+                            src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png", // 마커이미지의 주소입니다
+                            size: {
+                            width: 24,
+                            height: 35
+                            }, // 마커이미지의 크기입니다
+                        }}
+                        title={place.placeName} // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+                        onClick={(marker) => {
+                            setSelectedPlaces(marker.getTitle());
+                            console.log(marker);
+                            console.log(selectedPlaces);
+                            setPlaceInfoOpen(true);
+                        }}
+                        />
+                    ))}
+            </Map>
+            <CustomSheet    isOpen={isOpen}
+                            onClose={() => {
+                                setOpen(false);
+                                navigate("/homepage", { replace: true });
+                            }}
+                            snapPoints={[700, 400, 0]}
+                            initialSnap={1}>
+                <Sheet.Container>
+                    <Sheet.Header />
+                    <Sheet.Content>
+                        <BookmarkList 
+                            onOpenCreate={() => {
+                                setOpen(false);
+                                setCreateOpen(true);
+                            }} 
+                            setBoomarkPlaces={setBoomarkPlaces}/>
+                    </Sheet.Content>
+                </Sheet.Container>
+                <Sheet.Backdrop onClick={() => {
+                                    setOpen(false);
+                                    navigate("/homepage", { replace: true });
+                                }} />
+            </CustomSheet>
+            <CustomSheet isOpen={isCreateOpen}
+                         onClose={() => {
+                            setCreateOpen(false);
+                            setOpen(true);
+                         }}
+                         snapPoints={[500, 500, 0]} initialSnap={1}>
+                <Sheet.Container>
+                    <Sheet.Header />
+                    <Sheet.Content>
+                        <CreateBookmark onCancel={() => {
+                                            setCreateOpen(false);
+                                            setOpen(true);
+                                        }} />
+                    </Sheet.Content>
+                </Sheet.Container>
+                <Sheet.Backdrop onClick={() => {
+                                    setCreateOpen(false)
+                                    setOpen(true)
+                                }} />
+            </CustomSheet>
+            <CustomSheet isOpen={isPlaceInfoOpen}
+                         onClose={() => {
+                            setCreateOpen(false);
+                            setOpen(false);
+                            setPlaceInfoOpen(false);
+                         }}
+                         snapPoints={[500, 500, 0]} initialSnap={1}
+                         style={{zIndex: 10}}>
+                <Sheet.Container>
+                    <Sheet.Header />
+                    <Sheet.Content>
+                        <PlaceInfoSheet style={{zIndex: 100}}
+                                        placeName={selectedPlaceData?.placeName} 
+                                        placeAddress={selectedPlaceData?.placeAddress} 
+                                        placeTele={selectedPlaceData?.placeTele}/>
+                    </Sheet.Content>
+                </Sheet.Container>
+                <Sheet.Backdrop onClick={() => {
+                            setCreateOpen(false);
+                            setOpen(false);
+                            setPlaceInfoOpen(false);
+                                }} />
+            </CustomSheet>
+            <Footer />
+        </Main>
+    );
+};
 
 const Main = styled.main`
     display: flex;
@@ -135,5 +184,7 @@ const CustomSheet = styled(Sheet)`
     margin: 10px 20px !important;
   }
 `;
+
+
 
 export default MapPage;

@@ -1,14 +1,20 @@
-import React, { useState }               from "react";
-import styled                            from "styled-components";
-import { useNavigate }                   from "react-router-dom";
-import Dropdown                          from "./Dropdown";
-import Edit                              from "./assets/Edit.png";
-import GroupList                         from "./GroupList";
-import Create                            from "./assets/Create.png";
+import React, { useEffect, useState } from "react";
+import styled              from "styled-components";
+import { useNavigate }     from "react-router-dom";
+import Dropdown            from "./Dropdown";
+import Edit                from "./assets/Edit.png";
+import GroupList           from "./GroupList";
+import Create              from "./assets/Create.png";
 
-const BookmarkList = ({ onOpenCreate }) => {
+const BookmarkList = ({ onOpenCreate, setBookmarkPlaces }) => {
     const [groupData, setGroupData] = useState([]);
     const navigate                  = useNavigate();
+
+    useEffect(() => {
+        groupData.map((group) => {
+            console.log("test: " + group.bookmark_id);
+        });
+    }, [groupData]);
 
     // 이름순 정렬 함수
     const sortByName = () => {
@@ -32,7 +38,7 @@ const BookmarkList = ({ onOpenCreate }) => {
                 <Icon src={Edit} alt="Edit" />
                 편집하기
             </EditBtn>
-            <GroupList groupData={groupData} />
+            <GroupList {...{groupData, setGroupData}} />
         </Wrapper>
     );
 };
