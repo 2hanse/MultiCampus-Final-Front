@@ -8,7 +8,7 @@ const LogoutModal = ({ closeModal }) => {
     // 로그아웃 처리 로직 (예: 로그아웃 API 호출)
     
     closeModal();  // 모달 닫기
-    navigate('/user/login');  // 로그인 페이지로 이동
+    navigate('/');  
   };
 
   const handleCancelLogout = () => {
