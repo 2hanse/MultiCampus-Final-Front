@@ -6,22 +6,9 @@ import GroupItem                      from "./GroupItem";
 
 function GroupList(props) {
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await api.get(`/bookmarks`);
-                props.setGroupData(response.data);
-            } catch (error) {
-                console.error("Error fetching data: ", error);
-            }
-        };
-
-        fetchData();
-    }, []);
-
     return (
         <ListWrapper>
-            {props.groupData.map((group) => (
+            {props.bookmarks.map((group) => (
                 <GroupItem key={group.bookmark_id} {...{group, props}} />
             ))}
         </ListWrapper>

@@ -6,39 +6,34 @@ import Edit                from "./assets/Edit.png";
 import GroupList           from "./GroupList";
 import Create              from "./assets/Create.png";
 
-const BookmarkList = ({ onOpenCreate, setBookmarkPlaces }) => {
-    const [groupData, setGroupData] = useState([]);
+const BookmarkList = (props) => {
     const navigate                  = useNavigate();
-
-    useEffect(() => {
-        groupData.map((group) => {
-            console.log("test: " + group.bookmark_id);
-        });
-    }, [groupData]);
+    const [sortedBookmarks, setSortedBookmarks] = useState([]);
 
     // 이름순 정렬 함수
     const sortByName = () => {
-        const sortedData = [...groupData].sort((a, b) => a.name.localeCompare(b.name, "ko"));
-        setGroupData(sortedData);
+        const sortedData = [...props.bookmarks].sort((a, b) => a.bookmark_title.localeCompare(b.name, "ko"));
+        setSortedBookmarks(sortedData);
     };
 
     // 등록순 (초기 상태) 함수
     const resetToOriginal = () => {
-        setGroupData([]);
+        setSortedBookmarks([]);
     };
 
     return (
         <Wrapper>
-            <GroupCount>그룹 {groupData.length}</GroupCount>
+            <GroupCount>그룹 {props.bookmarks.length}</GroupCount>
             <Dropdown onSelect={(option) => (option === "이름순" ? sortByName() : resetToOriginal())} />
-            <CreateBtn onClick={onOpenCreate}>
+            <CreateBtn onClick={props.onOpenCreate}>
                 <CreateImg src={Create} alt="Create" />
             </CreateBtn>
             <EditBtn onClick={() => navigate("/editbookmark")}>
                 <Icon src={Edit} alt="Edit" />
                 편집하기
             </EditBtn>
-            <GroupList {...{groupData, setGroupData}} />
+            <GroupList  bookmarks={sortedBookmarks.length ? sortedBookmarks : props.bookmarks} 
+                        fetchBookmarks={props.fetchBookmarks} />
         </Wrapper>
     );
 };
