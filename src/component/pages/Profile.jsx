@@ -80,11 +80,37 @@ const ProfileActions = () => {
   );
 };
 
+const reviewData = [
+  { timestamp: "n분 전", title: "[동네주민] 게시글 제목", content: "게시글 본문(20자)" },
+  { timestamp: "n분 전", title: "[동네주민] 게시글 제목", content: "게시글 본문(20자)" },
+  { timestamp: "n분 전", title: "게시글 제목", content: "게시글 본문(20자)" },
+  { timestamp: "n분 전", title: "게시글 제목", content: "게시글 본문(20자)" },
+  { timestamp: "yy.mm.dd", title: "게시글 제목", content: "게시글 본문(20자)" },
+  { timestamp: "yy.mm.dd", title: "게시글 제목", content: "게시글 본문(20자)" },
+];
+
+// ReviewListItem 컴포넌트
+function ReviewListItem({ timestamp, title, content }) {
+  return (
+    <article className="review-item">
+      <hr className="divider" />
+      <time className="timestamp">{timestamp}</time>
+      <h2 className="title">{title}</h2>
+      <p className="description">{content}</p>
+    </article>
+  );
+}
+
 // ProfileContent 컴포넌트
 const ProfileContent = () => {
   return (
     <main className="profile-content">
       <ProfileActions />
+      <section className="review-list">
+        {reviewData.map((review, index) => (
+          <ReviewListItem key={index} {...review} />
+        ))}
+      </section>
       <Footer/>
     </main>
   );
@@ -103,6 +129,7 @@ const Profile = () => {
           margin: 0 auto;
           padding-top: 49px;
           overflow: hidden;
+          border: 1px solid gray;
         }
         .profile-header {
           padding: 0 28px;
@@ -172,7 +199,7 @@ const Profile = () => {
         .profile-actions {
           display: flex;
           justify-content: center;
-          gap: 30px; /* 간격을 30px로 변경 */
+          gap: 30px; 
           margin-bottom: 12px;
         }
         .action-button {
@@ -191,6 +218,39 @@ const Profile = () => {
           width: 100%;
           height: auto;
           object-fit: contain;
+        }
+
+        .review-list {
+          width: 100%;
+          max-width: 395px;
+          padding-top: 20px;
+        }
+        .review-item {
+          background-color: #fff;
+          min-height: 72px;
+          margin-top: 11px;
+          padding: 4px 16px;
+          display: flex;
+          flex-direction: column;
+        }
+        .timestamp {
+          color: #49454f;
+          letter-spacing: 0.5px;
+          font: 500 12px/16px Roboto, sans-serif;
+        }
+
+        .title {
+          color: #1d1b20;
+          letter-spacing: 0.5px;
+          font: 16px/24px Roboto, sans-serif;
+          margin: 4px 0;
+        }
+
+        .description {
+          color: #49454f;
+          letter-spacing: 0.25px;
+          font: 14px/20px Roboto, sans-serif;
+          margin: 0;
         }
       `}</style>
     </div>

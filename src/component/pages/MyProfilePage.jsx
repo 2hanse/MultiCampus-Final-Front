@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';  // useNavigate 훅을 추가
 import Footer from '../layout/footer/Footer';
+import MembershipInfoModal from '../ProfilePage/MembershipInfoModal';
+import LogoutModal from '../ProfilePage/LogoutModal';
 
 const styles = {
   profilePage: {
@@ -98,6 +100,7 @@ const styles = {
   userRank: {
     textAlign: "center",
     fontSize: "16px",
+    cursor: 'pointer',
   },
   communitySection: {
     marginTop: "31px",
@@ -166,6 +169,7 @@ const styles = {
     color: "#dfa67b",
     font: "400 17px Inter, sans-serif",
     marginBottom: "10px",
+    marginTop: "10px",
     cursor: "pointer",
   },
   notificationSection: {
@@ -217,6 +221,16 @@ const styles = {
 };
 
 function MyProfilePage() {
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+
+  const openLogoutModal = () => {
+    setIsLogoutModalOpen(true); // 모달 열기
+  };
+
+  const closeLogoutModal = () => {
+    setIsLogoutModalOpen(false); // 모달 닫기
+  };
+
   return (
     <main style={styles.profilePage}>
       <Header />
@@ -224,8 +238,9 @@ function MyProfilePage() {
       <CommunitySection />
       <OtherSection />
       <NotificationSection />
-      <AccountSection />
+      <AccountSection openLogoutModal={openLogoutModal} />
       <Footer />
+      {isLogoutModalOpen && <LogoutModal closeModal={closeLogoutModal} />}
     </main>
   );
 }
@@ -270,20 +285,34 @@ function Header() {
 }
 
 function ProfileInfo() {
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
+
+  const openModal = () => {
+    setIsModalOpen(true); // 모달 열기
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false); // 모달 닫기
+  };
+
   return (
     <section style={styles.profileInfo}>
       <div style={styles.divider}></div>
       <div style={styles.userDetails}>
         <img
           src="https://cdn.builder.io/api/v1/image/assets/TEMP/a41dabe80615eacb53b883e9e94b260996b558b97729747665bca20736adc395?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
-          alt=""
+          alt="User Avatar"
           style={styles.userAvatar}
         />
         <div style={styles.userNameWrapper}>
           <h2 style={styles.userName}>닉네임</h2>
-          <span style={styles.userRank}>(회원 등급)</span>
+          {/* 회원 등급 클릭 시 모달 열기 */}
+          <span style={styles.userRank} onClick={openModal}>
+            (회원 등급)
+          </span>
         </div>
       </div>
+      {isModalOpen && <MembershipInfoModal closeModal={closeModal} />} {/* 모달이 열리면 표시 */}
     </section>
   );
 }
@@ -406,12 +435,11 @@ function NotificationSection() {
   );
 }
 
-function AccountSection() {
+function AccountSection({ openLogoutModal }) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // 로그아웃 처리 로직을 추가 (예: 로그아웃 API 호출 후 메인 페이지로 이동)
-    navigate("/logout");  // 필요에 따라 경로를 조정하세요
+    openLogoutModal();  // 로그아웃 클릭 시 모달 열기
   };
 
   return (
@@ -426,7 +454,7 @@ function AccountSection() {
         </li>
         <li
           style={styles.accountItem}
-          onClick={handleLogout} // 로그아웃 클릭 시 처리
+          onClick={handleLogout} // 로그아웃 클릭 시 모달 열기
         >
           로그 아웃
         </li>

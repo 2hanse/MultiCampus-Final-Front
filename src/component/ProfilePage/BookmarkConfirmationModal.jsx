@@ -54,10 +54,9 @@ const BookmarkConfirmationModal = ({ nickname, closeModal }) => {
         }
         .button-group {
           display: flex;
-          justify-content: space-between;
-          gap: 20px;
+          justify-content: center; /* 버튼을 중앙에 배치 */
+          gap: 40px; /* 간격을 더 넓히기 위해 40px로 설정 */
           margin-top: 23px;
-          width: 145px;
         }
         .modal-button {
           background: none;
@@ -67,6 +66,7 @@ const BookmarkConfirmationModal = ({ nickname, closeModal }) => {
           cursor: pointer;
           outline: inherit;
           color: inherit;
+          text-align: center; /* 버튼 텍스트 중앙 정렬 */
         }
       `}</style>
     </section>
