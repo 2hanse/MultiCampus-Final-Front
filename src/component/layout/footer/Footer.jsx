@@ -17,7 +17,6 @@ const Footer = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [profileImgUrl, setProfileImgUrl] = useState('');
-    const [isProfileSelected, setIsProfileSelected] = useState(false);
 
     useEffect(() => {
         const userId = getUserIdFromToken();
@@ -25,6 +24,8 @@ const Footer = () => {
             getProfileImgUrlFromUserId(userId, setProfileImgUrl);
         }
     }, []);
+
+    const isProfileSelected = location.pathname === "/myprofilepage";
 
     const tabs = [
         { name: "home", path: "/boardmain",      defaultImg: Home, activeImg: onHome },
@@ -38,6 +39,7 @@ const Footer = () => {
             {tabs.map((tab) => (
                 <TabImage
                     key={tab.name}
+                    type="button"
                     src={location.pathname === tab.path ? tab.activeImg : tab.defaultImg}
                     alt={tab.name}
                     onClick={() => navigate(tab.path)}
@@ -45,15 +47,15 @@ const Footer = () => {
             ))}
             {profileImgUrl ? (
                 <LoginedMyPage
+                    type="button"
                     src={profileImgUrl}
                     alt="Profile"
-                    onClick={() => {
-                        setIsProfileSelected(!isProfileSelected);
-                        navigate("/myprofilepage");
-                    }}
+                    isProfileSelected={isProfileSelected}
+                    onClick={() => navigate("/myprofilepage")}
                 />
             ) : (
                 <MyPage
+                    type="button"
                     src={Person}
                     alt="Person"
                     onClick={() => navigate("/")}
@@ -80,7 +82,7 @@ const TabImage = styled.img`
     width: 30px;
     height: 30px;
     left: 25px;
-    margin: 35px 22.3px 0px 22.3px;
+    margin: 38px 22.3px 0px 22.3px;
     cursor: pointer;
 `;
 
@@ -100,7 +102,7 @@ const LoginedMyPage = styled.img`
     left: 351.33px;
     top: 35%;
     border-radius: 50%;
-    border: ${(props) => (props.isSelected ? "1px solid #ED6000" : "none")};
+    border: ${(props) => (props.isProfileSelected ? "3px solid #ED6000" : "none")};
     cursor: pointer;
 `;
 
