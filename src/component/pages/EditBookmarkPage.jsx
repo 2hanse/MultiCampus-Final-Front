@@ -13,22 +13,33 @@ const EditBookmarkPage = () => {
     const navigate                  = useNavigate();
     const [isEditOpen, setEditOpen] = useState(false);
     const [groupData, setGroupData] = useState([]);
+    const [currentEditingGroup, setCurrentEdittingGroup] = useState();
+
+    const fetchData = async () => {
+        try {
+            const response = await api.get(`/bookmarks`);
+            setGroupData(response.data);
+        } catch (error) {
+            console.error("Error fetching data: ", error);
+        }
+    };
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await api.get(`/bookmarks`);
-                setGroupData(response.data);
-            } catch (error) {
-                console.error("Error fetching data: ", error);
-            }
-        };
-
         fetchData();
     }, []);
 
-    const handleDeleteClick = () => {
-        alert("북마크 그룹을 삭제하였습니다.");
+    const handleEditClick = (group) => {
+        setCurrentEdittingGroup(group);
+        setEditOpen(true);
+    };
+
+    const handleDeleteClick = (group) => {
+        api.delete(`/bookmarks/${group.bookmark_id}`)
+            .then((res) => { 
+                fetchData();
+                alert("북마크 그룹을 삭제하였습니다.");
+            })
+            .catch((err) => alert(`북마크를 삭제하는데 실패했습니다. (${err}`));
     };
 
     return (
@@ -50,10 +61,10 @@ const EditBookmarkPage = () => {
                                 </GroupName>
                                 <GroupCount>개수 {group.list_count}/500</GroupCount>
                             </ItemContent>
-                            <EditBtn onClick={() => setEditOpen(true)}>
+                            <EditBtn onClick={() => handleEditClick(group)}>
                                 <Icon src={Edit} alt="Edit" />
                             </EditBtn>
-                            <DeleteBtn onClick={handleDeleteClick}>
+                            <DeleteBtn onClick={() => handleDeleteClick(group)}>
                                 <Icon src={Delete} alt="Delete" />
                             </DeleteBtn>
                         </ItemWrapper>
@@ -68,9 +79,7 @@ const EditBookmarkPage = () => {
                 <Sheet.Container>
                     <Sheet.Header />
                     <Sheet.Content>
-                        <EditBookmark onCancel={() => {
-                                            setEditOpen(false);
-                                        }} />
+                        <EditBookmark onCancel={() => setEditOpen(false)} group={currentEditingGroup} fetchData={() => fetchData()} />
                     </Sheet.Content>
                 </Sheet.Container>
                 <Sheet.Backdrop onClick={() => {

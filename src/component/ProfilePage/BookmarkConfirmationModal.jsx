@@ -1,12 +1,12 @@
 import React from 'react';
 
-const BookmarkConfirmationModal = ({ nickname }) => {
+const BookmarkConfirmationModal = ({ nickname, closeModal }) => {
   const handleCloseModal = (confirmed) => {
     if (confirmed) {
       // 북마크 저장 로직 추가 (필요한 경우)
     }
-    // 모달 닫기
-    setIsBookmarkModalOpen(false);
+    // 부모로부터 받은 closeModal 함수 호출
+    closeModal(confirmed);
   };
 
   return (
@@ -22,12 +22,12 @@ const BookmarkConfirmationModal = ({ nickname }) => {
       </div>
       <style jsx>{`
         .bookmark-confirmation-modal {
-          position: fixed; /* 화면에 고정 */
-          top: 50%; /* 수직 중앙 */
-          left: 50%; /* 수평 중앙 */
-          transform: translate(-50%, -50%); /* 정확히 중앙에 위치 */
-          background: rgba(0, 0, 0, 0.5); /* 배경색 반투명 */
-          z-index: 9999; /* 다른 요소들 위에 표시 */
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background: rgba(0, 0, 0, 0.5);
+          z-index: 9999;
           display: flex;
           justify-content: center;
           align-items: center;

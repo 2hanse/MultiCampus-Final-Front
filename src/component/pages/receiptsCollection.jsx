@@ -17,16 +17,57 @@ function ReceiptCollection() {
     getReceipts();
   }, []);
 
+import * as React from "react";
+import { useNavigate } from "react-router-dom";
+import Footer from '../layout/footer/Footer'; // Footer import 추가
+
+const receiptData = [
+  {
+    id: 1,
+    imageSrc: "https://cdn.builder.io/api/v1/image/assets/TEMP/360565f156e9ad8a3276b3f9172cb6dcc9e5bacf793c159c7537fa552a7650e9?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4",
+    restaurantName: "식당명",
+    phoneNumber: "전화번호",
+    address: "주소",
+    paymentTime: "결제 시각",
+    captureTime: "촬영 시각"
+  },
+  {
+    id: 2,
+    imageSrc: "https://cdn.builder.io/api/v1/image/assets/TEMP/6e68987c8b564fd551739f033d94bc2b6ecc7fb9910198d651638f8d49b79f33?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4",
+    restaurantName: "식당명",
+    phoneNumber: "전화번호",
+    address: "주소",
+    paymentTime: "결제 시각",
+    captureTime: "촬영 시각"
+  },
+  {
+    id: 3,
+    imageSrc: "https://cdn.builder.io/api/v1/image/assets/TEMP/232325c598ffb79932d967c465626a70b87081792133d36ac1b19f37bdc198b4?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4",
+    restaurantName: "식당명",
+    phoneNumber: "전화번호",
+    address: "주소",
+    paymentTime: "결제 시각",
+    captureTime: "촬영 시각"
+  }
+];
+
+function ReceiptCollection() {
+  const navigate = useNavigate();
+
   return (
     <main className="receipt-collection">
       <header className="collection-header">
         <button onClick={() => navigate(-1)} className="back-icon">
+
           {' '}
           {/* back-icon 클릭 시 이전 페이지로 이동 */}
           <img
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
             alt=""
           />
+
+          <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" alt="" />
+
         </button>
         <h1 className="collection-title">영수증 모음집</h1>
         <img
@@ -48,7 +89,11 @@ function ReceiptCollection() {
         ))}
       </section>
 
+
       <Footer />
+
+      <Footer /> {/* Footer 추가 */}
+
 
       <style jsx>{`
         .receipt-collection {
@@ -121,7 +166,6 @@ function ReceiptCollection() {
           display: flex;
           justify-content: space-between;
         }
-
       `}</style>
     </main>
   );
