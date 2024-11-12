@@ -32,11 +32,19 @@ const Footer = ({ isLoggedIn, profileImageUrl }) => {
                     onClick={() => navigate(tab.path)}
                 />
             ))}
-            <MyPage
-                src={isLoggedIn ? profileImageUrl : Person}
-                alt="Person"
-                onClick={() => navigate("/myprofilepage")}
-            /> 
+            {isLoggedIn ? (
+                <LoginedMyPage
+                    src={profileImageUrl}
+                    alt="Profile"
+                    onClick={() => navigate("/myprofilepage")}
+                />
+            ) : (
+                <MyPage
+                    src={Person}
+                    alt="Person"
+                    onClick={() => navigate("/")}
+                />
+            )}
         </FooterBox>
     );
 };
@@ -63,6 +71,15 @@ const TabImage = styled.img`
 `;
 
 const MyPage = styled.img`
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    left: 351.33px;
+    top: 35%;
+    cursor: pointer;
+`;
+
+const LoginedMyPage = styled.img`
     position: absolute;
     width: 30px;
     height: 30px;
