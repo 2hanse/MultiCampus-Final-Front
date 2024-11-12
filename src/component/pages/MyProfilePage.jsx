@@ -324,7 +324,7 @@ function CommunitySection() {
     { name: '내가 쓴 게시글', path: '/profile' },
     { name: '내가 쓴 리뷰', path: '/review-history' },
     { name: '내가 쓴 댓글', path: '/comment-history' },
-    { name: '북마크', path: '/profile' },
+    { name: '북마크', path: '/homepage', onClick: () => navigate("/homepage", { state: { openBookmarkSheet: true } }) },
     { name: '좋아요 누른 게시글' , path: '/liked-posts'},
     { name: '팔로우/팔로워', path: '/subscribe' },
   ];
