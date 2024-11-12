@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ImageComponent from '../ProfilePage/ImageComponent';
 
+
 const MemberInfo = () => {
   const navigate = useNavigate();
 
@@ -28,7 +29,7 @@ const MemberInfo = () => {
         <button
           className="back-button"
           aria-label="Go back"
-          onClick={() => navigate("/myprofilepage")}
+          onClick={() => navigate(-1)}
         >
           <img
             loading="lazy"

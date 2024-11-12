@@ -56,10 +56,10 @@ function MapPage() {
         navigate(-1, { state: { openBookmarkSheet: true } });
     };
 
-    return (
-        <Main>
-            <Header onClickBookmark={() => setOpen(true)} />
-            <Map center={{ lat: 33.5563, lng: 126.79581 }} style={{width: "430px", height: "932px"}}>
+  return (
+    <Main>
+      <Header onClickBookmark={() => setOpen(true)} />
+      <Map center={{ lat: 33.5563, lng: 126.79581 }} style={{width: "430px", height: "932px"}}>
                 {places.map((place) => (
                         <MapMarker
                         key={`${place.place_id}`}
@@ -81,49 +81,61 @@ function MapPage() {
                         />
                     ))}
             </Map>
-            <CustomSheet    isOpen={isOpen}
-                            onClose={() => {
-                                setOpen(false);
-                                navigate("/homepage", { replace: true });
-                            }}
-                            snapPoints={[700, 400, 0]}
-                            initialSnap={1}>
-                <Sheet.Container>
-                    <Sheet.Header />
-                    <Sheet.Content>
-                        <BookmarkList 
-                            onOpenCreate={() => {
-                                setOpen(false);
-                                setCreateOpen(true);
-                            }} 
+      <CustomSheet
+        isOpen={isOpen}
+        onClose={() => {
+          setOpen(false);
+          navigate('/homepage', { replace: true });
+        }}
+        snapPoints={[700, 400, 0]}
+        initialSnap={1}
+      >
+        <Sheet.Container>
+          <Sheet.Header />
+          <Sheet.Content>
+            <BookmarkList
+              onOpenCreate={() => {
+                setOpen(false);
+                setCreateOpen(true);
+              }}
+            
                             setBoomarkPlaces={setBoomarkPlaces}/>
-                    </Sheet.Content>
-                </Sheet.Container>
-                <Sheet.Backdrop onClick={() => {
-                                    setOpen(false);
-                                    navigate("/homepage", { replace: true });
-                                }} />
-            </CustomSheet>
-            <CustomSheet isOpen={isCreateOpen}
-                         onClose={() => {
-                            setCreateOpen(false);
-                            setOpen(true);
-                         }}
-                         snapPoints={[500, 500, 0]} initialSnap={1}>
-                <Sheet.Container>
-                    <Sheet.Header />
-                    <Sheet.Content>
-                        <CreateBookmark onCancel={() => {
-                                            setCreateOpen(false);
-                                            setOpen(true);
-                                        }} />
-                    </Sheet.Content>
-                </Sheet.Container>
-                <Sheet.Backdrop onClick={() => {
-                                    setCreateOpen(false)
-                                    setOpen(true)
-                                }} />
-            </CustomSheet>
+          </Sheet.Content>
+        </Sheet.Container>
+        <Sheet.Backdrop
+          onClick={() => {
+            setOpen(false);
+            navigate('/homepage', { replace: true });
+          }}
+        />
+      </CustomSheet>
+      <CustomSheet
+        isOpen={isCreateOpen}
+        onClose={() => {
+          setCreateOpen(false);
+          setOpen(true);
+        }}
+        snapPoints={[500, 500, 0]}
+        initialSnap={1}
+      >
+        <Sheet.Container>
+          <Sheet.Header />
+          <Sheet.Content>
+            <CreateBookmark
+              onCancel={() => {
+                setCreateOpen(false);
+                setOpen(true);
+              }}
+            />
+          </Sheet.Content>
+        </Sheet.Container>
+        <Sheet.Backdrop
+          onClick={() => {
+            setCreateOpen(false);
+            setOpen(true);
+          }}
+        />
+      </CustomSheet>
             <CustomSheet isOpen={isPlaceInfoOpen}
                          onClose={() => {
                             setCreateOpen(false);
@@ -152,10 +164,10 @@ function MapPage() {
                             setPlaceInfoOpen(false);
                                 }} />
             </CustomSheet>
-            <Footer />
-        </Main>
-    );
-};
+      <Footer />
+    </Main>
+  );
+}
 
 const Main = styled.main`
     display: flex;
@@ -171,14 +183,14 @@ const Main = styled.main`
 `;
 
 const CustomSheet = styled(Sheet)`
-    display: flex;
-    position: absolute;
-    flex-direction: column;
-    align-items: flex-start;
-    margin: 0 auto;
-    margin-bottom: 102px;
-    max-width: 430px;
-    z-index: 5;
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0 auto;
+  margin-bottom: 102px;
+  max-width: 430px;
+  z-index: 5;
 
     /* sheet 라이브러리 css 덮어 쓰려면 !important 끝에 들어가야합니다 */
     .react-modal-sheet-backdrop {

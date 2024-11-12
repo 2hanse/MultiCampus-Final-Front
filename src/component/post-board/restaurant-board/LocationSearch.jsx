@@ -15,7 +15,7 @@ const LocationSearch = (selectedReceipt) => {
         <SearchInput
           type="text"
           placeholder="가게 주소"
-          value={selectedReceipt.selectedReceipt}
+          value={selectedReceipt.selectedReceipt.restaurant_address}
           readOnly
         />
       </SearchInputWrapper>

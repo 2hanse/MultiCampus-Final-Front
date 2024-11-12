@@ -60,8 +60,9 @@ function PasswordForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const newPwd = {
+            phone_number: userInfo.phoneNumber,
+            verify_code: userInfo.verifyCode,
             email: userInfo.email,
-            phone_number: userInfo.phone_number,
             new_password: password
         };
         if(password === "" || passwordConfirm === "") {
@@ -72,12 +73,11 @@ function PasswordForm() {
         try {
             const response = await api.put("/users/reset-password", newPwd);
             if (response.status === 200) {
-                //console.log('유저 이메일: ' + response.data.email);
-                //console.log('새 비밀번호: ' + response.data.new_password); 
                 navigate('/user/resetPasswordResult');
             }
         } catch (err) {
             console.log('비밀번호 에러: ', err);
+            alert(err);
         }
         }
     };
@@ -172,7 +172,7 @@ const SubmitButton = styled.button`
   border-radius: 10px;
   background-color: #ffd966;
   width: 96%;
-  font-size: 19px;
+  font-size: 16px;
   color: #785a00;
   white-space: nowrap;
   text-align: center;

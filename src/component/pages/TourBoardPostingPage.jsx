@@ -10,18 +10,37 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import BookmarkButton from '../post-board/tour-board/BookmarkButton';
 
 const TourBoardPostingPage = () => {
-  const category = '자유';
+  const category = 'tour';
   const navigate = useNavigate();
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const savedDraft = localStorage.getItem('draftPost');
+    if (savedDraft) {
+      const { title, content } = JSON.parse(savedDraft);
+      setTitle(title);
+      setContent(content);
+    }
+  }, []);
 
   // 2. 타이틀
   const [title, setTitle] = useState('');
   // 3. 내용
   const [content, setContent] = useState('');
 
+  // 임시저장
+  const handleDraftSave = () => {
+    const draft = {
+      title,
+      content,
+    };
+
+    console.log('임시저장 데이터', draft);
+    localStorage.setItem('draftPost', JSON.stringify(draft));
+    alert('게시글이 임시저장되었습니다.');
+  };
+
   // 게시글 작성 버튼 관련
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // if (title.length < 1) {
     //   titleRef.current.focus();
     //   return;
@@ -31,9 +50,14 @@ const TourBoardPostingPage = () => {
       board: { title, content },
     };
 
-    api.post(`/boards/${category}`, data).then((res) => {
+    await api.post(`/boards/${category}`, data).then((res) => {
       if (res.status === 200) {
+        // 게시물 작성 후 로컬스토리지에서 임시 저장된 데이터 삭제
+        localStorage.removeItem('draftPost');
+
+        // 페이지 이동
         navigate('/', { replace: true });
+
         return;
       } else {
         alert('업로드 실패.');
@@ -51,14 +75,23 @@ const TourBoardPostingPage = () => {
           loader.file.then((file) => {
             formData.append('file', file);
             api
-              .post('http://localhost:8000/mutifile', formData)
+              .post('/media/upload', formData)
               .then((res) => {
-                console.log(res.data); // 응답 로그
+                console.log('response ' + JSON.stringify(res.data)); // 응답 로그
+
+                const baseUrl = 'http://localhost:8000';
+                const mediaUrl = baseUrl + res.data.mediaUrl;
+                const mediaThumbUrl = baseUrl + res.data.mediaThumbUrl;
+
                 resolve({
-                  default: res.data.data.uri,
+                  default: mediaUrl,
+                  mediaThumbUrl: mediaThumbUrl,
                 });
               })
-              .catch((err) => reject(err));
+              .catch((err) => {
+                console.log('response error ' + err); // 응답 로그
+                reject(err);
+              });
           });
         });
       },
@@ -72,6 +105,35 @@ const TourBoardPostingPage = () => {
     };
   };
 
+  // 태그 없애는 메서드
+  const removeHtmlTags = (html) => {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.textContent || '';
+  };
+
+  const handleContentChange = (event, editor) => {
+    const rawContent = editor.getData(); // HTML이 포함된 데이터
+    const plainTextContent = removeHtmlTags(rawContent); // HTML 태그 제거
+    setContent(plainTextContent);
+    console.log('테그 제거된 값 ' + plainTextContent); // 태그가 제거된 순수 텍스트 확인
+  };
+
+  const [bookmarkList, setBookmarkList] = useState([]);
+  // 북마크 리스트 토글관리
+  const [isListVisible, setIsListVisible] = useState(false);
+
+  // 자신의 북마크 불러오기 요청(프론트)
+  const handleBookmarkInnerClick = async () => {
+    try {
+      const response = await api.get(`/bookmarks`);
+      console.log(response.data);
+      setBookmarkList(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  // 토근값으로 user_id 받아서 북마크 리스트 반환(백엔드)
+
   return (
     <PageContainer>
       <Header />
@@ -80,12 +142,17 @@ const TourBoardPostingPage = () => {
           title={title}
           setTitle={setTitle}
           content={content}
-          setContent={setContent}
+          handleContentChange={handleContentChange}
           uploadPlugin={uploadPlugin}
         />
-        <LocationSearch />
-        <BookmarkButton />
-        <ActionButtons handleSubmit={handleSubmit} />
+        <BookmarkButton
+          bookmarkList={bookmarkList}
+          handleBookmarkInnerClick={handleBookmarkInnerClick}
+        />
+        <ActionButtons
+          handleDraftSave={handleDraftSave}
+          handleSubmit={handleSubmit}
+        />
       </main>
     </PageContainer>
   );

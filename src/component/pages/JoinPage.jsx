@@ -42,6 +42,10 @@ const JoinPage = () => {
   const [isNickName, setIsNickName] = useState(false);
   const [isPhoneNum, setIsPhoneNum] = useState(false);
 
+  // 타이머 시간
+  const [timer, setTimer] = useState(180);
+  const [forceUpdate, setForceUpdate] = useState(0); // 강제 렌더링
+
    // 이름 유효성 검사
    const onChangeName = useCallback((e) => {
     setName(e.target.value)
@@ -209,6 +213,28 @@ const JoinPage = () => {
     });
   };
 
+  // 재인증번호 요청 함수
+  const reHandleVerificationRequest = () => {
+    // 서버에 인증번호 발송 요청을 보냄
+    api.post('/sms/send', phoneNum, {
+      headers: {
+        'Content-Type': 'text/plain'
+      }
+    })
+    .then(response => {
+      setTimer(180);
+      console.log('재인증번호 발송 성공:', response.data);
+      setForceUpdate(prev => prev + 1); // 강제 리렌더링을 위한 상태 변경
+      console.log(timer);
+      setIsVerificationSent(true); // 인증번호 발송 성공 시 입력 필드를 표시하기 위해 상태를 true로 설정
+      setPhoneNumMessage('');
+    })
+    .catch(error => {
+      alert(error.response.data);
+      console.error('인증번호 발송 실패:', error);
+    });
+  };
+
   // 인증번호 입력 값 업데이트 함수
   const handleVerificationCodeChange = (event) => {
     setVerificationCode(event.target.value); // 입력된 인증번호를 상태에 저장
@@ -236,6 +262,7 @@ const JoinPage = () => {
   const handleTimeUp = () => {
     setIsVerificationSent(false);
     alert("시간 초과! 인증번호를 다시 요청해주세요.");
+    setVerificationCode("");
   };
 
 
@@ -338,7 +365,8 @@ const JoinPage = () => {
             <input type="text" placeholder="전화번호( -를 제외하고 입력)" onChange={onChangePhoneNum}/>
             <StyledButton   small 
                             type="button"
-                            onClick={handleVerificationRequest}>인증</StyledButton>
+                            onClick={!isVerificationSent ? handleVerificationRequest : reHandleVerificationRequest}>
+                              {!isVerificationSent ? "인증" : "재인증"}</StyledButton>
         </StyledInputField>
         <Formbox>
         {phoneNum.length > 0 && <span className={`message ${isPhoneNum ? 'success' : 'error'}`}>{phoneNumMessage}</span>}
@@ -347,7 +375,7 @@ const JoinPage = () => {
         {/* 인증번호 입력 필드 및 확인 버튼, 인증번호 발송 후에만 표시됨 */}
         {isVerificationSent && (
           <div>
-            <Label><Timer initialTime={180} onTimeUp={handleTimeUp} /></Label>
+            <Label><Timer key={`timer-${timer}-${forceUpdate}`} initialTime={timer} onTimeUp={handleTimeUp} /></Label>
                 <StyledInputField>
                     <input
                         id="verification-code"

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
+import Footer from "../layout/footer/Footer";
 
 // ReviewListItem 컴포넌트
 function ReviewListItem({ timestamp, title, content }) {
@@ -104,7 +105,7 @@ function ReviewHistory() {
   const navigate = useNavigate(); // useNavigate 훅 사용
 
   const handleBackButtonClick = () => {
-    navigate('/myprofilepage'); // 루트 경로로 이동
+    navigate(-1); // 루트 경로로 이동
   };
 
   return (
@@ -133,9 +134,9 @@ function ReviewHistory() {
           ))}
         </section>
 
-        <footer className="page-footer">
-          <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/cb717e0c0f0cfa324931c379390c6d597d7e19a8ae52107e48c0c335177a4d41?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" alt="" className="footer-image" />
-        </footer>
+        {/* Footer 추가 */}
+        <Footer />
+
       </main>
       <style jsx>{`
         .review-history-page {
@@ -216,10 +217,6 @@ function ReviewHistory() {
           max-width: 395px;
         }
 
-        .footer-image {
-          width: 100%;
-          margin-top: 82px;
-        }
 
         @media (max-width: 991px) {
           .review-header {

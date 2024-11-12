@@ -34,7 +34,7 @@ const ProfileHeader = ({ nickname, statusMessage }) => {
 
   // back-button 클릭 시 myprofilepage로 이동
   const handleBackButtonClick = () => {
-    navigate('/myprofilepage'); // 'myprofilepage'로 이동
+    navigate(-1); // 'myprofilepage'로 이동
   };
 
   // notifications-button 클릭 시 memberinfo로 이동
@@ -45,6 +45,7 @@ const ProfileHeader = ({ nickname, statusMessage }) => {
 
   return (
     <header className="profile-header">
+      
       <div className="back-button" onClick={handleBackButtonClick}> {/* 클릭 이벤트 추가 */}
         <ProfileImage src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" alt="Profile" />
         <h1 className="profile-nickname">{nickname}</h1>
@@ -52,8 +53,10 @@ const ProfileHeader = ({ nickname, statusMessage }) => {
           <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/75a8b4cc620548771893340c85cf407976981dbfdc941c79c0a38b05d9f27b4e?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" alt="" className="edit-icon" />
         </button>
       </div>
+      <hr className="divider" />
       <ProfileStats />
       <p className="profile-status">{statusMessage}</p>
+      
     </header>
   );
 };
@@ -77,11 +80,37 @@ const ProfileActions = () => {
   );
 };
 
+const reviewData = [
+  { timestamp: "n분 전", title: "[동네주민] 게시글 제목", content: "게시글 본문(20자)" },
+  { timestamp: "n분 전", title: "[동네주민] 게시글 제목", content: "게시글 본문(20자)" },
+  { timestamp: "n분 전", title: "게시글 제목", content: "게시글 본문(20자)" },
+  { timestamp: "n분 전", title: "게시글 제목", content: "게시글 본문(20자)" },
+  { timestamp: "yy.mm.dd", title: "게시글 제목", content: "게시글 본문(20자)" },
+  { timestamp: "yy.mm.dd", title: "게시글 제목", content: "게시글 본문(20자)" },
+];
+
+// ReviewListItem 컴포넌트
+function ReviewListItem({ timestamp, title, content }) {
+  return (
+    <article className="review-item">
+      <hr className="divider" />
+      <time className="timestamp">{timestamp}</time>
+      <h2 className="title">{title}</h2>
+      <p className="description">{content}</p>
+    </article>
+  );
+}
+
 // ProfileContent 컴포넌트
 const ProfileContent = () => {
   return (
     <main className="profile-content">
       <ProfileActions />
+      <section className="review-list">
+        {reviewData.map((review, index) => (
+          <ReviewListItem key={index} {...review} />
+        ))}
+      </section>
       <Footer/>
     </main>
   );
@@ -96,12 +125,11 @@ const Profile = () => {
       <style jsx>{`
         .profile-page {
           background-color: #fff4d2;
-          max-width: 430px;
-          max-height: 932px;
-          width: 100%;
+          width: 430px;
           margin: 0 auto;
-          padding-top: 62px;
+          padding-top: 49px;
           overflow: hidden;
+          border: 1px solid gray;
         }
         .profile-header {
           padding: 0 28px;
@@ -124,6 +152,12 @@ const Profile = () => {
           font: 18px/1 Roboto, sans-serif;
           margin: 0;
         }
+        .divider {
+          border: 0;
+          height: 1px;
+          background-color: #ddd; /* 구분선 색상 */
+          margin: 20px 0; /* 위아래 여백 추가 */
+        }
         .notifications-button {
           background: none;
           border: none;
@@ -131,8 +165,8 @@ const Profile = () => {
           cursor: pointer;
         }
         .edit-icon {
-          width: 15px;
-          height: 18px;
+          width: 24px;
+          height: 24px;
           object-fit: contain;
         }
         .profile-stats {
@@ -165,7 +199,7 @@ const Profile = () => {
         .profile-actions {
           display: flex;
           justify-content: center;
-          gap: 30px; /* 간격을 30px로 변경 */
+          gap: 30px; 
           margin-bottom: 12px;
         }
         .action-button {
@@ -179,11 +213,44 @@ const Profile = () => {
           height: 30px;
           object-fit: contain;
         }
-        
+
         .content-image {
           width: 100%;
           height: auto;
           object-fit: contain;
+        }
+
+        .review-list {
+          width: 100%;
+          max-width: 395px;
+          padding-top: 20px;
+        }
+        .review-item {
+          background-color: #fff;
+          min-height: 72px;
+          margin-top: 11px;
+          padding: 4px 16px;
+          display: flex;
+          flex-direction: column;
+        }
+        .timestamp {
+          color: #49454f;
+          letter-spacing: 0.5px;
+          font: 500 12px/16px Roboto, sans-serif;
+        }
+
+        .title {
+          color: #1d1b20;
+          letter-spacing: 0.5px;
+          font: 16px/24px Roboto, sans-serif;
+          margin: 4px 0;
+        }
+
+        .description {
+          color: #49454f;
+          letter-spacing: 0.25px;
+          font: 14px/20px Roboto, sans-serif;
+          margin: 0;
         }
       `}</style>
     </div>

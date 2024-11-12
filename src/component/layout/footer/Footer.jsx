@@ -1,22 +1,64 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState }  from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import Home from "./assets/Home.png";
-import Feed from "./assets/Feed.png";
-import Map from "./assets/Map.png";
-import Chat from "./assets/Chat.png";
+import Home   from "./assets/Home.png";
+import Feed   from "./assets/Feed.png";
+import Map    from "./assets/Map.png";
+import Chat   from "./assets/Chat.png";
 import Person from "./assets/Person.png";
+import onHome from "./assets/onHome.png";
+import onFeed from "./assets/onFeed.png";
+import onMap  from "./assets/onMap.png";
+import onChat from "./assets/onChat.png";
+import { getUserIdFromToken } from "../../api/jwt";
+import getProfileImgUrlFromUserId from "../../api/member_info";
 
 const Footer = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const [profileImgUrl, setProfileImgUrl] = useState('');
+    const [isProfileSelected, setIsProfileSelected] = useState(false);
+
+    useEffect(() => {
+        const userId = getUserIdFromToken();
+        if (userId) {
+            getProfileImgUrlFromUserId(userId, setProfileImgUrl);
+        }
+    }, []);
+
+    const tabs = [
+        { name: "home", path: "/boardmain",      defaultImg: Home, activeImg: onHome },
+        { name: "feed", path: "/subscribe",      defaultImg: Feed, activeImg: onFeed },
+        { name: "map",  path: "/homepage",       defaultImg: Map,  activeImg: onMap  },
+        { name: "chat", path: "/user/chat/list", defaultImg: Chat, activeImg: onChat }
+    ];
 
     return (
         <FooterBox>
-            <BoardMainPage src={Home}   alt="Home" onClick={() => navigate("/boardmain")} />
-            <FeedPage      src={Feed}   alt="Feed" onClick={() => navigate("/subscribe")} />
-            <MapPage       src={Map}    alt="Map" onClick={() => navigate("/")} />
-            <ChatPage      src={Chat}   alt="Chat" onClick={() => navigate("/user/chat/list")} />
-            <MyPage        src={Person} alt="Person" onClick={() => navigate("/myprofilepage")} />
+            {tabs.map((tab) => (
+                <TabImage
+                    key={tab.name}
+                    src={location.pathname === tab.path ? tab.activeImg : tab.defaultImg}
+                    alt={tab.name}
+                    onClick={() => navigate(tab.path)}
+                />
+            ))}
+            {profileImgUrl ? (
+                <LoginedMyPage
+                    src={profileImgUrl}
+                    alt="Profile"
+                    onClick={() => {
+                        setIsProfileSelected(!isProfileSelected);
+                        navigate("/myprofilepage");
+                    }}
+                />
+            ) : (
+                <MyPage
+                    src={Person}
+                    alt="Person"
+                    onClick={() => navigate("/")}
+                />
+            )}
         </FooterBox>
     );
 };
@@ -33,39 +75,12 @@ const FooterBox = styled.footer`
     z-index: 10;
 `;
 
-const BoardMainPage = styled.img`
-    position: absolute;
-    width: 30px;
-    height: 33.75px;
-    left: 46px;
-    top: 33%;
-    cursor: pointer;
-`;
-
-const FeedPage = styled.img`
-    position: absolute;
+const TabImage = styled.img`
+    position: relative;
     width: 30px;
     height: 30px;
-    left: 123px;
-    top: 35%;
-    cursor: pointer;
-`;
-
-const MapPage = styled.img`
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    left: calc(50% - 30px/2);
-    top: 35%;
-    cursor: pointer;
-`;
-
-const ChatPage = styled.img`
-    position: absolute;
-    width: 33.33px;
-    height: 30px;
-    left: 273px;
-    top: 35%;
+    left: 25px;
+    margin: 35px 22.3px 0px 22.3px;
     cursor: pointer;
 `;
 
@@ -75,6 +90,17 @@ const MyPage = styled.img`
     height: 30px;
     left: 351.33px;
     top: 35%;
+    cursor: pointer;
+`;
+
+const LoginedMyPage = styled.img`
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    left: 351.33px;
+    top: 35%;
+    border-radius: 50%;
+    border: ${(props) => (props.isSelected ? "1px solid #ED6000" : "none")};
     cursor: pointer;
 `;
 

@@ -1,5 +1,6 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom'; // useNavigate 훅을 임포트
+import { useNavigate } from 'react-router-dom';
+import Footer from '../layout/footer/Footer';
 
 function CommentItem({ timestamp, content, postTitle }) {
   return (
@@ -16,8 +17,7 @@ function CommentItem({ timestamp, content, postTitle }) {
           background-color: #fff;
           position: relative;
           display: flex;
-          max-height: 932px;
-          width: 100%;
+          width: 100%; /* Footer에 맞추어 width를 100%로 설정 */
           flex-direction: column;
           justify-content: center;
           margin-top: 11px;
@@ -58,7 +58,7 @@ function CommentItem({ timestamp, content, postTitle }) {
 }
 
 export default function CommentHistory() {
-  const navigate = useNavigate(); // useNavigate 훅을 사용하여 navigate 함수 생성
+  const navigate = useNavigate();
 
   const comments = [
     { timestamp: 'n분 전', content: '댓글 내용', postTitle: '게시글 제목' },
@@ -74,25 +74,36 @@ export default function CommentHistory() {
     <main className="comment-history-page">
       <header className="header-section">
         <div className="header-content">
-          <div className="back-button" onClick={() => navigate(-1)}> {/* 클릭 시 이전 페이지로 이동 */}
-            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" alt="" className="icon" />
+          <div className="back-button" onClick={() => navigate(-1)}>
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
+              alt=""
+              className="icon"
+            />
           </div>
           <div className="header-title">
             <h1 className="title">남긴 댓글</h1>
           </div>
           <div className="search-button">
-            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/a4043db299d9ceb138c2e374dca4840d7d3ff7f4252651ed455139c571b71f73?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" alt="" className="icon" />
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/a4043db299d9ceb138c2e374dca4840d7d3ff7f4252651ed455139c571b71f73?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
+              alt=""
+              className="icon"
+            />
           </div>
         </div>
       </header>
-
       <div className="sort-section">
         <button className="filter-button">
           <span className="sort-text">등록순</span>
-          <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/745f4a325798408d80543bbacf1852135593f5c0514bd614a697a7386fbb93c1?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" alt="" className="sort-icon" />
+          <img
+            loading="lazy"
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/745f4a325798408d80543bbacf1852135593f5c0514bd614a697a7386fbb93c1?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
+            alt=""
+            className="sort-icon"
+          />
         </button>
       </div>
-
       <section className="comment-list">
         {comments.map((comment, index) => (
           <CommentItem
@@ -103,34 +114,35 @@ export default function CommentHistory() {
           />
         ))}
       </section>
-
-      <footer>
-        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/cb717e0c0f0cfa324931c379390c6d597d7e19a8ae52107e48c0c335177a4d41?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" alt="" className="footer-image" />
-      </footer>
-
+      <Footer /> {/* Footer 추가 */}
       <style jsx>{`
         .comment-history-page {
-          background-color: #fff;
           display: flex;
-          max-width: 430px; /* 너비를 430px로 조정 */
-          max-height: 932px; /* 최대 높이 932px */
-          min-height: 632px; /* 최소 높이 632px */
-          height: auto;
+          overflow: hidden;
           flex-direction: column;
-          
           align-items: flex-start;
+          width: 430px;
+          max-height: 932px;
+          min-height: 732px;
+          background: #ffffff;
           margin: 0 auto;
+          border: 0.5px solid #cac4d0;
         }
 
         .header-section {
           background-color: #fff4d2;
           width: 100%;
-          padding: 62px 26px 25px;
+          padding: 30px 26px; /* padding을 고정값으로 설정 */
+          box-sizing: border-box;
+          height: 150px; /* 고정된 높이 설정 */
         }
 
         .header-content {
           gap: 20px;
           display: flex;
+          justify-content: space-between; /* 요소들을 가로로 배치 */
+          max-width: 430px;
+          align-items: center; /* 세로 중앙 정렬 */
         }
 
         .back-button {
@@ -184,31 +196,7 @@ export default function CommentHistory() {
         }
 
         .comment-list {
-          width: 100%;
-          max-width: 395px;
-        }
-
-        .footer-image {
-          aspect-ratio: 4.29;
-          object-fit: contain;
-          object-position: center;
-          width: 100%;
-          align-self: stretch;
-          margin-top: 82px;
-        }
-
-        @media (max-width: 991px) {
-          .header-content {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 0;
-          }
-
-          .back-button,
-          .header-title,
-          .search-button {
-            width: 100%;
-          }
+          width: 100%; /* 리스트 너비도 Footer에 맞춰서 조정 */
         }
       `}</style>
     </main>
