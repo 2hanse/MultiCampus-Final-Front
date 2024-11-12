@@ -24,7 +24,7 @@ const EmailFinderWrapper = styled.main`
   flex-direction: column;
   overflow: hidden;
   margin: 0 auto;
-  padding: 62px 0 268px;
+  padding: 62px 0 378px;
 `;
 
 export default FindResultEmailPage;

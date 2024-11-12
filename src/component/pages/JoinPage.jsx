@@ -303,7 +303,7 @@ const JoinPage = () => {
   
   return (
     <StyledForm onSubmit={onSubmit}>
-      <Header navigatePath="/user/login" title="회원가입"/>
+      <Header navigatePath="/" title="회원가입"/>
       <main>
         <h2 className="form-title">회원정보 입력</h2>
         <p className="form-description">
@@ -443,7 +443,7 @@ const StyledForm = styled.form`
   max-height: 932px;
   width: 100%;
   height: 100%;
-  padding-top: 62px;
+  padding: 62px 0px 37px 0px;
   flex-direction: column;
   overflow: hidden;
   margin: 0 auto;
@@ -455,7 +455,7 @@ const StyledForm = styled.form`
     flex-direction: column;
     font-family: Inter, sans-serif;
     font-weight: 400;
-    padding: 0 37px;
+    padding: 0 37px; 
   }
 
   .form-title {

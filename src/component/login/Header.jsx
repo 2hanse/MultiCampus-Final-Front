@@ -45,12 +45,13 @@ const Wrapper = styled.div`
 `;
 
 const Logo = styled.img`
-    position: absolute;
-    width: 85px;
-    height: 85px;
-    left: calc(60% - 85px/2 + 0.5px);
-    top: 58px;
-    border-radius: 50px;
+  position: absolute;
+  width: 85px;
+  height: 85px;
+  left: 54vw;
+  top: 58px;
+  border-radius: 50px;
+  z-index: 10;  /* 다른 요소 위에 표시되도록 z-index 추가 */
 `
 
 const Title = styled.b`

@@ -6,7 +6,7 @@ import EmailForm from "../../../find-email/EmailForm";
 function FindEmailPage() {
   return (
     <EmailFinderWrapper>
-      <Header navigatePath="/user/login" title="이메일 찾기"/>
+      <Header navigatePath="/" title="이메일 찾기"/>
       <EmailForm />
     </EmailFinderWrapper>
   );
@@ -23,7 +23,7 @@ const EmailFinderWrapper = styled.main`
   flex-direction: column;
   overflow: hidden;
   margin: 0 auto;
-  padding: 62px 0 298px;
+  padding: 62px 0 386px;
 `;
 
 

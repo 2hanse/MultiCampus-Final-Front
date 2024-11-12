@@ -6,7 +6,6 @@ import PasswordForm from "../../../find-password/findresult-password/PasswordFor
 function ResetPasswordPage() {
   return (
     <PageWrapper>
-
       <Header navigatePath="/user/phone-identification" title="비밀번호 찾기"/>
       <PasswordForm />
     </PageWrapper>
@@ -25,7 +24,7 @@ const PageWrapper = styled.main`
   flex-direction: column;
   overflow: hidden;
   margin: 0 auto;
-  padding: 62px 0 340px;
+  padding: 62px 0 478px;
 `;
 
 export default ResetPasswordPage;

@@ -26,7 +26,7 @@ const Main = styled.main`
   flex-direction: column;
   overflow: hidden;
   margin: 0 auto;
-  padding: 62px 0 298px;
+  padding: 62px 0 235px;
 `;
 
 export default LoginPage;

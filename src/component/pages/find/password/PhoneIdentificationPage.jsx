@@ -24,7 +24,7 @@ const PageWrapper = styled.main`
   flex-direction: column;
   overflow: hidden;
   margin: 0 auto;
-  padding: 62px 0 340px;
+  padding: 62px 0 547px;
 `;
 
 export default PhoneIdentificationPage;
