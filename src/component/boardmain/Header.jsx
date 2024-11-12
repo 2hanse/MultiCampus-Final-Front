@@ -1,20 +1,45 @@
-import React          from "react";
-import styled         from "styled-components";
-import 맛있는녀석들_로고   from "./assets/맛있는녀석들_로고.png";
-import 돋보기           from "./assets/돋보기.png";
-import 알림            from "./assets/알림.png";
-import 프로필           from "./assets/프로필.png";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import styled                         from "styled-components";
+import 맛있는녀석들_로고                   from "./assets/맛있는녀석들_로고.png";
+import 돋보기                           from "./assets/돋보기.png";
+import 알림                            from "./assets/알림.png";
+import 프로필                           from "./assets/프로필.png";
+import { useNavigate }                from "react-router-dom";
+import { getUserIdFromToken }         from "../api/jwt";
+import getProfileImgUrlFromUserId     from "../api/member_info";
 
 const Header = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
+    const [profileImgUrl, setProfileImgUrl] = useState('');
+
+    useEffect(() => {
+        const userId = getUserIdFromToken();
+        if (userId) {
+            getProfileImgUrlFromUserId(userId, setProfileImgUrl);
+        }
+    }, []);
+
     return (
         <HeaderBox>
             <Logo         src={맛있는녀석들_로고} alt="맛있는 녀석들 로고" />
             <MyLocation>지역 미설정</MyLocation>
             <Search       src={돋보기}         alt="Search" />
             <Notification src={알림}           alt="Notification" onClick={() => navigate("/user/alert")} />
-            <Profile      src={프로필}         alt="Profile" />
+            {profileImgUrl ? (
+                <LoginedProfile
+                    src={profileImgUrl}
+                    alt="Profile"
+                    onClick={() => {
+                        navigate("/myprofilepage");
+                    }}
+                />
+            ) : (
+                <Profile
+                    src={프로필}
+                    alt="Profile"
+                    onClick={() => navigate("/")}
+                />
+            )}
         </HeaderBox>
     );
 }
@@ -69,6 +94,17 @@ const Profile = styled.img`
 
     cursor: pointer;
 `
+
+const LoginedProfile = styled.img`
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    left: 373px;
+    top: 141px;
+    border-radius: 50%;
+    border: ${(props) => (props.isSelected ? "1px solid #ED6000" : "none")};
+    cursor: pointer;
+`;
 
 const MyLocation = styled.text`
     position: absolute;

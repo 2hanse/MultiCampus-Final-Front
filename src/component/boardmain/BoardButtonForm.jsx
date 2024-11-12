@@ -20,7 +20,7 @@ const BoardButtonForm = () => {
             <BookmarkBoard
                 src={Bookmark}
                 alt="Bookmark"
-                onClick={() => navigate("/", { state: { openBookmarkSheet: true } })}
+                onClick={() => navigate("/homepage", { state: { openBookmarkSheet: true } })}
             />
         </Wrapper>
     );
