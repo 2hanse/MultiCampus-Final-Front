@@ -25,7 +25,7 @@ const PageWrapper = styled.div`
   flex-direction: column;
   overflow: hidden;
   margin: 0 auto;
-  padding: 62px 0 340px;
+  padding: 62px 0 396px;
 `;
 
 export default ChangePasswordPage;
