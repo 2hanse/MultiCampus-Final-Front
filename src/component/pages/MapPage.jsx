@@ -10,6 +10,8 @@ import { Map, MapMarker }                        from "react-kakao-maps-sdk"
 import axios from "axios";
 import api from "../api/axios";
 import PlaceInfoSheet from "../map/PlaceInfoSheet";
+import InfoItem from "../map/InfoItem";
+import PlaceInfoBottom from "../map/PlaceInfoBottom";
 
 function MapPage() {
     const location                      = useLocation();
@@ -20,6 +22,7 @@ function MapPage() {
     const [places,       setPlaces    ] = useState([]);
     const [selectedPlaces, setSelectedPlaces] = useState();
     const [bookmarkPlaces, setBoomarkPlaces] = useState([]);
+    const [bookmarkCnt, setBookmarkCnt] = useState([]);
 
     useEffect(() => {
         if (location.state?.openBookmarkSheet) {
@@ -31,11 +34,23 @@ function MapPage() {
         api.get("/place/list")
         .then((res) => {
             setPlaces(res.data);
-            //console.log(res.data);
+            console.log(res.data);
         });
     }, []);
 
     const selectedPlaceData = places.find(place => place.placeName === selectedPlaces);
+
+    useEffect(()=> {
+        if (selectedPlaceData) {
+            let place_id = selectedPlaceData?.place_id;
+            console.log(selectedPlaceData?.place_id);
+            api.get(`/bookmarks/place/counts/${place_id}`)
+            .then((res) => {
+                setBookmarkCnt(res.data);
+                console.log(bookmarkCnt);
+            });
+        }   
+    }, [selectedPlaces]);
 
     const handleBackPageClick = () => {
         navigate(-1, { state: { openBookmarkSheet: true } });
@@ -115,15 +130,20 @@ function MapPage() {
                             setOpen(false);
                             setPlaceInfoOpen(false);
                          }}
-                         snapPoints={[500, 500, 0]} initialSnap={1}
+                         snapPoints={[932, 500, 0]} initialSnap={1}
                          style={{zIndex: 10}}>
                 <Sheet.Container>
                     <Sheet.Header />
                     <Sheet.Content>
                         <PlaceInfoSheet style={{zIndex: 100}}
+                                        place_id={selectedPlaceData?.place_id}
                                         placeName={selectedPlaceData?.placeName} 
                                         placeAddress={selectedPlaceData?.placeAddress} 
                                         placeTele={selectedPlaceData?.placeTele}/>
+                                        
+                        <PlaceInfoBottom    placeAddress={selectedPlaceData?.placeAddress} 
+                                            placeTele={selectedPlaceData?.placeTele}
+                                            bookmarkCnt={bookmarkCnt}/>
                     </Sheet.Content>
                 </Sheet.Container>
                 <Sheet.Backdrop onClick={() => {
@@ -182,6 +202,14 @@ const CustomSheet = styled(Sheet)`
     }
     .react-modal-sheet-content {
         margin: 10px 20px !important;
+        overflow-y: auto;
+
+        /* 스크롤바 숨기기 */
+        -ms-overflow-style: none;  /* IE 및 Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+    .react-modal-sheet-content::-webkit-scrollbar {
+        display: none;  /* Chrome, Safari 및 Opera */
     }
 `;
 

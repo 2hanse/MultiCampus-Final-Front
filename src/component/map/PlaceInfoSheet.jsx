@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 import styled from "styled-components";
+import api from "../api/axios";
 
-const PlaceInfoSheet = ({placeName, placeAddress, placeTele}) => {
+const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedData, setSelectedData] = useState(null);
 
@@ -14,6 +15,43 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele}) => {
     const closeModal = () => {
         setIsModalOpen(false); // 모달을 닫기
         setSelectedData(null); // 선택된 데이터 초기화
+    };
+
+    const [isModalOpen2, setIsModalOpen2] = useState(false);
+    const [bookmarkList, setBookmarkList] = useState([]);
+
+    useEffect(() => {
+        api.get("/bookmarks")
+        .then((res) => {
+            setBookmarkList(res.data);
+            console.log(res.data);
+        });
+    }, []);
+
+    const handleIconClick2 = () => {
+        setIsModalOpen2(true);  // 모달을 열기
+    };
+
+    const closeModal2 = () => {
+        setIsModalOpen2(false); // 모달을 닫기
+    };
+
+    const handleBookmarkClick = (bookmark) => {
+        const data = {
+            bookmark_id: bookmark.bookmark_id,
+            place_id: place_id,
+            custom_place_name: null,
+            icon_color: null,
+        }
+        api.post('/bookmarks/place', data)
+            .then((response) => {
+                alert(response.data);
+                console.log('북마크가 저장되었습니다:', response.data);
+                // 필요시 추가 로직 처리
+            })
+            .catch((error) => {
+                console.error('북마크 저장 중 오류 발생:', error);
+            });
     };
 
     return (
@@ -39,7 +77,10 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele}) => {
                         alt="Icon 1" 
                         onClick={() => handleIconClick(placeTele)}/>
                 <Icon loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/84e6d9b5de04ff203900ac7f5955f1ca91c45cce554d4fddfe190fe63360cc54?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" alt="Icon 2" />
-                <Icon loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/e7d52f98e5299a8b08ff643fede53eab7a4ff9261862a68328040c94b080e7b9?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" alt="Icon 3" />
+                <Icon   loading="lazy" 
+                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/e7d52f98e5299a8b08ff643fede53eab7a4ff9261862a68328040c94b080e7b9?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" 
+                        alt="Icon 3"
+                        onClick={() => handleIconClick2()} />
             </IconContainer>
             </AddressInfo>
             <ArrivalButton>도착</ArrivalButton>
@@ -90,9 +131,86 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele}) => {
                     <CloseButton onClick={closeModal}>닫기</CloseButton>
                 </SmallModalContent>
             </ReactModal>
+
+            <ReactModal
+                isOpen={isModalOpen2}
+                onRequestClose={closeModal2}
+                contentLabel="Detail Modal"
+                ariaHideApp={false} // optional: 모달의 접근성 관련 설정
+                style={{
+                    overlay: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)', // 반투명 배경
+                        zIndex: 99, // 오버레이의 z-index 설정
+                        position: 'fixed', // 오버레이가 화면을 덮도록 설정
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                    },
+                    content: {
+                        position: 'fixed', // 모달이 화면에 고정되도록 설정
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)', // 중앙에 배치
+                        padding: '20px',
+                        borderRadius: '8px',
+                        width: '350px',
+                        height: '500px',
+                        maxWidth: '90%',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        textAlign: 'center',
+                        backgroundColor: '#fff',
+                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // 그림자 추가
+                        zIndex: 100, // 모달의 z-index를 오버레이 위에 위치하도록 설정
+                    },
+                }}
+            >
+                <BookmarkListContainer>
+                    <h2>북마크에 저장</h2>
+                    {bookmarkList && bookmarkList.length > 0 ? (
+                        bookmarkList.map((bookmark, index) => (
+                            <BookmarkBox  key={index} 
+                                onClick={() => handleBookmarkClick(bookmark)}
+                                >
+                                {bookmark || `북마크 ${index + 1}`}
+                            </BookmarkBox> // 예시로 name 속성 사용
+                        ))
+                    ) : (
+                        <p>북마크가 없습니다.</p> // 북마크가 없을 경우 메시지 표시
+                    )}
+                    <CloseButton onClick={closeModal2}>닫기</CloseButton>
+                </BookmarkListContainer>
+            </ReactModal>
     </Container>
     );
 }
+
+const BookmarkBox = styled.p`
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 8px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #f1f1f1;
+  }
+`;
+
+// 북마크 리스트 컨테이너 스타일링
+const BookmarkListContainer = styled.div`
+  padding: 0;
+  margin: 0;
+  max-width: 600px;
+  margin: auto; /* 가운데 정렬 */
+`;
 
 // Styled-components for styling
 const SmallModalContent = styled.div`
@@ -211,6 +329,7 @@ const Icon = styled.img`
   object-fit: contain;
   object-position: center;
   width: 40px;
+  cursor: pointer;
 `;
 
 const ArrivalButton = styled.button`
