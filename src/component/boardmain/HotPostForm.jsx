@@ -38,7 +38,7 @@ const Wrapper = styled.div`
     display: flex;
     width: 430px;
     height: 266px;
-    top: 100px;
+    top: 105px;
 `
 
 const Title = styled.h1`
@@ -68,15 +68,14 @@ const Icon = styled.img`
 
 const PostBox = styled.div`
     position: absolute;
-    width: 376px;
-    height: 173px;
+    width: 406px;
+    height: 193px;
     left: calc(50% - 406px/2 - 2px);
     top: 70px;
 
     background: #FFFBFB;
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
     border-radius: 30px;
-    padding: 10px 20px 10px 10px;
 `
 
 const ListWrapper = styled.ul`
@@ -84,7 +83,7 @@ const ListWrapper = styled.ul`
     position: absolute;
     width: 366px;
     height: 180px;
-    top: -16px;
+    top: -17px;
     padding-top: 15px;
     flex-direction: column;
     list-style-type: none;
