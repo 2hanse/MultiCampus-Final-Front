@@ -17,6 +17,7 @@ const Footer = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [profileImgUrl, setProfileImgUrl] = useState('');
+    const [isProfileSelected, setIsProfileSelected] = useState(false);
 
     useEffect(() => {
         const userId = getUserIdFromToken();
@@ -24,7 +25,6 @@ const Footer = () => {
             getProfileImgUrlFromUserId(userId, setProfileImgUrl);
         }
     }, []);
-
 
     const tabs = [
         { name: "home", path: "/boardmain",      defaultImg: Home, activeImg: onHome },
@@ -47,7 +47,10 @@ const Footer = () => {
                 <LoginedMyPage
                     src={profileImgUrl}
                     alt="Profile"
-                    onClick={() => navigate("/myprofilepage")}
+                    onClick={() => {
+                        setIsProfileSelected(!isProfileSelected);
+                        navigate("/myprofilepage");
+                    }}
                 />
             ) : (
                 <MyPage
@@ -97,6 +100,7 @@ const LoginedMyPage = styled.img`
     left: 351.33px;
     top: 35%;
     border-radius: 50%;
+    border: ${(props) => (props.isSelected ? "1px solid #ED6000" : "none")};
     cursor: pointer;
 `;
 
