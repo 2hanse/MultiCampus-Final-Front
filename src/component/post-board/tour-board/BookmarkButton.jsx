@@ -3,19 +3,40 @@ import styled from 'styled-components';
 
 import BookmarkItem from './BookmarkItem';
 
-const BookmarkButton = ({ bookmarkList, handleBookmarkInnerClick }) => {
+const BookmarkButton = ({
+  isListVisible,
+  setIsListVisible,
+  bookmarkList,
+  handleBookmarkInnerClick,
+}) => {
   return (
     <BookmarkWrapper>
-      <BookmarkInner onClick={handleBookmarkInnerClick}>
-        <BookmarkIcon
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/0c01f1a85d200b1b09fb5e61cd22a3a93c6fa58372b4beac0be61fabd630c089?placeholderIfAbsent=true&apiKey=96b0aafc0bca4efc865afcf9a032943c"
-          alt=""
-        />
-        <BookmarkText>북마크 불러오기</BookmarkText>
-      </BookmarkInner>
+      {isListVisible ? (
+        <BookmarkInner onClick={handleBookmarkInnerClick}>
+          <BookmarkIcon
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/0c01f1a85d200b1b09fb5e61cd22a3a93c6fa58372b4beac0be61fabd630c089?placeholderIfAbsent=true&apiKey=96b0aafc0bca4efc865afcf9a032943c"
+            alt=""
+          />
+          <BookmarkText>북마크 불러오기</BookmarkText>
+        </BookmarkInner>
+      ) : (
+        <BookmarkInner onClick={handleBookmarkInnerClick}>
+          <BookmarkIcon
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/0c01f1a85d200b1b09fb5e61cd22a3a93c6fa58372b4beac0be61fabd630c089?placeholderIfAbsent=true&apiKey=96b0aafc0bca4efc865afcf9a032943c"
+            alt=""
+          />
+          <BookmarkText>다시 체크하기</BookmarkText>
+        </BookmarkInner>
+      )}
       <BookmarkList>
         {bookmarkList.map((bookmark) => (
-          <BookmarkItem key={bookmark.id} {...bookmark} />
+          <BookmarkItem
+            key={bookmark.id}
+            bookmark_title={bookmark.bookmark_title}
+            list_count={bookmark.list_count}
+            setIsListVisible={setIsListVisible}
+            user_nickname={bookmark.user_nickname}
+          />
         ))}
       </BookmarkList>
     </BookmarkWrapper>

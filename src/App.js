@@ -31,7 +31,7 @@ import CommentHistory from './component/pages/commentHistory';
 import SubscriptionFeed from './component/pages/subscribe';
 import AlertPage from './component/pages/AlertPage';
 import RestaurantBoard from './component/pages/board/RestaurantBoard';
-import PostPage from './component/pages/board/PostPage'
+import PostPage from './component/pages/board/PostPage';
 
 function App() {
   return (
@@ -61,6 +61,8 @@ function App() {
         <Route path="/user/chat/room" element={<ChatRoomPage />} />
         <Route path="/user/alert" element={<AlertPage />} />
         <Route path="/boardmain" element={<BoardMainPage />} />
+
+        {/* 게시판 작성 관련 */}
         <Route
           path="/boardpost/restaurant"
           element={<RestorantBoardPostingPage />}
@@ -72,7 +74,7 @@ function App() {
           element={<PhoneIdentificationPage />}
         />
         <Route path="/user/resetPassword" element={<ResetPasswordPage />} />
-        <Route 
+        <Route
           path="/user/resetPasswordResult"
           element={<ResetPasswordResultPage />}
         />
@@ -88,11 +90,16 @@ function App() {
         />
 
         <Route path="/homepage" element={<MapPage />} />
-        <Route path='/user/me/changePassword' element={<ChangePasswordPage/>}/>
-        <Route path='/user/me/changePasswordResult' element={<ChangePasswordResultPage />} />
-        <Route path='/board/RestaurantBoard' element={<RestaurantBoard/>}/>
-        <Route path='/board/PostPage' element={<PostPage/>}/>
-
+        <Route
+          path="/user/me/changePassword"
+          element={<ChangePasswordPage />}
+        />
+        <Route
+          path="/user/me/changePasswordResult"
+          element={<ChangePasswordResultPage />}
+        />
+        <Route path="/board/RestaurantBoard" element={<RestaurantBoard />} />
+        <Route path="/board/PostPage" element={<PostPage />} />
       </Routes>
     </BrowserRouter>
   );
