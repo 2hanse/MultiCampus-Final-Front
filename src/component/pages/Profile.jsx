@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import api from '../api/axios';
 import { useNavigate } from 'react-router-dom'; // React Router의 useNavigate 훅을 임포트
 import Footer from '../layout/footer/Footer';
 // ProfileImage 컴포넌트
@@ -7,20 +8,16 @@ const ProfileImage = ({ src, alt }) => {
 };
 
 // ProfileStats 컴포넌트
-const ProfileStats = () => {
-  const stats = [
-    { label: '게시물', value: 'N' },
-    { label: '팔로우', value: 'N' },
-    { label: '팔로워', value: 'N' },
-  ];
-
+const ProfileStats = ({ stats, userImage }) => {
   return (
     <div className="profile-stats">
-      <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/17c70c46cd6bb71b05cd93581bc2d83c1e7bb0955516a7b4f5baa99723121b6b?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" alt="" className="stats-icon" />
+      <img src={userImage} alt="" className="stats-icon" />
       <div className="stats-container">
         {stats.map((stat, index) => (
           <div key={index} className="stat-item">
-            {stat.value}<br />{stat.label}
+            {stat.value}
+            <br />
+            {stat.label}
           </div>
         ))}
       </div>
@@ -29,7 +26,7 @@ const ProfileStats = () => {
 };
 
 // ProfileHeader 컴포넌트
-const ProfileHeader = ({ nickname, statusMessage }) => {
+const ProfileHeader = ({ userImage, stats, nickname, statusMessage }) => {
   const navigate = useNavigate(); // useNavigate 훅을 사용하여 네비게이션 처리
 
   // back-button 클릭 시 myprofilepage로 이동
@@ -45,18 +42,31 @@ const ProfileHeader = ({ nickname, statusMessage }) => {
 
   return (
     <header className="profile-header">
-      
-      <div className="back-button" onClick={handleBackButtonClick}> {/* 클릭 이벤트 추가 */}
-        <ProfileImage src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" alt="Profile" />
+      <div className="back-button" onClick={handleBackButtonClick}>
+        {' '}
+        {/* 클릭 이벤트 추가 */}
+        <ProfileImage
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
+          alt="Profile"
+        />
         <h1 className="profile-nickname">{nickname}</h1>
-        <button className="notifications-button" aria-label="Edit profile" onClick={(e)=>{handleNotificationsButtonClick(e)}}>
-          <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/75a8b4cc620548771893340c85cf407976981dbfdc941c79c0a38b05d9f27b4e?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" alt="" className="edit-icon" />
+        <button
+          className="notifications-button"
+          aria-label="Edit profile"
+          onClick={(e) => {
+            handleNotificationsButtonClick(e);
+          }}
+        >
+          <img
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/75a8b4cc620548771893340c85cf407976981dbfdc941c79c0a38b05d9f27b4e?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
+            alt=""
+            className="edit-icon"
+          />
         </button>
       </div>
       <hr className="divider" />
-      <ProfileStats />
+      <ProfileStats userImage={userImage} stats={stats} />
       <p className="profile-status">{statusMessage}</p>
-      
     </header>
   );
 };
@@ -64,9 +74,18 @@ const ProfileHeader = ({ nickname, statusMessage }) => {
 // ProfileActions 컴포넌트
 const ProfileActions = () => {
   const actions = [
-    { src: "https://cdn.builder.io/api/v1/image/assets/TEMP/89b61b15b519fe221e92df692e5820956878259d34838bb629e95066ac325275?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4", alt: "Action 1" },
-    { src: "https://cdn.builder.io/api/v1/image/assets/TEMP/596b40e055c6c3096f41336ca0531e628e401ac369dec262300bba7467721588?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4", alt: "Action 2" },
-    { src: "https://cdn.builder.io/api/v1/image/assets/TEMP/b18b77b5d6ce2798eaa729bc37d9585e29111b1ff6db2012daebed19d8146a53?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4", alt: "Action 3" },
+    {
+      src: 'https://cdn.builder.io/api/v1/image/assets/TEMP/89b61b15b519fe221e92df692e5820956878259d34838bb629e95066ac325275?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4',
+      alt: 'Action 1',
+    },
+    {
+      src: 'https://cdn.builder.io/api/v1/image/assets/TEMP/596b40e055c6c3096f41336ca0531e628e401ac369dec262300bba7467721588?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4',
+      alt: 'Action 2',
+    },
+    {
+      src: 'https://cdn.builder.io/api/v1/image/assets/TEMP/b18b77b5d6ce2798eaa729bc37d9585e29111b1ff6db2012daebed19d8146a53?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4',
+      alt: 'Action 3',
+    },
   ];
 
   return (
@@ -80,29 +99,20 @@ const ProfileActions = () => {
   );
 };
 
-const reviewData = [
-  { timestamp: "n분 전", title: "[동네주민] 게시글 제목", content: "게시글 본문(20자)" },
-  { timestamp: "n분 전", title: "[동네주민] 게시글 제목", content: "게시글 본문(20자)" },
-  { timestamp: "n분 전", title: "게시글 제목", content: "게시글 본문(20자)" },
-  { timestamp: "n분 전", title: "게시글 제목", content: "게시글 본문(20자)" },
-  { timestamp: "yy.mm.dd", title: "게시글 제목", content: "게시글 본문(20자)" },
-  { timestamp: "yy.mm.dd", title: "게시글 제목", content: "게시글 본문(20자)" },
-];
-
 // ReviewListItem 컴포넌트
-function ReviewListItem({ timestamp, title, content }) {
+function ReviewListItem({ created_time, title, content }) {
   return (
     <article className="review-item">
       <hr className="divider" />
-      <time className="timestamp">{timestamp}</time>
-      <h2 className="title">{title}</h2>
-      <p className="description">{content}</p>
+      <time className="timestamp"> 작성일 : {created_time}</time>
+      <h2 className="title"> {title}</h2>
+      <p className="description">{content.slice(0, 20)} ... </p>
     </article>
   );
 }
 
 // ProfileContent 컴포넌트
-const ProfileContent = () => {
+const ProfileContent = ({ reviewData }) => {
   return (
     <main className="profile-content">
       <ProfileActions />
@@ -111,17 +121,69 @@ const ProfileContent = () => {
           <ReviewListItem key={index} {...review} />
         ))}
       </section>
-      <Footer/>
+      <Footer />
     </main>
   );
 };
 
 // Profile 컴포넌트
 const Profile = () => {
+  useEffect(() => {
+    getUserInfo();
+    getReviewBoard();
+  }, []);
+
+  const [nickname, setNickname] = useState('닉네임');
+  const [userImage, setUserImage] = useState(
+    'https://cdn.builder.io/api/v1/image/assets/TEMP/17c70c46cd6bb71b05cd93581bc2d83c1e7bb0955516a7b4f5baa99723121b6b?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4'
+  );
+
+  const [countBoard, setCountBoard] = useState(0);
+  const [countFollow, setCountFollow] = useState(0);
+  const [countFoller, setCountFoller] = useState(0);
+  const [statusMessage, setStatusMessage] = useState('상태 메시지');
+
+  const [reviewData, setReviewData] = useState([]);
+
+  const stats = [
+    { label: '게시물', value: countBoard },
+    { label: '팔로우', value: countFollow },
+    { label: '팔로워', value: countFoller },
+  ];
+
+  const getUserInfo = async () => {
+    try {
+      const response = await api.get('/users/me/stats');
+      console.log(response.data);
+      setCountBoard(response.data.boardCount);
+      setCountFollow(response.data.followerCount);
+      setCountFoller(response.data.followingCount);
+      setNickname(response.data.nickname);
+      setUserImage(response.data.profileImgUrl);
+      setStatusMessage(response.data.bio_msg);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getReviewBoard = async () => {
+    try {
+      const response = await api.get(`/users/me/writed-boards`);
+      console.log(response.data);
+      setReviewData(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div className="profile-page">
-      <ProfileHeader nickname="닉네임" statusMessage="상태 메시지" />
-      <ProfileContent />
+      <ProfileHeader
+        stats={stats}
+        nickname={nickname}
+        statusMessage={statusMessage}
+        userImage={userImage}
+      />
+      <ProfileContent reviewData={reviewData} />
       <style jsx>{`
         .profile-page {
           background-color: #fff4d2;
@@ -199,7 +261,7 @@ const Profile = () => {
         .profile-actions {
           display: flex;
           justify-content: center;
-          gap: 30px; 
+          gap: 30px;
           margin-bottom: 12px;
         }
         .action-button {
