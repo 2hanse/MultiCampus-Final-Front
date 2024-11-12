@@ -12,6 +12,7 @@ import api from "../api/axios";
 import PlaceInfoSheet from "../map/PlaceInfoSheet";
 import InfoItem from "../map/InfoItem";
 import PlaceInfoBottom from "../map/PlaceInfoBottom";
+import { getUserIdFromToken } from "../api/jwt";
 
 function MapPage() {
     const location                      = useLocation();
@@ -48,7 +49,9 @@ function MapPage() {
             console.log(res.data);
         });
 
-        fetchBookmarks();
+        if (getUserIdFromToken()) {
+          fetchBookmarks();
+        }
     }, []);
 
     const selectedPlaceData = places.find(place => place.placeName === selectedPlaces);
