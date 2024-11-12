@@ -1,4 +1,4 @@
-import React  from "react";
+import React, { useEffect, useState }  from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Home   from "./assets/Home.png";
@@ -10,10 +10,21 @@ import onHome from "./assets/onHome.png";
 import onFeed from "./assets/onFeed.png";
 import onMap  from "./assets/onMap.png";
 import onChat from "./assets/onChat.png";
+import { getUserIdFromToken } from "../../api/jwt";
+import getProfileImgUrlFromUserId from "../../api/member_info";
 
-const Footer = ({ isLoggedIn, profileImageUrl }) => {
+const Footer = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const [profileImgUrl, setProfileImgUrl] = useState('');
+
+    useEffect(() => {
+        const userId = getUserIdFromToken();
+        if (userId) {
+            getProfileImgUrlFromUserId(userId, setProfileImgUrl);
+        }
+    }, []);
+
 
     const tabs = [
         { name: "home", path: "/boardmain",      defaultImg: Home, activeImg: onHome },
@@ -32,9 +43,9 @@ const Footer = ({ isLoggedIn, profileImageUrl }) => {
                     onClick={() => navigate(tab.path)}
                 />
             ))}
-            {isLoggedIn ? (
+            {profileImgUrl ? (
                 <LoginedMyPage
-                    src={profileImageUrl}
+                    src={profileImgUrl}
                     alt="Profile"
                     onClick={() => navigate("/myprofilepage")}
                 />
