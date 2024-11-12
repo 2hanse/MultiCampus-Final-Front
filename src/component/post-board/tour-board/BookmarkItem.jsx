@@ -1,13 +1,23 @@
 import styled from 'styled-components';
 
-const BookmarkItem = ({ bookmark_title, list_count }) => {
+const BookmarkItem = ({
+  setIsListVisible,
+  bookmark_title,
+  list_count,
+  user_nickname,
+}) => {
+  const handleClick = () => {
+    setIsListVisible(false);
+    alert('선택 되었습니다.');
+  };
+
   return (
-    <ItemWrapper>
+    <ItemWrapper onClick={handleClick}>
       <ItemContent>
         <GroupName>
-          {bookmark_title} <AuthorName>(user이름 가져와야댐)</AuthorName>
+          {bookmark_title} <AuthorName>{user_nickname}</AuthorName>
         </GroupName>
-        <GroupCount>개수 수정해야댐 {list_count}/500</GroupCount>
+        <GroupCount>개수 {list_count}/500</GroupCount>
       </ItemContent>
       <ExpandIcon
         src="https://cdn.builder.io/api/v1/image/assets/TEMP/f1541bad3fc27abbfb842592920ca5dba61084f952fe090a89d971ec02a989bf?placeholderIfAbsent=true&apiKey=96b0aafc0bca4efc865afcf9a032943c"
@@ -61,29 +71,6 @@ const ExpandIcon = styled.img`
   left: 16px;
   width: 24px;
   height: 24px;
-`;
-
-const ToggleSwitch = styled.div`
-  border-radius: 100px;
-  background-color: ${(props) => (props.isActive ? '#f4b183' : '#ccc')};
-  position: absolute;
-  right: 26px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 48px;
-  height: 32px;
-  border: 1px solid #dfa67b;
-  &::after {
-    content: '';
-    position: absolute;
-    top: 2px;
-    left: ${(props) => (props.isActive ? 'calc(100% - 26px)' : '2px')};
-    width: 24px;
-    height: 24px;
-    background-color: white;
-    border-radius: 50%;
-    transition: 0.2s;
-  }
 `;
 
 export default BookmarkItem;
