@@ -1,14 +1,33 @@
-import React  from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Fire   from "./assets/Fire.png";
+import api    from "../api/axios";
 
 const HotPostForm = () => {
+    const [hotPosts, setHotPosts] = useState([]);
+
+    useEffect(() => {
+        api.get("/boards/hot-posts")
+        .then((res) => {
+            console.log(res.data)
+            setHotPosts(res.data);
+            console.log(hotPosts);
+        })
+    }, []);
+
     return (
         <Wrapper>
             <Title>오늘의 HOT 게시물</Title>
             <Icon src={Fire} alt="Fire" />
             <PostBox>
-
+                <ListWrapper>
+                    {hotPosts.length > 0 ? ( hotPosts.map((post, index) => (
+                    <ItemWrapper key={index}>
+                        <PostCategory>{post.category}</PostCategory>
+                        &nbsp;&nbsp;&nbsp;&nbsp; 
+                        <PostTitle>{post.title.length > 10 ? `${post.title.slice(0, 10)}...` : post.title}</PostTitle>
+                    </ItemWrapper> )) ) : ( <NoItemWrapper><NoPost>등록된 게시글이 없습니다</NoPost></NoItemWrapper> )}
+                </ListWrapper>
             </PostBox>
         </Wrapper>
     )
@@ -49,7 +68,7 @@ const Icon = styled.img`
 
 const PostBox = styled.div`
     position: absolute;
-    width: 406px;
+    width: 376px;
     height: 173px;
     left: calc(50% - 406px/2 - 2px);
     top: 70px;
@@ -57,6 +76,57 @@ const PostBox = styled.div`
     background: #FFFBFB;
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
     border-radius: 30px;
+    padding: 10px 20px 10px 10px;
+`
+
+const ListWrapper = styled.ul`
+    display: flex;
+    position: absolute;
+    width: 366px;
+    height: 180px;
+    top: -16px;
+    padding-top: 15px;
+    flex-direction: column;
+    list-style-type: none;
+`;
+
+const ItemWrapper = styled.li`
+    position: relative;
+    display: flex;
+    height: 30px;
+    width: 346px;
+    left: -15px;
+    margin-bottom: 3px;
+    align-items: center;
+`;
+
+const PostCategory = styled.h3`
+    color: #757575;
+    letter-spacing: 0.5px;
+    font: 18px/24px Roboto, sans-serif;
+    margin: 0;
+`;
+
+const PostTitle = styled.span`
+    color: #000000;
+    font: 18px/24px Roboto, sans-serif;
+`;
+
+const NoItemWrapper = styled.li`
+    position: relative;
+    display: flex;
+    height: 160px;
+    width: 346px;
+    left: -11px;
+    align-items: center;
+    justify-content: center;
+`;
+
+const NoPost = styled.h4`
+    position: absolute;
+    display: flex;
+    color: #757575;
+    font: 16px/24px Roboto, sans-serif;
 `
 
 export default HotPostForm;
