@@ -64,7 +64,7 @@ const Icon = styled.img`
     width: 30px;
     height: 10.59px;
     left: 38.5%;
-    top: 32px;
+    top: 29px;
 `
 
 const PostBox = styled.div`
