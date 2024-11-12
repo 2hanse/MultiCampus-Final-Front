@@ -4,23 +4,6 @@ import api from '../api/axios';
 import ReceiptCard from '../myreceipts/ReceiptCard';
 import Footer from '../layout/footer/Footer';
 
-function ReceiptCollection() {
-  const navigate = useNavigate(); // useNavigate 훅 사용
-  const [receipts, setReceipts] = useState([]);
-  const getReceipts = async () => {
-    const response = await api.get(`/receipt`);
-    console.log(response.data);
-    setReceipts(response.data);
-  };
-
-  useEffect(() => {
-    getReceipts();
-  }, []);
-
-import * as React from "react";
-import { useNavigate } from "react-router-dom";
-import Footer from '../layout/footer/Footer'; // Footer import 추가
-
 const receiptData = [
   {
     id: 1,
@@ -52,19 +35,22 @@ const receiptData = [
 ];
 
 function ReceiptCollection() {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // useNavigate 훅 사용
+  const [receipts, setReceipts] = useState([]);
+  const getReceipts = async () => {
+    const response = await api.get(`/receipt`);
+    console.log(response.data);
+    setReceipts(response.data);
+  };
+
+  useEffect(() => {
+    getReceipts();
+  }, []);
 
   return (
     <main className="receipt-collection">
       <header className="collection-header">
         <button onClick={() => navigate(-1)} className="back-icon">
-
-          {' '}
-          {/* back-icon 클릭 시 이전 페이지로 이동 */}
-          <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
-            alt=""
-          />
 
           <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" alt="" />
 
@@ -88,9 +74,6 @@ function ReceiptCollection() {
           </div>
         ))}
       </section>
-
-
-      <Footer />
 
       <Footer /> {/* Footer 추가 */}
 
