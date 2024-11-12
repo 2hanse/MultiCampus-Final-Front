@@ -33,13 +33,18 @@ function MapPage() {
     }, [location.state]);
 
     const fetchBookmarks = () => {
-      api.get("/bookmarks")
-        .then((res) => {
-            setBookmarks(res.data.map((bookmark) => ({
-              ...bookmark,
-              is_avtivated: false
-            })));
-        });
+        if (getUserIdFromToken()) {
+            api.get("/bookmarks")
+            .then((res) => {
+                setBookmarks(res.data.map((bookmark) => ({
+                ...bookmark,
+                is_avtivated: false
+                })));
+            });
+          } else {
+            //console.log("게스트")
+          }
+        
     };
 
     useEffect(() => {
@@ -48,10 +53,7 @@ function MapPage() {
             setPlaces(res.data);
             console.log(res.data);
         });
-
-        if (getUserIdFromToken()) {
-          fetchBookmarks();
-        }
+        fetchBookmarks();
     }, []);
 
     const selectedPlaceData = places.find(place => place.placeName === selectedPlaces);

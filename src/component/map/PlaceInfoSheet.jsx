@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 import styled from "styled-components";
 import api from "../api/axios";
+import { getUserIdFromToken } from "../api/jwt";
 
 const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,11 +22,14 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
     const [bookmarkList, setBookmarkList] = useState([]);
 
     useEffect(() => {
+      if (getUserIdFromToken()) {
         api.get("/bookmarks")
         .then((res) => {
             setBookmarkList(res.data);
             console.log(res.data);
         });
+      }
+
     }, []);
 
     const handleIconClick2 = () => {
@@ -43,15 +47,17 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
             custom_place_name: null,
             icon_color: null,
         }
-        api.post('/bookmarks/place', data)
-            .then((response) => {
-                alert(response.data);
-                console.log('북마크가 저장되었습니다:', response.data);
-                // 필요시 추가 로직 처리
-            })
-            .catch((error) => {
-                console.error('북마크 저장 중 오류 발생:', error);
-            });
+        if (getUserIdFromToken()) {
+          api.post('/bookmarks/place', data)
+              .then((response) => {
+                  alert(response.data);
+                  console.log('북마크가 저장되었습니다:', response.data);
+                  // 필요시 추가 로직 처리
+              })
+              .catch((error) => {
+                  console.error('북마크 저장 중 오류 발생:', error);
+              });
+        }
     };
 
     return (
