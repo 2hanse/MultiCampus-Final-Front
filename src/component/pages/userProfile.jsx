@@ -18,29 +18,36 @@ const styles = {
     margin: '0 auto',
     font: '400 17px Inter, sans-serif',
     color: '#000',
+    border: '1px solid #ccc',
   },
   profileHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '40px',
+    whiteSpace: 'nowrap',
+    textAlign: 'center',
+    font: '18px/1 Roboto, sans-serif',
+    width: '100%',
     padding: '0 28px',
-    color:'#000',
-    font: '400 17px Inter, sans-serif'
   },
   profileIcon: {
-    width: '24px',
+    width:'24px',
     height: '24px',
-    objectFit: 'contain',
-    cursor: 'pointer',
+    objectFit:'contain',
   },
   nickname: {
-    marginTop: '15px',
+    margin: 0,
     fontSize: '18px',
-    marginBottom: '10px',
   },
   settingsIcon: {
-    width: '15px',
-    height: '18px',
-    objectFit: 'contain',
-    marginTop: '4px',
-    cursor: 'pointer',
+    width:'15px',
+    height:'18px',
+  },
+  divider: {
+    border: '0',
+    height: '1px',
+    backgroundcolor: '#ddd', /* 구분선 색상 */
+    margin: '20px 0', /* 위아래 여백 추가 */
   },
   profileStats: {
     display: 'flex',
@@ -67,9 +74,12 @@ const styles = {
   },
   statItem: {
     width: '56px',
+    display: 'flex',
+    flexDirection: 'column',
   },
   statusMessage: {
     marginTop: '25px',
+    alignSelf: 'flex-start',
     padding: '0 28px',
   },
   profileActions: {
@@ -115,6 +125,10 @@ const styles = {
     width: '100%',
     flexDirection: 'column',
     padding: '16px 0',
+    paddingleft:'20px',
+  },
+  reviewList: {
+    marginLeft: '20px', // This will shift the review content to the right
   },
   contentNav: {
     display: 'flex',
@@ -129,12 +143,6 @@ const styles = {
     width: '30px',
     height: '30px',
     objectFit: 'contain',
-  },
-  divider: {
-    width: '100%',
-    border: 'none',
-    borderTop: '1px solid #cac4d0',
-    margin: 0,
   },
   timestamp: {
     color: '#49454f',
@@ -261,7 +269,6 @@ const ProfileHeader = ({ handleProfileIconClick }) => {
       />
       <div>
         <h1 style={styles.nickname}>닉네임</h1>
-        <hr style={styles.divider} /> {/* 닉네임 아래에 선 추가 */}
       </div>
       <img
         src="https://cdn.builder.io/api/v1/image/assets/TEMP/98fd1e5fbd5f0c9367d03b9713c2dbc57fd8cf5b3f36e16cbd8c18f78188a0bb?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
