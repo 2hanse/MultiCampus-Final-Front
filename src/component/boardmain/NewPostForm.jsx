@@ -57,6 +57,7 @@ const Title = styled.h1`
     align-items: center;
 
     color: #000000;
+    cursor: default;
 `
 
 const Icon = styled.img`
@@ -105,11 +106,13 @@ const PostCategory = styled.h3`
     letter-spacing: 0.5px;
     font: 18px/24px Roboto, sans-serif;
     margin: 0;
+    cursor: default;
 `;
 
 const PostTitle = styled.span`
     color: #000000;
     font: 18px/24px Roboto, sans-serif;
+    cursor: pointer;
 `;
 
 const NoItemWrapper = styled.li`
