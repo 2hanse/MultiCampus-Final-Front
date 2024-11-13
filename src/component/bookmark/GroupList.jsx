@@ -26,11 +26,11 @@ function GroupList(props) {
     };
 
     return (
-        <ListWrapper onClick={() => handleClick(group.bookmark_id)}>
-            {props.groupData.map((group) => (
+        <ListWrapper>
+            {props.bookmarks.map((group) => (
                 <GroupItem
                     key={group.bookmark_id}
-                    group={group}
+                    {...{group, props}}
                     onClick={() => handleClick(group.bookmark_id)}
                 />
             ))}
@@ -46,7 +46,6 @@ const ListWrapper = styled.ul`
     list-style-type: none;
     overflow-y: auto;
     align-items: center;
-    cursor: pointer;
 `;
 
 export default GroupList;
