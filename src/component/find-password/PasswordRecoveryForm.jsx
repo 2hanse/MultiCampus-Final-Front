@@ -35,12 +35,15 @@ function PasswordRecoveryForm() {
   //이메일 db 확인
   const onSubmit = async() => {
     try {
-      await api.post("/users/email-exists", email, {
+      const res = await api.post("/users/email-exists", email, {
         headers: {
           'Content-Type': 'text/plain'
         }
       })
-        
+        if(res.status === 200) {
+          alert("이메일을 찾을 수 없습니다");
+          setEmail("");
+        }
     } catch(err) {
       navigate("/user/phone-identification",{state: {email: email} });
     }
@@ -54,7 +57,8 @@ function PasswordRecoveryForm() {
             <input  type="email" 
                     placeholder="이메일을 입력해주세요"
                     className="input2"
-                    onChange={onChangeEmail}/>
+                    onChange={onChangeEmail}
+                    value={email}/>
         </StyledInputField>
         <Formbox>
         {email.length > 0 && <span className={`message ${isEmail ? 'success' : 'error'}`}>{emailMessage}</span>}

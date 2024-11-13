@@ -74,10 +74,13 @@ function PasswordForm() {
             const response = await api.put("/users/reset-password", newPwd);
             if (response.status === 200) {
                 navigate('/user/resetPasswordResult');
+            } else {
+              alert(response.data);
             }
         } catch (err) {
             console.log('비밀번호 에러: ', err);
-            alert(err);
+            alert("에러가 발생했어요 처음으로 돌아갑니다");
+            navigate('/user/findPassword');
         }
         }
     };

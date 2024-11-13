@@ -73,14 +73,14 @@ function EmailForm() {
         } else {
             try {
                 const response = await api.post("/users/find-email", idData);
-                if(response.status === 204) {
-                  alert("해당 전화번호는 찾을 수 없습니다")
-                  setPhoneNum('');
-                  setAnswerQuestion('');
-                  questions = '';
-                } else if (response.status === 200 ) {
+                if (response.status === 200 ) {
                   console.log(response.data);
                   navigate("/user/findResultEmailPage",{ state: { email: response.data }});
+                } else if(response.status === 204){
+                  alert("잘못입력했어요 다시 확인해주세요!")
+                  setPhoneNum('');
+                  setAnswerQuestion('');
+                  setSelectedQuestion('');
                 }
             } catch(err) {
                 console.log(err);
@@ -92,7 +92,7 @@ function EmailForm() {
     <FormWrapper>
       <FormField>
         <label htmlFor="phoneNumber" className="security-question-label">전화번호</label><br/>
-        <PhoneInput type="tel" placeholder="전화번호( -를 제외하고 입력)" onChange={onChangePhoneNum}/>
+        <PhoneInput type="tel" placeholder="전화번호( -를 제외하고 입력)" onChange={onChangePhoneNum} value={phoneNum}/>
         <Formbox>
         {phoneNum.length > 0 && <span className={`message ${isPhoneNum ? 'success' : 'error'}`}>{phoneNumMessage}</span>}
         </Formbox>
@@ -124,7 +124,7 @@ function EmailForm() {
         <br/>
       <FormField>
         <label htmlFor="answer" className="security-question-label">질문에 대한 답변</label>
-        <AnswerInput id="answer" type="text" placeholder="질문에 대한 답변" onChange={onChangeAnswerQuestion} />
+        <AnswerInput id="answer" type="text" placeholder="질문에 대한 답변" onChange={onChangeAnswerQuestion} value={answerQuestion}/>
       </FormField>
       <SubmitButton type="button" onClick={(e) => {IdFindSubmit(phoneNum, selectedQuestion, answerQuestion)}}>이메일 확인</SubmitButton>
     </FormWrapper>

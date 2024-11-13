@@ -84,6 +84,7 @@ function PhoneIdentification() {
       console.log(timer);
       setIsVerificationSent(true); // 인증번호 발송 성공 시 입력 필드를 표시하기 위해 상태를 true로 설정
       setPhoneNumMessage('');
+      setVerificationCode("");
     })
     .catch(error => {
       alert(error.response.data);
@@ -114,11 +115,15 @@ function PhoneIdentification() {
                                                             verifyCode: verificationCode } });
             } else {
                 alert('인증 실패! 다시 시도해주세요.'); // 인증 실패 시 알림 표시
+                setPhoneNum("");
+                setIsVerificationSent(false);
+                setPhoneNumMessage('');
             }
         })
         .catch(error => {
             console.error('인증 실패:', error);
-            alert(error);
+            alert('인증 실패! 다시 시도해주세요.'); // 인증 실패 시 알림 표시
+            setVerificationCode("");
         });
   };
 
@@ -128,28 +133,6 @@ function PhoneIdentification() {
     setVerificationCode("");
   };
 
-
-  // //휴대폰 및 이메일 서버로 전송
-  // const onSubmit = async() => {
-  //   const data = {
-  //     email: userInfo.email,
-  //     phoneNumber: phoneNum
-  //   };
-  //   try{
-  //     const response = await api.post("/email-exists",data);
-  //     if(response.status == 200) {
-  //       navigate("/user/resetPassword",{state: {    email: userInfo.email,
-  //                                                   phoneNumber: phoneNum
-  //       } });
-  //     } else {
-  //       setPhoneNumMessage(response.data.errMsg);
-  //       setIsPhoneNum(false);
-  //     }
-  //   } catch(err) {
-  //     console.log(err);
-  //   }
-  // }
-
   return (
     <FormWrapper>
       <form>
@@ -158,7 +141,8 @@ function PhoneIdentification() {
             <input  type="text" 
                     placeholder="전화번호( -를 제외하고 입력)" 
                     className="input"
-                    onChange={onChangePhoneNum}/>
+                    onChange={onChangePhoneNum}
+                    value={phoneNum}/>
             <StyledButton   small
                             type="button"
                             onClick={!isVerificationSent ? handleVerificationRequest : reHandleVerificationRequest}>
