@@ -11,7 +11,9 @@ function BookmarkListPage() {
     useEffect(() => {
         const fetchBookmark = async () => {
             try {
-                const response = await api.get(`/bookmarks/place/{bookmark_id}`);
+                const response = await api.get(`/bookmarks/${bookmark_id}`);
+                console.log("API Response:", response.data);
+                console.log(response.data.bookmark_title);
                 setBookmarkTitle(response.data.bookmark_title);
             } catch (error) {
                 console.error("Error fetching bookmark: ", error);
@@ -23,9 +25,7 @@ function BookmarkListPage() {
 
     return (
         <Main>
-            <BookmarkList bookmarkTitle={bookmarkTitle}>
-
-            </BookmarkList>
+            <BookmarkList bookmarkTitle={bookmarkTitle} />
         </Main>
     );
 };
