@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Header from '../post-board/restaurant-board/Header';
-
-import LocationSearch from '../post-board/restaurant-board/LocationSearch';
 import ActionButtons from '../post-board/restaurant-board/ActionButtons';
 import Editor from '../post-board/Editor';
 import api from '../api/axios';
@@ -120,9 +118,9 @@ const TourBoardPostingPage = () => {
 
   const [bookmarkList, setBookmarkList] = useState([]);
   // 북마크 리스트 토글관리
-  const [isListVisible, setIsListVisible] = useState(false);
+  const [isListVisible, setIsListVisible] = useState(true);
 
-  // 자신의 북마크 불러오기 요청(프론트)
+  // 자신의 북마크 불러오기 요청
   const handleBookmarkInnerClick = async () => {
     try {
       const response = await api.get(`/bookmarks`);
@@ -132,7 +130,6 @@ const TourBoardPostingPage = () => {
       console.log(err);
     }
   };
-  // 토근값으로 user_id 받아서 북마크 리스트 반환(백엔드)
 
   return (
     <PageContainer>
@@ -146,6 +143,8 @@ const TourBoardPostingPage = () => {
           uploadPlugin={uploadPlugin}
         />
         <BookmarkButton
+          isListVisible={isListVisible}
+          setIsListVisible={setIsListVisible}
           bookmarkList={bookmarkList}
           handleBookmarkInnerClick={handleBookmarkInnerClick}
         />

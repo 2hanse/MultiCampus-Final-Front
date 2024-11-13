@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 import styled              from "styled-components";
+import api from "../api/axios";
 
 function GroupItem(props) {
-    const [isActive, setIsActive] = useState([]);
 
-    const handleToggle = () => {
-        props.group.is_activated = !props.group.is_activated;
-        setIsActive((prev) => !prev); // 
+    const handleToggle = (e) => {
+        e.stopPropagation();
+        api.put(`/bookmarks/toggle/${props.group.bookmark_id}`, {toggle: !props.group.toggle})
+            .then((res) => {props.props.fetchBookmarks()})
+            .catch((err) => alert(`북마크 마커를 활성화 하는데 오류가 발생했습니다(${err})`));
+        ;
     };
     
     return (
-        <ItemWrapper>
+        <ItemWrapper onClick={props.onClick}>
             <ItemContent>
                 <GroupName>
                     {props.group.bookmark_title} <AuthorName>({props.group.user_nickname})</AuthorName>
@@ -21,7 +24,7 @@ function GroupItem(props) {
             <ExpandIcon src="https://cdn.builder.io/api/v1/image/assets/TEMP/f1541bad3fc27abbfb842592920ca5dba61084f952fe090a89d971ec02a989bf?placeholderIfAbsent=true&apiKey=a4eaf54e67064b758783ed5c744d50de"
                         alt="Expand" />
             */}
-            <ToggleSwitch isActive={props.group.is_activated} onClick={handleToggle} />
+            <ToggleSwitch isActive={props.group.toggle} onClick={(e) => handleToggle(e)} />
         </ItemWrapper>
     );
 };
@@ -37,6 +40,7 @@ const ItemWrapper = styled.li`
     padding: 16px 16px 16px 30px;
     margin-bottom: 15px;
     align-items: center;
+    cursor: pointer;
 `;
 
 const ItemContent = styled.div`

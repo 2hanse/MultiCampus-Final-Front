@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../layout/footer/Footer'; // Import Footer component
+import api from '../api/axios';
 
 function PostItem({ time, title, content }) {
   return (
@@ -20,17 +21,24 @@ function PostItem({ time, title, content }) {
   );
 }
 
-export default function LikedPosts() {
+function LikedPosts() {
   const navigate = useNavigate();
-  const posts = [
-    { time: 'n분 전', title: '[동네주민] 게시글 제목', content: '게시글 본문(20자)' },
-    { time: 'n분 전', title: '[동네주민] 게시글 제목', content: '게시글 본문(20자)' },
-    { time: 'n분 전', title: '게시글 제목', content: '게시글 본문(20자)' },
-    { time: 'n분 전', title: '게시글 제목', content: '게시글 본문(20자)' },
-    { time: 'yy.mm.dd', title: '게시글 제목', content: '게시글 본문(20자)' },
-    { time: 'yy.mm.dd', title: '게시글 제목', content: '게시글 본문(20자)' },
-    { time: 'yy.mm.dd', title: '게시글 제목', content: '게시글 본문(20자)' },
-  ];
+  useEffect( ()=> {getUserInfo()}, []);
+
+  
+  const [boardList, setBoardList] = useState([]);
+
+  const getUserInfo = async () => {
+    try {
+      const response = await api.get('/users/me/liked-boards');
+      console.log(response.data);
+      setBoardList(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+
 
   return (
     <main className="liked-posts-page">
@@ -57,10 +65,10 @@ export default function LikedPosts() {
       </div>
 
       <section className="post-list">
-        {posts.map((post, index) => (
+        {boardList.map((post, index) => (
           <PostItem
             key={index}
-            time={post.time}
+            time={post.created_time}
             title={post.title}
             content={post.content}
           />
@@ -192,3 +200,5 @@ export default function LikedPosts() {
     </main>
   );
 }
+
+export default LikedPosts;

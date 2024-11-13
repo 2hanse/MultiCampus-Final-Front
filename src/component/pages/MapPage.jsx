@@ -35,12 +35,7 @@ function MapPage() {
     const fetchBookmarks = () => {
         if (getUserIdFromToken()) {
             api.get("/bookmarks")
-            .then((res) => {
-                setBookmarks(res.data.map((bookmark) => ({
-                ...bookmark,
-                is_avtivated: false
-                })));
-            });
+            .then((res) => setBookmarks(res.data));
           } else {
             //console.log("게스트")
           }
