@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import ListItem from "./ListItem";
-import BookmarkListDropdown from "./BookmarkListDropdown";
+import Dropdown from "./Dropdown";
 
 function BookmarkList({ bookmarkTitle }) {
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ function BookmarkList({ bookmarkTitle }) {
         <BookmarkTitle>{bookmarkTitle || "Loading..."}</BookmarkTitle>
         <BookmarkStats>구독 N | 조회 N | 공개</BookmarkStats>
         <TotalCount>전체 N</TotalCount>
-        <BookmarkListDropdown />
+        <Dropdown />
     </BookmarkContainer>
   );
 }

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled              from 'styled-components';
 import dropdown            from "../assets/Dropdown.png";
 
-const BookmarkListDropdown = ({ onSelect }) => {
+const Dropdown = ({ onSelect }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState('등록순');
 
@@ -94,4 +94,4 @@ const DropdownItem = styled.li`
     }
 `;
 
-export default BookmarkListDropdown;
+export default Dropdown;
