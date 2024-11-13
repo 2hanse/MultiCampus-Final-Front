@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import ListItem from "./ListItem";
-import BookmarkListDropDown from "./BookmarkListDropDown";
+import BookmarkListDropdown from "./BookmarkListDropdown";
 
 function BookmarkList({ bookmarkTitle }) {
   const navigate = useNavigate();
@@ -18,47 +18,93 @@ function BookmarkList({ bookmarkTitle }) {
         />
         <BookmarkTitle>{bookmarkTitle || "Loading..."}</BookmarkTitle>
         <BookmarkStats>구독 N | 조회 N | 공개</BookmarkStats>
-        <BookmarkListDropDown />
+        <TotalCount>전체 N</TotalCount>
+        <BookmarkListDropdown />
     </BookmarkContainer>
   );
 }
 
 const BookmarkContainer = styled.main`
-  background-color: #fff;
+  position: absolute;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  max-width: 480px;
-  width: 100%;
-  overflow: hidden;
+  align-items: flex-start;
+  width: 430px;
+  height: 233px;
   margin: 0 auto;
-  padding: 57px 16px;
+  border-bottom: 0.5px solid #CAC4D0;
 `;
 
 const BackIcon = styled.img`
-  aspect-ratio: 1;
-  object-fit: contain;
-  object-position: center;
+  display: flex;
+  position: absolute;
   width: 24px;
-  margin-left: 12px;
+  height: 24px;
+  left: 28px;
+  top: 62px;
   cursor: pointer;
 `;
 
 const BookmarkTitle = styled.h1`
-  color: #000;
-  text-align: center;
-  margin-top: 9px;
-  font: 600 22px/1 Inter, sans-serif;
+  position: absolute;
   width: auto;
+  height: 38px;
+  left: 50%;
+  top: 86px;
+  transform: translateX(-50%);
+
+  font-family: 'sans-serif';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 100%;
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #000000;
 `;
 
 const BookmarkStats = styled.p`
-  color: var(--Schemes-Outline, #79747e);
+  position: absolute;
+  width: autopx;
+  height: 30px;
+  left: 50%;
+  top: 135px;
+  transform: translateX(-50%);
+
+  font-family: 'sans-serif';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 100%;
+
+  display: flex;
+  align-items: center;
   text-align: center;
-  align-self: center;
-  margin-top: 27px;
-  font: var(--sds-typography-body-font-weight-strong) var(--sds-typography-body-size-small) / 1 var(--sds-typography-body-font-family);
+
+  color: #79747E;
 `;
+
+const TotalCount = styled.h3`
+  position: absolute;
+  width: auto;
+  height: 22px;
+  left: 34px;
+  top: 184px;
+
+  font-family: 'sans-serif';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 100%;
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #000000;
+`
 
 export default BookmarkList;
