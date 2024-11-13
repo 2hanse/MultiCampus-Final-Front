@@ -324,13 +324,13 @@ function CommunitySection() {
     { name: '내가 쓴 게시글', path: '/profile' },
     { name: '내가 쓴 리뷰', path: '/review-history' },
     { name: '내가 쓴 댓글', path: '/comment-history' },
-    { name: '북마크', path: '/homepage', onClick: () => navigate("/homepage", { state: { openBookmarkSheet: true } }) },
+    { name: '북마크', path: '/homepage', openBookmarkSheet: true },
     { name: '좋아요 누른 게시글' , path: '/liked-posts'},
     { name: '팔로우/팔로워', path: '/subscribe' },
   ];
 
-  const handleItemClick = (path) => {
-    if (path) navigate(path);
+  const handleItemClick = (path, openBookmarkSheet) => {
+    if (path) navigate(path, {state: {openBookmarkSheet}});
   };
 
   return (
@@ -345,7 +345,7 @@ function CommunitySection() {
               ...(index === communityItems.length - 1 ? styles.communityItemLast : {}),
               cursor: "pointer", // 손 모양 커서 스타일 추가
             }}
-            onClick={() => handleItemClick(item.path)}
+            onClick={() => handleItemClick(item.path, item.openBookmarkSheet)}
           >
             {item.name}
           </li>
