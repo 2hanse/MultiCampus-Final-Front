@@ -1,73 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 import Header from "../../board_01/Header";
-import CategoryTabs from "../../board_01/CategoryTabs";
-import HotPost from "../../board_01/HotPost";
 import PostList from "../../board_01/PostList";
+import MainHeader from "../../board_01/MainHeader";
 import CreatePostButton from "../../board_01/CreatePostButton";
 import Footer from "../../layout/footer/Footer";
 
-function RestaurantBoard() {
-  const posts = [
-    {
-      time: "n분 전",
-      nickname: "닉네임",
-      grade: "회원등급",
-      title: "[동네주민] 게시글 제목",
-      content: "게시글 본문(20자)"
-    },
-    {
-      time: "n분 전",
-      nickname: "닉네임",
-      grade: "회원등급",
-      title: "[동네주민] 게시글 제목",
-      content: "게시글 본문(20자)"
-    },
-    {
-      time: "n분 전",
-      nickname: "닉네임",
-      grade: "회원등급",
-      title: "게시글 제목",
-      content: "게시글 본문(20자)"
-    },
-    {
-      time: "n분 전",
-      nickname: "닉네임",
-      grade: "회원등급",
-      title: "게시글 제목",
-      content: "게시글 본문(20자)"
-    },
-    {
-      time: "yy.mm.dd",
-      nickname: "닉네임",
-      grade: "회원등급",
-      title: "게시글 제목",
-      content: "게시글 본문(20자)"
-    },
-    {
-      time: "yy.mm.dd",
-      nickname: "닉네임",
-      grade: "회원등급",
-      title: "게시글 제목",
-      content: "게시글 본문(20자)"
-    },
-    {
-      time: "yy.mm.dd",
-      nickname: "닉네임",
-      grade: "회원등급",
-      title: "게시글 제목",
-      content: "게시글 본문(20자)"
-    },
-  ];
 
+function RestaurantBoard() {  
   return (
     <BoardContainer>
       <Header />
-      <main>
-        <CategoryTabs />
-        <HotPost />
-        <PostList posts={posts} />
-      </main>
+      <MainContent>
+        <MainHeader/>
+        <PostList/>
+      </MainContent>
       <CreatePostButton />
       <Footer />
     </BoardContainer>
@@ -75,15 +22,21 @@ function RestaurantBoard() {
 }
 
 const BoardContainer = styled.div`
-  background-color: #ffffff;
   display: flex;
+  flex-direction: column;
   width: 430px;
   height: 932px;
-  flex-direction: column;
-  overflow: hidden;
-  align-items: flex-start;
   margin: 0 auto;
-  border: 0.5px solid #CAC4D0;
+  border: 1px solid #cac4d0;
+  background-color: #ffffff;
+  overflow: hidden;
+`;
+
+const MainContent = styled.main`
+  flex: 1; // 남은 공간을 차지하도록 설정
+  padding-top: 120px; // Header의 높이만큼 패딩
+  padding-bottom: 80px; // Footer의 높이만큼 패딩
+  overflow: hidden;
 `;
 
 export default RestaurantBoard;
