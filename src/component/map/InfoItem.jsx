@@ -42,6 +42,8 @@ const RatingIcon = styled.img`
   width: 7px;
   height: 12px;
   object-fit: contain;
+  margin-top: 2px;
+  cursor: pointer;
 `;
 
 export default InfoItem;

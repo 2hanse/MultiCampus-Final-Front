@@ -77,13 +77,17 @@ function EmailForm() {
                   console.log(response.data);
                   navigate("/user/findResultEmailPage",{ state: { email: response.data }});
                 } else if(response.status === 204){
-                  alert("잘못입력했어요 다시 확인해주세요!")
+                  alert("존재하지 않는 전화번호입니다")
                   setPhoneNum('');
                   setAnswerQuestion('');
                   setSelectedQuestion('');
                 }
             } catch(err) {
                 console.log(err);
+                alert(err);
+                setPhoneNum('');
+                setAnswerQuestion('');
+                setSelectedQuestion('');
             }
         }
     }

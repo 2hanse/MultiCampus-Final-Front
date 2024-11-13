@@ -4,9 +4,28 @@ import styled from "styled-components";
 import api from "../api/axios";
 import { getUserIdFromToken } from "../api/jwt";
 
-const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
+const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id, rating = 3.6}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedData, setSelectedData] = useState(null);
+    const maxStars = 5; // 최대 별 개수
+
+    // 별점 배열 생성 (가득 찬 별, 반 별 및 빈 별을 표시)
+  const generateStars = () => {
+    const stars = [];
+    for (let i = 1; i <= maxStars; i++) {
+      if (i <= Math.floor(rating)) {
+        // 가득 찬 별
+        stars.push(<RatingStar key={i} filled />);
+      } else if (i - rating <= 0.5) {
+        // 반 별
+        stars.push(<RatingStar key={i} half />);
+      } else {
+        // 빈 별
+        stars.push(<RatingStar key={i} />);
+      }
+    }
+    return stars;
+  };
 
     const handleIconClick = (placeTele) => {
         setSelectedData(placeTele); // 클릭된 데이터를 저장
@@ -67,10 +86,10 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
         </Header>
 
         <RatingContainer>
-            <Rating>3.5</Rating>
-            <StarIcon loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/913ddbb0684382d7d3632785d1938942c53fdd309cd226829d6c3139502f82fb?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" alt="Rating star" />
-            <ReviewCount>후기 N</ReviewCount>
-            <ArrowIcon loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/76ac410de088f9ebb3f69908cec6437dacd93967deb82a0af6ee25fa4c0b0f4b?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" alt="Arrow icon" />
+          <Rating>{rating}</Rating>
+          <StarWrapper>{generateStars()}</StarWrapper>
+          <ReviewCount>후기 N</ReviewCount>
+          <ArrowIcon loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/76ac410de088f9ebb3f69908cec6437dacd93967deb82a0af6ee25fa4c0b0f4b?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" alt="Arrow icon" />
         </RatingContainer>
 
         <AddressContainer>
@@ -264,13 +283,9 @@ const RestaurantName = styled.h1`
 `;
 
 const RatingContainer = styled.section`
-  align-self: flex-start;
   display: flex;
-  margin-top: 10px;
+  align-items: center;
   gap: 8px;
-  font-family: Roboto, sans-serif;
-  font-weight: 400;
-  line-height: 1.5;
 `;
 
 const Rating = styled.span`
@@ -280,13 +295,24 @@ const Rating = styled.span`
   margin: auto 0;
 `;
 
-const StarIcon = styled.img`
-  aspect-ratio: 5.29;
-  object-fit: contain;
-  object-position: center;
-  width: 106px;
-  border-radius: 1px;
-  max-width: 100%;
+const StarWrapper = styled.div`
+  display: flex;
+  gap: 4px;
+  margin-top: 3px;
+`;
+
+const RatingStar = styled.div`
+  width: 20px;
+  height: 20px;
+  clip-path: polygon(
+    50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 
+    50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%
+  ); /* 별 모양을 만듭니다 */
+  background: ${(props) => 
+    props.filled ? '#ed6000' : 
+    props.half ? 'linear-gradient(to right, #ed6000 50%, #d9d9d9 50%)' : 
+    '#d9d9d9'};
+  /* 가득 차면 orange, 반은 반만 색칠된 그라데이션, 빈 별은 회색 */
 `;
 
 const ReviewCount = styled.span`
@@ -301,7 +327,8 @@ const ArrowIcon = styled.img`
   object-position: center;
   width: 7px;
   align-self: flex-start;
-  margin-top: 6px;
+  margin-top: 9px;
+  cursor: pointer;
 `;
 
 const AddressContainer = styled.section`
