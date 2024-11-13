@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
-import styled                         from "styled-components";
-import api                            from "../api/axios";
-import { getUserIdFromToken }         from "../api/jwt";
-import GroupItem                      from "./GroupItem";
+import React, { useEffect } from "react";
+import styled               from "styled-components";
+import { useNavigate }      from "react-router-dom";
+import api                  from "../api/axios";
+import GroupItem            from "./GroupItem";
 
 function GroupList(props) {
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -19,10 +20,19 @@ function GroupList(props) {
         fetchData();
     }, []);
 
+    const handleClick = (bookmark_id) => {
+        console.log("Bookmark Group Click");
+        navigate(`/bookmarklistdetail/${bookmark_id}`);
+    };
+
     return (
-        <ListWrapper>
+        <ListWrapper onClick={() => handleClick(group.bookmark_id)}>
             {props.groupData.map((group) => (
-                <GroupItem key={group.bookmark_id} {...{group, props}} />
+                <GroupItem
+                    key={group.bookmark_id}
+                    group={group}
+                    onClick={() => handleClick(group.bookmark_id)}
+                />
             ))}
         </ListWrapper>
     );
@@ -36,6 +46,7 @@ const ListWrapper = styled.ul`
     list-style-type: none;
     overflow-y: auto;
     align-items: center;
+    cursor: pointer;
 `;
 
 export default GroupList;

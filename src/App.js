@@ -14,6 +14,7 @@ import MyLocationPage from './component/pages/MyLocationPage';
 import ChatInvitePage from './component/pages/chat/ChatInvitePage';
 import MapPage from './component/pages/MapPage';
 import EditBookmarkPage from './component/pages/EditBookmarkPage';
+import BookmarkListPage from './component/pages/BookmarkListPage';
 import ChangePasswordPage from './component/pages/reset/ChangePasswordPage';
 import ChangePasswordResultPage from './component/pages/reset/ChangePasswordResultPage';
 import ChatRoomPage from './component/pages/chat/ChatRoomPage';
@@ -49,6 +50,7 @@ function App() {
         <Route path="/myprofilepage" element={<MyProfilePage />} />
         <Route path="/homepage" element={<MapPage />} />
         <Route path="/editbookmark" element={<EditBookmarkPage />} />
+        <Route path="/bookmarklistdetail/:bookmark_id" element={<BookmarkListPage />} />
         <Route path="/" element={<LoginPage />} />
         <Route path="/user/join" element={<JoinPage />} />
         <Route path="/user/find-email" element={<FindEmailPage />} />
