@@ -27,7 +27,7 @@ const FooterBox = styled.footer`
     transform: translateX(-0.2%);
     width: 430px;
     height: 100px;
-    bottom: 0px;
+    top: 832px;
     background-color: #FFFFFF;
     border: 0.5px solid #CAC4D0;
 `;

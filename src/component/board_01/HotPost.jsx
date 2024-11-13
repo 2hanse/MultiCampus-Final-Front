@@ -1,14 +1,23 @@
 import React from "react";
 import styled from "styled-components";
+import hot_post from "./asset/hot_post.png"; // 핫게시물 아이콘
+import thumbs_up from "./asset/thumbs_up.png"; // 좋아요 아이콘
+import { useNavigate } from "react-router-dom";
 
 function HotPost() {
+  const navigate = useNavigate();
+
+  const handleTitleClick = () => {
+    navigate("/board/PostPage");
+  };
+
   return (
     <HotPostContainer>
-      <HotIcon aria-hidden="true" />
+      <HotIcon src={hot_post} alt="Hot Post Icon" />
       <HotPostContent>
-        <HotPostTitle>(핫게시물 제목)</HotPostTitle>
+        <HotPostTitle onClick={handleTitleClick}>(핫게시물 제목)</HotPostTitle>
         <LikeInfo>
-          <LikeIcon aria-hidden="true" />
+          <LikeIcon src={thumbs_up} alt="Thumbs Up Icon" />
           <LikeCount>좋아요 수</LikeCount>
         </LikeInfo>
       </HotPostContent>
@@ -18,51 +27,53 @@ function HotPost() {
 
 const HotPostContainer = styled.section`
   display: flex;
-  margin-top: 21px;
-  gap: 17px;
-  padding: 0 35px;
+  align-items: center;
+  justify-content: center;
+  width: 356px;
+  height: 31px;
+  background-color: #ffd966;
+  border-radius: 15px;
+  padding: 0 10px;
+  margin: 5px auto; // 위아래 간격을 줄여 중앙 정렬
+  gap: 10px;
 `;
 
-const HotIcon = styled.span`
-  background: url("https://cdn.builder.io/api/v1/image/assets/TEMP/c9792d46fd0d346eea78d7ea71b2bf2a5e385e7410189997acf434fa0f0e9290?placeholderIfAbsent=true&apiKey=075d8221b0dd488ba40080c6fa3dd46a") no-repeat center;
-  background-size: contain;
+const HotIcon = styled.img`
   width: 20px;
-  height: 22px;
-  margin: auto 0;
+  height: 20px;
 `;
 
 const HotPostContent = styled.div`
-  border-radius: 20px;
-  background-color: #ffd966;
   display: flex;
-  gap: 40px 100px;
+  justify-content: space-between;
   flex-grow: 1;
-  padding: 9px 16px;
+  align-items: center;
   color: #ffffff;
-  font-weight: 500;
+  font-size: 12px;
 `;
 
 const HotPostTitle = styled.h2`
-  font-size: 11px;
-  letter-spacing: 0.08px;
+  font-size: 12px;
+  margin: 0;
+  cursor: pointer; // 클릭 가능한 스타일
+  &:hover {
+    text-decoration: underline; // 호버 시 강조 효과
+  }
 `;
 
 const LikeInfo = styled.div`
   display: flex;
-  gap: 8px;
-  font-size: 9px;
-  text-align: center;
-  letter-spacing: 0.06px;
+  align-items: center;
+  gap: 4px;
 `;
 
-const LikeIcon = styled.span`
-  background: url("https://cdn.builder.io/api/v1/image/assets/TEMP/8a492fbce9ea4ebec168914062ac472c7f3fdd5b1be980c052dcd6e5080ebbb2?placeholderIfAbsent=true&apiKey=075d8221b0dd488ba40080c6fa3dd46a") no-repeat center;
-  background-size: contain;
-  width: 13px;
-  height: 13px;
+const LikeIcon = styled.img`
+  width: 12px;
+  height: 12px;
 `;
 
 const LikeCount = styled.span`
+  font-size: 12px;
   color: #ffffff;
 `;
 

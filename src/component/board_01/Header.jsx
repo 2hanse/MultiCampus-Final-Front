@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import SearchButton from "./SearchButton";
 import backbutton from "./asset/arrow_back.png";
-import searchbutton from "./asset/search.png";
 import menubutton from "./asset/menu.png";
 import { useNavigate } from "react-router-dom";
 
@@ -9,71 +9,75 @@ function Header() {
   const navigate = useNavigate();
 
   function gotoBackPage() {
-      navigate(-1);
+    navigate(-1);
+  }
+
+  function gotoMenuBar() {
+    navigate(-1);
   }
 
   return (
     <HeaderContainer>
       <BackButton
         src={backbutton}
-        alt='backbutton'
+        alt="backbutton"
         onClick={gotoBackPage}
-        />
+      />
       <BoardTitle>지역 게시판</BoardTitle>
       <HeaderActions>
-        <SearchButton src={searchbutton} alt='searchbutton' />
-        <ProfileButton src={menubutton} alt='menubutton' />
+        <SearchButton />
+        <MenuButton
+          src={menubutton}
+          alt="menubutton"
+          onClick={gotoMenuBar}
+        />
       </HeaderActions>
     </HeaderContainer>
   );
 }
 
 const HeaderContainer = styled.header`
-    position: fixed;
-    display: flex;
-    transform: translateX(-0.2%);
-    width: 430px;
-    height: 120px;
-    align-items: center;
-    top: 0px;
-    background-color: #f4b183;
-    justify-content: space-between;
-    border: 0.5px solid #CAC4D0;
-`
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 430px;
+  height: 120px;
+  top: 0;
+  background-color: #f4b183;
+  padding: 0 16px;
+  border-bottom: 1px solid #cac4d0;
+  box-sizing: border-box;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000; // 헤더의 z-index 설정
+`;
+
 
 const BackButton = styled.img`
   background-size: contain;
   width: 24px;
   height: 24px;
-  border: none;
   cursor: pointer;
 `;
 
 const BoardTitle = styled.h1`
-  color: #000000;
+  flex-grow: 1;
   text-align: center;
-  font: 400 18px/1 Roboto, sans-serif;
-  margin-top: 18px;
+  font-size: 18px;
+  margin: 0;
+  color: #000;
 `;
 
 const HeaderActions = styled.div`
   display: flex;
-  gap: 17px;
+  align-items: center;
+  gap: 12px; // 아이콘 사이 간격
 `;
 
-const SearchButton = styled.img`
+const MenuButton = styled.img`
   background-size: contain;
   width: 24px;
   height: 24px;
-  border: none;
-  cursor: pointer;
-`;
-
-const ProfileButton = styled.img`
-  background-size: contain;
-  width: 30px;
-  height: 30px;
-  border: none;
   cursor: pointer;
 `;
 

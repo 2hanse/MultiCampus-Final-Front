@@ -10,7 +10,7 @@ const Header = () => {
         src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=96b0aafc0bca4efc865afcf9a032943c"
         alt="Back"
         onClick={() => {
-          navigate('/');
+          navigate(-1);
         }}
       />
       <HeaderTitle>게시글 작성</HeaderTitle>
