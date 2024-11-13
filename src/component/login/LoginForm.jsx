@@ -68,7 +68,7 @@ function LoginForm() {
 
           localStorage.setItem("token", token);
 
-          navigate('/');
+          navigate('/homepage');
         }
       } catch (error) {
         alert(error.response.data.errMsg);

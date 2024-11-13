@@ -11,6 +11,7 @@ import EditBookmark                   from "../bookmark/edit/EditBookmark";
 
 const EditBookmarkPage = () => {
     const navigate                  = useNavigate();
+    const userId                    = getUserIdFromToken();
     const [isEditOpen, setEditOpen] = useState(false);
     const [groupData, setGroupData] = useState([]);
     const [currentEditingGroup, setCurrentEdittingGroup] = useState();
@@ -34,12 +35,21 @@ const EditBookmarkPage = () => {
     };
 
     const handleDeleteClick = (group) => {
-        api.delete(`/bookmarks/${group.bookmark_id}`)
+        if (userId == group.user_id) {
+            api.delete(`/bookmarks/${group.bookmark_id}`)
             .then((res) => { 
                 fetchData();
                 alert("북마크 그룹을 삭제하였습니다.");
             })
             .catch((err) => alert(`북마크를 삭제하는데 실패했습니다. (${err}`));
+        } else {
+            api.delete(`/bookmarks/subscriptions`, {data: {bookmark_id: group.bookmark_id}})
+            .then((res) => { 
+                fetchData();
+                alert("북마크 그룹 구독을 해지하였습니다.");
+            })
+            .catch((err) => alert(`북마크를 구독해지하는데 실패했습니다. (${err}`));
+        }
     };
 
     return (
@@ -61,9 +71,13 @@ const EditBookmarkPage = () => {
                                 </GroupName>
                                 <GroupCount>개수 {group.list_count}/500</GroupCount>
                             </ItemContent>
-                            <EditBtn onClick={() => handleEditClick(group)}>
-                                <Icon src={Edit} alt="Edit" />
-                            </EditBtn>
+                            {userId == group.user_id ? 
+                                <EditBtn onClick={() => handleEditClick(group)}>
+                                <   Icon src={Edit} alt="Edit" />
+                                </EditBtn>
+                            : (<></>)
+                            }
+                            
                             <DeleteBtn onClick={() => handleDeleteClick(group)}>
                                 <Icon src={Delete} alt="Delete" />
                             </DeleteBtn>

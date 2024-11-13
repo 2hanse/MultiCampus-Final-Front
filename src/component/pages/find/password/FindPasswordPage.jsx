@@ -6,7 +6,7 @@ import PasswordRecoveryForm from "../../../find-password/PasswordRecoveryForm";
 function FindPasswordPage() {
   return (
     <PageWrapper>
-      <Header navigatePath="/user/login" title="비밀번호 찾기"/>
+      <Header navigatePath="/" title="비밀번호 찾기"/>
       <PasswordRecoveryForm />
     </PageWrapper>
   );
@@ -23,7 +23,7 @@ const PageWrapper = styled.main`
   flex-direction: column;
   overflow: hidden;
   margin: 0 auto;
-  padding: 62px 0 340px;
+  padding: 62px 0 475px;
 `;
 
 export default FindPasswordPage;

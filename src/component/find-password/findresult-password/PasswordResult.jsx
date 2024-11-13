@@ -6,7 +6,7 @@ const PasswordResult = () => {
         <div>
             <EmailDisplayWrapper>
                 <b className="email-info">비밀번호가 변경되었습니다</b>
-                <NavStyle to='/user/login'>홈으로</NavStyle>
+                <NavStyle to='/'>홈으로</NavStyle>
             </EmailDisplayWrapper>
     
         </div>

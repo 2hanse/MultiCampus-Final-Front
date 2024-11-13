@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import styled              from "styled-components";
+import api from "../api/axios";
 
 function GroupItem(props) {
-    const [isActive, setIsActive] = useState([]);
 
     const handleToggle = () => {
-        setIsActive((prev) => !prev);
+        api.put(`/bookmarks/toggle/${props.group.bookmark_id}`, {toggle: !props.group.toggle})
+            .then((res) => {props.props.fetchBookmarks()})
+            .catch((err) => alert(`북마크 마커를 활성화 하는데 오류가 발생했습니다(${err})`));
+        ;
     };
     
     return (
@@ -16,11 +19,11 @@ function GroupItem(props) {
                 </GroupName>
                 <GroupCount>개수 {props.group.list_count}/500</GroupCount>
             </ItemContent>
-            {/*
+            {/* 
             <ExpandIcon src="https://cdn.builder.io/api/v1/image/assets/TEMP/f1541bad3fc27abbfb842592920ca5dba61084f952fe090a89d971ec02a989bf?placeholderIfAbsent=true&apiKey=a4eaf54e67064b758783ed5c744d50de"
                         alt="Expand" />
             */}
-            <ToggleSwitch isActive={isActive} onClick={handleToggle} />
+            <ToggleSwitch isActive={props.group.toggle} onClick={handleToggle} />
         </ItemWrapper>
     );
 };
