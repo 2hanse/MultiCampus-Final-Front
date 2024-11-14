@@ -74,7 +74,7 @@ function EmailForm() {
             try {
                 const response = await api.post("/users/find-email", idData);
                 if (response.status === 200 ) {
-                  console.log(response.data);
+                  //console.log(response.data);
                   navigate("/user/findResultEmailPage",{ state: { email: response.data }});
                 } else if(response.status === 204){
                   alert("존재하지 않는 전화번호입니다")
@@ -83,7 +83,7 @@ function EmailForm() {
                   setSelectedQuestion('');
                 }
             } catch(err) {
-                console.log(err);
+                //console.log(err);
                 alert(err);
                 setPhoneNum('');
                 setAnswerQuestion('');

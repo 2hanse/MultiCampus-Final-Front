@@ -182,7 +182,7 @@ const JoinPage = () => {
   ];
 
   const handleSelectChange = (event) => {
-    console.log(event.target.value);
+    //console.log(event.target.value);
     setSelectedQuestion(event.target.value);
     setIsOpen(false);
   };
@@ -200,14 +200,14 @@ const JoinPage = () => {
       }
     })
     .then(response => {
-        console.log('인증번호 발송 성공:', response.data);
-        console.log(response.status)
+        //console.log('인증번호 발송 성공:', response.data);
+        //console.log(response.status)
         setIsVerificationSent(true); // 인증번호 발송 성공 시 입력 필드를 표시하기 위해 상태를 true로 설정
         setPhoneNumMessage('');
     })
     .catch(error => {
       alert(error.response.data);
-      console.error('인증번호 발송 실패:', error);
+      //console.error('인증번호 발송 실패:', error);
     });
   };
 
@@ -221,9 +221,9 @@ const JoinPage = () => {
     })
     .then(response => {
       setTimer(180);
-      console.log('재인증번호 발송 성공:', response.data);
+      //console.log('재인증번호 발송 성공:', response.data);
       setForceUpdate(prev => prev + 1); // 강제 리렌더링을 위한 상태 변경
-      console.log(timer);
+      //console.log(timer);
       setIsVerificationSent(true); // 인증번호 발송 성공 시 입력 필드를 표시하기 위해 상태를 true로 설정
       setPhoneNumMessage('');
     })
@@ -283,16 +283,16 @@ const JoinPage = () => {
             verify_code: verificationCode
           })
           .then((res) => {
-            console.log('response:', res);
+            //console.log('response:', res);
             if (res.status === 200) {
-              console.log("회원가입 성공");
+              //console.log("회원가입 성공");
               alert("회원가입 성공!");
               alert("마이 페이지에 가시면 이미지변경이 가능합니다!");
               navigate("/");
             }
           })
       } catch (err) {
-        console.log(err);
+        //console.log(err);
       }
   },
   [email, password, name, nickName, phoneNum, selectedQuestion, answerQuestion, navigate]

@@ -78,7 +78,7 @@ function PasswordForm() {
               alert(response.data);
             }
         } catch (err) {
-            console.log('비밀번호 에러: ', err);
+            //console.log('비밀번호 에러: ', err);
             alert(err);
             navigate('/user/find-password');
         }

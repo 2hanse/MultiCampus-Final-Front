@@ -11,11 +11,13 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
   const maxStars = 5; // 최대 별 개수
 
   useEffect(() => {
-    console.log(place_id)
+    //console.log(place_id)
     api.get(`/place/reviewscore/${place_id}`)
     .then((res) => {
-        console.log(parseFloat(res.data).toFixed(1))
+      if(res.status === 200) {
+        //console.log(parseFloat(res.data).toFixed(1))
         setRating(parseFloat(res.data).toFixed(1));
+      }
     })
     .catch((error) => {
       console.error("Request failed:", error.response ? error.response.data : error.message);
@@ -58,7 +60,7 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
         api.get("/bookmarks")
         .then((res) => {
             setBookmarkList(res.data);
-            console.log(res.data);
+            //console.log(res.data);
         });
       }
     }, []);
@@ -197,7 +199,7 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
                         transform: 'translate(-50%, -50%)', // 중앙에 배치
                         padding: '20px',
                         borderRadius: '8px',
-                        width: '350px',
+                        width: '300px',
                         height: '500px',
                         maxWidth: '90%',
                         display: 'flex',
@@ -253,6 +255,10 @@ const BookmarkListContainer = styled.div`
   margin: 0;
   max-width: 600px;
   margin: auto; /* 가운데 정렬 */
+
+  h2 {
+    margin-bottom: 20px;
+  }
 `;
 
 // Styled-components for styling
@@ -264,12 +270,13 @@ const SmallModalContent = styled.div`
 
 const CloseButton = styled.button`
     margin-top: 10px;
-    padding: 5px 10px;
+    padding: 10px 10px;
     border: none;
     border-radius: 5px;
     background-color: #ed6000;
     color: white;
     cursor: pointer;
+    font-size: 16px;
 
     &:hover {
         background-color: #d45500;

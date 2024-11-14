@@ -48,7 +48,7 @@ function MapPage() {
         api.get("/place/list")
         .then((res) => {
             setPlaces(res.data);
-            console.log(res.data);
+            //console.log(res.data);
         });
         fetchBookmarks();
     }, []);
@@ -91,8 +91,8 @@ function MapPage() {
                       title={place.placeName} // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
                       onClick={(marker) => {
                           setSelectedPlaces(marker.getTitle());
-                          console.log(marker);
-                          console.log(selectedPlaces);
+                          //console.log(marker);
+                          //console.log(selectedPlaces);
                           setPlaceInfoOpen(true);
                       }}
                     />
