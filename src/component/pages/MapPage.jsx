@@ -177,9 +177,8 @@ const Main = styled.main`
     flex-direction: column;
     align-items: flex-start;
     width: 430px;
-    max-height: 932px;
-    min-height: 732px;
-    background: #FFF4D2;
+    min-height: 100vh;
+    background: #FFFFFF;
     margin: 0 auto;
     border: 0.5px solid #CAC4D0;
 `;

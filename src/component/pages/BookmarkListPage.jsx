@@ -83,7 +83,6 @@ const Main = styled.main`
     background: #FFFFFF;
     margin: 0 auto;
     border: 0.5px solid #CAC4D0;
-    overflow: auto;
 `;
 
 const ContentWrapper = styled.div`
@@ -94,7 +93,6 @@ const ContentWrapper = styled.div`
     flex-direction: column;
     align-items: flex-start;
     margin-top: 235px;
-    overflow-y: auto;
 `
 
 const ListWrapper = styled.ul`
