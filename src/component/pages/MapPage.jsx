@@ -37,7 +37,7 @@ function MapPage() {
             api.get("/bookmarks")
             .then((res) => {
                 setBookmarks(res.data)
-                console.log(res.data);
+                //console.log(res.data);
             });
           } else {
             //console.log("게스트")
@@ -53,18 +53,18 @@ function MapPage() {
         fetchBookmarks();
     }, []);
 
-    console.log(bookmarks);
+    //console.log(bookmarks);
 
     const selectedPlaceData = places.find(place => place.placeName === selectedPlaces);
 
     useEffect(()=> {
         if (selectedPlaceData) {
             let place_id = selectedPlaceData?.place_id;
-            console.log(selectedPlaceData?.place_id);
+            //console.log(selectedPlaceData?.place_id);
             api.get(`/bookmarks/place/counts/${place_id}`)
             .then((res) => {
                 setBookmarkCnt(res.data);
-                console.log(bookmarkCnt);
+                //console.log(bookmarkCnt);
             });
         }   
     }, [selectedPlaces]);

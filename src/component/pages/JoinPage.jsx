@@ -454,6 +454,15 @@ const StyledForm = styled.form`
     font-family: Inter, sans-serif;
     font-weight: 400;
     padding: 0 37px; 
+    overflow-y: scroll;
+    margin-bottom: 80px;
+
+    overflow-y: scroll; /* 스크롤 가능하게 설정 */
+    scrollbar-width: none; /* Firefox에서 스크롤바 숨기기 */
+    -ms-overflow-style: none; /* IE와 Edge에서 스크롤바 숨기기 */
+    &::-webkit-scrollbar {
+      display: none; /* Webkit 기반 브라우저(Chrome, Safari)에서 스크롤바 숨기기 */
+    }
   }
 
   .form-title {

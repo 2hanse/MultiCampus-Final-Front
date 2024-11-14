@@ -5,18 +5,22 @@ import api from "../api/axios";
 import { getUserIdFromToken } from "../api/jwt";
 
 const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedData, setSelectedData] = useState(null);
-    const [rating, setRating] = useState();
-    const maxStars = 5; // 최대 별 개수
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedData, setSelectedData] = useState(null);
+  const [rating, setRating] = useState();
+  const maxStars = 5; // 최대 별 개수
 
-    const getReviewScore = () => {
-      api.get(`/place/reviewscore/${place_id}`)
-      .then((res) => {
-          console.log(parseFloat(res.data).toFixed(1))
-          setRating(parseFloat(res.data).toFixed(1));
-      })
-    }
+  useEffect(() => {
+    console.log(place_id)
+    api.get(`/place/reviewscore/${place_id}`)
+    .then((res) => {
+        console.log(parseFloat(res.data).toFixed(1))
+        setRating(parseFloat(res.data).toFixed(1));
+    })
+    .catch((error) => {
+      console.error("Request failed:", error.response ? error.response.data : error.message);
+    });
+  },[]);
 
     // 별점 배열 생성 (가득 찬 별, 반 별 및 빈 별을 표시)
   const generateStars = () => {
@@ -57,7 +61,6 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
             console.log(res.data);
         });
       }
-      getReviewScore();
     }, []);
 
     const handleIconClick2 = () => {
