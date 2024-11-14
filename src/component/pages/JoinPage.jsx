@@ -59,42 +59,40 @@ const JoinPage = () => {
   }, [])
 
   // 이메일 중복 확인 함수 추가
-  const checkEmail = useCallback(async (e) => {
+  const checkEmail = useCallback((e) => {
     e.preventDefault();
-    try {
-      const response = await api.post('/users/email-exists', { email: email });
-      if (response.data) {
-        setEmailMessage('이미 사용 중인 이메일입니다.');
-        setIsEmail(false);
-      } else {
+
+    api.post('/users/email-exists', email, {
+      headers: {
+        'Content-Type': 'text/plain'
+      }
+    }).then((res) => {
+      if(res.status === 200) {
         setEmailMessage('사용 가능한 이메일입니다.');
         setIsEmail(true);
-        console.log("확인완료")
       }
-    } catch (error) {
-      console.log('중복 확인 중 오류 발생:', error);
-      setEmailMessage('중복 확인 중 오류가 발생했습니다.');
+    }).catch((err) => {
+      setEmailMessage("이미 사용중인 이메일입니다.");
       setIsEmail(false);
-    }
+    })
   }, [email]);
 
   // 닉네임 중복 확인 함수 추가
-  const checkNickName = useCallback(async (e) => {
+  const checkNickName = useCallback( (e) => {
     e.preventDefault();
-    try {
-      const response = await api.post('/users/nickname-exists', { nickName: nickName });
-      if (response.data) {
-        setNickNameMessage('이미 사용 중인 닉네임입니다.');
-        setIsNickName(false);
-      } else {
+    api.post('/users/nickname-exists', nickName, {
+      headers: {
+        'Content-Type': 'text/plain'
+      }
+    }).then((res) => {
+      if(res.status === 200) {
         setNickNameMessage('사용 가능한 닉네임입니다.');
         setIsNickName(true);
       }
-    } catch (error) {
-      console.log('중복 확인 중 오류 발생:', error);
-      setNickNameMessage('중복 확인 중 오류가 발생했습니다.');
+    }).catch((err) => {
+      setNickNameMessage("이미 사용 중인 닉네임입니다.");
       setIsNickName(false);
-    }
+    })
   }, [nickName]);
 
   // 이메일 유효성 검사

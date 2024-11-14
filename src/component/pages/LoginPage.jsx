@@ -27,6 +27,12 @@ const Main = styled.main`
   overflow: hidden;
   margin: 0 auto;
   padding: 62px 0 235px;
+  overflow-y: scroll; /* 세로 스크롤 허용 */
+  scrollbar-width: none; /* Firefox에서 스크롤바 숨기기 */
+  -ms-overflow-style: none;  /* Internet Explorer 10 이상 */
+  &::-webkit-scrollbar { 
+    display: none;  /* Safari와 Chrome에서 스크롤바 숨기기 */
+  }
 `;
 
 export default LoginPage;

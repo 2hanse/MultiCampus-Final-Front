@@ -4,10 +4,19 @@ import styled from "styled-components";
 import api from "../api/axios";
 import { getUserIdFromToken } from "../api/jwt";
 
-const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id, rating = 3.6}) => {
+const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedData, setSelectedData] = useState(null);
+    const [rating, setRating] = useState();
     const maxStars = 5; // 최대 별 개수
+
+    const getReviewScore = () => {
+      api.get(`/place/reviewscore/${place_id}`)
+      .then((res) => {
+          console.log(parseFloat(res.data).toFixed(1))
+          setRating(parseFloat(res.data).toFixed(1));
+      })
+    }
 
     // 별점 배열 생성 (가득 찬 별, 반 별 및 빈 별을 표시)
   const generateStars = () => {
@@ -48,7 +57,7 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id, rating = 
             console.log(res.data);
         });
       }
-
+      getReviewScore();
     }, []);
 
     const handleIconClick2 = () => {
@@ -69,12 +78,18 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id, rating = 
         if (getUserIdFromToken()) {
           api.post('/bookmarks/place', data)
               .then((response) => {
-                  alert(response.data);
-                  console.log('북마크가 저장되었습니다:', response.data);
+                  alert("북마크가 저장되었습니다");
+                  // console.log('북마크가 저장되었습니다:', response.data);
                   // 필요시 추가 로직 처리
               })
               .catch((error) => {
-                  console.error('북마크 저장 중 오류 발생:', error);
+                  // console.error('북마크 저장 중 오류 발생:', error);
+                  if(error.status === 409){
+                    alert("이미 저장되어 있습니다")
+                  } else {
+                    alert(error);
+                  }
+                  
               });
         }
     };
@@ -199,7 +214,7 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id, rating = 
                             <BookmarkBox  key={index} 
                                 onClick={() => handleBookmarkClick(bookmark)}
                                 >
-                                {bookmark || `북마크 ${index + 1}`}
+                                {bookmark.bookmark_title || `북마크 ${index + 1}`}
                             </BookmarkBox> // 예시로 name 속성 사용
                         ))
                     ) : (

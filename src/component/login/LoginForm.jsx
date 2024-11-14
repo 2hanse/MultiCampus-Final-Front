@@ -57,7 +57,7 @@ function LoginForm() {
       alert('모두 입력해주세요');
     } else {
       try {
-        console.log(email, password);
+        // console.log(email, password);
         const response = await api.post('/users/login', {
           email: email,
           password: password,
@@ -72,7 +72,7 @@ function LoginForm() {
         }
       } catch (error) {
         alert(error.response.data.errMsg);
-        console.log('로그인 에러: ', error);
+        // console.log('로그인 에러: ', error);
       }
     }
   };
