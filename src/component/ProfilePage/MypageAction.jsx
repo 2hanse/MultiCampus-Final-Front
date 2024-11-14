@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const ActionsWrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: column;;
   @media (max-width: 991px) {
     width: 100%;
   }
@@ -39,31 +39,33 @@ const ProfileImage = styled.img`
   object-fit: cover;
 `;
 
-function ProfileActions() {
+const MenuButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+`;
+
+function MypageActions() {
   const navigate = useNavigate();
 
-  const handleAddChat = () => {
-    navigate("/user/chat/invite");
+  const handleMenuButtonClick = () => {
+    navigate("/");  // 메뉴 버튼 클릭 시 memberinfo 페이지로 이동
   };
 
   return (
     <ActionsWrapper>
       <ActionButtons>
-        <ActionButton aria-label="Add Alaram" onClick={handleAddChat}>
+        {/* 메뉴 버튼 */}
+        <MenuButton aria-label="Open menu" onClick={handleMenuButtonClick}>
           <ButtonIcon
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/75a8b4cc620548771893340c85cf407976981dbfdc941c79c0a38b05d9f27b4e?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
-            alt=""
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/e4671849f740627d3c98e72408b2f2d3f3f06c041bf32bb9316b1e960e12b0e6?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
+            alt="Menu"
           />
-        </ActionButton>
+        </MenuButton>
       </ActionButtons>
-      {/* Add profile image below */}
-      <ProfileImage
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/3e86542f717e503b39e25d827b8773f3f255abdd9532cfe78b82f809bd204f46?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
-        alt="Profile"
-      />
     </ActionsWrapper>
   );
 }
 
-export default ProfileActions;
+export default MypageActions;
