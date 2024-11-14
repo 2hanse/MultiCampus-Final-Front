@@ -13,6 +13,7 @@ const styles = {
     flexDirection: 'column',
     overflow: 'hidden',
     margin: '0 auto',
+    border: '1px solid #ddd',
   },
   header: {
     backgroundColor: '#fff4d2',
@@ -52,6 +53,7 @@ const styles = {
     textAlign: 'center',
     overflowX: 'auto', // 가로 스크롤 활성화
     whiteSpace: 'nowrap', // 항목을 한 줄로 배열
+    boxsizing: 'borderbox',
   },
   followItem: {
     display: 'flex',
@@ -76,15 +78,6 @@ const styles = {
     border: '1px solid #cac4d0',
     margin: '26px 0 12px',
   },
-  actionButtons: {
-    alignSelf: 'center',
-    display: 'flex',
-    width: '284px',
-    maxWidth: '100%',
-    alignItems: 'center',
-    gap: '20px',
-    justifyContent: 'space-between',
-  },
   actionButton: {
     background: 'none',
     border: 'none',
@@ -105,8 +98,6 @@ const SubscriptionFeed = () => {
     <main style={styles.subscriptionFeed}>
       <Header />
       <FollowList />
-      <Divider />
-      <ActionButtons />
       <Divider />
       <Footer /> {/* Footer 추가 (import한 Footer 사용) */}
     </main>
@@ -154,7 +145,11 @@ const FollowList = () => {
       <div style={styles.listContainer}>
         <div style={{ display: 'flex', transition: 'transform 0.3s ease' }}>
           {followData.map((follow) => (
-            <Link to={`/user-profile/${follow.id}`} key={follow.id} style={{ textDecoration: 'none' }}>
+            <Link
+              to={`/user-profile/${follow.id}`}
+              key={follow.id}
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
               <div style={styles.followItem}>
                 <img
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/6ee173905dc76f5eb8751afce33590fc6c9b6307e6f75f96e670d592c05f636a?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
@@ -176,34 +171,7 @@ const Divider = () => {
   return <hr style={styles.divider} />;
 };
 
-// ActionButtons 컴포넌트
-const ActionButtons = () => {
-  return (
-    <div style={styles.actionButtons}>
-      <button style={styles.actionButton}>
-        <img 
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/490b689c20c1294dc889e7bde046fe841e37e0200066fd32321fdab3767b6b72?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" 
-          alt="Action 1" 
-          style={styles.actionButtonImg}
-        />
-      </button>
-      <button style={styles.actionButton}>
-        <img 
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/09fdde4a8558311b6128f4b2ffd0d18c2692fd986ccd982fe166ca4698f0722f?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" 
-          alt="Action 2" 
-          style={{ ...styles.actionButtonImg, width: '35px' }}
-        />
-      </button>
-      <button style={styles.actionButton}>
-        <img 
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/fd4e90446223fde510aff6975a24a9ef814e8b11b961d38d84bd6929de1aae6f?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" 
-          alt="Action 3" 
-          style={{ aspectRatio: '0.76', width: '19px' }}
-        />
-      </button>
-    </div>
-  );
-};
+
 
 // App 컴포넌트로 SubscriptionFeed를 내보냅니다.
 const App = () => <SubscriptionFeed />;
