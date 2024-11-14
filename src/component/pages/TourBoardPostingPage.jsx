@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Header from '../post-board/restaurant-board/Header';
+import Header from '../layout/header/Header';
 import ActionButtons from '../post-board/restaurant-board/ActionButtons';
 import Editor from '../post-board/Editor';
 import api from '../api/axios';
@@ -29,7 +29,7 @@ const TourBoardPostingPage = () => {
   const handleDraftSave = () => {
     const draft = {
       title,
-      content,
+      content: handleContentChange(content),
     };
 
     console.log('임시저장 데이터', draft);
@@ -45,7 +45,7 @@ const TourBoardPostingPage = () => {
     // }
 
     const data = {
-      board: { title, content },
+      board: { title, content: handleContentChange(content) },
     };
 
     await api.post(`/boards/${category}`, data).then((res) => {
@@ -54,7 +54,7 @@ const TourBoardPostingPage = () => {
         localStorage.removeItem('draftPost');
 
         // 페이지 이동
-        navigate('/', { replace: true });
+        navigate(-1, { replace: true });
 
         return;
       } else {
@@ -62,6 +62,11 @@ const TourBoardPostingPage = () => {
         return;
       }
     });
+  };
+
+  const handleContentChange = (data) => {
+    const plainTextContent = removeHtmlTags(data); // HTML 태그 제거
+    return plainTextContent;
   };
 
   // 백엔드에 uri 생성 후 반한해오는 코드
@@ -109,13 +114,6 @@ const TourBoardPostingPage = () => {
     return doc.body.textContent || '';
   };
 
-  const handleContentChange = (event, editor) => {
-    const rawContent = editor.getData(); // HTML이 포함된 데이터
-    const plainTextContent = removeHtmlTags(rawContent); // HTML 태그 제거
-    setContent(plainTextContent);
-    console.log('테그 제거된 값 ' + plainTextContent); // 태그가 제거된 순수 텍스트 확인
-  };
-
   const [bookmarkList, setBookmarkList] = useState([]);
   // 북마크 리스트 토글관리
   const [isListVisible, setIsListVisible] = useState(true);
@@ -131,15 +129,20 @@ const TourBoardPostingPage = () => {
     }
   };
 
+  const haederProps = {
+    color: '#f4b183',
+    title: '게시글 작성',
+  };
+
   return (
     <PageContainer>
-      <Header />
+      <Header {...haederProps} />
       <main>
         <Editor
           title={title}
           setTitle={setTitle}
           content={content}
-          handleContentChange={handleContentChange}
+          setContent={setContent}
           uploadPlugin={uploadPlugin}
         />
         <BookmarkButton
@@ -161,13 +164,20 @@ const PageContainer = styled.div`
   background-color: #fff;
   display: flex;
   width: 430px;
-  min-height: 100vh;
+  height: 100vh;
   flex-direction: column;
   overflow-y: auto;
   font-family: Roboto, sans-serif;
   line-height: 1;
   margin: 0 auto;
   border: 0.5px solid #cac4d0;
+
+  /* 스크롤바 숨기기 (크로스 브라우저) */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
 `;
 
 export default TourBoardPostingPage;

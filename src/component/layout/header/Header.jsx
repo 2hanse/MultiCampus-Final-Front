@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 const HeaderWrapper = styled.div`
@@ -12,7 +12,7 @@ const HeaderWrapper = styled.div`
   }
   padding: 62px 28px 28px 28px;
   box-sizing: border-box;
-  background-color: ${(props) => props.color?? "#ffd966"};
+  background-color: ${(props) => props.color ?? '#ffd966'};
 `;
 
 const BackButton = styled.img`
@@ -46,7 +46,12 @@ function Header(props) {
 
   return (
     <HeaderWrapper color={props.color}>
-      <BackButton onClick={handleGoBack} loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=12c88cfd4a664977958acab9caf9f3bf" alt="Chat logo" />
+      <BackButton
+        onClick={handleGoBack}
+        loading="lazy"
+        src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=12c88cfd4a664977958acab9caf9f3bf"
+        alt="Chat logo"
+      />
       <Title>{props.title}</Title>
       <ActionsWrapper>{props.actions}</ActionsWrapper>
     </HeaderWrapper>

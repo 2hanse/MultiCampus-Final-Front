@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Header from '../post-board/restaurant-board/Header';
+import Header from '../layout/header/Header';
 import ReceiptUpload from '../post-board/restaurant-board/ReceiptUpload';
 
 import LocationSearch from '../post-board/restaurant-board/LocationSearch';
@@ -24,6 +24,8 @@ const RestorantBoardPostingPage = () => {
   const [selectedReceipt, setSelectedReceipt] = useState(null);
   // 5. 카메라에서 선택한 영수증 정보
   const [uploadedReceipt, setUploadedReceipt] = useState('');
+  // 6. 이미지
+  const [image_url, setUpImage_url] = useState('');
 
   // 영수증 리스트 토글관리
   const [isListVisible, setIsListVisible] = useState(false);
@@ -44,7 +46,6 @@ const RestorantBoardPostingPage = () => {
 
   useEffect(() => {
     getReceipts();
-
     const savedDraft = localStorage.getItem('draftPost');
     if (savedDraft) {
       const { title, content, currentReceipt, ratings } =
@@ -68,7 +69,8 @@ const RestorantBoardPostingPage = () => {
   const handleDraftSave = () => {
     const draft = {
       title,
-      content,
+      image_url,
+      content: handleContentChange(content),
       currentReceipt,
       ratings,
     };
@@ -86,7 +88,7 @@ const RestorantBoardPostingPage = () => {
     // }
 
     const data = {
-      board: { title, content },
+      board: { title, content: handleContentChange(content), image_url },
       review: { ...ratings },
       receipt: currentReceipt,
     };
@@ -97,7 +99,7 @@ const RestorantBoardPostingPage = () => {
         localStorage.removeItem('draftPost');
 
         // 페이지 이동
-        navigate('/', { replace: true });
+        // navigate(-1, { replace: true });
 
         return;
       } else {
@@ -123,7 +125,7 @@ const RestorantBoardPostingPage = () => {
                 const baseUrl = 'http://localhost:8000';
                 const mediaUrl = baseUrl + res.data.mediaUrl;
                 const mediaThumbUrl = baseUrl + res.data.mediaThumbUrl;
-
+                setUpImage_url(mediaUrl);
                 resolve({
                   default: mediaUrl,
                   mediaThumbUrl: mediaThumbUrl,
@@ -249,16 +251,19 @@ const RestorantBoardPostingPage = () => {
     return doc.body.textContent || '';
   };
 
-  const handleContentChange = (event, editor) => {
-    const rawContent = editor.getData(); // HTML이 포함된 데이터
-    const plainTextContent = removeHtmlTags(rawContent); // HTML 태그 제거
-    setContent(plainTextContent);
-    console.log('테그 제거된 값 ' + plainTextContent); // 태그가 제거된 순수 텍스트 확인
+  const handleContentChange = (data) => {
+    const plainTextContent = removeHtmlTags(data); // HTML 태그 제거
+    return plainTextContent;
+  };
+
+  const haederProps = {
+    color: '#f4b183',
+    title: '게시글 작성',
   };
 
   return (
     <PageContainer>
-      <Header />
+      <Header {...haederProps} />
       <main>
         <ReceiptUpload
           receipts={receipts}
@@ -271,7 +276,7 @@ const RestorantBoardPostingPage = () => {
           title={title}
           setTitle={setTitle}
           content={content}
-          handleContentChange={handleContentChange}
+          setContent={setContent}
           uploadPlugin={uploadPlugin}
         />
         <LocationSearch selectedReceipt={selectedReceipt || uploadedReceipt} />
@@ -289,13 +294,19 @@ const PageContainer = styled.div`
   background-color: #fff;
   display: flex;
   width: 430px;
-  min-height: 100vh;
+  height: 100vh;
   flex-direction: column;
   overflow-y: auto;
   font-family: Roboto, sans-serif;
   line-height: 1;
   margin: 0 auto;
   border: 0.5px solid #cac4d0;
+  /* 스크롤바 숨기기 (크로스 브라우저) */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
 `;
 
 export default RestorantBoardPostingPage;
