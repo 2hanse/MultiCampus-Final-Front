@@ -144,8 +144,6 @@ const Main = styled.main`
     flex-direction: column;
     align-items: flex-start;
     width: 430px;
-    max-height: 932px;
-    min-height: 732px;
     background: #ffffff;
     margin: 0 auto;
     border: 0.5px solid #CAC4D0;
@@ -153,14 +151,15 @@ const Main = styled.main`
 
 const InviteContainer = styled.main`
   display: flex;
-  margin-top: 22px;
   width: 100%;
   box-sizing: border-box;
+  height: calc(100vh - 216px);
   flex-direction: column;
   align-items: center;
   color: #000;
-  padding: 0 28px;
+  padding: 28px;
   font: 400 18px Inter, sans-serif;
+  overflow-y: auto;
 
   &::-webkit-scrollbar {
     display: none;
@@ -212,6 +211,7 @@ const ButtonGroup = styled.div`
   white-space: nowrap;
   text-align: center;
   line-height: 1;
+  z-index: 10;
 `;
 
 const ActionButton = styled.button`

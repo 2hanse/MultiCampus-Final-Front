@@ -42,7 +42,6 @@ function Message({ msg, displayTime, displayProfile, isSentByMe }) {
 
 const MessageWrapper = styled.div`
   display: flex;
-  margin-top: 19px;
   gap: 7px;
   align-self: ${props => props.isSentByMe ? 'flex-end' : 'flex-start'}; 
   width: 100%;
