@@ -1,12 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import ListItem from "./ListItem";
 import Dropdown from "./Dropdown";
 
-function BookmarkList({ bookmarkTitle }) {
+function BookmarkListHeader({ bookmarkTitle, viewCount, subscriber, visibility, placeCount }) {
   const navigate = useNavigate();
-  console.log(bookmarkTitle);
 
   return (
     <BookmarkContainer>
@@ -17,8 +15,8 @@ function BookmarkList({ bookmarkTitle }) {
           onClick={() => navigate("/homepage", { state: { openBookmarkSheet: true } })}
         />
         <BookmarkTitle>{bookmarkTitle || "Loading..."}</BookmarkTitle>
-        <BookmarkStats>구독 N | 조회 N | 공개</BookmarkStats>
-        <TotalCount>전체 N</TotalCount>
+        <BookmarkStats>구독&nbsp;<ColoredText>{subscriber}</ColoredText>&nbsp;| 조회&nbsp;<ColoredText>{viewCount || "-"}</ColoredText>&nbsp;|&nbsp;<ColoredText>{visibility ? "비공개" : "공개"}</ColoredText></BookmarkStats>
+        <TotalCount>전체&nbsp;<ColoredText>{placeCount}</ColoredText></TotalCount>
         <Dropdown />
     </BookmarkContainer>
   );
@@ -50,7 +48,7 @@ const BookmarkTitle = styled.h1`
   width: auto;
   height: 38px;
   left: 50%;
-  top: 86px;
+  top: 66px;
   transform: translateX(-50%);
 
   font-family: 'sans-serif';
@@ -71,12 +69,12 @@ const BookmarkStats = styled.p`
   width: autopx;
   height: 30px;
   left: 50%;
-  top: 135px;
+  top: 115px;
   transform: translateX(-50%);
 
   font-family: 'sans-serif';
   font-style: normal;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 14px;
   line-height: 100%;
 
@@ -91,13 +89,13 @@ const TotalCount = styled.h3`
   position: absolute;
   width: auto;
   height: 22px;
-  left: 34px;
-  top: 184px;
+  left: 36px;
+  top: 185px;
 
   font-family: 'sans-serif';
   font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
+  font-weight: 400;
+  font-size: 13px;
   line-height: 100%;
 
   display: flex;
@@ -107,4 +105,8 @@ const TotalCount = styled.h3`
   color: #000000;
 `
 
-export default BookmarkList;
+const ColoredText = styled.span`
+  color: #ED6000;
+`;
+
+export default BookmarkListHeader;

@@ -185,14 +185,14 @@ const Main = styled.main`
 `;
 
 const CustomSheet = styled(Sheet)`
-  display: flex;
-  position: absolute;
-  flex-direction: column;
-  align-items: flex-start;
-  margin: 0 auto;
-  margin-bottom: 102px;
-  max-width: 430px;
-  z-index: 5;
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0 auto;
+    margin-bottom: 102px;
+    max-width: 430px;
+    z-index: 5;
 
     /* sheet 라이브러리 css 덮어 쓰려면 !important 끝에 들어가야합니다 */
     .react-modal-sheet-backdrop {

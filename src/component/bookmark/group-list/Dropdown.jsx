@@ -34,7 +34,7 @@ const DropdownContainer = styled.div`
     position: absolute;
     display: inline-block;
     width: 100px;
-    left: 100px;
+    left: 90px;
     top: 192px;
 
     background-color: grey;
@@ -44,9 +44,9 @@ const DropdownButton = styled.button`
     width: 100%;
     padding: 5px 5px 10px 10px;
   
-    font-family: 'Inter';
+    font-family: 'sans-serif';
     font-style: normal;
-    font-weight: 700;
+    font-weight: 400;
     font-size: 14px;
     line-height: 100%;
 
@@ -72,9 +72,9 @@ const DropdownList = styled.ul`
     margin: 0;
     padding: 0;
 
-    font-family: 'Inter';
+    font-family: 'sans-serif';
     font-style: normal;
-    font-weight: 700;
+    font-weight: 400;
     font-size: 14px;
     line-height: 100%;
 
