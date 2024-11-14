@@ -130,7 +130,8 @@ function MapPage() {
                         <CreateBookmark onCancel={() => {
                                             setCreateOpen(false);
                                             setOpen(true);
-                                        }} />
+                                        }}
+                                        fetchBookmarks={fetchBookmarks} />
                     </Sheet.Content>
                 </Sheet.Container>
                 <Sheet.Backdrop onClick={() => {

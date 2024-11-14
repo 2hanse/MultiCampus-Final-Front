@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled              from "styled-components";
 import api from "../api/axios";
 
-const CreateBookmark = ({ onCancel }) => {
+const CreateBookmark = ({ onCancel, fetchBookmarks }) => {
     const [isPublished, setIsPublished] = useState(false);
     const [groupName, setGroupName] = useState("");  // InputName의 상태 추가
 
@@ -15,6 +15,7 @@ const CreateBookmark = ({ onCancel }) => {
         api.post('/bookmarks', {bookmark_title: groupName, visibility: isPublished}).then(
             (res) => {
                 if (res.status == 200) {
+                    fetchBookmarks();
                     onCancel();
                 }
             }

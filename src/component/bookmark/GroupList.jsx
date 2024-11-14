@@ -7,21 +7,7 @@ import GroupItem            from "./GroupItem";
 function GroupList(props) {
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await api.get(`/bookmarks`);
-                props.setGroupData(response.data);
-            } catch (error) {
-                console.error("Error fetching data: ", error);
-            }
-        };
-
-        fetchData();
-    }, []);
-
     const handleClick = (bookmark_id) => {
-        console.log("Bookmark Group Click");
         navigate(`/bookmarklistdetail/${bookmark_id}`);
     };
 

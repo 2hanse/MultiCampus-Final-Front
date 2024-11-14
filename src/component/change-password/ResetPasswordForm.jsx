@@ -79,8 +79,8 @@ const ResetPasswordForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const newPwd = {
-            now_password: nowPassword,
-            new_password: password
+            oldPassword: nowPassword,
+            newPassword: password
         };
         if(password === "" || passwordConfirm === "") {
             alert("모두 입력해주세요");
