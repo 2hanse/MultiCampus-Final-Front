@@ -74,9 +74,10 @@ function ReceiptCollection() {
         .receipt-collection {
           background: rgba(255, 244, 210, 1);
           max-width: 430px;
-          max-height; auto;
-          width: 100%;
-          padding: 62px 0 0;
+          height:932px;
+          // max-height; auto;
+          // width: 100%;
+          // padding: 62px 0 0;
           margin: 0 auto;
           display: flex;
           flex-direction: column;

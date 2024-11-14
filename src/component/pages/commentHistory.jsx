@@ -69,7 +69,7 @@ export default function CommentHistory() {
       </header>
       <div className="sort-section">
         <button className="filter-button">
-          <span className="sort-text">등록순</span>
+          등록순
           <img
             loading="lazy"
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/745f4a325798408d80543bbacf1852135593f5c0514bd614a697a7386fbb93c1?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
@@ -92,15 +92,15 @@ export default function CommentHistory() {
       <style jsx>{`
         .comment-history-page {
           display: flex;
-          overflow: hidden;
           flex-direction: column;
-          align-items: flex-start;
           width: 430px;
-          max-height: 932px;
-          min-height: 732px;
-          background: #ffffff;
+          height: 932px;
           margin: 0 auto;
           border: 0.5px solid #CAC4D0;
+          background: #ffffff;
+          overflow: hidden;
+          
+          
         }
 
         .header-section {

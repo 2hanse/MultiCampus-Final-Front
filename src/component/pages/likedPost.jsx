@@ -72,13 +72,13 @@ function LikedPosts() {
       <style jsx>{`
         .liked-posts-page {
           display: flex;
-          overflow: hidden;
           flex-direction: column;
-          align-items: flex-start;
           width: 430px;
-          background: #ffffff;
+          height: 932px;
           margin: 0 auto;
           border: 0.5px solid #cac4d0;
+          overflow: hidden;
+          background: #ffffff;
         }
 
         .sort-container {

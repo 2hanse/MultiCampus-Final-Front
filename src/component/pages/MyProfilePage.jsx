@@ -12,6 +12,7 @@ const styles = {
     backgroundColor: "#fff4d2",
     display: "flex",
     maxWidth: "430px",
+    maxHeight: "832px",
     flexDirection: "column",
     overflowY: "auto",  // 스크롤
     margin: "0 auto",
