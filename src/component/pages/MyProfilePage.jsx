@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';  // useNavigate 훅을 추가
 import Footer from '../layout/footer/Footer';
 import MembershipInfoModal from '../ProfilePage/MembershipInfoModal';
 import LogoutModal from '../ProfilePage/LogoutModal';
+import api from '../api/axios';
 
 const styles = {
   profilePage: {
@@ -11,9 +12,11 @@ const styles = {
     maxWidth: "430px",
     width: "100%",
     flexDirection: "column",
-    overflow: "hidden",
+    overflowY: "auto",  // 스크롤
     margin: "0 auto",
     padding: "49px 0 116px",
+    scrollbarWidth: "none",  // Firefox에서 스크롤바 숨기기
+    msOverflowStyle: "none",  // Internet Explorer에서 스크롤바 숨기기
   },
   header: {
     display: "flex",
@@ -245,6 +248,7 @@ function MyProfilePage() {
   );
 }
 
+
 function Header() {
   const navigate = useNavigate();  // useNavigate 훅 사용
 
@@ -284,7 +288,7 @@ function Header() {
   );
 }
 
-function ProfileInfo() {
+const ProfileInfo = ({userImage, nickname}) => {
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
 
   const openModal = () => {
@@ -353,7 +357,7 @@ function CommunitySection() {
       </ul>
     </section>
   );
-}
+};
 
 function OtherSection() {
   const navigate = useNavigate();

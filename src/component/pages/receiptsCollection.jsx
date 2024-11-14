@@ -51,9 +51,10 @@ function ReceiptCollection() {
     <main className="receipt-collection">
       <header className="collection-header">
         <button onClick={() => navigate(-1)} className="back-icon">
-
-          <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" alt="" />
-
+          <img
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
+            alt=""
+          />
         </button>
         <h1 className="collection-title">영수증 모음집</h1>
         <img
@@ -62,11 +63,9 @@ function ReceiptCollection() {
           className="header-icon"
         />
       </header>
-
       <div className="divider-container">
         <hr className="divider" />
       </div>
-
       <section className="receipt-grid">
         {receipts.map((receipt) => (
           <div className="receipt-row" key={receipt.receipt_id}>
@@ -74,22 +73,19 @@ function ReceiptCollection() {
           </div>
         ))}
       </section>
-
       <Footer /> {/* Footer 추가 */}
-
-
       <style jsx>{`
         .receipt-collection {
-          background: rgba(255, 244, 210, 1);
-          max-width: 430px;
-          max-height; auto;
-          width: 100%;
-          padding: 62px 0 0;
-          margin: 0 auto;
+          background: #fff4d2;
           display: flex;
-          flex-direction: column;
-          align-items: center;
           overflow: hidden;
+          flex-direction: column;
+          align-items: flex-start;
+          width: 430px;
+          max-height: 932px;
+          min-height: 732
+          margin: 0 auto;
+          border: 0.5px solid #cac4d0;
         }
 
         .collection-header {
@@ -138,8 +134,8 @@ function ReceiptCollection() {
 
         .receipt-grid {
           display: flex;
-          flex-wrap: wrap;  
-          justify-content: space-between;  
+          flex-wrap: wrap;
+          justify-content: space-between;
           gap: 15px;
           width: 100%;
           max-width: 396px;

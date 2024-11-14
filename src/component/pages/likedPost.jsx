@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import SearchActions from '../ProfilePage/SearchActions';
 import Footer from '../layout/footer/Footer'; // Import Footer component
+import Header from '../layout/header/Header';
 import api from '../api/axios';
 
 function PostItem({ time, title, content }) {
@@ -42,28 +44,20 @@ function LikedPosts() {
 
   return (
     <main className="liked-posts-page">
-      <header className="page-header">
-        <button onClick={() => navigate(-1)} className="back-button">
-          <img 
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" 
-            alt=""
-          />
-        </button>
-        <h1 className="header-title">좋아요 누른 게시글</h1>
-        <img 
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/a4043db299d9ceb138c2e374dca4840d7d3ff7f4252651ed455139c571b71f73?placeholderIfAbsent=true&apiKey=f3a728c5dc79403f4" 
-          alt=""
-          className="search-button" 
-        />
-      </header>
-
+      <Header color="#fff4d2" title="좋아요 누른 게시글" actions={
+      <SearchActions/>
+      }/>
       <div className="sort-container">
         <button className="filter-button">
           <span className="sort-text">등록순</span>
-          <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/745f4a325798408d80543bbacf1852135593f5c0514bd614a697a7386fbb93c1?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" alt="" className="sort-icon" />
+          <img
+            loading="lazy"
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/745f4a325798408d80543bbacf1852135593f5c0514bd614a697a7386fbb93c1?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
+            alt=""
+            className="sort-icon"
+          />
         </button>
       </div>
-
       <section className="post-list">
         {boardList.map((post, index) => (
           <PostItem
@@ -74,54 +68,17 @@ function LikedPosts() {
           />
         ))}
       </section>
-
       <Footer /> {/* Add Footer component here */}
-      
       <style jsx>{`
         .liked-posts-page {
-          background: #fff;
           display: flex;
-          max-width: 430px;
-          width: 100%;
-          flex-direction: column;
           overflow: hidden;
-          align-items: center;
+          flex-direction: column;
+          align-items: flex-start;
+          width: 430px;
+          background: #ffffff;
           margin: 0 auto;
-        }
-
-        .page-header {
-          background: #fff4d2;
-          width: 100%;
-          display: flex;
-          align-items: center;
-          gap: 20px;
-          padding: 62px 26px 25px;
-          justify-content: space-between;
-        }
-
-        .back-button {
-          background: none;
-          border: none;
-          padding: 0;
-          cursor: pointer;
-          padding-right: 50px;
-          margin-left: 20px;
-        }
-
-        .search-button {
-          background: none;
-          border: none;
-          padding: 0;
-          cursor: pointer;
-          padding-left: 50px;
-          margin-right: 30px;
-        }
-
-        .header-title {
-          color: #000;
-          font: 400 18px/1 Roboto, sans-serif;
-          text-align: center;
-          margin-top: 15px;
+          border: 0.5px solid #cac4d0;
         }
 
         .sort-container {

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import api from '../api/axios';
 import { useNavigate } from 'react-router-dom'; // React Router의 useNavigate 훅을 임포트
 import Footer from '../layout/footer/Footer';
+import Header from '../layout/header/Header';
+
 // ProfileImage 컴포넌트
 const ProfileImage = ({ src, alt }) => {
   return <img src={src} alt={alt} className="profile-image" />;
@@ -37,7 +39,7 @@ const ProfileHeader = ({ userImage, stats, nickname, statusMessage }) => {
   // notifications-button 클릭 시 memberinfo로 이동
   const handleNotificationsButtonClick = (e) => {
     e.stopPropagation();
-    navigate('/memberinfo'); // 'memberinfo'로 이동
+    navigate('/myprofilepage'); // 'memberinfo'로 이동
   };
 
   return (
@@ -71,33 +73,7 @@ const ProfileHeader = ({ userImage, stats, nickname, statusMessage }) => {
   );
 };
 
-// ProfileActions 컴포넌트
-const ProfileActions = () => {
-  const actions = [
-    {
-      src: 'https://cdn.builder.io/api/v1/image/assets/TEMP/89b61b15b519fe221e92df692e5820956878259d34838bb629e95066ac325275?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4',
-      alt: 'Action 1',
-    },
-    {
-      src: 'https://cdn.builder.io/api/v1/image/assets/TEMP/596b40e055c6c3096f41336ca0531e628e401ac369dec262300bba7467721588?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4',
-      alt: 'Action 2',
-    },
-    {
-      src: 'https://cdn.builder.io/api/v1/image/assets/TEMP/b18b77b5d6ce2798eaa729bc37d9585e29111b1ff6db2012daebed19d8146a53?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4',
-      alt: 'Action 3',
-    },
-  ];
 
-  return (
-    <div className="profile-actions">
-      {actions.map((action, index) => (
-        <button key={index} className="action-button">
-          <img src={action.src} alt={action.alt} className="action-icon" />
-        </button>
-      ))}
-    </div>
-  );
-};
 
 // ReviewListItem 컴포넌트
 function ReviewListItem({ created_time, title, content }) {
@@ -115,7 +91,6 @@ function ReviewListItem({ created_time, title, content }) {
 const ProfileContent = ({ reviewData }) => {
   return (
     <main className="profile-content">
-      <ProfileActions />
       <section className="review-list">
         {reviewData.map((review, index) => (
           <ReviewListItem key={index} {...review} />
@@ -186,12 +161,15 @@ const Profile = () => {
       <ProfileContent reviewData={reviewData} />
       <style jsx>{`
         .profile-page {
-          background-color: #fff4d2;
-          width: 430px;
-          margin: 0 auto;
-          padding-top: 49px;
           overflow: hidden;
-          border: 1px solid gray;
+          flex-direction: column;
+          align-items: flex-start;
+          width: 430px;
+          max-height: 932px;
+          min-height: 732px;
+          background: #fff4d2;
+          margin: 0 auto;
+          border: 0.5px solid #cac4d0;
         }
         .profile-header {
           padding: 0 28px;
@@ -257,23 +235,6 @@ const Profile = () => {
           background-color: #fff;
           padding: 16px 0;
           margin-top: 86px;
-        }
-        .profile-actions {
-          display: flex;
-          justify-content: center;
-          gap: 30px;
-          margin-bottom: 12px;
-        }
-        .action-button {
-          background: none;
-          border: none;
-          padding: 0;
-          cursor: pointer;
-        }
-        .action-icon {
-          width: 30px;
-          height: 30px;
-          object-fit: contain;
         }
 
         .content-image {

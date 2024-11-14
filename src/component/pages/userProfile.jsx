@@ -1,43 +1,26 @@
-import React, { useState } from 'react'; // useState 임포트 추가
+import React, { useEffect, useState } from 'react';
+import api from '../api/axios';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import FollowConfirmationModal from '../ProfilePage/FollowConfirmationModal'; // 팔로우 모달 컴포넌트
 import UnfollowConfirmation from '../ProfilePage/UnfollowConfirmation'; // 언팔로우 모달 컴포넌트
 import Footer from '../layout/footer/Footer';
 import BookmarkConfirmationModal from '../ProfilePage/BookmarkConfirmationModal';
+import Header from '../layout/header/Header';
+import AlaramActions from '../ProfilePage/AlaramAction';
 
 const styles = {
   userProfile: {
-    backgroundColor: '#fff4d2',
     display: 'flex',
-    maxWidth: '430px',
-    width: '100%',
-    paddingTop: '62px',
-    flexDirection: 'column',
     overflow: 'hidden',
+    flexDirection: 'column',
+    alignItems:'flex-stat',
+    width:'430px',
+    maxHeight:'932px',
+    minHeight:'732px',
+    backgroundColor: '#fff4d2',
     margin: '0 auto',
-    font: '400 17px Inter, sans-serif',
-    color: '#000',
-    border: '1px solid #ccc',
-  },
-  profileHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '40px',
-    whiteSpace: 'nowrap',
-    textAlign: 'center',
-    font: '18px/1 Roboto, sans-serif',
-    width: '100%',
-    padding: '0 28px',
-  },
-  profileIcon: {
-    width:'24px',
-    height: '24px',
-    objectFit:'contain',
-  },
-  nickname: {
-    margin: 0,
-    fontSize: '18px',
+    border: '0.5px solid #CAC4D0',
   },
   settingsIcon: {
     width:'15px',
@@ -125,7 +108,7 @@ const styles = {
     width: '100%',
     flexDirection: 'column',
     padding: '16px 0',
-    paddingleft:'20px',
+    paddingLeft:'20px',
   },
   reviewList: {
     marginLeft: '20px', // This will shift the review content to the right
@@ -185,6 +168,7 @@ function ReviewListItem({ timestamp, title, content }) {
 }
 
 const UserProfile = () => {
+  
   const { id } = useParams();
   console.log(id);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -230,7 +214,8 @@ const UserProfile = () => {
 
   return (
     <div style={styles.userProfile}>
-      <ProfileHeader handleProfileIconClick={handleProfileIconClick} />
+      <Header color='#fff4d2' title="닉네임" actions={<AlaramActions/>
+    }/>
       <ProfileStats />
       <p style={styles.statusMessage}>상태 메시지</p>
       <ProfileActions
@@ -252,37 +237,8 @@ const UserProfile = () => {
   );
 };
 
-const ProfileHeader = ({ handleProfileIconClick }) => {
-  const navigate = useNavigate();
-
-  const handleSettingsClick = () => {
-    navigate('/myprofilepage');
-  };
-
-  return (
-    <header style={styles.profileHeader}>
-      <img
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
-        alt="Profile Icon"
-        style={styles.profileIcon}
-        onClick={handleProfileIconClick}
-      />
-      <div>
-        <h1 style={styles.nickname}>닉네임</h1>
-      </div>
-      <img
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/98fd1e5fbd5f0c9367d03b9713c2dbc57fd8cf5b3f36e16cbd8c18f78188a0bb?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
-        alt="Settings Icon"
-        style={styles.settingsIcon}
-        onClick={handleSettingsClick}
-      />
-    </header>
-  );
-};
-
 const ProfileStats = () => {
   return (
-    
     <section style={styles.profileStats}>
       <img
         src="https://cdn.builder.io/api/v1/image/assets/TEMP/b7a38cc5eac3bdddc15bd83f752ef5b7883c36669787fc9f39a59bad39fb1d40?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
@@ -308,6 +264,12 @@ const ProfileStats = () => {
 };
 
 const ProfileActions = ({ handleFollowButtonClick, isFollowing }) => {
+  const navigate = useNavigate();
+
+  const handleMessageButtonClick = () => {
+    navigate('/user/chat/list'); // 이동할 경로 설정
+  };
+  
   return (
     <div style={styles.profileActions}>
       <button
@@ -320,7 +282,9 @@ const ProfileActions = ({ handleFollowButtonClick, isFollowing }) => {
       >
         {isFollowing ? '팔로잉' : '팔로우'}
       </button>
-      <button style={styles.messageButton}>메시지</button>
+      <button style={styles.messageButton} onClick={handleMessageButtonClick}>
+        메시지
+      </button>
     </div>
   );
 };

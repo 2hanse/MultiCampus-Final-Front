@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../layout/footer/Footer';
+import api from '../api/axios';
 
 function CommentItem({ timestamp, content, postTitle }) {
   return (
@@ -11,48 +12,6 @@ function CommentItem({ timestamp, content, postTitle }) {
         <p className="post-title">{postTitle}</p>
       </div>
       <div className="divider" />
-
-      <style jsx>{`
-        .comment-item {
-          background-color: #fff;
-          position: relative;
-          display: flex;
-          width: 100%; /* Footer에 맞추어 width를 100%로 설정 */
-          flex-direction: column;
-          justify-content: center;
-          margin-top: 11px;
-        }
-
-        .comment-content {
-          padding: 4px 16px;
-          display: flex;
-          flex-direction: column;
-          overflow: hidden;
-        }
-
-        .timestamp {
-          color: #49454f;
-          letter-spacing: 0.5px;
-          font: 500 12px/16px Roboto;
-        }
-
-        .comment-text {
-          color: #1d1b20;
-          letter-spacing: 0.5px;
-          font: 16px/24px Roboto;
-        }
-
-        .post-title {
-          color: #49454f;
-          letter-spacing: 0.25px;
-          font: 14px/20px Roboto;
-        }
-
-        .divider {
-          padding: 0 16px;
-          border-bottom: 1px solid #cac4d0;
-        }
-      `}</style>
     </article>
   );
 }
@@ -60,6 +19,21 @@ function CommentItem({ timestamp, content, postTitle }) {
 export default function CommentHistory() {
   const navigate = useNavigate();
 
+  useEffect( ()=> {getUserInfo()}, []);
+
+  
+  const [boardList, setBoardList] = useState([]);
+
+  const getUserInfo = async () => {
+    try {
+      const response = await api.get('/users/me/comments');
+      console.log(response.data);
+      setBoardList(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  
   const comments = [
     { timestamp: 'n분 전', content: '댓글 내용', postTitle: '게시글 제목' },
     { timestamp: 'n분 전', content: '댓글 내용', postTitle: '게시글 제목' },
@@ -105,12 +79,12 @@ export default function CommentHistory() {
         </button>
       </div>
       <section className="comment-list">
-        {comments.map((comment, index) => (
+        {boardList.map((comments, index) => (
           <CommentItem
             key={index}
-            timestamp={comment.timestamp}
-            content={comment.content}
-            postTitle={comment.postTitle}
+            time={comments.created_time}
+            title={comments.title}
+            content={comments.content}
           />
         ))}
       </section>
@@ -126,7 +100,7 @@ export default function CommentHistory() {
           min-height: 732px;
           background: #ffffff;
           margin: 0 auto;
-          border: 0.5px solid #cac4d0;
+          border: 0.5px solid #CAC4D0;
         }
 
         .header-section {
@@ -198,6 +172,47 @@ export default function CommentHistory() {
         .comment-list {
           width: 100%; /* 리스트 너비도 Footer에 맞춰서 조정 */
         }
+
+        .comment-item {
+          background-color: #fff;
+          position: relative;
+          display: flex;
+          width: 100%; /* Footer에 맞추어 width를 100%로 설정 */
+          flex-direction: column;
+          justify-content: center;
+          margin-top: 11px;
+        }
+
+        .comment-content {
+          padding: 4px 16px;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+        }
+
+        .timestamp {
+          color: #49454f;
+          letter-spacing: 0.5px;
+          font: 500 12px/16px Roboto;
+        }
+
+        .comment-text {
+          color: #1d1b20;
+          letter-spacing: 0.5px;
+          font: 16px/24px Roboto;
+        }
+
+        .post-title {
+          color: #49454f;
+          letter-spacing: 0.25px;
+          font: 14px/20px Roboto;
+        }
+
+        .divider {
+          padding: 0 16px;
+          border-bottom: 1px solid #cac4d0;
+        }
+
       `}</style>
     </main>
   );
