@@ -1,52 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';  // useNavigate 훅을 추가
+import Header from '../layout/header/Header';
 import Footer from '../layout/footer/Footer';
 import MembershipInfoModal from '../ProfilePage/MembershipInfoModal';
 import LogoutModal from '../ProfilePage/LogoutModal';
 import api from '../api/axios';
+import MypageActions from '../ProfilePage/MypageAction';
 
 const styles = {
   profilePage: {
     backgroundColor: "#fff4d2",
     display: "flex",
     maxWidth: "430px",
-    width: "100%",
     flexDirection: "column",
     overflowY: "auto",  // 스크롤
     margin: "0 auto",
-    padding: "49px 0 116px",
     scrollbarWidth: "none",  // Firefox에서 스크롤바 숨기기
     msOverflowStyle: "none",  // Internet Explorer에서 스크롤바 숨기기
   },
-  header: {
-    display: "flex",
-    width: "100%",
-    maxWidth: "361px",
-    alignItems: "center",
-    justifyContent: "space-between",
-    margin: "0 auto",
-    padding: "0 15px",
-  },
-  backButton: {
-    background: "none",
-    border: "none",
-    cursor: "pointer",
-    padding: "0",
-  },
-  menuButton: {
-    background: "none",
-    border: "none",
-    cursor: "pointer",
-    padding: "0",
-  },
-  backIcon: {
-    width: "24px",
-    height: "24px",
-  },
-  menuIcon: {
-    width: "24px",
-    height: "24px",
-  },
+
   titleWrapper: {
     display: "flex",
     alignItems: "center",
@@ -236,7 +208,9 @@ function MyProfilePage() {
 
   return (
     <main style={styles.profilePage}>
-      <Header />
+      <Header color="#fff4d2" title="마이페이지" actions={
+      <MypageActions/>
+      }/>
       <ProfileInfo />
       <CommunitySection />
       <OtherSection />
@@ -249,44 +223,7 @@ function MyProfilePage() {
 }
 
 
-function Header() {
-  const navigate = useNavigate();  // useNavigate 훅 사용
 
-  const handleBackButtonClick = () => {
-    navigate('/');  // 백 버튼 클릭 시 맵 페이지로 이동
-  };
-
-  const handleMenuButtonClick = () => {
-    navigate('/');  // 메뉴 버튼 클릭 시 memberinfo 페이지로 이동
-  };
-
-  return (
-    <header style={styles.header}>
-      <button style={styles.backButton} aria-label="Go back" onClick={handleBackButtonClick}>
-        <img
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
-          alt=""
-          style={styles.backIcon}
-        />
-      </button>
-      <div style={styles.titleWrapper}>
-        <img
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/3e86542f717e503b39e25d827b8773f3f255abdd9532cfe78b82f809bd204f46?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
-          alt=""
-          style={styles.profileImage}
-        />
-        <h1 style={styles.title}>마이페이지</h1>
-      </div>
-      <button style={styles.menuButton} aria-label="Open menu" onClick={handleMenuButtonClick}>
-        <img
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/e4671849f740627d3c98e72408b2f2d3f3f06c041bf32bb9316b1e960e12b0e6?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
-          alt=""
-          style={styles.menuIcon}
-        />
-      </button>
-    </header>
-  );
-}
 
 const ProfileInfo = ({userImage, nickname}) => {
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리

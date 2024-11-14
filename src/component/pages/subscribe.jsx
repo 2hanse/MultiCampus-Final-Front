@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '../layout/footer/Footer';
+import {getUserIdFromToken} from '../api/jwt';
+import api from '../api/axios';
 
 // CSS 스타일을 포함합니다.
 const styles = {
@@ -94,10 +96,31 @@ const styles = {
 
 // SubscriptionFeed 컴포넌트
 const SubscriptionFeed = () => {
+  useEffect(() => {
+    
+    getFollowingUserInfo();
+  }, []);
+
+  
+
+  const [followingUsers, setFollowingUsers] = useState([]);
+
+  const getFollowingUserInfo = async () => {
+    try {
+      const user_id = getUserIdFromToken();
+      console.log(user_id);
+      const response = await api.get(`/users/${user_id}/following`);
+      console.log(response.data);
+      setFollowingUsers(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <main style={styles.subscriptionFeed}>
       <Header />
-      <FollowList />
+      <FollowList followingUsers={followingUsers} />
       <Divider />
       <Footer /> {/* Footer 추가 (import한 Footer 사용) */}
     </main>
@@ -126,19 +149,9 @@ const Header = () => {
 };
 
 // FollowList 컴포넌트
-const FollowList = () => {
-  const followData = [
-    { id: 1, name: '닉네임1' },
-    { id: 2, name: '닉네임2' },
-    { id: 3, name: '닉네임3' },
-    { id: 4, name: '닉네임4' },
-    { id: 5, name: '닉네임5' },
-    { id: 6, name: '닉네임6' },
-    { id: 7, name: '닉네임7' },
-    { id: 8, name: '닉네임8' },
-    { id: 9, name: '닉네임9' },
-  ];
-
+const FollowList = ({followingUsers}) => {
+  const followData = followingUsers;
+  console.log("followData 확인", followData);
   return (
     <section style={styles.followList}>
       <h2 style={styles.listTitle}>팔로우 목록</h2>
@@ -146,17 +159,17 @@ const FollowList = () => {
         <div style={{ display: 'flex', transition: 'transform 0.3s ease' }}>
           {followData.map((follow) => (
             <Link
-              to={`/user-profile/${follow.id}`}
-              key={follow.id}
+              to={`/user-profile/${follow.followed_uid}`}
+              key={follow.followed_uid}
               style={{ textDecoration: 'none', color: 'inherit' }}
             >
               <div style={styles.followItem}>
                 <img
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/6ee173905dc76f5eb8751afce33590fc6c9b6307e6f75f96e670d592c05f636a?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
+                  src={follow.profile_img_url}
                   alt="Avatar"
                   style={styles.avatar}
                 />
-                <span style={styles.nickname}>{follow.name}</span>
+                <span style={styles.nickname}>{follow.nickname}</span>
               </div>
             </Link>
           ))}
