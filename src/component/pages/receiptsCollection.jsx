@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // useNavigate 추가
 import api from '../api/axios';
 import ReceiptCard from '../myreceipts/ReceiptCard';
+import Header from '../layout/header/Header';
+import SearchActions from '../ProfilePage/SearchActions'
 import Footer from '../layout/footer/Footer';
 
 const receiptData = [
@@ -49,16 +51,9 @@ function ReceiptCollection() {
 
   return (
     <main className="receipt-collection">
-      <header className="collection-header">
-        <button onClick={() => navigate(-1)} className="back-icon">
-          <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" alt="" />
-        </button>
-        <h1 className="collection-title">영수증 모음집</h1>
-        <img       src="https://cdn.builder.io/api/v1/image/assets/TEMP/a4043db299d9ceb138c2e374dca4840d7d3ff7f4252651ed455139c571b71f73?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
-          alt=""
-          className="header-icon"
-        />
-      </header>
+      <Header color="" title="영수증 모음집" actions={
+        <SearchActions/>
+      } />
       <div className="divider-container">
         <hr className="divider" />
       </div>
@@ -75,9 +70,6 @@ function ReceiptCollection() {
           background: rgba(255, 244, 210, 1);
           max-width: 430px;
           height:932px;
-          // max-height; auto;
-          // width: 100%;
-          // padding: 62px 0 0;
           margin: 0 auto;
           display: flex;
           flex-direction: column;
@@ -129,10 +121,19 @@ function ReceiptCollection() {
           gap: 15px;
           width: 100%;
           max-width: 396px;
+          overflow-y: auto;
+          flex-grow: 1;
         }
         .receipt-row {
           display: flex;
           justify-content: space-between;
+        }
+        .receipt-grid::-webkit-scrollbar {
+          display: none;
+        }
+        .receipt-grid {
+          -ms-overflow-style: none;  /* IE 및 Edge에서 스크롤바 숨기기 */
+          scrollbar-width: none; /* Firefox에서 스크롤바 숨기기 */
         }
       `}</style>
     </main>

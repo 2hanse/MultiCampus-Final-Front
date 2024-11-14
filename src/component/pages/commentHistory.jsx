@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Header from '../layout/header/Header';
 import Footer from '../layout/footer/Footer';
+import SearchActions from '../ProfilePage/SearchActions';
 import api from '../api/axios';
 
 function CommentItem({ timestamp, content, postTitle }) {
@@ -46,27 +48,9 @@ export default function CommentHistory() {
 
   return (
     <main className="comment-history-page">
-      <header className="header-section">
-        <div className="header-content">
-          <div className="back-button" onClick={() => navigate(-1)}>
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
-              alt=""
-              className="icon"
-            />
-          </div>
-          <div className="header-title">
-            <h1 className="title">남긴 댓글</h1>
-          </div>
-          <div className="search-button">
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/a4043db299d9ceb138c2e374dca4840d7d3ff7f4252651ed455139c571b71f73?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
-              alt=""
-              className="icon"
-            />
-          </div>
-        </div>
-      </header>
+      <Header color="#fff4d2" title="남긴 댓글" actions={
+        <SearchActions/>
+      } />
       <div className="sort-section">
         <button className="filter-button">
           등록순
@@ -103,14 +87,6 @@ export default function CommentHistory() {
           
         }
 
-        .header-section {
-          background-color: #fff4d2;
-          width: 100%;
-          padding: 30px 26px; /* padding을 고정값으로 설정 */
-          box-sizing: border-box;
-          height: 150px; /* 고정된 높이 설정 */
-        }
-
         .header-content {
           gap: 20px;
           display: flex;
@@ -119,35 +95,11 @@ export default function CommentHistory() {
           align-items: center; /* 세로 중앙 정렬 */
         }
 
-        .back-button {
-          background: none;
-          border: none;
-          padding: 0;
-          cursor: pointer;
-          padding-right: 50px;
-          margin-left: 20px;
-        }
-
         .header-title {
           width: 60%;
         }
 
-        .search-button {
-          background: none;
-          border: none;
-          padding: 0;
-          cursor: pointer;
-          padding-left: 50px;
-          margin-right: 30px;
-        }
-
-        .icon {
-          aspect-ratio: 1;
-          object-fit: contain;
-          object-position: center;
-          width: 24px;
-        }
-
+      
         .title {
           color: #000;
           text-align: center;

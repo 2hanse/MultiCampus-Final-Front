@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '../layout/footer/Footer';
+import Header from '../layout/header/Header';
+import SearchActions from '../ProfilePage/SearchActions';
 import {getUserIdFromToken} from '../api/jwt';
 import api from '../api/axios';
 
@@ -17,19 +19,7 @@ const styles = {
     margin: '0 auto',
     border: '1px solid #ddd',
   },
-  header: {
-    backgroundColor: '#fff4d2',
-    padding: '62px 20px 25px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  menuIcon: {
-    aspectRatio: '1',
-    objectFit: 'contain',
-    objectPosition: 'center',
-    width: '24px',
-  },
+  
   title: {
     color: '#000',
     textAlign: 'center',
@@ -119,7 +109,9 @@ const SubscriptionFeed = () => {
 
   return (
     <main style={styles.subscriptionFeed}>
-      <Header />
+      <Header color="#fff4d2" title="구독 피드" actions={
+        <SearchActions/>
+      }/>
       <FollowList followingUsers={followingUsers} />
       <Divider />
       <Footer /> {/* Footer 추가 (import한 Footer 사용) */}
@@ -127,26 +119,7 @@ const SubscriptionFeed = () => {
   );
 };
 
-// Header 컴포넌트
-const Header = () => {
-  return (
-    <header style={styles.header}>
-      <Link to="/myprofilepage">
-        <img 
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a5c6e224a78addfb6dfdd81623a41bf80539dc36492c8744900ebc91120e359?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" 
-          alt="Menu Icon" 
-          style={styles.menuIcon} 
-        />
-      </Link>
-      <h1 style={styles.title}>구독 피드</h1>
-      <img 
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/a4043db299d9ceb138c2e374dca4840d7d3ff7f4252651ed455139c571b71f73?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" 
-        alt="Menu Icon" 
-        style={styles.menuIcon} 
-      />
-    </header>
-  );
-};
+
 
 // FollowList 컴포넌트
 const FollowList = ({followingUsers}) => {

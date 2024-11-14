@@ -14,12 +14,14 @@ const styles = {
     maxWidth: "430px",
     maxHeight: "832px",
     flexDirection: "column",
-    overflowY: "auto",  // 스크롤
     margin: "0 auto",
+  },
+  profileContent: {
+    flex: 1,
+    overflowY: "auto",
     scrollbarWidth: "none",  // Firefox에서 스크롤바 숨기기
     msOverflowStyle: "none",  // Internet Explorer에서 스크롤바 숨기기
   },
-
   titleWrapper: {
     display: "flex",
     alignItems: "center",
@@ -209,17 +211,17 @@ function MyProfilePage() {
 
   return (
     <main style={styles.profilePage}>
-      <Header color="#fff4d2" title="마이페이지" actions={
-      <MypageActions/>
-      }/>
-      <ProfileInfo />
-      <CommunitySection />
-      <OtherSection />
-      <NotificationSection />
-      <AccountSection openLogoutModal={openLogoutModal} />
-      <Footer />
-      {isLogoutModalOpen && <LogoutModal closeModal={closeLogoutModal} />}
-    </main>
+  <Header color="#fff4d2" title="마이페이지" actions={<MypageActions />} />
+  <div style={styles.profileContent}>
+        <ProfileInfo />
+        <CommunitySection />
+        <OtherSection />
+        <NotificationSection />
+        <AccountSection openLogoutModal={openLogoutModal} />
+      </div>
+    {isLogoutModalOpen && <LogoutModal closeModal={closeLogoutModal} />}
+  <Footer />
+</main>
   );
 }
 
