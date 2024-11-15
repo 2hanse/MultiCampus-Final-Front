@@ -13,10 +13,26 @@ const BoardButtonForm = () => {
 
     return (
         <Wrapper>
-            <FoodBoard     src={Meal}     alt="Meal" />
-            <TalkBoard     src={Talk}     alt="Talk" />
-            <TopBoard      src={Top}      alt="Top" />
-            <TravelBoard   src={Travel}   alt="Travel" />
+            <FoodBoard
+                src={Meal}
+                alt="Meal"
+                onClick={() => navigate("/board/RestaurantBoard")}
+            />
+            <TalkBoard
+                src={Talk}
+                alt="Talk"
+                onClick={() => navigate("/board/FreeBoard")}
+            />
+            <TopBoard
+                src={Top}
+                alt="Top"
+                onClick={() => navigate("/board/TopBoard")}
+                />
+            <TravelBoard
+                src={Travel}
+                alt="Travel"
+                onClick={() => navigate("/board/TourBoard")}
+                />
             <BookmarkBoard
                 src={Bookmark}
                 alt="Bookmark"

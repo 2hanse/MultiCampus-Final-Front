@@ -30,7 +30,7 @@ const PageContainer = styled.div`
   height: auto;
   min-height: 100vh;
   margin: 0 auto; /* 가운데 정렬 */
-  border: 1px solid #ccc; 
+  border: 0.5px solid #CAC4D0;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); 
 `;
 

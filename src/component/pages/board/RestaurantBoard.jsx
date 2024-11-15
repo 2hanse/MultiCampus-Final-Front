@@ -33,7 +33,7 @@ const BoardContainer = styled.div`
   height: auto;
   min-height: 100vh;
   margin: 0 auto;
-  border: 1px solid #cac4d0;
+  border: 0.5px solid #CAC4D0;
   background-color: #ffffff;
   overflow: hidden;
 `;

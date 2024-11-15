@@ -53,6 +53,10 @@ function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (password.length <= 8) {
+      alert("비밀번호는 8자리 이상이어야 합니다.");
+      return;
+    }
     if (email === '' || password === '') {
       alert('모두 입력해주세요');
     } else {

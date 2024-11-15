@@ -32,6 +32,9 @@ import CommentHistory from './component/pages/commentHistory';
 import SubscriptionFeed from './component/pages/subscribe';
 import AlertPage from './component/pages/AlertPage';
 import RestaurantBoard from './component/pages/board/RestaurantBoard';
+import FreeBoard from './component/pages/board/FreeBoard';
+import TopBoard from './component/pages/board/TopBoard';
+import TourBoard from './component/pages/board/TourBoard';
 import PostPage from './component/pages/board/PostPage';
 import BoardSidebar from './component/pages/board/BoardSidebarPage';
 
@@ -105,7 +108,12 @@ function App() {
           path="/user/me/changePasswordResult"
           element={<ChangePasswordResultPage />}
         />
+        
+        {/* 게시판 */}
         <Route path="/board/RestaurantBoard" element={<RestaurantBoard />} />
+        <Route path="/board/FreeBoard" element={<FreeBoard />} />
+        <Route path="/board/TopBoard" element={<TopBoard />} />
+        <Route path="/board/TourBoard" element={<TourBoard />} />
         <Route path="/board/PostPage" element={<PostPage />} />
         <Route path="/board/Sidebar" element={<BoardSidebar />} />
       </Routes>

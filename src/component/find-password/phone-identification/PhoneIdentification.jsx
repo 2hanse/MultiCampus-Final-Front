@@ -113,17 +113,14 @@ function PhoneIdentification() {
                 navigate("/user/resetPassword",{state: {    email: userInfo.email,
                                                             phoneNumber: phoneNum,
                                                             verifyCode: verificationCode } });
-            } else {
-                alert('인증 실패! 다시 시도해주세요.'); // 인증 실패 시 알림 표시
-                setPhoneNum("");
-                setIsVerificationSent(false);
-                setPhoneNumMessage('');
             }
         })
         .catch(error => {
             console.error('인증 실패:', error);
             alert('인증 실패! 다시 시도해주세요.'); // 인증 실패 시 알림 표시
-            setVerificationCode("");
+            setPhoneNum("");
+            setIsVerificationSent(false);
+            setPhoneNumMessage('');
         });
   };
 
