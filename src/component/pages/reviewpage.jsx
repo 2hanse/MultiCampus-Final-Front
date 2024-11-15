@@ -144,16 +144,23 @@ function ReviewHistory() {
           margin-right: 4px;
         }
 
-        .reviewList: {
-  width: "100%",
-  height: "calc(100vh - 216px)",
-  padding: "20px",
-  boxSizing: "border-box",
-  overflowY: "auto",
-  "&::-webkit-scrollbar": {
-    display: "none",  // 웹킷 기반 브라우저에서 스크롤바 숨기기
-  },
-}
+        .review-list {
+          width: 100%;
+          max-width: 395px;
+          height: calc(100vh - 216px);  /* 화면 높이에 맞춰 계산된 높이 */
+          padding: 20px;
+          box-sizing: border-box;
+          overflow-y: auto;  /* 세로 스크롤 추가 */
+        }
+
+        .review-list::-webkit-scrollbar {
+          display: none;  /* 스크롤바 숨기기 */
+        }
+
+        .review-list {
+          -ms-overflow-style: none;  /* IE 및 Edge */
+          scrollbar-width: none;  /* Firefox */
+        }
 
         .review-item {
           background-color: #fff;
