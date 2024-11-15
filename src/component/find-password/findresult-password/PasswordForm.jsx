@@ -79,8 +79,11 @@ function PasswordForm() {
             }
         } catch (err) {
             //console.log('비밀번호 에러: ', err);
-            alert(err);
-            navigate('/user/find-password');
+            if(err.status === 406) {
+              alert(err.response.data);
+              navigate('/user/find-password');
+            }
+            
         }
         }
     };

@@ -434,13 +434,10 @@ const JoinPage = () => {
 
 const StyledForm = styled.form`
   background-color: #fff2cc;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-  border: 1px solid #000;
+  border: 0.5px solid #CAC4D0;
   display: flex;
-  max-width: 430px;
-  max-height: 932px;
-  width: 100%;
-  height: 100%;
+  width: 430px;
+  height: 100vh;
   padding: 62px 0px 37px 0px;
   flex-direction: column;
   overflow: hidden;

@@ -53,9 +53,6 @@ const Wrapper = styled.div`
     object-position: center;
     margin-left: 7%;
   }
-  :hover {
-    background: #F4B183;
-  }
   cursor: pointer;
 `;
 
