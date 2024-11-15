@@ -44,14 +44,17 @@ function App() {
         <Route path="/liked-posts" element={<LikedPosts />} />
         <Route path="/receipt-collection" element={<ReceiptsCollection />} />
         <Route path="/user-profile" element={<UserProfile />} />
-        <Route path="/user-profile/:id" element={<UserProfile />} />
+        <Route path="/user-profile/:followed_uid" element={<UserProfile />} />
         <Route path="/memberinfo" element={<MemberInfo />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/subscribe" element={<SubscriptionFeed />} />
         <Route path="/myprofilepage" element={<MyProfilePage />} />
         <Route path="/homepage" element={<MapPage />} />
         <Route path="/editbookmark" element={<EditBookmarkPage />} />
-        <Route path="/bookmarklistdetail/:bookmark_id" element={<BookmarkListPage />} />
+        <Route
+          path="/bookmarklistdetail/:bookmark_id"
+          element={<BookmarkListPage />}
+        />
         <Route path="/" element={<LoginPage />} />
         <Route path="/user/join" element={<JoinPage />} />
         <Route path="/user/find-email" element={<FindEmailPage />} />
