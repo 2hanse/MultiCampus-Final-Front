@@ -11,28 +11,15 @@ import Footer from '../layout/footer/Footer';
 import BookmarkConfirmationModal from '../ProfilePage/BookmarkConfirmationModal';
 import Header from '../layout/header/Header';
 import AlaramActions from '../ProfilePage/AlaramAction';
+import styled from 'styled-components';
 
 const styles = {
-  userProfile: {
-    display: 'flex',
-    overflow: 'hidden',
-    flexDirection: 'column',
-    alignItems:'flex-stat',
-    width:'430px',
-    maxHeight:'932px',
-    minHeight:'732px',
-    backgroundColor: '#fff4d2',
-    margin: '0 auto',
-    border: '0.5px solid #CAC4D0',
-  },
-  
-  
   statusMessage: {
     marginTop: '25px',
     alignSelf: 'flex-start',
     padding: '0 28px',
   },
-  
+
   followButton: {
     borderRadius: '5px',
     backgroundColor: 'skyblue',
@@ -49,7 +36,6 @@ const styles = {
     height: '20px',
     objectFit: 'contain',
   },
-  
 
   title: {
     color: '#1d1b20',
@@ -65,17 +51,60 @@ const styles = {
   },
 };
 
-
-
-
-
 const UserProfile = () => {
   useEffect(() => {
-    
+    getUserInfo();
+    getWritedBoards();
   }, []);
-  
+
+  // 선택된 유저 Id
   const { followed_uid } = useParams();
-  console.log(followed_uid);
+  console.log('선택된 유저 id : ', followed_uid);
+
+  const [nickname, setNickname] = useState('닉네임');
+  const [userImage, setUserImage] = useState(
+    'https://cdn.builder.io/api/v1/image/assets/TEMP/17c70c46cd6bb71b05cd93581bc2d83c1e7bb0955516a7b4f5baa99723121b6b?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4'
+  );
+
+  // 게시물 수
+  const [countBoard, setCountBoard] = useState(0);
+  // 팔로잉 수
+  const [countFollow, setCountFollow] = useState(0);
+  // 팔로워 수
+  const [countFoller, setCountFoller] = useState(0);
+  const [statusMessage, setStatusMessage] = useState('상태 메시지');
+
+  const [writedBoardData, setWritedBoardData] = useState([]);
+
+  const getUserInfo = async () => {
+    try {
+      const response = await api.get(`/users/stats/${followed_uid}`);
+      console.log('리스폰스 데이터 : ', response.data);
+      setCountBoard(response.data.boardCount);
+      setCountFollow(response.data.followerCount);
+      setCountFoller(response.data.followingCount);
+      setNickname(response.data.nickname);
+      setUserImage(response.data.profileImgUrl);
+      setStatusMessage(response.data.bio_msg);
+
+      const followresponse = await api.get(`/users/follow/${followed_uid}`);
+      console.log('팔로우 확인', followresponse.data);
+      setIsFollowing(followresponse.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getWritedBoards = async () => {
+    try {
+      const response = await api.get(`/users/writed-boards/${followed_uid}`);
+      console.log(response.data);
+      setWritedBoardData(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUnfollowModalOpen, setIsUnfollowModalOpen] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
@@ -83,29 +112,33 @@ const UserProfile = () => {
   const navigate = useNavigate();
 
   const handleProfileIconClick = () => {
-    navigate(-1); 
+    navigate(-1);
   };
 
-  const handleFollowButtonClick = () => {
+  const handleFollowButtonClick = async () => {
+    const targetUid = followed_uid;
+
     if (isFollowing) {
-      setIsUnfollowModalOpen(true); 
+      await api.delete(`/users/follow/${targetUid}`); // 숫자형 `targetUid` 전송
+      setIsUnfollowModalOpen(true);
     } else {
-      setIsModalOpen(true); 
+      await api.post(`/users/follow/${targetUid}`); // 숫자형 `targetUid` 전송
+      setIsModalOpen(true);
     }
   };
 
   const closeFollowModal = (followConfirmed) => {
     if (followConfirmed) {
-      setIsFollowing(true); 
+      setIsFollowing(true);
     }
-    setIsModalOpen(false); 
+    setIsModalOpen(false);
   };
 
   const closeUnfollowModal = (unfollowConfirmed) => {
     if (unfollowConfirmed) {
-      setIsFollowing(false); 
+      setIsFollowing(false);
     }
-    setIsUnfollowModalOpen(false); 
+    setIsUnfollowModalOpen(false);
   };
 
   const handleBookmarkIconClick = () => {
@@ -118,29 +151,84 @@ const UserProfile = () => {
   };
 
   return (
-    <div style={styles.userProfile}>
-      <Header color='#fff4d2' title="닉네임" actions={<AlaramActions/>
-    }/>
-      <ProfileStats />
-      <p style={styles.statusMessage}>상태 메시지</p>
-      <ProfileActions
-        handleFollowButtonClick={handleFollowButtonClick}
-        isFollowing={isFollowing}
-      />
-      <ProfileContent handleBookmarkIconClick={handleBookmarkIconClick} /> {/* 북마크 클릭 핸들러 추가 */}
-    
-      {/* 팔로우 모달 */}
-      {isModalOpen && <FollowConfirmationModal username="닉네임" closeModal={closeFollowModal} />}
-      
-      {/* 언팔로우 모달 */}
-      {isUnfollowModalOpen && <UnfollowConfirmation username="닉네임" closeModal={closeUnfollowModal} />}
+    <Main>
+      <Header color="#fff4d2" title={nickname} actions={<AlaramActions />} />
 
-      {/* 북마크 모달 */}
-      {isBookmarkModalOpen && <BookmarkConfirmationModal nickname="닉네임" closeModal={closeBookmarkModal} />}
+      <ProfileStatsCover>
+        <ProfileStats
+          countBoard={countBoard}
+          countFollow={countFollow}
+          countFoller={countFoller}
+          userImage={userImage}
+        />
+        <p style={styles.statusMessage}>{statusMessage}</p>
+        <ProfileActions
+          handleFollowButtonClick={handleFollowButtonClick}
+          isFollowing={isFollowing}
+        />
+      </ProfileStatsCover>
+      <ChatListContainer>
+        <ProfileContent
+          writedBoardData={writedBoardData}
+          handleBookmarkIconClick={handleBookmarkIconClick}
+        />{' '}
+        {/* 북마크 클릭 핸들러 추가 */}
+        {/* 팔로우 모달 */}
+        {isModalOpen && (
+          <FollowConfirmationModal
+            username="닉네임"
+            closeModal={closeFollowModal}
+          />
+        )}
+        {/* 언팔로우 모달 */}
+        {isUnfollowModalOpen && (
+          <UnfollowConfirmation
+            username="닉네임"
+            closeModal={closeUnfollowModal}
+          />
+        )}
+        {/* 북마크 모달 */}
+        {isBookmarkModalOpen && (
+          <BookmarkConfirmationModal
+            nickname="닉네임"
+            closeModal={closeBookmarkModal}
+          />
+        )}
+      </ChatListContainer>
       <Footer />
-    </div>
+    </Main>
   );
 };
 
+const ProfileStatsCover = styled.div`
+  background-color: #fff4d2;
+  width: 430px;
+`;
+
+const Main = styled.main`
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 430px;
+  max-height: 932px;
+  min-height: 732px;
+  background: #ffffff;
+  margin: 0 auto;
+  border: 0.5px solid #cac4d0;
+`;
+
+const ChatListContainer = styled.div`
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  -ms-overflow-style: none; /* IE 및 Edge */
+  scrollbar-width: none; /* Firefox */
+`;
 
 export default UserProfile;
