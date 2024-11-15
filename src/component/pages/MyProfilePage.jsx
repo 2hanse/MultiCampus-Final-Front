@@ -17,6 +17,11 @@ const styles = {
     overflow: "hidden",
     alignItems: "flex-start", // 'flexstart'는 'flex-start'로 수정
   },
+  headerWrapper: {
+    width: "100%",
+    position: "relative",
+    zIndex: 1,  // UI 요소가 겹칠 경우 우선순위를 높이기 위해 추가
+  },
   profileContent: {
     width: "100%",
     height: "calc(100vh - 216px)",
@@ -135,6 +140,7 @@ const styles = {
   accountSection: {
     marginTop: "31px",
     padding: "0 15px",
+    marginBottom: "30px",
   },
   accountInfoList: {
     borderRadius: "30px",
@@ -218,17 +224,20 @@ function MyProfilePage() {
 
   return (
     <main style={styles.profilePage}>
-  <Header color="#fff4d2" title="마이페이지" actions={<MypageActions />} />
-  <div style={styles.profileContent}>
+      <div style={styles.headerWrapper}>
+        <Header color="#fff4d2" title="마이페이지" actions={<MypageActions />} />
+        <div style={styles.divider}></div>
+      </div>
+      <div style={styles.profileContent}>
         <ProfileInfo />
         <CommunitySection />
         <OtherSection />
         <NotificationSection />
         <AccountSection openLogoutModal={openLogoutModal} />
       </div>
-    {isLogoutModalOpen && <LogoutModal closeModal={closeLogoutModal} />}
-  <Footer />
-</main>
+      {isLogoutModalOpen && <LogoutModal closeModal={closeLogoutModal} />}
+      <Footer />
+    </main>
   );
 }
 
@@ -248,7 +257,6 @@ const ProfileInfo = ({userImage, nickname}) => {
 
   return (
     <section style={styles.profileInfo}>
-      <div style={styles.divider}></div>
       <div style={styles.userDetails}>
         <img
           src="https://cdn.builder.io/api/v1/image/assets/TEMP/a41dabe80615eacb53b883e9e94b260996b558b97729747665bca20736adc395?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
