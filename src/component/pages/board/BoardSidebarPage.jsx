@@ -33,7 +33,7 @@ const SidebarWrapper = styled.aside`
   flex-direction: column;
   overflow: visible;
   margin: 0 auto;
-  border: 1px solid #ccc; /* 테두리 색상 */
+  border: 0.5px solid #CAC4D0;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
 `;
 
