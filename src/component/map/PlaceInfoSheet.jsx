@@ -8,6 +8,7 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [rating, setRating] = useState();
+  const [placeReviewCnt, setPlaceReviewCnt] = useState();
   const maxStars = 5; // 최대 별 개수
 
   useEffect(() => {
@@ -22,6 +23,17 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
     .catch((error) => {
       console.error("Request failed:", error.response ? error.response.data : error.message);
     });
+  },[]);
+
+  useEffect(() => {
+    api.get(`/place/reviews_count/${place_id}`)
+    .then((res) => {
+      //console.log(`장소 후기 개수 : ${res.data}`);
+      setPlaceReviewCnt(res.data);
+    })
+    .catch((err) => {
+      console.error(err.response.data)
+    })
   },[]);
 
     // 별점 배열 생성 (가득 찬 별, 반 별 및 빈 별을 표시)
@@ -82,9 +94,9 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
         }
         if (getUserIdFromToken()) {
           api.post('/bookmarks/place', data)
-              .then((response) => {
+              .then((res) => {
                   alert("북마크가 저장되었습니다");
-                  // console.log('북마크가 저장되었습니다:', response.data);
+                  // console.log('북마크가 저장되었습니다:', res.data);
                   // 필요시 추가 로직 처리
               })
               .catch((error) => {
@@ -108,8 +120,8 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
         <RatingContainer>
           <Rating>{rating}</Rating>
           <StarWrapper>{generateStars()}</StarWrapper>
-          <ReviewCount>후기 N</ReviewCount>
-          <ArrowIcon loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/76ac410de088f9ebb3f69908cec6437dacd93967deb82a0af6ee25fa4c0b0f4b?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" alt="Arrow icon" />
+          <ReviewCount>후기 {placeReviewCnt}</ReviewCount>
+          {/* <ArrowIcon loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/76ac410de088f9ebb3f69908cec6437dacd93967deb82a0af6ee25fa4c0b0f4b?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" alt="Arrow icon" /> */}
         </RatingContainer>
 
         <AddressContainer>
@@ -128,7 +140,6 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
                         onClick={() => handleIconClick2()} />
             </IconContainer>
             </AddressInfo>
-            <ArrivalButton>도착</ArrivalButton>
         </AddressContainer>
 
         <PhotoContainer>
