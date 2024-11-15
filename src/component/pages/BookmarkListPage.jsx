@@ -92,10 +92,10 @@ function BookmarkListPage() {
 
 const Main = styled.main`
     display: flex;
+    overflow: hidden;
     flex-direction: column;
     align-items: flex-start;
     width: 430px;
-    min-height: 100vh;
     background: #FFFFFF;
     margin: 0 auto;
     border: 0.5px solid #CAC4D0;
@@ -103,12 +103,19 @@ const Main = styled.main`
 
 const ContentWrapper = styled.div`
     display: flex;
-    position: absolute;
-    width: 430px;
-    min-height: calc(100vh - 235px);
+    width: 100%;
+    height: calc(100vh - 235px);
     flex-direction: column;
     align-items: flex-start;
+    box-sizing: border-box;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+        display: none;
+    }
     margin-top: 235px;
+
+    -ms-overflow-style: none;  /* IE 및 Edge */
+    scrollbar-width: none;  /* Firefox */
 `
 
 const ListWrapper = styled.ul`
