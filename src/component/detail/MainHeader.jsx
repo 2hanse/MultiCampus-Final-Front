@@ -67,6 +67,10 @@ function MainHeader({ post, category }) {
     console.log("Follow button clicked");
   };
 
+  const gotoUserProfile = () => {
+    navigate(`/user-profile/${post.nickname}`);
+  };
+
   return (
     <MainHeaderContainer>
       <HeaderTop>
@@ -80,9 +84,9 @@ function MainHeader({ post, category }) {
       {/* 게시글 작성자 정보 표시 */}
     {authorInfoArray.map((author) => (
       <AuthorInfo key={author.id}>
-        <Avatar src={author.avatar} alt={`${author.name}의 아바타`} />
+        <Avatar src={author.avatar} alt={`${author.name}의 아바타`} onClick={() => gotoUserProfile}/>
         <AuthorDetails>
-            <AuthorName>
+            <AuthorName onClick={() => gotoUserProfile}>
               {post ? post.nickname : "user"} <AuthorMembership>({post ? post.grade : ""})</AuthorMembership>
             </AuthorName>
           <AuthorTimestamp>작성 시간: {post ? post.time : ""}</AuthorTimestamp>
@@ -167,6 +171,7 @@ const AuthorName = styled.span`
   font-weight: bold;
   display: flex;
   align-items: center;
+  cursor: pointer;
 `;
 
 const AuthorMembership = styled.span`
@@ -200,6 +205,7 @@ const FollowButton = styled.img`
 `;
 
 const Avatar = styled.img`
+  cursor: pointer;
   width: 40px;
   height: 40px;
   border-radius: 50%;

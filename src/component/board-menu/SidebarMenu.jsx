@@ -19,15 +19,15 @@ const SidebarMenu = () => {
   }
 
   function gotoFreeBoardPage() {
-    navigate('/board/RestaurantBoard');
+    navigate('/board/FreeBoard');
   }
 
   function gotoTopBaordPage() {
-    navigate('/board/RestaurantBoard');
+    navigate('/board/TopBaord');
   }
 
   function gotoTourBoardPage() {
-    navigate('/board/RestaurantBoard');
+    navigate('/board/TourBoard');
   }
 
   return (
