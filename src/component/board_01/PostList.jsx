@@ -53,8 +53,8 @@ function PostList ({ selectedSort, category }) {
     currentPage * postsPerPage
   );
 
-  const handleTitleClick = (category) => {
-    navigate("/board/PostPage", { state: { category } });
+  const handleTitleClick = (post, category) => {
+    navigate("/board/PostPage", { state: { post, category } });
   };
 
   const handlePageChange = (pageNumber) => {
@@ -69,7 +69,7 @@ function PostList ({ selectedSort, category }) {
             <PostMeta>
               {post.time} | {post.nickname} ({post.grade}) | 조회수: {post.views || 0}
             </PostMeta>
-            <PostTitle onClick={() => handleTitleClick(category)}>{post.title}</PostTitle>
+            <PostTitle onClick={() => handleTitleClick(post, category)}>{post.title}</PostTitle>
             <PostContent>{post.content}</PostContent>
           </PostItem>
         ))}

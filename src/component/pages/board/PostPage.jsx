@@ -8,15 +8,15 @@ import { useLocation } from "react-router-dom";
 
 function PostPage() {
   const location = useLocation();
-  const { category } = location.state || {};
+  const { post, category } = location.state || {};
 
   return (
     <PageContainer>
-      <Header title="(닉네임) 님의 게시글" color="#f4b183"actions={
+      <Header title={`${post ? post.nickname : "(닉네임)"} 님의 게시글`} color="#f4b183"actions={
         <DetailActions />
       }/>
       <ContentContainer>
-        <PostContent category={category} />
+        <PostContent post={post} category={category} />
       </ContentContainer>
       <Footer />
     </PageContainer>
