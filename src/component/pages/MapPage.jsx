@@ -37,7 +37,7 @@ function MapPage() {
             api.get("/bookmarks")
             .then((res) => {
                 setBookmarks(res.data)
-                console.log(res.data);
+                //console.log(res.data);
             });
           } else {
             //console.log("게스트")
@@ -48,7 +48,7 @@ function MapPage() {
         api.get("/place/list")
         .then((res) => {
             setPlaces(res.data);
-            console.log(res.data);
+            //console.log(res.data);
         });
         fetchBookmarks();
     }, []);

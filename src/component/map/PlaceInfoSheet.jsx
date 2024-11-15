@@ -9,6 +9,7 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
   const [selectedData, setSelectedData] = useState(null);
   const [rating, setRating] = useState();
   const [placeReviewCnt, setPlaceReviewCnt] = useState();
+  const [imageUrl, setImageUrl] = useState("등록된 사진이 없습니다.");
   const maxStars = 5; // 최대 별 개수
 
   useEffect(() => {
@@ -16,8 +17,11 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
     api.get(`/place/reviewscore/${place_id}`)
     .then((res) => {
       if(res.status === 200) {
-        //console.log(parseFloat(res.data).toFixed(1))
-        setRating(parseFloat(res.data).toFixed(1));
+        console.log(res.data)
+        const { score, imageUrl } = res.data;
+        setRating(parseFloat(score).toFixed(1));
+        //setRating(parseFloat(res.data).toFixed(1));
+        setImageUrl(imageUrl || "등록된 사진이 없습니다.");
       }
     })
     .catch((error) => {
@@ -143,7 +147,12 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
         </AddressContainer>
 
         <PhotoContainer>
-            사진
+          {imageUrl === "등록된 사진이 없습니다." ? (
+            <p>{imageUrl}</p>
+          ) : (
+            // <img src={imageUrl} alt="Place" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <StyledImage src={imageUrl} alt="Place" />
+          )}
         </PhotoContainer>
 
         {/* 모달 컴포넌트 */}
@@ -416,6 +425,16 @@ const ArrivalButton = styled.button`
   cursor: pointer;
 `;
 
+// const PhotoContainer = styled.section`
+//   border-radius: 10px;
+//   background-color: #d9d9d9;
+//   margin-top: 23px;
+//   color: #000;
+//   text-align: center;
+//   letter-spacing: 0.52px;
+//   padding: 94px 70px;
+//   font: 400 17px/25px Roboto, sans-serif;
+// `;
 const PhotoContainer = styled.section`
   border-radius: 10px;
   background-color: #d9d9d9;
@@ -423,9 +442,22 @@ const PhotoContainer = styled.section`
   color: #000;
   text-align: center;
   letter-spacing: 0.52px;
-  padding: 94px 70px;
   font: 400 17px/25px Roboto, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 300px; // Example height, adjust based on your needs
+  overflow: hidden;
 `;
+
+const StyledImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px; // Optional if you want rounded corners for the image
+`;
+
 
 
 export default PlaceInfoSheet;
