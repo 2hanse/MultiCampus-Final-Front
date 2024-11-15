@@ -42,9 +42,8 @@ const ListWrapper = styled.ul`
     display: flex;
     width: 100%;
     flex-direction: column;
-    padding: 40px 0px;
+    padding: 0px 0px;
     list-style-type: none;
-    overflow-y: auto;
     align-items: center;
 `;
 

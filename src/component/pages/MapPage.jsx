@@ -177,7 +177,6 @@ const Main = styled.main`
     flex-direction: column;
     align-items: flex-start;
     width: 430px;
-    min-height: 100vh;
     background: #FFFFFF;
     margin: 0 auto;
     border: 0.5px solid #CAC4D0;
@@ -185,12 +184,11 @@ const Main = styled.main`
 
 const CustomSheet = styled(Sheet)`
     display: flex;
-    position: absolute;
     flex-direction: column;
     align-items: flex-start;
     margin: 0 auto;
     margin-bottom: 102px;
-    max-width: 430px;
+    width: 430px;
     z-index: 5;
 
     /* sheet 라이브러리 css 덮어 쓰려면 !important 끝에 들어가야합니다 */
@@ -201,6 +199,10 @@ const CustomSheet = styled(Sheet)`
         background-color: rgba(0, 0, 0, 0.1) !important;
     }
     .react-modal-sheet-container {
+        display: flex !important;
+        overflow: hidden !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
         background-color: #FFFFFF !important;
         border-radius: 20px 20px 0px 0px !important;
         padding-top: 10px !important;
