@@ -16,6 +16,7 @@ function ChatInvitePage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [checkedUsers, setCheckedUsers] = useState([]);
+  const [roomTitle, setRoomTitle] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -92,7 +93,7 @@ function ChatInvitePage() {
         .filter((user) => user.user_id !== localUserId) // 본인 제외
         .map((user) => user.user_id); // user_id만 추출
 
-      stompClient.send(`/pub/chat/room/create`, {}, JSON.stringify({ roomTitle: '', inviteUsers: inviteUserIds }));
+      stompClient.send(`/pub/chat/room/create`, {}, JSON.stringify({ roomTitle: roomTitle, inviteUsers: inviteUserIds }));
     }
   }
 
@@ -128,11 +129,17 @@ function ChatInvitePage() {
           />
         ))}
 
-        <ButtonGroup>
-          <ActionButton onClick={handleAddUser}>확인</ActionButton>
-          <ActionButton onClick={handleCancel}>취소</ActionButton>
-        </ButtonGroup>
       </InviteContainer>
+      <ButtonGroup>
+        <RoomTitleInput 
+            type="text" 
+            placeholder="대화방 이름 지정"
+            value={roomTitle} 
+            onChange={(e) => setRoomTitle(e.target.value)} 
+          />
+        <ActionButton onClick={handleAddUser}>확인</ActionButton>
+        <ActionButton onClick={handleCancel}>취소</ActionButton>
+      </ButtonGroup>
       <Footer />
     </Main>
   );
@@ -144,8 +151,6 @@ const Main = styled.main`
     flex-direction: column;
     align-items: flex-start;
     width: 430px;
-    max-height: 932px;
-    min-height: 732px;
     background: #ffffff;
     margin: 0 auto;
     border: 0.5px solid #CAC4D0;
@@ -153,14 +158,15 @@ const Main = styled.main`
 
 const InviteContainer = styled.main`
   display: flex;
-  margin-top: 22px;
   width: 100%;
   box-sizing: border-box;
+  height: calc(100vh - 216px - 106px);
   flex-direction: column;
   align-items: center;
   color: #000;
-  padding: 0 28px;
+  padding: 28px;
   font: 400 18px Inter, sans-serif;
+  overflow-y: auto;
 
   &::-webkit-scrollbar {
     display: none;
@@ -204,20 +210,38 @@ const SearchIcon = styled.img`
 
 // 하단 확인 취소
 const ButtonGroup = styled.div`
-  align-self: end;
   display: flex;
-  margin-top: 37px;
-  gap: 15px;
+  padding: 28px;
+  position: sticky;
+  bottom: 0px;
+  width: 100%;
+  gap: 16px;
   font-family: Roboto, sans-serif;
   white-space: nowrap;
   text-align: center;
   line-height: 1;
+  box-sizing: border-box;
+`;
+
+const RoomTitleInput = styled.input`
+  flex: 1;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+  padding: 15px;
+  border: 1px solid #DFA67B;
+  font-size: 16px;
+  outline: none;
+  &::placeholder {
+    color: #96908C;
+  }
 `;
 
 const ActionButton = styled.button`
   border-radius: 10px;
   background: #fff;
-  padding: 16px 30px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+  padding: 16px;
   border: 1px solid #DFA67B;
   cursor: pointer;
   

@@ -71,7 +71,7 @@ const FooterBox = styled.footer`
     transform: translateX(-0.2%);
     width: 430px;
     height: 100px;
-    top: 832px;
+    bottom: 0px;
     background-color: #FFFFFF;
     border: 0.5px solid #CAC4D0;
     z-index: 10;

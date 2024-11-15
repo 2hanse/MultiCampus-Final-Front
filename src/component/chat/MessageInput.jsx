@@ -117,6 +117,8 @@ const ChatInputContainer = styled.form`
   color: #757575;
   padding: 12px 19px;
   font: 400 15px Inter, sans-serif;
+  position: sticky;
+  bottom: 0px;
 `;
 
 const InputField = styled.input`

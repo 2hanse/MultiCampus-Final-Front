@@ -198,7 +198,7 @@ function ChatRoomPage() {
                             displayProfile = true;
                         }
                         return (
-                            <div key={msg.msgId}>
+                            <MessageContainer key={msg.msgId}>
                                 {isFirst && (
                                     <DateContainer>
                                         {dateString}
@@ -215,19 +215,19 @@ function ChatRoomPage() {
                                         {nextDateString}
                                     </DateContainer>
                                 )}
-                            </div>
+                            </MessageContainer>
                         )
                     })
                 ) : (
                     <p>아직 도착한 메시지가 없어요 ㅠ_ㅠ</p>
                 )}
                 <div ref={messagesEndRef} /> {/* 스크롤 이동을 위한 div */}
+                {showScrollToBottom && (
+                    <ScrollToBottomBar onClick={scrollToBottom}>
+                        Scroll to Latest Messages
+                    </ScrollToBottomBar>
+                )}
             </ChatListContainer>
-            {showScrollToBottom && (
-                <ScrollToBottomBar onClick={scrollToBottom}>
-                    Scroll to Latest Messages
-                </ScrollToBottomBar>
-            )}
             <MessageInput roomId={room.roomId} stompClient={stompClient} />
             <Footer />
         </Main>
@@ -240,8 +240,6 @@ const Main = styled.main`
     flex-direction: column;
     align-items: flex-start;
     width: 430px;
-    max-height: 932px;
-    min-height: 732px;
     background: #ffffff;
     margin: 0 auto;
     border: 0.5px solid #CAC4D0;
@@ -255,7 +253,7 @@ const DateContainer = styled.div`
     color: #666;
     font-size: 14px;
     padding: 10px;
-    margin: 10px 0;
+    margin-top: 10px;
     border-radius: 5px;
     width: 100%;
     text-align: center;
@@ -271,18 +269,24 @@ const ScrollToBottomBar = styled.div`
   text-align: center;
   width: 100%;
   box-sizing: border-box;
+  position: sticky;
+  bottom: 0px; /* 부모 컨테이너의 하단에 고정 */
+  margin-top: auto; /* 상단 여백을 자동으로 조정하여 하단에 고정 */
+`;
+
+const MessageContainer = styled.div`
+  padding: 0 28px;
+  margin: 8px 0;
 `;
 
 const ChatListContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 22px;
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - 216px - 65px);
   overflow-y: auto;
   align-items: stretch;
   color: #000;
-  padding: 0 28px;
   font: 400 18px Inter, sans-serif;
   box-sizing: border-box;
   
