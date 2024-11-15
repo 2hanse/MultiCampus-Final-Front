@@ -82,6 +82,12 @@ const ResetPasswordForm = () => {
             oldPassword: nowPassword,
             newPassword: password
         };
+
+        if (password.length <= 8) {
+            alert("비밀번호는 8자리 이상이어야 합니다.");
+            return;
+        }
+        
         if(password === "" || passwordConfirm === "") {
             alert("모두 입력해주세요");
             setPassword("");
