@@ -38,7 +38,6 @@ const Wrapper = styled.div`
     display: flex;
     width: 430px;
     height: 266px;
-    top: 105px;
 `
 
 const Title = styled.h1`

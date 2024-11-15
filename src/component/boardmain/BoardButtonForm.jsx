@@ -43,18 +43,18 @@ const BoardButtonForm = () => {
 }
 
 const Wrapper = styled.div`
-    position: absolute;
     display: flex;
-    flex-direction: column;
+    box-sizing: border-box;
+    flex-direction: center;
     align-items: flex-start;
-    width: 430px;
-    height: 60px;
+    width: 100%;
+    height: 95px;
     margin: auto 0;
     padding: 35px 0px 35px 0px;
 `;
 
 const FoodBoard = styled.img`
-    position: absolute;
+    position: relative;
     width: 60px;
     height: 60px;
     left: 25px;
@@ -64,40 +64,40 @@ const FoodBoard = styled.img`
 `
 
 const TalkBoard = styled.img`
-    position: absolute;
+    position: relative;
     width: 60px;
     height: 60px;
-    left: 105px;
+    left: 45px;
     filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
 
     cursor: pointer;
 `
 
 const TopBoard = styled.img`
-    position: absolute;
+    position: relative;
     width: 60px;
     height: 60px;
-    left: 185px;
+    left: 65px;
     filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
 
     cursor: pointer;
 `
 
 const TravelBoard = styled.img`
-    position: absolute;
+    position: relative;
     width: 60px;
     height: 60px;
-    left: 265px;
+    left: 85px;
     filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
 
     cursor: pointer;
 `
 
 const BookmarkBoard = styled.img`
-    position: absolute;
+    position: relative;
     width: 60px;
     height: 60px;
-    left: 345px;
+    left: 105px;
     filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
 
     cursor: pointer;
