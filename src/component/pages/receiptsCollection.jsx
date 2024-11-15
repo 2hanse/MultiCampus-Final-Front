@@ -71,6 +71,7 @@ const ReceiptGrid = styled.section`
   width: 100%;
   height: calc(100vh - 216px);
   padding: 20px;
+  marginBottom: 100px,
   &::-webkit-scrollbar {
     display: none;
   }
