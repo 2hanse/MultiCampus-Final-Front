@@ -57,11 +57,11 @@ function PhoneIdentification() {
     })
     .then(response => {
       if(response.status === 200) {
-        console.log('인증번호 발송 성공:', response.data);
+        //console.log('인증번호 발송 성공:', response.data);
         setIsVerificationSent(true); // 인증번호 발송 성공 시 입력 필드를 표시하기 위해 상태를 true로 설정
         setPhoneNumMessage('');
       } else {
-        console.log(response.data)
+        //console.log(response.data)
       }
     })
     .catch(error => {
@@ -79,9 +79,9 @@ function PhoneIdentification() {
     })
     .then(response => {
       setTimer(180);
-      console.log('재인증번호 발송 성공:', response.data);
+      //console.log('재인증번호 발송 성공:', response.data);
       setForceUpdate(prev => prev + 1); // 강제 리렌더링을 위한 상태 변경
-      console.log(timer);
+      //console.log(timer);
       setIsVerificationSent(true); // 인증번호 발송 성공 시 입력 필드를 표시하기 위해 상태를 true로 설정
       setPhoneNumMessage('');
       setVerificationCode("");

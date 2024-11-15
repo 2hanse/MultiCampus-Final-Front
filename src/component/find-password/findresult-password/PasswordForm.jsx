@@ -78,9 +78,9 @@ function PasswordForm() {
               alert(response.data);
             }
         } catch (err) {
-            console.log('비밀번호 에러: ', err);
-            alert("에러가 발생했어요 처음으로 돌아갑니다");
-            navigate('/user/findPassword');
+            //console.log('비밀번호 에러: ', err);
+            alert(err);
+            navigate('/user/find-password');
         }
         }
     };

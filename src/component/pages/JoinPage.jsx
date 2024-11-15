@@ -59,42 +59,40 @@ const JoinPage = () => {
   }, [])
 
   // 이메일 중복 확인 함수 추가
-  const checkEmail = useCallback(async (e) => {
+  const checkEmail = useCallback((e) => {
     e.preventDefault();
-    try {
-      const response = await api.post('/users/email-exists', { email: email });
-      if (response.data) {
-        setEmailMessage('이미 사용 중인 이메일입니다.');
-        setIsEmail(false);
-      } else {
+
+    api.post('/users/email-exists', email, {
+      headers: {
+        'Content-Type': 'text/plain'
+      }
+    }).then((res) => {
+      if(res.status === 200) {
         setEmailMessage('사용 가능한 이메일입니다.');
         setIsEmail(true);
-        console.log("확인완료")
       }
-    } catch (error) {
-      console.log('중복 확인 중 오류 발생:', error);
-      setEmailMessage('중복 확인 중 오류가 발생했습니다.');
+    }).catch((err) => {
+      setEmailMessage("이미 사용중인 이메일입니다.");
       setIsEmail(false);
-    }
+    })
   }, [email]);
 
   // 닉네임 중복 확인 함수 추가
-  const checkNickName = useCallback(async (e) => {
+  const checkNickName = useCallback( (e) => {
     e.preventDefault();
-    try {
-      const response = await api.post('/users/nickname-exists', { nickName: nickName });
-      if (response.data) {
-        setNickNameMessage('이미 사용 중인 닉네임입니다.');
-        setIsNickName(false);
-      } else {
+    api.post('/users/nickname-exists', nickName, {
+      headers: {
+        'Content-Type': 'text/plain'
+      }
+    }).then((res) => {
+      if(res.status === 200) {
         setNickNameMessage('사용 가능한 닉네임입니다.');
         setIsNickName(true);
       }
-    } catch (error) {
-      console.log('중복 확인 중 오류 발생:', error);
-      setNickNameMessage('중복 확인 중 오류가 발생했습니다.');
+    }).catch((err) => {
+      setNickNameMessage("이미 사용 중인 닉네임입니다.");
       setIsNickName(false);
-    }
+    })
   }, [nickName]);
 
   // 이메일 유효성 검사
@@ -184,7 +182,7 @@ const JoinPage = () => {
   ];
 
   const handleSelectChange = (event) => {
-    console.log(event.target.value);
+    //console.log(event.target.value);
     setSelectedQuestion(event.target.value);
     setIsOpen(false);
   };
@@ -202,14 +200,14 @@ const JoinPage = () => {
       }
     })
     .then(response => {
-        console.log('인증번호 발송 성공:', response.data);
-        console.log(response.status)
+        //console.log('인증번호 발송 성공:', response.data);
+        //console.log(response.status)
         setIsVerificationSent(true); // 인증번호 발송 성공 시 입력 필드를 표시하기 위해 상태를 true로 설정
         setPhoneNumMessage('');
     })
     .catch(error => {
       alert(error.response.data);
-      console.error('인증번호 발송 실패:', error);
+      //console.error('인증번호 발송 실패:', error);
     });
   };
 
@@ -223,9 +221,9 @@ const JoinPage = () => {
     })
     .then(response => {
       setTimer(180);
-      console.log('재인증번호 발송 성공:', response.data);
+      //console.log('재인증번호 발송 성공:', response.data);
       setForceUpdate(prev => prev + 1); // 강제 리렌더링을 위한 상태 변경
-      console.log(timer);
+      //console.log(timer);
       setIsVerificationSent(true); // 인증번호 발송 성공 시 입력 필드를 표시하기 위해 상태를 true로 설정
       setPhoneNumMessage('');
     })
@@ -285,16 +283,16 @@ const JoinPage = () => {
             verify_code: verificationCode
           })
           .then((res) => {
-            console.log('response:', res);
+            //console.log('response:', res);
             if (res.status === 200) {
-              console.log("회원가입 성공");
+              //console.log("회원가입 성공");
               alert("회원가입 성공!");
               alert("마이 페이지에 가시면 이미지변경이 가능합니다!");
               navigate("/");
             }
           })
       } catch (err) {
-        console.log(err);
+        //console.log(err);
       }
   },
   [email, password, name, nickName, phoneNum, selectedQuestion, answerQuestion, navigate]
@@ -456,6 +454,15 @@ const StyledForm = styled.form`
     font-family: Inter, sans-serif;
     font-weight: 400;
     padding: 0 37px; 
+    overflow-y: scroll;
+    margin-bottom: 80px;
+
+    overflow-y: scroll; /* 스크롤 가능하게 설정 */
+    scrollbar-width: none; /* Firefox에서 스크롤바 숨기기 */
+    -ms-overflow-style: none; /* IE와 Edge에서 스크롤바 숨기기 */
+    &::-webkit-scrollbar {
+      display: none; /* Webkit 기반 브라우저(Chrome, Safari)에서 스크롤바 숨기기 */
+    }
   }
 
   .form-title {

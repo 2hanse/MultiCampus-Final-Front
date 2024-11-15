@@ -84,17 +84,19 @@ const ResetPasswordForm = () => {
         };
         if(password === "" || passwordConfirm === "") {
             alert("모두 입력해주세요");
+            setPassword("");
+            setPasswordConfirm("");
         } else {
-        try {
-            const response = await api.put("/users/me/change-password", newPwd);
-            if (response.status === 200) {
-                //console.log('새 비밀번호: ' + response.data.new_password); 
-                navigate('/user/me/changePasswordResult');
+            try {
+                const response = await api.put("/users/me/change-password", newPwd);
+                if (response.status === 200) {
+                    //console.log('새 비밀번호: ' + response.data.new_password); 
+                    navigate('/user/me/changePasswordResult');
+                }
+            } catch (err) {
+                console.log('비밀번호 에러: ', err);
+                alert(err);
             }
-        } catch (err) {
-            console.log('비밀번호 에러: ', err);
-            alert(err);
-        }
         }
     };
 

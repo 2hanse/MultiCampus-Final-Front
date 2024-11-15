@@ -5,8 +5,58 @@ import api from "../api/axios";
 import { getUserIdFromToken } from "../api/jwt";
 
 const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedData, setSelectedData] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedData, setSelectedData] = useState(null);
+  const [rating, setRating] = useState();
+  const [placeReviewCnt, setPlaceReviewCnt] = useState();
+  const [imageUrl, setImageUrl] = useState("등록된 사진이 없습니다.");
+  const maxStars = 5; // 최대 별 개수
+
+  useEffect(() => {
+    //console.log(place_id)
+    api.get(`/place/reviewscore/${place_id}`)
+    .then((res) => {
+      if(res.status === 200) {
+        console.log(res.data)
+        const { score, imageUrl } = res.data;
+        setRating(parseFloat(score).toFixed(1));
+        //setRating(parseFloat(res.data).toFixed(1));
+        setImageUrl(imageUrl || "등록된 사진이 없습니다.");
+      }
+    })
+    .catch((error) => {
+      console.error("Request failed:", error.response ? error.response.data : error.message);
+    });
+  },[]);
+
+  useEffect(() => {
+    api.get(`/place/reviews_count/${place_id}`)
+    .then((res) => {
+      //console.log(`장소 후기 개수 : ${res.data}`);
+      setPlaceReviewCnt(res.data);
+    })
+    .catch((err) => {
+      console.error(err.response.data)
+    })
+  },[]);
+
+    // 별점 배열 생성 (가득 찬 별, 반 별 및 빈 별을 표시)
+  const generateStars = () => {
+    const stars = [];
+    for (let i = 1; i <= maxStars; i++) {
+      if (i <= Math.floor(rating)) {
+        // 가득 찬 별
+        stars.push(<RatingStar key={i} filled />);
+      } else if (i - rating <= 0.5) {
+        // 반 별
+        stars.push(<RatingStar key={i} half />);
+      } else {
+        // 빈 별
+        stars.push(<RatingStar key={i} />);
+      }
+    }
+    return stars;
+  };
 
     const handleIconClick = (placeTele) => {
         setSelectedData(placeTele); // 클릭된 데이터를 저장
@@ -26,10 +76,9 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
         api.get("/bookmarks")
         .then((res) => {
             setBookmarkList(res.data);
-            console.log(res.data);
+            //console.log(res.data);
         });
       }
-
     }, []);
 
     const handleIconClick2 = () => {
@@ -49,13 +98,19 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
         }
         if (getUserIdFromToken()) {
           api.post('/bookmarks/place', data)
-              .then((response) => {
-                  alert(response.data);
-                  console.log('북마크가 저장되었습니다:', response.data);
+              .then((res) => {
+                  alert("북마크가 저장되었습니다");
+                  // console.log('북마크가 저장되었습니다:', res.data);
                   // 필요시 추가 로직 처리
               })
               .catch((error) => {
-                  console.error('북마크 저장 중 오류 발생:', error);
+                  // console.error('북마크 저장 중 오류 발생:', error);
+                  if(error.status === 409){
+                    alert("이미 저장되어 있습니다")
+                  } else {
+                    alert(error);
+                  }
+                  
               });
         }
     };
@@ -67,10 +122,10 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
         </Header>
 
         <RatingContainer>
-            <Rating>3.5</Rating>
-            <StarIcon loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/913ddbb0684382d7d3632785d1938942c53fdd309cd226829d6c3139502f82fb?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" alt="Rating star" />
-            <ReviewCount>후기 N</ReviewCount>
-            <ArrowIcon loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/76ac410de088f9ebb3f69908cec6437dacd93967deb82a0af6ee25fa4c0b0f4b?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" alt="Arrow icon" />
+          <Rating>{rating}</Rating>
+          <StarWrapper>{generateStars()}</StarWrapper>
+          <ReviewCount>후기 {placeReviewCnt}</ReviewCount>
+          {/* <ArrowIcon loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/76ac410de088f9ebb3f69908cec6437dacd93967deb82a0af6ee25fa4c0b0f4b?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" alt="Arrow icon" /> */}
         </RatingContainer>
 
         <AddressContainer>
@@ -89,11 +144,15 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
                         onClick={() => handleIconClick2()} />
             </IconContainer>
             </AddressInfo>
-            <ArrivalButton>도착</ArrivalButton>
         </AddressContainer>
 
         <PhotoContainer>
-            사진
+          {imageUrl === "등록된 사진이 없습니다." ? (
+            <p>{imageUrl}</p>
+          ) : (
+            // <img src={imageUrl} alt="Place" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <StyledImage src={imageUrl} alt="Place" />
+          )}
         </PhotoContainer>
 
         {/* 모달 컴포넌트 */}
@@ -160,7 +219,7 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
                         transform: 'translate(-50%, -50%)', // 중앙에 배치
                         padding: '20px',
                         borderRadius: '8px',
-                        width: '350px',
+                        width: '300px',
                         height: '500px',
                         maxWidth: '90%',
                         display: 'flex',
@@ -180,7 +239,7 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
                             <BookmarkBox  key={index} 
                                 onClick={() => handleBookmarkClick(bookmark)}
                                 >
-                                {bookmark || `북마크 ${index + 1}`}
+                                {bookmark.bookmark_title || `북마크 ${index + 1}`}
                             </BookmarkBox> // 예시로 name 속성 사용
                         ))
                     ) : (
@@ -216,6 +275,10 @@ const BookmarkListContainer = styled.div`
   margin: 0;
   max-width: 600px;
   margin: auto; /* 가운데 정렬 */
+
+  h2 {
+    margin-bottom: 20px;
+  }
 `;
 
 // Styled-components for styling
@@ -227,12 +290,13 @@ const SmallModalContent = styled.div`
 
 const CloseButton = styled.button`
     margin-top: 10px;
-    padding: 5px 10px;
+    padding: 10px 10px;
     border: none;
     border-radius: 5px;
     background-color: #ed6000;
     color: white;
     cursor: pointer;
+    font-size: 16px;
 
     &:hover {
         background-color: #d45500;
@@ -264,13 +328,9 @@ const RestaurantName = styled.h1`
 `;
 
 const RatingContainer = styled.section`
-  align-self: flex-start;
   display: flex;
-  margin-top: 10px;
+  align-items: center;
   gap: 8px;
-  font-family: Roboto, sans-serif;
-  font-weight: 400;
-  line-height: 1.5;
 `;
 
 const Rating = styled.span`
@@ -280,13 +340,24 @@ const Rating = styled.span`
   margin: auto 0;
 `;
 
-const StarIcon = styled.img`
-  aspect-ratio: 5.29;
-  object-fit: contain;
-  object-position: center;
-  width: 106px;
-  border-radius: 1px;
-  max-width: 100%;
+const StarWrapper = styled.div`
+  display: flex;
+  gap: 4px;
+  margin-top: 3px;
+`;
+
+const RatingStar = styled.div`
+  width: 20px;
+  height: 20px;
+  clip-path: polygon(
+    50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 
+    50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%
+  ); /* 별 모양을 만듭니다 */
+  background: ${(props) => 
+    props.filled ? '#ed6000' : 
+    props.half ? 'linear-gradient(to right, #ed6000 50%, #d9d9d9 50%)' : 
+    '#d9d9d9'};
+  /* 가득 차면 orange, 반은 반만 색칠된 그라데이션, 빈 별은 회색 */
 `;
 
 const ReviewCount = styled.span`
@@ -301,7 +372,8 @@ const ArrowIcon = styled.img`
   object-position: center;
   width: 7px;
   align-self: flex-start;
-  margin-top: 6px;
+  margin-top: 9px;
+  cursor: pointer;
 `;
 
 const AddressContainer = styled.section`
@@ -353,6 +425,16 @@ const ArrivalButton = styled.button`
   cursor: pointer;
 `;
 
+// const PhotoContainer = styled.section`
+//   border-radius: 10px;
+//   background-color: #d9d9d9;
+//   margin-top: 23px;
+//   color: #000;
+//   text-align: center;
+//   letter-spacing: 0.52px;
+//   padding: 94px 70px;
+//   font: 400 17px/25px Roboto, sans-serif;
+// `;
 const PhotoContainer = styled.section`
   border-radius: 10px;
   background-color: #d9d9d9;
@@ -360,9 +442,22 @@ const PhotoContainer = styled.section`
   color: #000;
   text-align: center;
   letter-spacing: 0.52px;
-  padding: 94px 70px;
   font: 400 17px/25px Roboto, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 300px; // Example height, adjust based on your needs
+  overflow: hidden;
 `;
+
+const StyledImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px; // Optional if you want rounded corners for the image
+`;
+
 
 
 export default PlaceInfoSheet;
