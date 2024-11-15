@@ -84,9 +84,7 @@ function ReviewHistory() {
   return (
     <>
       <main className="review-history-page">
-        <Header color="#fff4d2" title="남긴 리뷰" actions={
-          <SearchActions/>
-        }/>
+        <Header color="#fff4d2" title="남긴 리뷰" actions={<SearchActions />} />
 
         <section className="sort-section">
           <button className="filter-button">
@@ -121,8 +119,6 @@ function ReviewHistory() {
           flex-direction: column;
           align-items: flex-start;
           width: 430px;
-          max-height: 932px;
-          min-height: 732px;
           background: #ffffff;
           margin: 0 auto;
           border: 0.5px solid #CAC4D0;
@@ -151,6 +147,19 @@ function ReviewHistory() {
         .review-list {
           width: 100%;
           max-width: 395px;
+          height: calc(100vh - 216px);  /* 화면 높이에 맞춰 계산된 높이 */
+          padding: 20px;
+          box-sizing: border-box;
+          overflow-y: auto;  /* 세로 스크롤 추가 */
+        }
+
+        .review-list::-webkit-scrollbar {
+          display: none;  /* 스크롤바 숨기기 */
+        }
+
+        .review-list {
+          -ms-overflow-style: none;  /* IE 및 Edge */
+          scrollbar-width: none;  /* Firefox */
         }
 
         .review-item {

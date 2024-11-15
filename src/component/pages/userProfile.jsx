@@ -12,70 +12,13 @@ import BookmarkConfirmationModal from '../ProfilePage/BookmarkConfirmationModal'
 import Header from '../layout/header/Header';
 import AlaramActions from '../ProfilePage/AlaramAction';
 
-const styles = {
-  userProfile: {
-    display: 'flex',
-    overflow: 'hidden',
-    flexDirection: 'column',
-    alignItems:'flex-stat',
-    width:'430px',
-    maxHeight:'932px',
-    minHeight:'732px',
-    backgroundColor: '#fff4d2',
-    margin: '0 auto',
-    border: '0.5px solid #CAC4D0',
-  },
-  
-  
-  statusMessage: {
-    marginTop: '25px',
-    alignSelf: 'flex-start',
-    padding: '0 28px',
-  },
-  
-  followButton: {
-    borderRadius: '5px',
-    backgroundColor: 'skyblue',
-    boxShadow: '1px 1px 4px rgba(0, 0, 0, 0.25)',
-    padding: '9px 36px',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '4px',
-    border: 'none',
-    cursor: 'pointer',
-  },
-  followIcon: {
-    width: '20px',
-    height: '20px',
-    objectFit: 'contain',
-  },
-  
-
-  title: {
-    color: '#1d1b20',
-    letterSpacing: '0.5px',
-    font: '16px/24px Roboto, sans-serif',
-    margin: '4px 0',
-  },
-  content: {
-    color: '#49454f',
-    letterSpacing: '0.25px',
-    font: '14px/20px Roboto, sans-serif',
-    margin: '0',
-  },
-};
-
-
-
-
+// styled-components 추가
+import styled from 'styled-components'; // 이 부분을 추가해주세요
 
 const UserProfile = () => {
-  useEffect(() => {
-    
-  }, []);
-  
   const { followed_uid } = useParams();
   console.log(followed_uid);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUnfollowModalOpen, setIsUnfollowModalOpen] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
@@ -118,9 +61,8 @@ const UserProfile = () => {
   };
 
   return (
-    <div style={styles.userProfile}>
-      <Header color='#fff4d2' title="닉네임" actions={<AlaramActions/>
-    }/>
+    <Main>
+      <Header color='#fff4d2' title="닉네임" actions={<AlaramActions />} />
       <ProfileStats />
       <p style={styles.statusMessage}>상태 메시지</p>
       <ProfileActions
@@ -138,9 +80,32 @@ const UserProfile = () => {
       {/* 북마크 모달 */}
       {isBookmarkModalOpen && <BookmarkConfirmationModal nickname="닉네임" closeModal={closeBookmarkModal} />}
       <Footer />
-    </div>
+    </Main>
   );
 };
 
+// 스타일 정의
+const Main = styled.main`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 430px;
+  background: #fff4d2;
+  margin: 0 auto;
+  border: 0.5px solid #CAC4D0;
+  overflow: hidden;
+`;
+
+const styles = {
+  statusMessage: {
+    marginTop: '25px',
+    alignSelf: 'flex-start',
+    padding: '0 28px',
+    color: '#49454f',
+    fontSize: '14px',
+    letterSpacing: '0.25px',
+    fontFamily: 'Roboto, sans-serif',
+  },
+};
 
 export default UserProfile;

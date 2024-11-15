@@ -32,13 +32,6 @@ const ButtonIcon = styled.img`
   height: 24px;
 `;
 
-const ProfileImage = styled.img`
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-`;
-
 const MenuButton = styled.button`
   background: none;
   border: none;
@@ -50,11 +43,12 @@ function MypageActions() {
   const navigate = useNavigate();
 
   const handleMenuButtonClick = () => {
-    navigate("/");  // 메뉴 버튼 클릭 시 memberinfo 페이지로 이동
+    navigate("/homepage");  // 메뉴 버튼 클릭 시 memberinfo 페이지로 이동
   };
 
   return (
     <ActionsWrapper>
+      {/* 프로필 이미지 */}
       <ActionButtons>
         {/* 메뉴 버튼 */}
         <MenuButton aria-label="Open menu" onClick={handleMenuButtonClick}>
