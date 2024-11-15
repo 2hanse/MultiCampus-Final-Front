@@ -52,7 +52,7 @@ const HeaderBox = styled.header`
     height: 187px;
     left: 50%;
     top: 0px;
-    background-color: #FFFFFF;
+    background-color: #FFF4D2;
     border: 0.5px solid #CAC4D0;
     z-index: 100;
 `
