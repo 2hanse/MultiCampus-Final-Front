@@ -32,17 +32,18 @@ const BookmarkList = (props) => {
                 <Icon src={Edit} alt="Edit" />
                 편집하기
             </EditBtn>
-            <GroupList  bookmarks={sortedBookmarks.length ? sortedBookmarks : props.bookmarks} 
+            <GroupListContainer>
+                <GroupList  bookmarks={sortedBookmarks.length ? sortedBookmarks : props.bookmarks} 
                         fetchBookmarks={props.fetchBookmarks} />
+            </GroupListContainer>
         </Wrapper>
     );
 };
 
 const Wrapper = styled.div`
     display: flex;
-    position: absolute;
     width: 390px;
-    height: 610px;
+    overflow: hidden;
     flex-direction: column;
     align-items: flex-start;
     margin: 0 auto;
@@ -113,6 +114,20 @@ const CreateBtn = styled.button`
 const CreateImg = styled.img`
     width: 20px;
     height: 20px;
+`
+
+const GroupListContainer = styled.div`
+    width: 100%;
+    height: calc(100vh - 142px);
+    margin-top: 40px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 `
 
 export default BookmarkList;
