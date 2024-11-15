@@ -227,8 +227,8 @@ function ChatRoomPage() {
                         Scroll to Latest Messages
                     </ScrollToBottomBar>
                 )}
-                <MessageInput roomId={room.roomId} stompClient={stompClient} />
             </ChatListContainer>
+            <MessageInput roomId={room.roomId} stompClient={stompClient} />
             <Footer />
         </Main>
     );
@@ -270,7 +270,7 @@ const ScrollToBottomBar = styled.div`
   width: 100%;
   box-sizing: border-box;
   position: sticky;
-  bottom: 65px; /* 부모 컨테이너의 하단에 고정 */
+  bottom: 0px; /* 부모 컨테이너의 하단에 고정 */
   margin-top: auto; /* 상단 여백을 자동으로 조정하여 하단에 고정 */
 `;
 
@@ -283,7 +283,7 @@ const ChatListContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: calc(100vh - 216px);
+  height: calc(100vh - 216px - 65px);
   overflow-y: auto;
   align-items: stretch;
   color: #000;
