@@ -12,15 +12,22 @@ const styles = {
     backgroundColor: "#fff4d2",
     display: "flex",
     maxWidth: "430px",
-    maxHeight: "832px",
-    flexDirection: "column",
+    flexDirection: "column", // flexDirection은 한 번만 설정
     margin: "0 auto",
+    overflow: "hidden",
+    alignItems: "flex-start", // 'flexstart'는 'flex-start'로 수정
   },
   profileContent: {
-    flex: 1,
+    width: "100%",
+    height: "calc(100vh - 216px)",
+    // padding: "20px",
+    boxSizing: "border-box",
     overflowY: "auto",
-    scrollbarWidth: "none",  // Firefox에서 스크롤바 숨기기
-    msOverflowStyle: "none",  // Internet Explorer에서 스크롤바 숨기기
+    "&::-webkit-scrollbar": {
+      display: "none", // 웹킷 기반 브라우저에서 스크롤바 숨기기
+    },
+    msOverflowStyle: "none",  // IE 및 Edge에서 스크롤바 숨기기
+    scrollbarWidth: "none",   // Firefox에서 스크롤바 숨기기
   },
   titleWrapper: {
     display: "flex",
