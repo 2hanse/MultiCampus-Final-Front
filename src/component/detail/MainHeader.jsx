@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import avatar from "./asset/avatar.png";
 import chatIcon from "./asset/chat.png";
@@ -6,10 +6,31 @@ import followIcon from "./asset/follow.png";
 import likeIcon from "./asset/like_button.png";
 import { useNavigate } from "react-router-dom";
 
-function MainHeader() {
+function MainHeader({ category }) {
   const [likeCount, setLikeCount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [boardtype, setBoardtype] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    switch (category) {
+      case "restaurant":
+        setBoardtype("식당");
+        break;
+      case "free":
+        setBoardtype("자유");
+        break;
+      case "top":
+        setBoardtype("상위");
+        break;
+      case "tour":
+        setBoardtype("맛집 투어");
+        break;
+      default:
+        setBoardtype("기타");
+        break;
+    }
+  }, [category]);
 
   const authorInfoArray = [
     {
@@ -45,13 +66,13 @@ function MainHeader() {
   return (
     <MainHeaderContainer>
       <HeaderTop>
-        <BoardName>OO 게시판</BoardName>
+        <BoardName>{boardtype} 게시판</BoardName>
         <LikeSection>
           <LikeIcon src={likeIcon} alt="Like" onClick={handleLikeClick} />
           <LikeCount>{likeCount}</LikeCount>
         </LikeSection>
       </HeaderTop>
-      <PostTitle>게시글 제목</PostTitle>
+      <PostTitle>제목</PostTitle>
       {/* 게시글 작성자 정보 표시 */}
     {authorInfoArray.map((author) => (
       <AuthorInfo key={author.id}>
@@ -84,7 +105,7 @@ function MainHeader() {
 }
 
 const MainHeaderContainer = styled.div`
-  margin-top: 120px;
+  margin-top: 20px;
   position: relative;
   padding: 0 16px;
 `;
@@ -186,7 +207,8 @@ const ModalOverlay = styled.div`
   left: 50%;
   transform: translateX(-50%); // 화면 중앙으로 이동
   width: 430px; // 화면의 너비에 맞춤
-  height: 932px; // 화면의 높이에 맞춤
+  height: auto;
+  min-height: 100vh;
   background: rgba(0, 0, 0, 0.5); // 반투명 배경
   display: flex;
   align-items: center;

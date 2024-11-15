@@ -47,7 +47,7 @@ const CommentInputWrapper = styled.form`
   width: 432px;
   height: 63px;
   align-items: center;
-  top: 770px; /* 푸터 위에 위치 */
+  bottom: 100px;
   background-color: #FFF2CC;
   justify-content: space-between;
   border: 0.5px solid #CAC4D0;

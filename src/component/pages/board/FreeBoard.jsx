@@ -9,16 +9,15 @@ import BoardActions from "../../layout/board/BoardActions";
 
 function RestaurantBoard() {  
   const [selectedSort, setSelectedSort] = useState("등록 순");
-  const category = "restaurant";
 
   return (
     <BoardContainer>
-      <Header title="식당 게시판" color="#f4b183" actions={
+      <Header title="자유 게시판" color="#f4b183" actions={
         <BoardActions />
       }/>
       <MainContent>
         <MainHeader onSortChange={setSelectedSort} />
-        <PostList selectedSort={selectedSort} category={category} />
+        <PostList selectedSort={selectedSort} category="free" />
       </MainContent>
       <CreatePostButton />
       <Footer />

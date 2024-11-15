@@ -33,6 +33,7 @@ import SubscriptionFeed from './component/pages/subscribe';
 import AlertPage from './component/pages/AlertPage';
 import RestaurantBoard from './component/pages/board/RestaurantBoard';
 import PostPage from './component/pages/board/PostPage';
+import BoardSidebar from './component/pages/board/BoardSidebarPage';
 
 function App() {
   return (
@@ -103,6 +104,7 @@ function App() {
         />
         <Route path="/board/RestaurantBoard" element={<RestaurantBoard />} />
         <Route path="/board/PostPage" element={<PostPage />} />
+        <Route path="/board/Sidebar" element={<BoardSidebar />} />
       </Routes>
     </BrowserRouter>
   );

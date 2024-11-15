@@ -1,16 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import CategoryTabs from "./CategoryTabs"; // 기존 CategoryTabs import
-import HotPost from "./HotPost"; // 기존 HotPost import
-import Sort from "./Sort"; // 기존 Sort import
+import HotPost from "./HotPost"; 
+import Sort from "./Sort"; 
 
-function MainHeader() {
+function MainHeader({ onSortChange }) {
   return (
     <MainHeaderContainer>
-      <CategoryTabs />
       <HotPost />
       <SortContainer>
-        <Sort />
+        <Sort onSortChange={onSortChange} />
       </SortContainer>
     </MainHeaderContainer>
   );

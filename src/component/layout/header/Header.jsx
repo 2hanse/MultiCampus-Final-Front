@@ -16,6 +16,7 @@ const HeaderWrapper = styled.div`
 `;
 
 const BackButton = styled.img`
+  cursor: pointer;
   aspect-ratio: 1;
   object-fit: contain;
   object-position: center;

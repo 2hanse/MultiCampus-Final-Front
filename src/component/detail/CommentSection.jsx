@@ -22,7 +22,8 @@ function CommentSection({ comments }) { // props로 comments 받음
 const CommentSectionContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
+  margin-top: 0px;
+  padding: 0;
 `;
 
 export default CommentSection;
