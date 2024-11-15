@@ -47,8 +47,6 @@ const Wrapper = styled.div`
     flex-direction: column;
     align-items: flex-start;
     margin: 0 auto;
-
-    background-color: grey;
 `
 
 const GroupCount = styled.h1`
@@ -130,8 +128,6 @@ const GroupListContainer = styled.div`
 
     -ms-overflow-style: none;
     scrollbar-width: none;
-
-    background-color: red;
 `
 
 export default BookmarkList;
