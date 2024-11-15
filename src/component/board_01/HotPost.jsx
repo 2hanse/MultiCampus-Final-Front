@@ -34,7 +34,7 @@ const HotPostContainer = styled.section`
   background-color: #ffd966;
   border-radius: 15px;
   padding: 0 10px;
-  margin: 5px auto; // 위아래 간격을 줄여 중앙 정렬
+  margin: 20px auto 5px auto;
   gap: 10px;
 `;
 

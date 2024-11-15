@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import api from "../api/axios";
 
 const examplePosts = [
   { time: "2023-11-12", nickname: "User1", grade: "Gold", title: "첫 번째 게시글", content: "이것은 첫 번째 게시글의 내용입니다." },
@@ -15,10 +16,33 @@ const examplePosts = [
   { time: "2023-11-03", nickname: "User10", grade: "Diamond", title: "열 번째 게시글", content: "열 번째 게시글의 내용입니다." }
 ];
 
-function PostList() {
+function PostList ({ selectedSort, category }) {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 4;
+  const postsPerPage = 6;
+  const [posts, setPosts] = useState(examplePosts);
+  const [postlist, setpostlist] = useState([]);
+
+  useEffect(() => {
+    api.get(`/boards/list/${category}/0`)
+    .then((res) => {
+      console.log(res.data);
+      setpostlist(res.data);
+      console.log(postlist);
+    });
+  }, []);
+
+  useEffect(() => {
+    let sortedPosts = [...posts];
+    if (selectedSort === '등록 순') {
+      sortedPosts.sort((a, b) => new Date(b.time) - new Date(a.time));
+    } else if (selectedSort === '좋아요 순') {
+      sortedPosts.sort((a, b) => b.likes - a.likes || new Date(b.time) - new Date(a.time));
+    } else if (selectedSort === '조회수 순') {
+      sortedPosts.sort((a, b) => b.views - a.views || new Date(b.time) - new Date(a.time));
+    }
+    setPosts(sortedPosts);
+  }, [selectedSort]);
 
   // 계산된 페이지 수
   const totalPages = Math.ceil(examplePosts.length / postsPerPage);
@@ -29,8 +53,8 @@ function PostList() {
     currentPage * postsPerPage
   );
 
-  const handleTitleClick = (index) => {
-    navigate("/board/PostPage");
+  const handleTitleClick = (category) => {
+    navigate("/board/PostPage", { state: { category } });
   };
 
   const handlePageChange = (pageNumber) => {
@@ -45,7 +69,7 @@ function PostList() {
             <PostMeta>
               {post.time} | {post.nickname} ({post.grade}) | 조회수: {post.views || 0}
             </PostMeta>
-            <PostTitle onClick={() => handleTitleClick(index)}>{post.title}</PostTitle>
+            <PostTitle onClick={() => handleTitleClick(category)}>{post.title}</PostTitle>
             <PostContent>{post.content}</PostContent>
           </PostItem>
         ))}
@@ -68,14 +92,22 @@ function PostList() {
 const PostListContainer = styled.main`
   display: flex;
   flex-direction: column;
-  width: 430px; // 화면 너비에 맞춤
-  max-width: 430px; // 최대 너비 설정
-  margin: 0 auto;
+  width: 430px;
+  max-width: 430px;
   position: relative;
-  top: 120px; // MainHeader의 높이만큼 아래로 이동
-  height: calc(932px - 120px - 80px);
+  height: auto;
+  max-height: calc(100vh - 335px);;
   box-sizing: border-box;
-  overflow: hidden;
+  margin-bottom: 100px;
+  padding: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  -ms-overflow-style: none;  /* IE 및 Edge */
+  scrollbar-width: none;  /* Firefox */
 `;
 
 const ScrollableContent = styled.div`
@@ -129,9 +161,10 @@ const PageButton = styled.button`
   border: 1px solid #ED6000;
   border-radius: 4px;
   cursor: pointer;
+  bottom: 160px
 
   &:hover {
-    background-color: #ED6000;
+    background-color: #F4B183;
     color: #ffffff;
   }
 `;

@@ -2,13 +2,14 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import dropdownicon from "./asset/drop_down .png";
 
-function Sort() {
-  const [selectedSort, setSelectedSort] = useState("등록 순"); // 상태 추가
+function Sort({ onSortChange }) {
+  const [selectedSort, setSelectedSort] = useState("등록 순");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   const handleSortChange = (sortType) => {
     setSelectedSort(sortType);
+    onSortChange(sortType);
     setIsDropdownOpen(false);
   };
 
