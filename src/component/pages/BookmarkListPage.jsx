@@ -51,6 +51,21 @@ function BookmarkListPage() {
         fetchSubscriberCount();
     }, [bookmark_id]);
 
+    // 정렬 함수
+    const sortByName = () => {
+        const sortedData = [...placeList].sort((a, b) => a.place_info.placeName.localeCompare(b.place_info.placeName, "ko"));
+        setPlaceList(sortedData);
+    };
+
+    const resetToOriginal = async () => {
+        try {
+            const response = await api.get(`/bookmarks/place/${bookmark_id}`);
+            setPlaceList(response.data);
+        } catch (error) {
+            console.error("Error resetting to original order: ", error);
+        }
+    };
+
     return (
         <Main>
             <BookmarkListHeader
@@ -59,6 +74,7 @@ function BookmarkListPage() {
                 subscriber={subscriber}
                 visibility={visibility}
                 placeCount={placeList.length}
+                onSortOptionSelect={(option) => option === "이름순" ? sortByName() : resetToOriginal()}
             />
             <ContentWrapper>
                 <ListWrapper>

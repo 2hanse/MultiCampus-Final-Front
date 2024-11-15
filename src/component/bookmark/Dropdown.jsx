@@ -15,17 +15,17 @@ const Dropdown = ({ onSelect }) => {
     };
 
     return (
-    <DropdownContainer>
-        <DropdownButton onClick={toggleDropdown}>
-            {selectedOption}
-            <Icon src={dropdown} alt="Dropdown arrow" />
-        </DropdownButton>
-            {isOpen && (
-                <DropdownList>
-                    <DropdownItem onClick={() => handleOptionClick('등록순')}>등록순</DropdownItem>
-                    <DropdownItem onClick={() => handleOptionClick('이름순')}>이름순</DropdownItem>
-                </DropdownList>
-            )}
+        <DropdownContainer>
+            <DropdownButton onClick={toggleDropdown}>
+                {selectedOption}
+                <Icon src={dropdown} alt="Dropdown arrow" />
+            </DropdownButton>
+                {isOpen && (
+                    <DropdownList>
+                        <DropdownItem onClick={() => handleOptionClick('등록순')}>등록순</DropdownItem>
+                        <DropdownItem onClick={() => handleOptionClick('이름순')}>이름순</DropdownItem>
+                    </DropdownList>
+                )}
         </DropdownContainer>
     );
 };

@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Dropdown from "./Dropdown";
 
-function BookmarkListHeader({ bookmarkTitle, viewCount, subscriber, visibility, placeCount }) {
+function BookmarkListHeader({ bookmarkTitle, viewCount, subscriber, visibility, placeCount, onSortOptionSelect }) {
   const navigate = useNavigate();
 
   return (
@@ -17,7 +17,7 @@ function BookmarkListHeader({ bookmarkTitle, viewCount, subscriber, visibility, 
         <BookmarkTitle>{bookmarkTitle || "Loading..."}</BookmarkTitle>
         <BookmarkStats>구독&nbsp;<ColoredText>{subscriber}</ColoredText>&nbsp;| 조회&nbsp;<ColoredText>{viewCount || "-"}</ColoredText>&nbsp;|&nbsp;<ColoredText>{visibility ? "비공개" : "공개"}</ColoredText></BookmarkStats>
         <TotalCount>전체&nbsp;<ColoredText>{placeCount}</ColoredText></TotalCount>
-        <Dropdown />
+        <Dropdown onSelect={onSortOptionSelect} />
     </BookmarkContainer>
   );
 }
