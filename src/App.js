@@ -32,9 +32,9 @@ import CommentHistory from './component/pages/commentHistory';
 import SubscriptionFeed from './component/pages/subscribe';
 import AlertPage from './component/pages/AlertPage';
 import RestaurantBoard from './component/pages/board/RestaurantBoard';
-import FreetBoard from './component/pages/board/FreeBoard';
+import FreeBoard from './component/pages/board/FreeBoard';
 import TopBoard from './component/pages/board/TopBoard';
-import TourBoard from './component/pages/board/Touroard';
+import TourBoard from './component/pages/board/TourBoard';
 import PostPage from './component/pages/board/PostPage';
 import BoardSidebar from './component/pages/board/BoardSidebarPage';
 
