@@ -129,17 +129,17 @@ function ChatInvitePage() {
           />
         ))}
 
-        <ButtonGroup>
-          <RoomTitleInput 
-              type="text" 
-              placeholder="대화방 이름 지정"
-              value={roomTitle} 
-              onChange={(e) => setRoomTitle(e.target.value)} 
-            />
-          <ActionButton onClick={handleAddUser}>확인</ActionButton>
-          <ActionButton onClick={handleCancel}>취소</ActionButton>
-        </ButtonGroup>
       </InviteContainer>
+      <ButtonGroup>
+        <RoomTitleInput 
+            type="text" 
+            placeholder="대화방 이름 지정"
+            value={roomTitle} 
+            onChange={(e) => setRoomTitle(e.target.value)} 
+          />
+        <ActionButton onClick={handleAddUser}>확인</ActionButton>
+        <ActionButton onClick={handleCancel}>취소</ActionButton>
+      </ButtonGroup>
       <Footer />
     </Main>
   );
@@ -160,7 +160,7 @@ const InviteContainer = styled.main`
   display: flex;
   width: 100%;
   box-sizing: border-box;
-  height: calc(100vh - 216px);
+  height: calc(100vh - 216px - 106px);
   flex-direction: column;
   align-items: center;
   color: #000;
@@ -210,22 +210,27 @@ const SearchIcon = styled.img`
 
 // 하단 확인 취소
 const ButtonGroup = styled.div`
-  gap: 15px;
+  display: flex;
+  padding: 28px;
+  position: sticky;
+  bottom: 0px;
+  width: 100%;
+  gap: 16px;
   font-family: Roboto, sans-serif;
   white-space: nowrap;
   text-align: center;
   line-height: 1;
-  z-index: 10;
+  box-sizing: border-box;
 `;
 
 const RoomTitleInput = styled.input`
+  flex: 1;
   border-radius: 10px;
   background: #fff;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
   padding: 15px;
   border: 1px solid #DFA67B;
   font-size: 16px;
-  flex: 1;
   outline: none;
   &::placeholder {
     color: #96908C;
@@ -236,7 +241,7 @@ const ActionButton = styled.button`
   border-radius: 10px;
   background: #fff;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-  padding: 16px 30px;
+  padding: 16px;
   border: 1px solid #DFA67B;
   cursor: pointer;
   
