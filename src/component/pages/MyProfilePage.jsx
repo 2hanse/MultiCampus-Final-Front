@@ -6,6 +6,7 @@ import MembershipInfoModal from '../ProfilePage/MembershipInfoModal';
 import LogoutModal from '../ProfilePage/LogoutModal';
 import api from '../api/axios';
 import MypageActions from '../ProfilePage/MypageAction';
+import {getUserIdFromToken} from '../api/jwt'; // userid
 
 const styles = {
   profilePage: {
@@ -212,7 +213,33 @@ const styles = {
 };
 
 function MyProfilePage() {
+
+  const user_id = getUserIdFromToken(); // 백엔드
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+
+  useEffect(() => {
+    getUserInfo();  // getUserInfo 정보를 자동 호출.
+  }, []);           // [] : 마운트될때 실행하라는 의미. (의존성 배열)
+
+   const [nickname,setNickname] = useState("닉네임");
+   const [member_score,setMember_score] = useState(0);
+   const [image, setImage] = useState("https://cdn.builder.io/api/v1/image/assets/TEMP/17c70c46cd6bb71b05cd93581bc2d83c1e7bb0955516a7b4f5baa99723121b6b?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4");
+
+  const getUserInfo = async () =>{
+    try {
+      const response = await api.get(`users/info/${user_id}`) // 백엔드 (insert의 경우 반환값이 없기에 필요 x.)
+      console.log("리스폰스 데이터 : " , response); // 콘솔상에서 데이터 확인
+      setNickname(response.data.nickname);
+      setMember_score(response.data.member_score);
+      setImage(response.data.profile_img_url);
+      // console.log("멤버 스코어: ",member_score);
+      // console.log("이름: ",nickname);
+      console.log("이미지: ",image);
+    } catch(err){
+      console.error(err);
+    }
+    // console.log("이름: ", nickname);
+  };
 
   const openLogoutModal = () => {
     setIsLogoutModalOpen(true); // 모달 열기
@@ -229,7 +256,8 @@ function MyProfilePage() {
         <div style={styles.divider}></div>
       </div>
       <div style={styles.profileContent}>
-        <ProfileInfo />
+        <ProfileInfo nick={nickname} member_score={member_score} image={image}/>
+        {/* nickname이라는 변수를 profileinfo에 보내겠다는 의미. , 앞에 있는 nick : 하위 컴포넌트에 보내주는것을 의미 */}
         <CommunitySection />
         <OtherSection />
         <NotificationSection />
@@ -244,7 +272,7 @@ function MyProfilePage() {
 
 
 
-const ProfileInfo = ({userImage, nickname}) => {
+const ProfileInfo = ({nick, member_score, image}) => {
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
 
   const openModal = () => {
@@ -259,15 +287,17 @@ const ProfileInfo = ({userImage, nickname}) => {
     <section style={styles.profileInfo}>
       <div style={styles.userDetails}>
         <img
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/a41dabe80615eacb53b883e9e94b260996b558b97729747665bca20736adc395?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
+          src={image}
           alt="User Avatar"
           style={styles.userAvatar}
         />
         <div style={styles.userNameWrapper}>
-          <h2 style={styles.userName}>닉네임</h2>
+          <h2 style={styles.userName}>{nick}</h2> 
+          {/* nickname 값을 가져옴 */}
+
           {/* 회원 등급 클릭 시 모달 열기 */}
           <span style={styles.userRank} onClick={openModal}>
-            (회원 등급)
+            {member_score}
           </span>
         </div>
       </div>

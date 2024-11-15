@@ -5,32 +5,29 @@ import Header from '../layout/header/Header';
 import Footer from '../layout/footer/Footer';
 import SearchActions from '../ProfilePage/SearchActions';
 import api from '../api/axios';
+import {getUserIdFromToken} from '../api/jwt'; // userid
 
-function CommentItem({ timestamp, content, postTitle }) {
-  return (
-    <StyledCommentItem>
-      <CommentContent>
-        <time className="timestamp">{timestamp}</time>
-        <p className="comment-text">{content}</p>
-        <p className="post-title">{postTitle}</p>
-      </CommentContent>
-      <Divider />
-    </StyledCommentItem>
-  );
-}
 
-export default function CommentHistory() {
-  const navigate = useNavigate();
-  const [boardList, setBoardList] = useState([]);
+
+
+function CommentHistory() {
+
+  // const navigate = useNavigate();
+ 
+  const [commentList, setCommentList] = useState([]);
 
   useEffect(() => {
     getUserInfo();
   }, []);
 
+  
+
   const getUserInfo = async () => {
     try {
       const response = await api.get('/users/me/comments');
-      setBoardList(response.data);
+      console.log("data: " , response);
+      setCommentList(response.data);
+      console.log("댓글: ", commentList);
     } catch (err) {
       console.error(err);
     }
@@ -50,17 +47,31 @@ export default function CommentHistory() {
         </FilterButton>
       </SortSection>
       <CommentList>
-        {boardList.map((comment, index) => (
+        {commentList.map((comment, index) => (
+          // comment는 각각 하나의 객체를 의미함. 0번, 1번, ... 큰 테두리
           <CommentItem
             key={index}
-            timestamp={comment.created_time}
-            content={comment.content}
-            postTitle={comment.title}
+            created_at={comment.created_at}
+            // comment : 0번째에서 , created_at : 2024- ~ 를 의미.
+            comment={comment.comment}
           />
         ))}
       </CommentList>
       <Footer />
     </Main>
+  );
+}
+
+function CommentItem({ created_at, comment}) {
+
+  return (
+    <StyledCommentItem>
+      <CommentContent>
+        <time className="timestamp">{created_at}</time>
+        <p className="comment-text">{comment}</p>
+      </CommentContent>
+      <Divider />
+    </StyledCommentItem>
   );
 }
 
@@ -151,3 +162,4 @@ const Divider = styled.div`
   margin: 0 16px;
 `;
 
+export default CommentHistory;
