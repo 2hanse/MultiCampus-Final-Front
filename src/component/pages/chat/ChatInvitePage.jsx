@@ -16,6 +16,7 @@ function ChatInvitePage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [checkedUsers, setCheckedUsers] = useState([]);
+  const [roomTitle, setRoomTitle] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -92,7 +93,7 @@ function ChatInvitePage() {
         .filter((user) => user.user_id !== localUserId) // 본인 제외
         .map((user) => user.user_id); // user_id만 추출
 
-      stompClient.send(`/pub/chat/room/create`, {}, JSON.stringify({ roomTitle: '', inviteUsers: inviteUserIds }));
+      stompClient.send(`/pub/chat/room/create`, {}, JSON.stringify({ roomTitle: roomTitle, inviteUsers: inviteUserIds }));
     }
   }
 
@@ -129,6 +130,12 @@ function ChatInvitePage() {
         ))}
 
         <ButtonGroup>
+          <RoomTitleInput 
+              type="text" 
+              placeholder="대화방 이름 지정"
+              value={roomTitle} 
+              onChange={(e) => setRoomTitle(e.target.value)} 
+            />
           <ActionButton onClick={handleAddUser}>확인</ActionButton>
           <ActionButton onClick={handleCancel}>취소</ActionButton>
         </ButtonGroup>
@@ -203,9 +210,6 @@ const SearchIcon = styled.img`
 
 // 하단 확인 취소
 const ButtonGroup = styled.div`
-  align-self: end;
-  display: flex;
-  margin-top: 37px;
   gap: 15px;
   font-family: Roboto, sans-serif;
   white-space: nowrap;
@@ -214,9 +218,24 @@ const ButtonGroup = styled.div`
   z-index: 10;
 `;
 
+const RoomTitleInput = styled.input`
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+  padding: 15px;
+  border: 1px solid #DFA67B;
+  font-size: 16px;
+  flex: 1;
+  outline: none;
+  &::placeholder {
+    color: #96908C;
+  }
+`;
+
 const ActionButton = styled.button`
   border-radius: 10px;
   background: #fff;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
   padding: 16px 30px;
   border: 1px solid #DFA67B;
   cursor: pointer;
