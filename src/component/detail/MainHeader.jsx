@@ -6,7 +6,7 @@ import followIcon from "./asset/follow.png";
 import likeIcon from "./asset/like_button.png";
 import { useNavigate } from "react-router-dom";
 
-function MainHeader({ category }) {
+function MainHeader({ post, category }) {
   const [likeCount, setLikeCount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [boardtype, setBoardtype] = useState("");
@@ -56,7 +56,11 @@ function MainHeader({ category }) {
   };
 
   const handleYesClick = () => {
-    navigate("/user/chat/invite");
+    if (post && post.nickname) {
+      navigate("/user/chat/invite", { state: { nickname: post.nickname } });
+    } else {
+      navigate("/user/chat/invite");
+    }
   };
 
   const handleFollowClick = () => {
@@ -72,16 +76,16 @@ function MainHeader({ category }) {
           <LikeCount>{likeCount}</LikeCount>
         </LikeSection>
       </HeaderTop>
-      <PostTitle>제목</PostTitle>
+      <PostTitle>{post ? post.title : "제목 없음"}</PostTitle>
       {/* 게시글 작성자 정보 표시 */}
     {authorInfoArray.map((author) => (
       <AuthorInfo key={author.id}>
         <Avatar src={author.avatar} alt={`${author.name}의 아바타`} />
         <AuthorDetails>
             <AuthorName>
-              {author.name} <AuthorMembership>({author.membership})</AuthorMembership>
+              {post ? post.nickname : "user"} <AuthorMembership>({post ? post.grade : ""})</AuthorMembership>
             </AuthorName>
-          <AuthorTimestamp>작성 시간: {author.timestamp}</AuthorTimestamp>
+          <AuthorTimestamp>작성 시간: {post ? post.time : ""}</AuthorTimestamp>
           <AuthorViews>조회수: {author.views}</AuthorViews>
         </AuthorDetails>
         <ChatIcon src={chatIcon} alt="채팅 아이콘" onClick={handleChatClick} />
@@ -92,7 +96,7 @@ function MainHeader({ category }) {
     {isModalOpen && (
         <ModalOverlay>
             <ModalContent>
-                <ModalText>(닉네임)님과 채팅하시겠습니까?</ModalText>
+                <ModalText>{post ? post.nickname : "user"}님과 채팅하시겠습니까?</ModalText>
                 <ButtonContainer>
                     <ModalButton onClick={handleYesClick}>예</ModalButton>
                     <ModalButton onClick={handleCloseModal}>아니오</ModalButton>
