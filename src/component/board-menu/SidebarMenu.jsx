@@ -22,8 +22,8 @@ const SidebarMenu = () => {
     navigate('/board/FreeBoard');
   }
 
-  function gotoTopBaordPage() {
-    navigate('/board/TopBaord');
+  function gotoTopBoardPage() {
+    navigate('/board/TopBoard');
   }
 
   function gotoTourBoardPage() {
@@ -36,7 +36,7 @@ const SidebarMenu = () => {
       <MenuDivider />
       <MenuItem2 src= {restaurant} alt="restaurant" onClick={gotoRestaurantBoardPage} />
       <MenuItem3 src= {free} alt="free" onClick={gotoFreeBoardPage} />
-      <MenuItem4 src= {top} alt="top" onClick={gotoTopBaordPage} />
+      <MenuItem4 src= {top} alt="top" onClick={gotoTopBoardPage} />
       <MenuItem5 src= {tour} alt="tour" onClick={gotoTourBoardPage} />
     </MenuWrapper>
   );
