@@ -78,17 +78,24 @@ const SectionTitle = styled.h2`
 const ListContainer = styled.div`
   display: flex;
   flex-direction: row;
-  overflow-x: auto;
+  overflow-x: auto;  // 가로 스크롤 활성화
   gap: 14px;
   margin-top: 18px;
+  white-space: nowrap;  // 항목들을 한 줄로 배열
+
+  // Link 기본 스타일 제거
+  a {
+    text-decoration: none;
+  }
 `;
 
 const FollowItem = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 0 0 auto;
+  flex: 0 0 auto;  // 항목들이 너비를 가질 수 있도록 설정
   align-items: center;
   text-align: center;
+  min-width: 80px; // 항목의 최소 너비 설정
 `;
 
 const Avatar = styled.img`
@@ -97,8 +104,11 @@ const Avatar = styled.img`
   object-fit: cover;
 `;
 
-const Nickname = styled.span`
+const Nickname = styled.div`
   margin-top: 7px;
+  color: #000;
+  cursor: default;
+  text-decoration: none;  // 밑줄을 없앰
 `;
 
 const Divider = styled.hr`
