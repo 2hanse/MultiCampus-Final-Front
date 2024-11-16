@@ -54,7 +54,7 @@ function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password.length <= 8) {
-      alert("비밀번호는 8자리 이상이어야 합니다.");
+      alert('비밀번호는 8자리 이상이어야 합니다.');
       return;
     }
     if (email === '' || password === '') {
@@ -70,7 +70,7 @@ function LoginForm() {
           alert('로그인 성공! ');
           const token = response.data.token;
 
-          localStorage.setItem("token", token);
+          localStorage.setItem('token', token);
 
           navigate('/homepage');
         }
@@ -83,38 +83,55 @@ function LoginForm() {
 
   const onGuest = () => {
     navigate('/homepage');
-  }
+  };
 
-    return (
-        <Form onSubmit={handleSubmit}>
-          <label htmlFor="email" className="security-question-label">이메일</label>
-          <InputWrapper>
-              <Input  type="email" 
-                      placeholder="이메일을 입력해주세요" 
-                      name="email"
-                      value={email} 
-                      onChange={onChangeEmail}/>
-          </InputWrapper>
-          <Formbox>
-          {email.length > 0 && <span className={`message ${isEmail ? 'success' : 'error'}`}>{emailMessage}</span>}
-          </Formbox>
+  return (
+    <Form onSubmit={handleSubmit}>
+      <label htmlFor="email" className="security-question-label">
+        이메일
+      </label>
+      <InputWrapper>
+        <Input
+          type="email"
+          placeholder="이메일을 입력해주세요"
+          name="email"
+          value={email}
+          onChange={onChangeEmail}
+        />
+      </InputWrapper>
+      <Formbox>
+        {email.length > 0 && (
+          <span className={`message ${isEmail ? 'success' : 'error'}`}>
+            {emailMessage}
+          </span>
+        )}
+      </Formbox>
 
-          <label htmlFor="password" className="security-question-label">비밀번호</label>
-          <InputWrapper>
-              <Input  type="password" 
-                      placeholder="비밀번호를 입력해주세요"
-                      name="password"
-                      value={password}
-                      onChange={onChangePassword}
-                      />
-          </InputWrapper>
-          <Formbox>
-          {password.length > 0 && <span className={`message ${isPassword ? 'success' : 'error'}`}>{passwordMessage}</span>}
-          </Formbox>
-          <SubmitButton type="submit">로그인</SubmitButton>
-          <SubmitButton2 type="button" onClick={onGuest}>게스트로 이용하기</SubmitButton2>
-        </Form>
-    );
+      <label htmlFor="password" className="security-question-label">
+        비밀번호
+      </label>
+      <InputWrapper>
+        <Input
+          type="password"
+          placeholder="비밀번호를 입력해주세요"
+          name="password"
+          value={password}
+          onChange={onChangePassword}
+        />
+      </InputWrapper>
+      <Formbox>
+        {password.length > 0 && (
+          <span className={`message ${isPassword ? 'success' : 'error'}`}>
+            {passwordMessage}
+          </span>
+        )}
+      </Formbox>
+      <SubmitButton type="submit">로그인</SubmitButton>
+      <SubmitButton2 type="button" onClick={onGuest}>
+        게스트로 이용하기
+      </SubmitButton2>
+    </Form>
+  );
 }
 
 const Form = styled.form`
@@ -123,7 +140,7 @@ const Form = styled.form`
   align-items: flex-start;
   text-align: center;
   width: 78%;
-  margin-top: 50px;
+  margin-top: 30px;
   margin-left: 46px;
 
   .security-question-label {
@@ -185,10 +202,10 @@ const SubmitButton = styled.button`
 
 const SubmitButton2 = styled.button`
   border-radius: 10px;
-  background-color: #D5CBAE;
+  background-color: #d5cbae;
   width: 100%;
   font-size: 19px;
-  color: #785A00;
+  color: #785a00;
   white-space: nowrap;
   text-align: center;
   margin: 26px 0 0 0px;

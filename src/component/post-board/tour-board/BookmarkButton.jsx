@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import BookmarkItem from './BookmarkItem';
 
 const BookmarkButton = ({
-  isListVisible,
-  setIsListVisible,
   bookmarkList,
   handleBookmarkInnerClick,
+  selectedBookmarkId,
+  setSelectedBookmarkId,
 }) => {
+  const [isListVisible, setIsListVisible] = useState(true);
+
   return (
     <BookmarkWrapper>
       {isListVisible ? (
@@ -20,7 +22,12 @@ const BookmarkButton = ({
           <BookmarkText>북마크 불러오기</BookmarkText>
         </BookmarkInner>
       ) : (
-        <BookmarkInner onClick={handleBookmarkInnerClick}>
+        <BookmarkInner
+          onClick={() => {
+            handleBookmarkInnerClick();
+            setSelectedBookmarkId(null);
+          }}
+        >
           <BookmarkIcon
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/0c01f1a85d200b1b09fb5e61cd22a3a93c6fa58372b4beac0be61fabd630c089?placeholderIfAbsent=true&apiKey=96b0aafc0bca4efc865afcf9a032943c"
             alt=""
@@ -29,15 +36,20 @@ const BookmarkButton = ({
         </BookmarkInner>
       )}
       <BookmarkList>
-        {bookmarkList.map((bookmark) => (
-          <BookmarkItem
-            key={bookmark.id}
-            bookmark_title={bookmark.bookmark_title}
-            list_count={bookmark.list_count}
-            setIsListVisible={setIsListVisible}
-            user_nickname={bookmark.user_nickname}
-          />
-        ))}
+        {bookmarkList.map((bookmark) =>
+          selectedBookmarkId === null ||
+          selectedBookmarkId === bookmark.bookmark_id ? ( // 선택된 항목만 표시
+            <BookmarkItem
+              key={bookmark.bookmark_id}
+              bookmark_id={bookmark.bookmark_id}
+              bookmark_title={bookmark.bookmark_title}
+              list_count={bookmark.list_count}
+              user_nickname={bookmark.user_nickname}
+              setIsListVisible={setIsListVisible}
+              setSelectedBookmarkId={setSelectedBookmarkId}
+            />
+          ) : null
+        )}
       </BookmarkList>
     </BookmarkWrapper>
   );
