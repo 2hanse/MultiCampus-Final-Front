@@ -60,7 +60,6 @@ const FoodBoard = styled.img`
     width: 60px;
     height: 60px;
     left: 25px;
-    filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
 
     cursor: pointer;
 `;
@@ -70,7 +69,6 @@ const FreeBoard = styled.img`
     width: 60px;
     height: 60px;
     left: 105px;
-    filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
 
     cursor: pointer;
 `;
@@ -80,7 +78,6 @@ const TopBoard = styled.img`
     width: 60px;
     height: 60px;
     left: 185px;
-    filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
 
     cursor: pointer;
 `;
@@ -90,7 +87,6 @@ const TravelBoard = styled.img`
     width: 60px;
     height: 60px;
     left: 265px;
-    filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
 
     cursor: pointer;
 `;
@@ -100,7 +96,6 @@ const BookmarkBoard = styled.img`
     width: 60px;
     height: 60px;
     left: 345px;
-    filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
 
     cursor: pointer;
 `;
