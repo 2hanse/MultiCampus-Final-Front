@@ -111,12 +111,12 @@ const MyLocation = styled.text`
     width: 200px;
     height: 42px;
     left: 24px;
-    top: 135px;
+    top: 136px;
 
-    font-family: 'Inter';
+    font-family: 'sans-serif';
     font-style: normal;
-    font-weight: 700;
-    font-size: 24px;
+    font-weight: 500;
+    font-size: 20px;
     line-height: 29px;
     display: flex;
     align-items: center;

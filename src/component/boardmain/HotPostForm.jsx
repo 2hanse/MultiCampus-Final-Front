@@ -38,6 +38,7 @@ const Wrapper = styled.div`
     display: flex;
     width: 430px;
     height: 266px;
+    top: -15px;
 `
 
 const Title = styled.h1`
@@ -46,10 +47,10 @@ const Title = styled.h1`
     height: 43px;
     left: 28px;
 
-    font-family: 'Inter';
+    font-family: 'sans-serif';
     font-style: normal;
-    font-weight: 700;
-    font-size: 24.32px;
+    font-weight: 500;
+    font-size: 23px;
     line-height: 29px;
     display: flex;
     align-items: center;
@@ -59,10 +60,10 @@ const Title = styled.h1`
 `
 
 const Icon = styled.img`
-    position: absolute;
+    position: relative;
     width: 25px;
     height: 25px;
-    left: 58%;
+    left: 55%;
     top: 25px;
 `
 
@@ -71,7 +72,7 @@ const PostBox = styled.div`
     width: 406px;
     height: 193px;
     left: calc(50% - 406px/2 - 2px);
-    top: 70px;
+    top: 65px;
 
     background: #FFFBFB;
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
@@ -84,7 +85,8 @@ const ListWrapper = styled.ul`
     width: 366px;
     height: 180px;
     top: -17px;
-    padding-top: 15px;
+    padding-top: 18px;
+    padding-left: 45px;
     flex-direction: column;
     list-style-type: none;
 `;
@@ -92,25 +94,24 @@ const ListWrapper = styled.ul`
 const ItemWrapper = styled.li`
     position: relative;
     display: flex;
-    height: 30px;
+    height: 25px;
     width: 346px;
     left: -15px;
-    margin-bottom: 3px;
+    margin-bottom: 8px;
     align-items: center;
+    cursor: pointer;
 `;
 
 const PostCategory = styled.h3`
-    color: #757575;
+    color: #ED6000;
     letter-spacing: 0.5px;
     font: 18px/24px Roboto, sans-serif;
     margin: 0;
-    cursor: default;
 `;
 
 const PostTitle = styled.span`
     color: #000000;
     font: 18px/24px Roboto, sans-serif;
-    cursor: pointer;
 `;
 
 const NoItemWrapper = styled.li`
