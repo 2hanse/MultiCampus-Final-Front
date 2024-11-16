@@ -118,7 +118,7 @@ const CreateImg = styled.img`
 
 const GroupListContainer = styled.div`
     width: 100%;
-    height: calc(100vh - 142px);
+    height: calc(100vh - 50px);
     margin-top: 40px;
     box-sizing: border-box;
     overflow-y: auto;
