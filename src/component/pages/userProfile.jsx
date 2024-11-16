@@ -187,13 +187,13 @@ const UserProfile = () => {
             closeModal={closeUnfollowModal}
           />
         )}
-        {/* 북마크 모달 */}
+        {/* 북마크 모달
         {isBookmarkModalOpen && (
           <BookmarkConfirmationModal
             nickname="닉네임"
             closeModal={closeBookmarkModal}
           />
-        )}
+        )} */}
       </ChatListContainer>
       <Footer />
     </Main>

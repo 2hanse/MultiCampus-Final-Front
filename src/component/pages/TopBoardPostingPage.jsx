@@ -10,8 +10,8 @@ import Editor from '../post-board/Editor';
 import api from '../api/axios';
 import { useNavigate } from 'react-router-dom';
 
-const RestorantBoardPostingPage = () => {
-  const category = 'restaurant';
+const TopBoardPostingPage = () => {
+  const category = 'top';
   const navigate = useNavigate();
 
   // 1. 영수증
@@ -318,4 +318,4 @@ const ContentContainer = styled.div`
   scrollbar-width: none; /* Firefox */
 `;
 
-export default RestorantBoardPostingPage;
+export default TopBoardPostingPage;

@@ -24,6 +24,10 @@ const TourBoardPostingPage = () => {
   const [title, setTitle] = useState('');
   // 3. 내용
   const [content, setContent] = useState('');
+  // 4. 선택된 북마크 id
+  const [selectedBookmarkId, setSelectedBookmarkId] = useState(null); // 선택된 bookmark_id 상태
+
+  const [bookmarkList, setBookmarkList] = useState([]);
 
   // 임시저장
   const handleDraftSave = () => {
@@ -45,7 +49,11 @@ const TourBoardPostingPage = () => {
     // }
 
     const data = {
-      board: { title, content: handleContentChange(content) },
+      board: {
+        title,
+        content: handleContentChange(content),
+        bookmark_id: selectedBookmarkId,
+      },
     };
 
     await api.post(`/boards/${category}`, data).then((res) => {
@@ -114,10 +122,6 @@ const TourBoardPostingPage = () => {
     return doc.body.textContent || '';
   };
 
-  const [bookmarkList, setBookmarkList] = useState([]);
-  // 북마크 리스트 토글관리
-  const [isListVisible, setIsListVisible] = useState(true);
-
   // 자신의 북마크 불러오기 요청
   const handleBookmarkInnerClick = async () => {
     try {
@@ -137,7 +141,7 @@ const TourBoardPostingPage = () => {
   return (
     <PageContainer>
       <Header {...haederProps} />
-      <main>
+      <ContentContainer>
         <Editor
           title={title}
           setTitle={setTitle}
@@ -146,38 +150,46 @@ const TourBoardPostingPage = () => {
           uploadPlugin={uploadPlugin}
         />
         <BookmarkButton
-          isListVisible={isListVisible}
-          setIsListVisible={setIsListVisible}
           bookmarkList={bookmarkList}
           handleBookmarkInnerClick={handleBookmarkInnerClick}
+          setSelectedBookmarkId={setSelectedBookmarkId}
+          selectedBookmarkId={selectedBookmarkId}
         />
         <ActionButtons
           handleDraftSave={handleDraftSave}
           handleSubmit={handleSubmit}
         />
-      </main>
+      </ContentContainer>
     </PageContainer>
   );
 };
 
-const PageContainer = styled.div`
+const PageContainer = styled.main`
   background-color: #fff;
   display: flex;
   width: 430px;
   height: 100vh;
   flex-direction: column;
-  overflow-y: auto;
+  overflow: hidden;
   font-family: Roboto, sans-serif;
   line-height: 1;
   margin: 0 auto;
   border: 0.5px solid #cac4d0;
+`;
 
-  /* 스크롤바 숨기기 (크로스 브라우저) */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+const ContentContainer = styled.div`
+  width: 430px;
+  height: 100vh;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow-y: auto;
+
   &::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
+    display: none;
   }
+
+  -ms-overflow-style: none; /* IE 및 Edge */
+  scrollbar-width: none; /* Firefox */
 `;
 
 export default TourBoardPostingPage;

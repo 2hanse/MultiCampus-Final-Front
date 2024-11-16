@@ -19,6 +19,7 @@ import ChangePasswordPage from './component/pages/reset/ChangePasswordPage';
 import ChangePasswordResultPage from './component/pages/reset/ChangePasswordResultPage';
 import ChatRoomPage from './component/pages/chat/ChatRoomPage';
 import RestorantBoardPostingPage from './component/pages/RestorantBoardPostingPage';
+import TopBoardPostingPage from './component/pages/TopBoardPostingPage';
 import FreeBoardPostingPage from './component/pages/FreeBoardPostingPage';
 import TourBoardPostingPage from './component/pages/TourBoardPostingPage';
 import MyProfilePage from './component/pages/MyProfilePage';
@@ -77,6 +78,7 @@ function App() {
           path="/boardpost/restaurant"
           element={<RestorantBoardPostingPage />}
         />
+        <Route path="/boardpost/top" element={<TopBoardPostingPage />} />
         <Route path="/boardpost/free" element={<FreeBoardPostingPage />} />
         <Route path="/boardpost/tour" element={<TourBoardPostingPage />} />
         <Route
@@ -108,7 +110,7 @@ function App() {
           path="/user/me/changePasswordResult"
           element={<ChangePasswordResultPage />}
         />
-        
+
         {/* 게시판 */}
         <Route path="/board/RestaurantBoard" element={<RestaurantBoard />} />
         <Route path="/board/FreeBoard" element={<FreeBoard />} />

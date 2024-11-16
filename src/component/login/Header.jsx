@@ -1,70 +1,64 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-import styled from "styled-components";
-import 맛있는녀석들_로고   from "./assets/맛있는녀석들_로고.png";
+import React from 'react';
+import styled from 'styled-components';
+import 맛있는녀석들_로고 from './assets/맛있는녀석들_로고.png';
 
 function Header() {
   return (
     <Wrapper>
-    <HeaderWrapper>
-      <Logo         src={맛있는녀석들_로고} alt="맛있는 녀석들 로고" />
-    </HeaderWrapper>
-   
-    <Title>우리 동네의<br />숨은 맛집</Title>
-    <Subtitle>동네 맛집을 공유해요</Subtitle>
+      <Logo src={맛있는녀석들_로고} alt="맛있는 녀석들 로고" />
+      <Title>
+        우리 동네
+        <br />
+        나만의 맛집
+      </Title>
+      <Subtitle>동네 맛집을 공유해요</Subtitle>
+      <PageName>DongNe BapSang</PageName>
     </Wrapper>
   );
 }
 
-const HeaderWrapper = styled.header`
-  display: flex;
-  margin-left: 28px;
-  width: 220px;
-  max-width: 100%;
-  align-items: flex-start;
-  gap: 20px;
-  color: #000;
-  white-space: nowrap;
-  text-align: center;
-  justify-content: space-between;
-  font: 400 10px/1 Roboto, sans-serif;
-  :hover {
-    background: #F4B183;
-  }
-`;
-
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 220px;
+  flex-direction: column; /* 세로로 배치 */
+  align-items: flex-start; /* 기본적으로 왼쪽 정렬 */
+  width: 400px;
   max-width: 100%;
   white-space: nowrap;
-
-  justify-content: space-between;
+  position: relative;
+  padding: 0px 0px 0px 50px;
 `;
 
 const Logo = styled.img`
-  position: absolute;
+  align-self: flex-end; /* 로고를 오른쪽으로 정렬 */
   width: 85px;
   height: 85px;
-  left: 54vw;
-  top: 58px;
   border-radius: 50px;
-  z-index: 10;  /* 다른 요소 위에 표시되도록 z-index 추가 */
-`
+  margin-bottom: 10px; /* 아래 간격 추가 */
+  transform: translateX(-57px); /* 오른쪽 끝에서 왼쪽으로 100px 이동 */
+  z-index: 10; /* 다른 요소 위에 표시되도록 z-index 추가 */
+  font-family: 'Poppins', sans-serif; /* Poppins 글꼴 사용 */
+`;
 
 const Title = styled.b`
   color: #e1650f;
   font-size: 40px;
-  margin: 54px 0 0 45px;
-  
+  margin: 0; /* 추가 간격 제거 */
+  font-family: 'Poppins', sans-serif; /* Poppins 글꼴 사용 */
 `;
 
 const Subtitle = styled.p`
   color: #ce9971;
   font-size: 24px;
-  margin: 14px 0 0 45px;
+  margin: 10px 0 0 0; /* 위쪽 간격만 설정 */
+  font-family: 'Poppins', sans-serif; /* Poppins 글꼴 사용 */
+`;
+
+const PageName = styled.p`
+  color: grey;
+  font-size: 16px;
+  margin: 10px 0 0 2px; /* 위쪽 간격만 설정 */
+  font-family: 'Roboto Slab', serif;
+  font-style: italic;
 `;
 
 export default Header;

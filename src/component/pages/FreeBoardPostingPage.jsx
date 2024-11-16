@@ -129,7 +129,7 @@ const FreeBoardPostingPage = () => {
   return (
     <PageContainer>
       <Header {...haederProps} />
-      <main>
+      <ContentContainer>
         <Editor
           title={title}
           setTitle={setTitle}
@@ -141,29 +141,36 @@ const FreeBoardPostingPage = () => {
           handleDraftSave={handleDraftSave}
           handleSubmit={handleSubmit}
         />
-      </main>
+      </ContentContainer>
     </PageContainer>
   );
 };
 
-const PageContainer = styled.div`
+const PageContainer = styled.main`
   background-color: #fff;
   display: flex;
   width: 430px;
   height: 100vh;
   flex-direction: column;
-  overflow-y: auto;
+  overflow: hidden;
   font-family: Roboto, sans-serif;
   line-height: 1;
   margin: 0 auto;
   border: 0.5px solid #cac4d0;
-
-  /* 스크롤바 숨기기 (크로스 브라우저) */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
-  &::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
-  }
 `;
 
+const ContentContainer = styled.div`
+  width: 430px;
+  height: 100vh;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  -ms-overflow-style: none; /* IE 및 Edge */
+  scrollbar-width: none; /* Firefox */
+`;
 export default FreeBoardPostingPage;

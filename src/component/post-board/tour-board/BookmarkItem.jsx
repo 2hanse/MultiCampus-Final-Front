@@ -5,9 +5,12 @@ const BookmarkItem = ({
   bookmark_title,
   list_count,
   user_nickname,
+  setSelectedBookmarkId,
+  bookmark_id,
 }) => {
   const handleClick = () => {
-    setIsListVisible(false);
+    setIsListVisible((prev) => !prev);
+    setSelectedBookmarkId(bookmark_id); // 선택된 bookmark_id 설정
     alert('선택 되었습니다.');
   };
 
