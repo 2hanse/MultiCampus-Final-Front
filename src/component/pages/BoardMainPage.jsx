@@ -1,21 +1,25 @@
-import React           from "react";
-import styled          from "styled-components";
-import Header          from "../boardmain/Header";
-import BoardButtonForm from "../boardmain/BoardButtonForm";
-import HotPostForm     from "../boardmain/HotPostForm";
-import NewPostForm     from "../boardmain/NewPostForm";
-import Footer          from "../layout/footer/Footer";
+import React, { useState } from "react";
+import styled              from "styled-components";
+import Header              from "../boardmain/Header";
+import BoardButtonForm     from "../boardmain/BoardButtonForm";
+import HotPostForm         from "../boardmain/HotPostForm";
+import NewPostForm         from "../boardmain/NewPostForm";
+import Footer              from "../layout/footer/Footer";
+import Modal               from "../boardmain/Modal";
 
 function BoardMainPage() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     return (
         <Main>
-            <Header />
+            <Header setIsModalOpen={setIsModalOpen} />
             <Container>
                 <BoardButtonForm />
                 <HotPostForm />
                 <NewPostForm />
             </Container>
             <Footer />
+            {isModalOpen && <Modal setIsModalOpen={setIsModalOpen} />}
         </Main>
         
     );

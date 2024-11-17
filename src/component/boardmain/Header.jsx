@@ -9,8 +9,9 @@ import { getUserIdFromToken }         from "../api/jwt";
 import getProfileImgUrlFromUserId     from "../api/member_info";
 import { getAddressFromCoordinates }  from "../api/location";
 import api                            from "../api/axios";
+import Modal                          from "./Modal";
 
-const Header = () => {
+const Header = ({ setIsModalOpen }) => {
     const navigate = useNavigate(); 
     const [profileImgUrl, setProfileImgUrl] = useState('');
     const [userLocation, setUserLocation] = useState('');
@@ -31,7 +32,7 @@ const Header = () => {
                     );
                     setUserLocation(fullAddress); // fullAddress 출력
                 } else if (response.status === 204) {
-                    setUserLocation("위치 인증이 되지 않았습니다.");
+                    setUserLocation("내 동네 설정이 되지 않았습니다.");
                 }
             } catch (error) {
                 console.error("Error fetching user location:", error);
@@ -42,10 +43,13 @@ const Header = () => {
         fetchUserData();
     }, []);
 
+    // 모달 열기
+    const openModal = () => setIsModalOpen(true);
+
     return (
         <HeaderBox>
             <Logo src={맛있는녀석들_로고} alt="맛있는 녀석들 로고" />
-            <MyLocation>{userLocation}</MyLocation>
+            <MyLocation onClick={openModal}>{userLocation}</MyLocation>
             <Search src={돋보기} alt="Search" />
             <Notification src={알림} alt="Notification" onClick={() => navigate("/user/alert")} />
             {profileImgUrl ? (
@@ -77,7 +81,7 @@ const HeaderBox = styled.header`
     top: 0px;
     background-color: #FFF4D2;
     border: 0.5px solid #CAC4D0;
-    z-index: 100;
+    z-index: 10;
 `
 
 const Logo = styled.img`
@@ -147,6 +151,7 @@ const MyLocation = styled.text`
     color: #000000;
 
     border: none;
+    cursor: pointer;
 `
 
 export default Header;
