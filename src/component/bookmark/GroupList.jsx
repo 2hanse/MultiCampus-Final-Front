@@ -27,6 +27,7 @@ function GroupList(props) {
 const ListWrapper = styled.ul`
     display: flex;
     width: 100%;
+    height: auto;
     flex-direction: column;
     padding: 0px 0px;
     list-style-type: none;

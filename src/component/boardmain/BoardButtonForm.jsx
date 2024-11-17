@@ -18,7 +18,7 @@ const BoardButtonForm = () => {
                 alt="Meal"
                 onClick={() => navigate("/board/RestaurantBoard")}
             />
-            <TalkBoard
+            <FreeBoard
                 src={Talk}
                 alt="Talk"
                 onClick={() => navigate("/board/FreeBoard")}
@@ -38,19 +38,21 @@ const BoardButtonForm = () => {
                 alt="Bookmark"
                 onClick={() => navigate("/homepage", { state: { openBookmarkSheet: true } })}
             />
+            <FoodTitle onClick={() => navigate("/board/RestaurantBoard")}>식당</FoodTitle>
+            <FreeTitle onClick={() => navigate("/board/FreeBoard")}>자유</FreeTitle>
+            <TopTitle onClick={() => navigate("/board/TopBoard")}>상위</TopTitle>
+            <TravleTitle onClick={() => navigate("/board/TourBoard")}>여행</TravleTitle>
+            <BookmarkTitle onClick={() => navigate("/homepage", { state: { openBookmarkSheet: true } })}>북마크</BookmarkTitle>
         </Wrapper>
     );
 }
 
 const Wrapper = styled.div`
-    position: absolute;
+    position: relative;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 430px;
-    height: 60px;
-    margin: auto 0;
-    padding: 35px 0px 35px 0px;
+    width: 100%;
+    height: 100px;
+    padding-top: 20px;
 `;
 
 const FoodBoard = styled.img`
@@ -58,49 +60,144 @@ const FoodBoard = styled.img`
     width: 60px;
     height: 60px;
     left: 25px;
-    filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
 
     cursor: pointer;
-`
+`;
 
-const TalkBoard = styled.img`
+const FreeBoard = styled.img`
     position: absolute;
     width: 60px;
     height: 60px;
     left: 105px;
-    filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
 
     cursor: pointer;
-`
+`;
 
 const TopBoard = styled.img`
     position: absolute;
     width: 60px;
     height: 60px;
     left: 185px;
-    filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
 
     cursor: pointer;
-`
+`;
 
 const TravelBoard = styled.img`
     position: absolute;
     width: 60px;
     height: 60px;
     left: 265px;
-    filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
 
     cursor: pointer;
-`
+`;
 
 const BookmarkBoard = styled.img`
     position: absolute;
     width: 60px;
     height: 60px;
     left: 345px;
-    filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
 
     cursor: pointer;
-`
+`;
+
+const FoodTitle = styled.h1`
+    position: absolute;
+    width: 60px;
+    height: auto;
+    top: 73px;
+    left: 25px;
+
+    font-family: 'sans-serif';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #ED6000;
+    cursor: pointer;
+`;
+
+const FreeTitle = styled.h1`
+    position: absolute;
+    width: 60px;
+    height: auto;
+    top: 73px;
+    left: 105px;
+
+    font-family: 'sans-serif';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #ED6000;
+    cursor: pointer;
+`;
+
+const TopTitle = styled.h1`
+    position: absolute;
+    width: 60px;
+    height: auto;
+    top: 73px;
+    left: 185px;
+
+    font-family: 'sans-serif';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #ED6000;
+    cursor: pointer;
+`;
+
+const TravleTitle = styled.h1`
+    position: absolute;
+    width: 60px;
+    height: auto;
+    top: 73px;
+    left: 265px;
+
+    font-family: 'sans-serif';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #ED6000;
+    cursor: pointer;
+`;
+
+const BookmarkTitle = styled.h1`
+    position: absolute;
+    width: 60px;
+    height: auto;
+    top: 73px;
+    left: 345px;
+
+    font-family: 'sans-serif';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #ED6000;
+    cursor: pointer;
+`;
 
 export default BoardButtonForm;

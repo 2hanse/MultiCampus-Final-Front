@@ -35,7 +35,9 @@ const SearchForm = ({ setOutputValue }) => {
                     region: item.address.region_1depth_name,
                     city: item.address.region_2depth_name,
                     district: item.address.region_3depth_name,
-                    district_h:item.address.region_3depth_h_name
+                    district_h:item.address.region_3depth_h_name,
+                    lat: item.y, // 위도
+                    lng: item.x  // 경도
                 }))
                 .filter((item, index, self) =>
                     index === self.findIndex((t) => (
@@ -82,7 +84,13 @@ const SearchForm = ({ setOutputValue }) => {
                         {regions.map((region, index) => (
                             <React.Fragment key={index}>
                                 <RegionBlock
-                                    onClick={() => setOutputValue(`${region.region} ${region.city} ${region.district || region.district_h}`)}
+                                    onClick={() => {
+                                        setOutputValue({
+                                            address: `${region.region} ${region.city} ${region.district || region.district_h}`,
+                                            lat: region.lat,
+                                            lng: region.lng
+                                        });
+                                    }}
                                 >
                                     {region.region} {region.city} {region.district || region.district_h}
                                 </RegionBlock>

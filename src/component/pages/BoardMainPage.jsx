@@ -1,19 +1,25 @@
-import React           from "react";
-import styled          from "styled-components";
-import Header          from "../boardmain/Header";
-import BoardButtonForm from "../boardmain/BoardButtonForm";
-import HotPostForm     from "../boardmain/HotPostForm";
-import NewPostForm     from "../boardmain/NewPostForm";
-import Footer          from "../layout/footer/Footer";
+import React, { useState } from "react";
+import styled              from "styled-components";
+import Header              from "../boardmain/Header";
+import BoardButtonForm     from "../boardmain/BoardButtonForm";
+import HotPostForm         from "../boardmain/HotPostForm";
+import NewPostForm         from "../boardmain/NewPostForm";
+import Footer              from "../layout/footer/Footer";
+import Modal               from "../boardmain/Modal";
 
 function BoardMainPage() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     return (
         <Main>
-            <Header />
-            <BoardButtonForm />
-            <HotPostForm />
-            <NewPostForm />
+            <Header setIsModalOpen={setIsModalOpen} />
+            <Container>
+                <BoardButtonForm />
+                <HotPostForm />
+                <NewPostForm />
+            </Container>
             <Footer />
+            {isModalOpen && <Modal setIsModalOpen={setIsModalOpen} />}
         </Main>
         
     );
@@ -25,13 +31,25 @@ const Main = styled.main`
     flex-direction: column;
     align-items: flex-start;
     width: 430px;
-    max-height: 932px;
-    min-height: 632px;
-    height: auto;
+    height: 100vh;
     background: #FFF4D2;
     margin: 0 auto;
+    margin-bottom: 110px;
     padding: 187px 0px 100px 0px;
     border: 0.5px solid #CAC4D0;
 `;
+
+const Container = styled.div`
+    width: 100%;
+    height: calc(100vh - 287px);
+    box-sizing: border-box;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+`
 
 export default BoardMainPage;

@@ -25,9 +25,7 @@ const Main = styled.main`
     flex-direction: column;
     align-items: flex-start;
     width: 430px;
-    max-height: 1300px;
-    min-height: 632px;
-    height: auto;
+    height: 100vh;
     background: #FFF4D2;
     margin: 0 auto;
     padding: 119px 0px 100px 0px;

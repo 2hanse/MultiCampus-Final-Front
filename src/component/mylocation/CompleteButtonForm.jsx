@@ -1,13 +1,50 @@
-import React, { useState } from "react";
-import styled              from "styled-components";
+import React           from "react";
+import styled          from "styled-components";
+import { useNavigate } from "react-router-dom";
+import api             from "../api/axios";
 
 const CompleteButtonForm = ({ outputValue }) => {
+    const navigate = useNavigate();
+
+    const handleSubmit = async () => {
+        if (!outputValue.lat || !outputValue.lng) {
+            alert("유효한 위치를 선택하세요.");
+            return;
+        }
+
+        try {
+            console.log("위치 저장 요청 데이터:", {
+                verified_lat: outputValue.lat,
+                verified_lng: outputValue.lng,
+            });
+
+            const response = await api.put("/users/geolocation", {
+                verified_lat: outputValue.lat,
+                verified_lng: outputValue.lng
+            });
+
+            console.log("서버 응답 데이터:", response.data);
+
+            if (response.status === 200) {
+                alert("위치가 성공적으로 저장되었습니다.");
+                console.log("위치 저장 성공:", response);
+                navigate(-1);
+            } else {
+                alert("위치 저장에 실패했습니다.");
+                console.warn("위치 저장 실패 상태 코드:", response.status);
+            }
+        } catch (error) {
+            console.error("위치 저장 중 오류 발생:", error);
+            alert("서버 요청 중 문제가 발생했습니다.");
+        }
+    };
+
     return (
         <Wrapper>
-            <PrintLocation isPlaceholder={!outputValue}>
-                {outputValue || PlaceholderText}
+            <PrintLocation isPlaceholder={!outputValue.address}>
+                {outputValue.address || PlaceholderText}
             </PrintLocation>
-            <CompleteButton>선택 완료</CompleteButton>
+            <CompleteButton onClick={handleSubmit}>선택 완료</CompleteButton>
         </Wrapper>
     );
 }

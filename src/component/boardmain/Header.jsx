@@ -7,24 +7,51 @@ import 프로필                           from "./assets/프로필.png";
 import { useNavigate }                from "react-router-dom";
 import { getUserIdFromToken }         from "../api/jwt";
 import getProfileImgUrlFromUserId     from "../api/member_info";
+import { getAddressFromCoordinates }  from "../api/location";
+import api                            from "../api/axios";
+import Modal                          from "./Modal";
 
-const Header = () => {
+const Header = ({ setIsModalOpen }) => {
     const navigate = useNavigate(); 
     const [profileImgUrl, setProfileImgUrl] = useState('');
+    const [userLocation, setUserLocation] = useState('');
 
     useEffect(() => {
-        const userId = getUserIdFromToken();
-        if (userId) {
-            getProfileImgUrlFromUserId(userId, setProfileImgUrl);
-        }
+        const fetchUserData = async () => {
+            const userId = getUserIdFromToken();
+            if (userId) {
+                getProfileImgUrlFromUserId(userId, setProfileImgUrl);
+            }
+
+            try {
+                const response = await api.get("/users/geolocation"); // 위치 정보 API
+                if (response.status === 200 && response.data.verified_lat && response.data.verified_lng) {
+                    const { fullAddress } = await getAddressFromCoordinates(
+                        response.data.verified_lat,
+                        response.data.verified_lng
+                    );
+                    setUserLocation(fullAddress); // fullAddress 출력
+                } else if (response.status === 204) {
+                    setUserLocation("내 동네 설정이 되지 않았습니다.");
+                }
+            } catch (error) {
+                console.error("Error fetching user location:", error);
+                setUserLocation("위치 정보를 가져오는 중 오류가 발생했습니다.");
+            }
+        };
+
+        fetchUserData();
     }, []);
+
+    // 모달 열기
+    const openModal = () => setIsModalOpen(true);
 
     return (
         <HeaderBox>
-            <Logo         src={맛있는녀석들_로고} alt="맛있는 녀석들 로고" />
-            <MyLocation>지역 미설정</MyLocation>
-            <Search       src={돋보기}         alt="Search" />
-            <Notification src={알림}           alt="Notification" onClick={() => navigate("/user/alert")} />
+            <Logo src={맛있는녀석들_로고} alt="맛있는 녀석들 로고" />
+            <MyLocation onClick={openModal}>{userLocation}</MyLocation>
+            <Search src={돋보기} alt="Search" />
+            <Notification src={알림} alt="Notification" onClick={() => navigate("/user/alert")} />
             {profileImgUrl ? (
                 <LoginedProfile
                     src={profileImgUrl}
@@ -52,9 +79,9 @@ const HeaderBox = styled.header`
     height: 187px;
     left: 50%;
     top: 0px;
-    background-color: #FFFFFF;
+    background-color: #FFF4D2;
     border: 0.5px solid #CAC4D0;
-    z-index: 100;
+    z-index: 10;
 `
 
 const Logo = styled.img`
@@ -108,15 +135,15 @@ const LoginedProfile = styled.img`
 
 const MyLocation = styled.text`
     position: absolute;
-    width: 200px;
-    height: 42px;
+    width: auto;
+    height: auto;
     left: 24px;
-    top: 135px;
+    top: 142px;
 
-    font-family: 'Inter';
+    font-family: 'sans-serif';
     font-style: normal;
-    font-weight: 700;
-    font-size: 24px;
+    font-weight: 500;
+    font-size: 18px;
     line-height: 29px;
     display: flex;
     align-items: center;
@@ -124,6 +151,7 @@ const MyLocation = styled.text`
     color: #000000;
 
     border: none;
+    cursor: pointer;
 `
 
 export default Header;

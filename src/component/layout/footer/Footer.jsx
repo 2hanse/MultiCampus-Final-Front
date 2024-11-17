@@ -87,6 +87,7 @@ const TabImage = styled.img`
   width: 30px;
   height: 30px;
   left: 25px;
+  top: -3px;
   margin: 38px 22.3px 0px 22.3px;
   cursor: pointer;
 `;

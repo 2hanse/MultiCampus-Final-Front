@@ -23,7 +23,7 @@ const BookmarkList = (props) => {
 
     return (
         <Wrapper>
-            <GroupCount>그룹 {props.bookmarks.length}</GroupCount>
+            <GroupCount>그룹&nbsp;<ColoredText>{props.bookmarks.length}</ColoredText></GroupCount>
             <Dropdown onSelect={(option) => (option === "이름순" ? sortByName() : resetToOriginal())} />
             <CreateBtn onClick={props.onOpenCreate}>
                 <CreateImg src={Create} alt="Create" />
@@ -43,6 +43,7 @@ const BookmarkList = (props) => {
 const Wrapper = styled.div`
     display: flex;
     width: 390px;
+    height: 100vh;
     overflow: hidden;
     flex-direction: column;
     align-items: flex-start;
@@ -55,9 +56,9 @@ const GroupCount = styled.h1`
     height: 16px;
     left: 31px;
 
-    font-family: 'Inter';
+    font-family: 'sans-serif';
     font-style: normal;
-    font-weight: 700;
+    font-weight: 500;
     font-size: 14px;
     line-height: 100%;
 
@@ -67,6 +68,10 @@ const GroupCount = styled.h1`
 
     color: #000000;
 `
+
+const ColoredText = styled.span`
+  color: #ED6000;
+`;
 
 const EditBtn = styled.button`
     display: flex;
@@ -80,9 +85,9 @@ const EditBtn = styled.button`
     background-color: #fff;
     cursor: pointer;
 
-    font-family: 'Inter';
+    font-family: 'sans-serif';
     font-style: normal;
-    font-weight: 700;
+    font-weight: 500;
     font-size: 14px;
     line-height: 100%;
 
@@ -118,7 +123,7 @@ const CreateImg = styled.img`
 
 const GroupListContainer = styled.div`
     width: 100%;
-    height: calc(100vh - 142px);
+    height: calc(100vh - 200px);
     margin-top: 40px;
     box-sizing: border-box;
     overflow-y: auto;
