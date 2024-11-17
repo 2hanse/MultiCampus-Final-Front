@@ -22,11 +22,12 @@ const HotPostForm = () => {
             <PostBox>
                 <ListWrapper>
                     {hotPosts.length > 0 ? ( hotPosts.map((post, index) => (
-                    <ItemWrapper key={index}>
-                        <PostCategory>{post.category}</PostCategory>
-                        &nbsp;&nbsp;&nbsp;&nbsp; 
-                        <PostTitle>{post.title.length > 10 ? `${post.title.slice(0, 10)}...` : post.title}</PostTitle>
-                    </ItemWrapper> )) ) : ( <NoItemWrapper><NoPost>등록된 게시글이 없습니다</NoPost></NoItemWrapper> )}
+                        <ItemWrapper key={index}>
+                            <PostCategory>{post.category}</PostCategory>
+                            &nbsp;&nbsp;&nbsp;&nbsp; 
+                            <PostTitle>{post.title.length > 10 ? `${post.title.slice(0, 10)}...` : post.title}</PostTitle>
+                        </ItemWrapper> )) )
+                    : ( <NoItemWrapper><NoPost>등록된 게시글이 없습니다</NoPost></NoItemWrapper> )}
                 </ListWrapper>
             </PostBox>
         </Wrapper>
