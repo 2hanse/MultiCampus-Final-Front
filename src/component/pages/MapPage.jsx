@@ -61,10 +61,7 @@ function MapPage() {
             api.get("/bookmarks")
             .then((res) => {
                 setBookmarks(res.data)
-                //console.log(res.data);
             });
-          } else {
-            //console.log("게스트")
           }
     };
 
@@ -72,8 +69,6 @@ function MapPage() {
         fetchPlaces();
         fetchBookmarks();
     }, []);
-
-    //console.log(bookmarks);
 
     const selectedPlaceData = places.find(place => place.placeName === selectedPlaces);
 
@@ -99,10 +94,29 @@ function MapPage() {
         map.panTo(latlng);
     };
 
+    const onMapCreated = (map) => {
+        setMap(map);
+        
+
+        const fetchUserAndGoCenter = async () => {
+            const userId = getUserIdFromToken();
+
+            try {
+                const response = await api.get("/users/geolocation"); // 위치 정보 API
+                if (response.status === 200 && response.data.verified_lat && response.data.verified_lng) {
+                    var latlng = new kakao.maps.LatLng(response.data.verified_lat, response.data.verified_lng);
+                    map.panTo(latlng);
+                }
+            } catch (_) {}
+        };
+
+        fetchUserAndGoCenter();
+    }
+
   return (
     <Main>
       <Header onClickBookmark={() => setOpen(true)} onSearchedPlaceClick={onSearchedPlaceClick} map={map} />
-        <Map center={{ lat: 33.5563, lng: 126.79581 }} style={{width: "430px", height: "calc(100vh - 102px)"}} onCreate={setMap}>
+        <Map center={{ lat: 33.5563, lng: 126.79581 }} style={{width: "430px", height: "calc(100vh - 102px)"}} onCreate={onMapCreated}>
             {places.map((place) => (
                 <MapMarker
                     key={`${place.place_id}`}
