@@ -102,7 +102,7 @@ function MapPage() {
   return (
     <Main>
       <Header onClickBookmark={() => setOpen(true)} onSearchedPlaceClick={onSearchedPlaceClick} map={map} />
-        <Map center={{ lat: 33.5563, lng: 126.79581 }} style={{width: "430px", height: "932px"}} onCreate={setMap}>
+        <Map center={{ lat: 33.5563, lng: 126.79581 }} style={{width: "430px", height: "calc(100vh - 102px)"}} onCreate={setMap}>
             {places.map((place) => (
                 <MapMarker
                     key={`${place.place_id}`}
