@@ -113,7 +113,7 @@ function BookmarkListPage() {
                             key={place.place_id}
                             place={place}
                             isEditable={isEditable && isEditing}
-                            onDelete={deletePlace}
+                            onDelete={() => deletePlace(place.bookmark_place_id)}
                         />
                     ))}
                 </ListWrapper>
