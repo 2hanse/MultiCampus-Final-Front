@@ -25,16 +25,17 @@ const Header = () => {
             try {
                 const response = await api.get("/users/geolocation"); // 위치 정보 API
                 if (response.status === 200 && response.data.verified_lat && response.data.verified_lng) {
-                    const address = await getAddressFromCoordinates(
+                    const { fullAddress } = await getAddressFromCoordinates(
                         response.data.verified_lat,
                         response.data.verified_lng
                     );
-                    setUserLocation(address); // 주소로 변환하여 설정
+                    setUserLocation(fullAddress); // fullAddress 출력
                 } else if (response.status === 204) {
                     setUserLocation("위치 인증이 되지 않았습니다.");
                 }
             } catch (error) {
                 console.error("Error fetching user location:", error);
+                setUserLocation("위치 정보를 가져오는 중 오류가 발생했습니다.");
             }
         };
 
@@ -130,15 +131,15 @@ const LoginedProfile = styled.img`
 
 const MyLocation = styled.text`
     position: absolute;
-    width: 200px;
-    height: 42px;
+    width: auto;
+    height: auto;
     left: 24px;
-    top: 136px;
+    top: 142px;
 
     font-family: 'sans-serif';
     font-style: normal;
     font-weight: 500;
-    font-size: 20px;
+    font-size: 18px;
     line-height: 29px;
     display: flex;
     align-items: center;
