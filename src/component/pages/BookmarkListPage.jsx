@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import styled from "styled-components";
+import { getUserIdFromToken } from "../api/jwt";
 import api from "../api/axios";
 import BookmarkListHeader from "../bookmark/group-list/BookmarkListHeader";
 import BookmarkListContent from "../bookmark/group-list/BookmarkListContent";
@@ -12,8 +13,19 @@ function BookmarkListPage() {
     const [visibility, setVisiblity] = useState();
     const [placeList, setPlaceList] = useState([]);
     const [subscriber, setSubscriber] = useState(0);
+    const [creatorId, setCreatorId] = useState(null); // 생성자의 user_id
+    const [loggedInUserId, setLoggedInUserId] = useState(null); // 로그인한 유저의 user_id
+    const [isEditing, setIsEditing] = useState(false);
+
+    const isEditable = loggedInUserId === creatorId;
 
     useEffect(() => {
+        const fetchLoggedInUserId = () => {
+            const userId = getUserIdFromToken(); // 로그인한 유저 ID 가져오기
+            console.log("Logged-in User ID: ", userId); // 확인용 로그
+            setLoggedInUserId(userId);
+        };
+
         const fetchBookmark = async () => {
             try {
                 const response = await api.get(`/bookmarks/${bookmark_id}`);
@@ -21,6 +33,8 @@ function BookmarkListPage() {
                 setBookmarkTitle(response.data.bookmark_title);
                 setViewCount(response.data.view_count);
                 setVisiblity(response.data.visibility);
+                console.log("Bookmark Creator ID: ", response.data.user_id); // 확인용 로그
+                setCreatorId(response.data.user_id); // 생성자의 user_id
             } catch(error) {
                 console.error("Error fetching bookmark: ", error);
             }
@@ -46,10 +60,22 @@ function BookmarkListPage() {
             }
         };
         
+        fetchLoggedInUserId();
         fetchBookmark();
         fetchBookmarkPlaceList();
         fetchSubscriberCount();
     }, [bookmark_id]);
+
+    const deletePlace = async (bookmarkPlaceId) => {
+        try {
+            await api.delete(`bookmarks/place/${bookmarkPlaceId}`);
+            setPlaceList((prevList) => prevList.filter((place) => place.bookmark_place_id !== bookmarkPlaceId));
+            alert("해당 리스트가 삭제되었습니다.");
+        } catch (error) {
+            console.error("Error deleting place:", error);
+            alert("삭제에 실패했습니다.");
+        }
+    };
 
     // 정렬 함수
     const sortByName = () => {
@@ -75,6 +101,10 @@ function BookmarkListPage() {
                 visibility={visibility}
                 placeCount={placeList.length}
                 onSortOptionSelect={(option) => option === "이름순" ? sortByName() : resetToOriginal()}
+                creatorId={creatorId} // 생성자의 user_id 전달
+                loggedInUserId={loggedInUserId} // 로그인한 유저의 user_id 전달
+                isEditing={isEditing} // 상태 전달
+                setIsEditing={setIsEditing} // 상태 변경 함수 전달
             />
             <ContentWrapper>
                 <ListWrapper>
@@ -82,6 +112,8 @@ function BookmarkListPage() {
                         <BookmarkListContent
                             key={place.place_id}
                             place={place}
+                            isEditable={isEditable && isEditing}
+                            onDelete={deletePlace}
                         />
                     ))}
                 </ListWrapper>
