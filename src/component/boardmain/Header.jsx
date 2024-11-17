@@ -13,7 +13,7 @@ import api                            from "../api/axios";
 const Header = () => {
     const navigate = useNavigate(); 
     const [profileImgUrl, setProfileImgUrl] = useState('');
-    const [userLocation, setUserLocation] = useState('지역 미설정');
+    const [userLocation, setUserLocation] = useState('');
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -30,6 +30,8 @@ const Header = () => {
                         response.data.verified_lng
                     );
                     setUserLocation(address); // 주소로 변환하여 설정
+                } else if (response.status === 204) {
+                    setUserLocation("위치 인증이 되지 않았습니다.");
                 }
             } catch (error) {
                 console.error("Error fetching user location:", error);
