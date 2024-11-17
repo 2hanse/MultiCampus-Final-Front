@@ -14,6 +14,8 @@ import InfoItem from "../map/InfoItem";
 import PlaceInfoBottom from "../map/PlaceInfoBottom";
 import { getUserIdFromToken } from "../api/jwt";
 
+const {kakao} = window;
+
 function MapPage() {
     const location                      = useLocation();
     const navigate                      = useNavigate();
@@ -25,6 +27,7 @@ function MapPage() {
     const [places,       setPlaces    ] = useState([]);
     const [bookmarkPlaces, setBoomarkPlaces] = useState([]);
     const [bookmarkCnt, setBookmarkCnt] = useState([]);
+    const [map, setMap]                 = useState();
 
     useEffect(() => {
         if (location.state?.openBookmarkSheet) {
@@ -73,33 +76,39 @@ function MapPage() {
         navigate(-1, { state: { openBookmarkSheet: true } });
     };
 
+    const onSearchedPlaceClick = (place) => {
+        var latlng = new kakao.maps.LatLng(place.y, place.x);
+        console.log(latlng);
+        map.panTo(latlng);
+    };
+
   return (
     <Main>
-      <Header onClickBookmark={() => setOpen(true)} />
-      <Map center={{ lat: 33.5563, lng: 126.79581 }} style={{width: "430px", height: "932px"}}>
-                {places.map((place) => (
-                    <MapMarker
-                      key={`${place.place_id}`}
-                      position={{lat: place.placeLat, lng: place.placeLng}} // 마커를 표시할 위치
-                      image={{
-                          src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png", // 마커이미지의 주소입니다
-                          size: {
-                          width: 24,
-                          height: 35
-                          }, // 마커이미지의 크기입니다
-                      }}
-                      title={place.placeName} // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-                      onClick={(marker) => {
-                          setSelectedPlaces(marker.getTitle());
-                          //console.log(marker);
-                          //console.log(selectedPlaces);
-                          setPlaceInfoOpen(true);
-                      }}
-                    />
-                ))}
-            </Map>
-            <CustomSheet    isOpen={isOpen}
-                            onClose={() => {
+      <Header onClickBookmark={() => setOpen(true)} onSearchedPlaceClick={onSearchedPlaceClick} map={map} />
+        <Map center={{ lat: 33.5563, lng: 126.79581 }} style={{width: "430px", height: "932px"}} onCreate={setMap}>
+            {places.map((place) => (
+                <MapMarker
+                    key={`${place.place_id}`}
+                    position={{lat: place.placeLat, lng: place.placeLng}} // 마커를 표시할 위치
+                    image={{
+                        src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png", // 마커이미지의 주소입니다
+                        size: {
+                        width: 24,
+                        height: 35
+                        }, // 마커이미지의 크기입니다
+                    }}
+                    title={place.placeName} // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+                    onClick={(marker) => {
+                        setSelectedPlaces(marker.getTitle());
+                        //console.log(marker);
+                        //console.log(selectedPlaces);
+                        setPlaceInfoOpen(true);
+                    }}
+                />
+            ))}
+        </Map>
+        <CustomSheet    isOpen={isOpen}
+                        onClose={() => {
                                 setOpen(false);
                                 navigate("/homepage", { replace: true });
                             }}
