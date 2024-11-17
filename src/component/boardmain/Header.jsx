@@ -9,7 +9,6 @@ import { getUserIdFromToken }         from "../api/jwt";
 import getProfileImgUrlFromUserId     from "../api/member_info";
 import { getAddressFromCoordinates }  from "../api/location";
 import api                            from "../api/axios";
-import Modal                          from "./Modal";
 
 const Header = ({ setIsModalOpen }) => {
     const navigate = useNavigate(); 
