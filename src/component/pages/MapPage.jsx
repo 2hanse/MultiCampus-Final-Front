@@ -24,9 +24,9 @@ function MapPage() {
     const [isPlaceInfoOpen, setPlaceInfoOpen] = useState(false);
     const [bookmarks, setBookmarks] = useState([]);
     const [selectedPlaces, setSelectedPlaces] = useState();
+    const [selectedPlacesBookmarkedCount, setSelectedPlacesBookmarkedCount] = useState(0);
     const [places,       setPlaces    ] = useState([]);
     const [bookmarkPlaces, setBoomarkPlaces] = useState([]);
-    const [bookmarkCnt, setBookmarkCnt] = useState([]);
     const [map, setMap]                 = useState();
 
     useEffect(() => {
@@ -34,6 +34,27 @@ function MapPage() {
             setOpen(true);
         }
     }, [location.state]);
+
+    const fetchPlaces = () => {
+        api.get("/place/list")
+            .then((res) => {
+                // 중복 제거 로직
+                const uniquePlaces = res.data.reduce((acc, current) => {
+                    const existingPlace = acc.find(place => place.place_id === current.place_id);
+                    if (!existingPlace) {
+                        acc.push(current);
+                    } else if (!existingPlace.bookmarked && current.bookmarked) {
+                        // 교체: bookmarked가 false인 기존 항목을 bookmarked가 true인 항목으로 대체
+                        acc = acc.map(place => 
+                            place.place_id === current.place_id ? current : place
+                        );
+                    }
+                    return acc;
+                }, []);
+                
+                setPlaces(uniquePlaces);
+            });
+    }
 
     const fetchBookmarks = () => {
         if (getUserIdFromToken()) {
@@ -48,11 +69,7 @@ function MapPage() {
     };
 
     useEffect(() => {
-        api.get("/place/list")
-        .then((res) => {
-            setPlaces(res.data);
-            //console.log(res.data);
-        });
+        fetchPlaces();
         fetchBookmarks();
     }, []);
 
@@ -66,7 +83,7 @@ function MapPage() {
             //console.log(selectedPlaceData?.place_id);
             api.get(`/bookmarks/place/counts/${place_id}`)
             .then((res) => {
-                setBookmarkCnt(res.data);
+                setSelectedPlacesBookmarkedCount(res.data);
                 //console.log(bookmarkCnt);
             });
         }   
@@ -90,12 +107,18 @@ function MapPage() {
                 <MapMarker
                     key={`${place.place_id}`}
                     position={{lat: place.placeLat, lng: place.placeLng}} // 마커를 표시할 위치
-                    image={{
+                    image={place.bookmarked ? {
                         src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png", // 마커이미지의 주소입니다
                         size: {
                         width: 24,
                         height: 35
-                        }, // 마커이미지의 크기입니다
+                        }, // 북마크 마커용
+                    } : {
+                        src: "https://t1.daumcdn.net/mapjsapi/images/marker.png", // 마커이미지의 주소입니다
+                        size: {
+                        width: 24,
+                        height: 35
+                        } // 일반 장소 마커용
                     }}
                     title={place.placeName} // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
                     onClick={(marker) => {
@@ -122,6 +145,7 @@ function MapPage() {
                                 setOpen(false);
                                 setCreateOpen(true);
                             }}
+                            fetchPlaces={fetchPlaces}
                             fetchBookmarks={fetchBookmarks}
                             bookmarks={bookmarks}/>
                     </Sheet.Content>
@@ -171,7 +195,7 @@ function MapPage() {
                                         
                         <PlaceInfoBottom    placeAddress={selectedPlaceData?.placeAddress} 
                                             placeTele={selectedPlaceData?.placeTele}
-                                            bookmarkCnt={bookmarkCnt}
+                                            bookmarkCnt={selectedPlacesBookmarkedCount}
                                             place_id={selectedPlaceData?.place_id}/>
                     </Sheet.Content>
                 </Sheet.Container>

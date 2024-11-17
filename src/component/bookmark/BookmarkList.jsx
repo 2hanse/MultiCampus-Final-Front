@@ -34,6 +34,7 @@ const BookmarkList = (props) => {
             </EditBtn>
             <GroupListContainer>
                 <GroupList  bookmarks={sortedBookmarks.length ? sortedBookmarks : props.bookmarks} 
+                        fetchPlaces={props.fetchPlaces}
                         fetchBookmarks={props.fetchBookmarks} />
             </GroupListContainer>
         </Wrapper>

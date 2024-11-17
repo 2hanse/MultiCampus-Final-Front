@@ -7,7 +7,10 @@ function GroupItem(props) {
     const handleToggle = (e) => {
         e.stopPropagation();
         api.put(`/bookmarks/toggle/${props.group.bookmark_id}`, {toggle: !props.group.toggle})
-            .then((res) => {props.props.fetchBookmarks()})
+            .then((res) => {
+                props.props.fetchPlaces();
+                props.props.fetchBookmarks();
+            })
             .catch((err) => alert(`북마크 마커를 활성화 하는 데 오류가 발생했습니다.(${err})`));
         ;
     };
