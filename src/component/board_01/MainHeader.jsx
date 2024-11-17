@@ -3,13 +3,13 @@ import styled from "styled-components";
 import HotPost from "./HotPost"; 
 import Sort from "./Sort"; 
 
-function MainHeader({ onSortChange }) {
+function MainHeader({ category, onSortChange }) {
   return (
     <MainHeaderContainer>
-      <HotPost />
-      <SortContainer>
+      <HotPost category={category} />
+      {/* <SortContainer>
         <Sort onSortChange={onSortChange} />
-      </SortContainer>
+      </SortContainer> */}
     </MainHeaderContainer>
   );
 }

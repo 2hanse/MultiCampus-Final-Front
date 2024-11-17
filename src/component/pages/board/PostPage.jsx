@@ -1,22 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Header from "../../layout/header/Header";
 import PostContent from "../../detail/PostContent";
 import DetailActions from "../../detail/DetailActions";
 import Footer from "../../layout/footer/Footer";
 import { useLocation } from "react-router-dom";
+import api from "../../api/axios";
 
 function PostPage() {
   const location = useLocation();
   const { post, category } = location.state || {};
+  const [detail, setDetail] = useState([]);
+
+  useEffect(() => {
+    api.get(`/boards/${post.board_id}`)
+      .then((res) => {
+        setDetail(res.data);
+        console.log(res.date);
+      })
+      .catch((error) => {
+        console.error("게시글 데이터를 불러오는 중 오류 발생:", error);
+        alert("게시글 데이터를 불러올 수 없습니다.");
+      });
+  }, [post.board_id]);
 
   return (
     <PageContainer>
       <Header title={`${post ? post.nickname : "(닉네임)"} 님의 게시글`} color="#f4b183"actions={
-        <DetailActions />
+        <DetailActions post={post} category={category}/>
       }/>
       <ContentContainer>
-        <PostContent post={post} category={category} />
+        <PostContent post={post} category={category} detail={detail} />
       </ContentContainer>
       <Footer />
     </PageContainer>

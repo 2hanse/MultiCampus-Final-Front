@@ -3,87 +3,106 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 
-const examplePosts = [
-  { time: "2023-11-12", nickname: "User1", grade: "Gold", title: "첫 번째 게시글", content: "이것은 첫 번째 게시글의 내용입니다." },
-  { time: "2023-11-11", nickname: "User2", grade: "Silver", title: "두 번째 게시글", content: "두 번째 게시글의 내용입니다." },
-  { time: "2023-11-10", nickname: "User3", grade: "Bronze", title: "세 번째 게시글", content: "세 번째 게시글의 내용입니다." },
-  { time: "2023-11-09", nickname: "User4", grade: "Platinum", title: "네 번째 게시글", content: "네 번째 게시글의 내용입니다." },
-  { time: "2023-11-08", nickname: "User5", grade: "Diamond", title: "다섯 번째 게시글", content: "다섯 번째 게시글의 내용입니다." },
-  { time: "2023-11-07", nickname: "User6", grade: "Gold", title: "여섯 번째 게시글", content: "이것은 여섯 번째 게시글의 내용입니다." },
-  { time: "2023-11-06", nickname: "User7", grade: "Silver", title: "일곱 번째 게시글", content: "일곱 번째 게시글의 내용입니다." },
-  { time: "2023-11-05", nickname: "User8", grade: "Bronze", title: "여덟 번째 게시글", content: "여덟 번째 게시글의 내용입니다." },
-  { time: "2023-11-04", nickname: "User9", grade: "Platinum", title: "아홉 번째 게시글", content: "아홉 번째 게시글의 내용입니다." },
-  { time: "2023-11-03", nickname: "User10", grade: "Diamond", title: "열 번째 게시글", content: "열 번째 게시글의 내용입니다." }
-];
-
 function PostList ({ selectedSort, category }) {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 6;
-  const [posts, setPosts] = useState(examplePosts);
   const [postlist, setpostlist] = useState([]);
+  const totalPages = 26;
 
   useEffect(() => {
-    api.get(`/boards/list/${category}/0`)
-    .then((res) => {
-      console.log(res.data);
-      setpostlist(res.data);
-      console.log(postlist);
-    });
-  }, []);
-
-  useEffect(() => {
-    let sortedPosts = [...posts];
-    if (selectedSort === '등록 순') {
-      sortedPosts.sort((a, b) => new Date(b.time) - new Date(a.time));
-    } else if (selectedSort === '좋아요 순') {
-      sortedPosts.sort((a, b) => b.likes - a.likes || new Date(b.time) - new Date(a.time));
-    } else if (selectedSort === '조회수 순') {
-      sortedPosts.sort((a, b) => b.views - a.views || new Date(b.time) - new Date(a.time));
-    }
-    setPosts(sortedPosts);
-  }, [selectedSort]);
-
-  // 계산된 페이지 수
-  const totalPages = Math.ceil(examplePosts.length / postsPerPage);
-
-  // 현재 페이지에 해당하는 게시글 가져오기
-  const currentPosts = examplePosts.slice(
-    (currentPage - 1) * postsPerPage,
-    currentPage * postsPerPage
-  );
-
-  const handleTitleClick = (post, category) => {
-    navigate("/board/PostPage", { state: { post, category } });
-  };
+    api.get(`/boards/list/${category}/${currentPage - 1}`)
+      .then((res) => {
+        console.log(res.data);
+        setpostlist(res.data || []);
+      })
+      .catch((error) => {
+        console.error("데이터를 가져오는 중 오류 발생:", error);
+      });
+  }, [category, currentPage]);
 
   const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+    }
+  };
+
+  const renderPageButtons = () => {
+    let startPage = Math.max(currentPage - 2, 1);
+    let endPage = Math.min(startPage + 4, totalPages);
+
+    if (endPage - startPage < 4) {
+      startPage = Math.max(endPage - 4, 1);
+    }
+
+    const pageNumbers = [];
+    for (let i = startPage; i <= endPage; i++) {
+      pageNumbers.push(
+        <PageButton
+          key={i}
+          onClick={() => handlePageChange(i)}
+          isActive={currentPage === i}
+        >
+          {i}
+        </PageButton>
+      );
+    }
+    return pageNumbers;
+  };
+
+  const extractFirstImage = (content) => {
+    const imgTagMatch = content.match(/<img[^>]+src="([^">]+)"/);
+    return imgTagMatch ? imgTagMatch[1] : null;
+  };  
+
+  const handleTitleClick = (post) => {
+    // 백엔드에서 조회수 증가 api가 없으면 로컬에서 밖에 수정이 안됨 <-매번 view_cnt값이 초기화됨
+    
+    // 페이지 이동
+    navigate("/board/PostPage", { state: { post, category } });
   };
 
   return (
     <PostListContainer>
       <ScrollableContent>
-        {currentPosts.map((post, index) => (
-          <PostItem key={index}>
-            <PostMeta>
-              {post.time} | {post.nickname} ({post.grade}) | 조회수: {post.views || 0}
-            </PostMeta>
-            <PostTitle onClick={() => handleTitleClick(post, category)}>{post.title}</PostTitle>
-            <PostContent>{post.content}</PostContent>
-          </PostItem>
-        ))}
+        {postlist.map((post) => {
+          const firstImageUrl = extractFirstImage(post.content);
+          let membership = "빈공기";
+          if (post.member_score >= 10 && post.member_score < 30) {
+            membership = "한공기";
+          } else if (post.member_score >= 30 && post.member_score < 50) {
+            membership = "두공기";
+          } else if (post.member_score >= 50 && post.member_score < 100) {
+            membership = "세공기";
+          } else if (post.member_score >= 100) {
+            membership = "네공기";
+          }
+
+          return (
+            <PostItem key={post.board_id}>
+              <PostMeta>
+                {post.created_time} | {post.nickname} ({membership}) | 조회수: {post.view_cnt}
+              </PostMeta>
+              {firstImageUrl && <PreviewImage src={firstImageUrl} alt="게시글 미리보기 이미지" onClick={() => handleTitleClick(post)} />}
+              <PostTitle onClick={() => handleTitleClick(post)}>{post.title}</PostTitle>
+              <PostContent>{post.content}</PostContent>
+            </PostItem>
+          );
+        })}
       </ScrollableContent>
       <PaginationContainer>
-        {Array.from({ length: totalPages }, (_, i) => (
-          <PageButton
-            key={i + 1}
-            onClick={() => handlePageChange(i + 1)}
-            isActive={currentPage === i + 1}
-          >
-            {i + 1}
-          </PageButton>
-        ))}
+        <PageButton onClick={() => handlePageChange(1)} disabled={currentPage === 1}>
+          &lt;&lt;
+        </PageButton>
+        <PageButton onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+          &lt;
+        </PageButton>
+        {renderPageButtons()}
+        <PageButton onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+          &gt;
+        </PageButton>
+        <PageButton onClick={() => handlePageChange(totalPages)} disabled={currentPage === totalPages}>
+          &gt;&gt;
+        </PageButton>
       </PaginationContainer>
     </PostListContainer>
   );
@@ -128,6 +147,12 @@ const PostMeta = styled.p`
   color: #49454f;
   letter-spacing: 0.5px;
   font: 500 12px/16px Roboto, sans-serif;
+`;
+
+const PreviewImage = styled.img`
+  max-height: 100px;
+  object-fit: cover;
+  cursor: pointer;
 `;
 
 const PostTitle = styled.h3`

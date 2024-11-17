@@ -7,7 +7,7 @@ function CreatePostButton() {
   const navigate = useNavigate();
 
   function gotoWritePage() {
-    navigate('/boardpost/restaurant');
+    navigate('/boardpost/top');
   }
 
   return (

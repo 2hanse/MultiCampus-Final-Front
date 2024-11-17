@@ -6,12 +6,15 @@ import free from "./asset/free.png";
 import top from "./asset/top.png";
 import tour from "./asset/tour.png";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const SidebarMenu = () => {
+  const location = useLocation();
   const navigate = useNavigate();
+  const { category } = location.state || {};
 
   function gotoWritePage() {
-    navigate('/boardpost/restaurant');
+    navigate(`/boardpost/${category}`);
   }
 
   function gotoRestaurantBoardPage() {

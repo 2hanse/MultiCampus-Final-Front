@@ -119,11 +119,11 @@ const ModalContent = styled.div`
   position: relative;
 `;
 
-function BoardActions() {
+function BoardActions({ category }) {
   const navigate = useNavigate();
 
   function gotoSidebar() {
-    navigate("/board/Sidebar");
+    navigate("/board/Sidebar", {state : {category}});
   }
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -133,6 +133,10 @@ function BoardActions() {
   };
 
   const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const handleSearchButton = () => {
     setIsModalOpen(!isModalOpen);
   };
 
@@ -149,7 +153,7 @@ function BoardActions() {
               <ModalInput type="text" placeholder="검색어를 입력하세요" />
             </ModalInputWrapper>
             <CloseButton onClick={closeModal}>닫기</CloseButton>
-            <ModalButton onClick={toggleModal}>검색</ModalButton>
+            <ModalButton onClick={handleSearchButton}>검색</ModalButton>
           </ModalContent>
         </ModalOverlay>
       )}

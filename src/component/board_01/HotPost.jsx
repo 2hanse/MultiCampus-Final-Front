@@ -1,25 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import hot_post from "./asset/hot_post.png"; // 핫게시물 아이콘
 import thumbs_up from "./asset/thumbs_up.png"; // 좋아요 아이콘
 import { useNavigate } from "react-router-dom";
+import api from "../api/axios";
 
-function HotPost() {
+function HotPost(category) {
   const navigate = useNavigate();
+  const [hotpost, sethotpost] = useState();
+  const [likes, setLikes] = useState(0);
+
+  useEffect(() => {
+    api.get(`/boards/hot-posts`)
+    .then((res) => {
+      console.log(res.data[0]);
+      console.log(res.data);
+      sethotpost(res.data[0]);
+      console.log(hotpost);
+      api.get(`/boards/${res.data[0].board_id}`)
+      .then((res) => {
+        setLikes(res.data.likes);
+      })
+    });
+  }, []);
 
   const handleTitleClick = () => {
-    navigate("/board/PostPage");
+    navigate("/board/PostPage", { state: { post: hotpost} });
   };
 
   return (
-    <HotPostContainer>
+    <HotPostContainer onClick={handleTitleClick}>
       <HotIcon src={hot_post} alt="Hot Post Icon" />
       <HotPostContent>
-        <HotPostTitle onClick={handleTitleClick}>(핫게시물 제목)</HotPostTitle>
-        <LikeInfo>
-          <LikeIcon src={thumbs_up} alt="Thumbs Up Icon" />
-          <LikeCount>좋아요 수</LikeCount>
-        </LikeInfo>
+        {hotpost ? (
+          <>
+            <HotPostTitle>{hotpost.title}</HotPostTitle>
+            <LikeInfo>
+              <LikeIcon src={thumbs_up} alt="Thumbs Up Icon" />
+              <LikeCount>{likes}</LikeCount>
+            </LikeInfo>
+          </>
+        ) : (
+          <span>Loading...</span>
+        )}
       </HotPostContent>
     </HotPostContainer>
   );
@@ -30,12 +53,13 @@ const HotPostContainer = styled.section`
   align-items: center;
   justify-content: center;
   width: 356px;
-  height: 31px;
+  height: 40px;
   background-color: #ffd966;
-  border-radius: 15px;
+  border-radius: 20px;
   padding: 0 10px;
   margin: 20px auto 5px auto;
   gap: 10px;
+  cursor: pointer;
 `;
 
 const HotIcon = styled.img`
@@ -49,16 +73,12 @@ const HotPostContent = styled.div`
   flex-grow: 1;
   align-items: center;
   color: #ffffff;
-  font-size: 12px;
+  font-size: 13px;
 `;
 
 const HotPostTitle = styled.h2`
-  font-size: 12px;
+  font-size: 13x;
   margin: 0;
-  cursor: pointer; // 클릭 가능한 스타일
-  &:hover {
-    text-decoration: underline; // 호버 시 강조 효과
-  }
 `;
 
 const LikeInfo = styled.div`
@@ -68,13 +88,15 @@ const LikeInfo = styled.div`
 `;
 
 const LikeIcon = styled.img`
-  width: 12px;
-  height: 12px;
+  width: 20px;
+  height: 20px;
 `;
 
 const LikeCount = styled.span`
-  font-size: 12px;
-  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  margin-right: 10px;
 `;
 
 export default HotPost;
