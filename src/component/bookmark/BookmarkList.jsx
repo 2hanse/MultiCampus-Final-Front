@@ -43,6 +43,7 @@ const BookmarkList = (props) => {
 const Wrapper = styled.div`
     display: flex;
     width: 390px;
+    height: 100vh;
     overflow: hidden;
     flex-direction: column;
     align-items: flex-start;
@@ -118,7 +119,7 @@ const CreateImg = styled.img`
 
 const GroupListContainer = styled.div`
     width: 100%;
-    height: calc(100vh - 50px);
+    height: calc(100vh - 200px);
     margin-top: 40px;
     box-sizing: border-box;
     overflow-y: auto;

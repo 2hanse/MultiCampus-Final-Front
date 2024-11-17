@@ -103,7 +103,7 @@ function MapPage() {
                             setOpen(false);
                             navigate("/homepage", { replace: true });
                         }}
-                        snapPoints={[700, 400, 0]}
+                        snapPoints={[700, 700, 0]}
                         initialSnap={1}>
             <Sheet.Container>
                 <Sheet.Header />
