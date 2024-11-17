@@ -7,24 +7,44 @@ import 프로필                           from "./assets/프로필.png";
 import { useNavigate }                from "react-router-dom";
 import { getUserIdFromToken }         from "../api/jwt";
 import getProfileImgUrlFromUserId     from "../api/member_info";
+import { getAddressFromCoordinates }  from "../api/location";
+import api                            from "../api/axios";
 
 const Header = () => {
     const navigate = useNavigate(); 
     const [profileImgUrl, setProfileImgUrl] = useState('');
+    const [userLocation, setUserLocation] = useState('지역 미설정');
 
     useEffect(() => {
-        const userId = getUserIdFromToken();
-        if (userId) {
-            getProfileImgUrlFromUserId(userId, setProfileImgUrl);
-        }
+        const fetchUserData = async () => {
+            const userId = getUserIdFromToken();
+            if (userId) {
+                getProfileImgUrlFromUserId(userId, setProfileImgUrl);
+            }
+
+            try {
+                const response = await api.get("/users/geolocation"); // 위치 정보 API
+                if (response.status === 200 && response.data.verified_lat && response.data.verified_lng) {
+                    const address = await getAddressFromCoordinates(
+                        response.data.verified_lat,
+                        response.data.verified_lng
+                    );
+                    setUserLocation(address); // 주소로 변환하여 설정
+                }
+            } catch (error) {
+                console.error("Error fetching user location:", error);
+            }
+        };
+
+        fetchUserData();
     }, []);
 
     return (
         <HeaderBox>
-            <Logo         src={맛있는녀석들_로고} alt="맛있는 녀석들 로고" />
-            <MyLocation>지역 미설정</MyLocation>
-            <Search       src={돋보기}         alt="Search" />
-            <Notification src={알림}           alt="Notification" onClick={() => navigate("/user/alert")} />
+            <Logo src={맛있는녀석들_로고} alt="맛있는 녀석들 로고" />
+            <MyLocation>{userLocation}</MyLocation>
+            <Search src={돋보기} alt="Search" />
+            <Notification src={알림} alt="Notification" onClick={() => navigate("/user/alert")} />
             {profileImgUrl ? (
                 <LoginedProfile
                     src={profileImgUrl}
