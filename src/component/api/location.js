@@ -15,7 +15,25 @@ export const getAddressFromCoordinates = async (lat, lng) => {
 
         // 주소 변환 결과 반환
         if (response.data.documents.length > 0) {
-            return response.data.documents[0].address.address_name; // 도로명 주소 또는 지번 주소
+            const address = response.data.documents[0].address;
+
+            // 행정구역 단위 추출
+            let region1 = address.region_1depth_name; // 시/도
+            const region2 = address.region_2depth_name; // 구
+            const region3 = address.region_3depth_name; // 동/읍/면
+
+            // '특별시', '광역시', '도', '특별자치도' 처리
+            if (region1 === "제주특별자치도") {
+                region1 = "제주"; // 제주특별자치도 → 제주
+            } else if (region1.endsWith("특별시")) {
+                region1 = region1.replace("특별시", ""); // 서울특별시 → 서울
+            } else if (region1.endsWith("광역시")) {
+                region1 = region1.replace("광역시", ""); // 부산광역시 → 부산
+            } else if (region1.endsWith("도")) {
+                region1 = region1.replace("도", ""); // 경기도 → 경기
+            }
+
+            return `${region1} ${region2} ${region3}`; // 반환 형식: "서울특별시 강남구 삼성동"
         } else {
             return "주소를 찾을 수 없습니다.";
         }
