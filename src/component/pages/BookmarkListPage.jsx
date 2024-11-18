@@ -71,7 +71,7 @@ function BookmarkListPage() {
 
     const updatePlaceName = async (bookmarkPlaceId, newName) => {
         try {
-            await api.put(`bookmarks/place/${bookmarkPlaceId}`, { custom_place_name: newName });
+            await api.put(`bookmarks/place/${bookmarkPlaceId}`, { custom_place_name: newName, icon_color: 0 });
             setPlaceList((prevList) =>
                 prevList.map((place) =>
                     place.bookmark_place_id === bookmarkPlaceId
