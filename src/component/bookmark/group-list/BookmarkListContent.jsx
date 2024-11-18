@@ -4,8 +4,15 @@ import Edit   from "../assets/Edit.png";
 import Delete from "../assets/Delete.png";
 
 function BookmarkListContent(props) {
+    const openModal = () => {
+        console.log("Opening modal for:", props.place.place_info.placeName);
+        props.setSelectedPlace(props.place);
+        props.setIsModalOpen(true)
+    };
+
     const handleDelete = () => {
-        props.onDelete(props.place.place_id); // 상위에서 전달된 삭제 함수 호출
+        console.log("Deleting place:", props.place.place_info.placeName);
+        props.onDelete(props.place.bookmark_place_id); // 상위에서 전달된 삭제 함수 호출
     };
 
     return (
@@ -15,7 +22,7 @@ function BookmarkListContent(props) {
                 <Details>{props.place.place_info.placeAddress || "Loading..."}</Details>
                 {props.isEditable && (
                     <>
-                        <EditBtn>
+                        <EditBtn onClick={openModal}>
                             <Icon src={Edit} alt="Edit" />
                         </EditBtn>
                         <DeleteBtn onClick={handleDelete}>

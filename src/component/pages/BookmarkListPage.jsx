@@ -5,6 +5,7 @@ import { getUserIdFromToken } from "../api/jwt";
 import api from "../api/axios";
 import BookmarkListHeader from "../bookmark/group-list/BookmarkListHeader";
 import BookmarkListContent from "../bookmark/group-list/BookmarkListContent";
+import CustomNameModal from "../bookmark/group-list/CustomNameModal";
 
 function BookmarkListPage() {
     const { bookmark_id } = useParams();
@@ -16,6 +17,8 @@ function BookmarkListPage() {
     const [creatorId, setCreatorId] = useState(null); // 생성자의 user_id
     const [loggedInUserId, setLoggedInUserId] = useState(null); // 로그인한 유저의 user_id
     const [isEditing, setIsEditing] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedPlace, setSelectedPlace] = useState(null);
 
     const isEditable = loggedInUserId === creatorId;
 
@@ -66,6 +69,21 @@ function BookmarkListPage() {
         fetchSubscriberCount();
     }, [bookmark_id]);
 
+    const updatePlaceName = async (bookmarkPlaceId, newName) => {
+        try {
+            await api.put(`bookmarks/place/${bookmarkPlaceId}`, { custom_place_name: newName });
+            setPlaceList((prevList) =>
+                prevList.map((place) =>
+                    place.bookmark_place_id === bookmarkPlaceId
+                        ? { ...place, custom_place_name: newName }
+                        : place
+                )
+            );
+        } catch (error) {
+            console.error("Error updating place name:", error);
+        }
+    };
+
     const deletePlace = async (bookmarkPlaceId) => {
         try {
             await api.delete(`bookmarks/place/${bookmarkPlaceId}`);
@@ -113,11 +131,20 @@ function BookmarkListPage() {
                             key={place.place_id}
                             place={place}
                             isEditable={isEditable && isEditing}
+                            setIsModalOpen={setIsModalOpen}
                             onDelete={() => deletePlace(place.bookmark_place_id)}
+                            setSelectedPlace={setSelectedPlace}
                         />
                     ))}
                 </ListWrapper>
             </ContentWrapper>
+            {isModalOpen && selectedPlace && (
+                <CustomNameModal
+                    setIsModalOpen={setIsModalOpen}
+                    initialName={selectedPlace.custom_place_name || selectedPlace.place_info.placeName}
+                    onConfirm={(newName) => updatePlaceName(selectedPlace.bookmark_place_id, newName)}
+                />
+            )}
         </Main>
     );
 };
