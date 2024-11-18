@@ -116,7 +116,7 @@ function App() {
         <Route path="/board/FreeBoard" element={<FreeBoard />} />
         <Route path="/board/TopBoard" element={<TopBoard />} />
         <Route path="/board/TourBoard" element={<TourBoard />} />
-        <Route path="/board/PostPage" element={<PostPage />} />
+        <Route path="/board/PostPage/:board_id" element={<PostPage />} />
         <Route path="/board/Sidebar" element={<BoardSidebar />} />
       </Routes>
     </BrowserRouter>

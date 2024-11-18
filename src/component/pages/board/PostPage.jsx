@@ -4,33 +4,37 @@ import Header from "../../layout/header/Header";
 import PostContent from "../../detail/PostContent";
 import DetailActions from "../../detail/DetailActions";
 import Footer from "../../layout/footer/Footer";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import api from "../../api/axios";
 
 function PostPage() {
-  const location = useLocation();
-  const { post, category } = location.state || {};
   const [detail, setDetail] = useState([]);
+  const [post, setPost] = useState([]);
+  const [comments, setComments] = useState([]);
+  const {board_id} = useParams();
 
   useEffect(() => {
-    api.get(`/boards/${post.board_id}`)
+    api.get(`/boards/${board_id}`)
       .then((res) => {
+        setPost(res.data.board);
+        setComments(res.data.comments);
         setDetail(res.data);
-        console.log(res.date);
+        console.log("게시글 아이디 출력:", board_id);
+        console.log(res.data);
       })
       .catch((error) => {
         console.error("게시글 데이터를 불러오는 중 오류 발생:", error);
         alert("게시글 데이터를 불러올 수 없습니다.");
       });
-  }, [post.board_id]);
+  }, []);
 
   return (
     <PageContainer>
-      <Header title={`${post ? post.nickname : "(닉네임)"} 님의 게시글`} color="#f4b183"actions={
-        <DetailActions post={post} category={category}/>
+      <Header title={`${detail?.user?.nickname} 님의 게시글`} color="#f4b183"actions={
+        <DetailActions post={post} category={post.category}/>
       }/>
       <ContentContainer>
-        <PostContent post={post} category={category} detail={detail} />
+        <PostContent post={post} category={post.category} detail={detail} comments={comments} />
       </ContentContainer>
       <Footer />
     </PageContainer>

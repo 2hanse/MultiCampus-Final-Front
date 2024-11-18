@@ -7,10 +7,24 @@ import CreatePostButton from "../../board_01/CreatePostButton-Top";
 import Footer from "../../layout/footer/Footer";
 import BoardActions from "../../board_01/BoardActions";
 import logo from "../../board_01/asset/top.png";
+import { getUserIdFromToken } from "../../api/jwt";
 
 function RestaurantBoard() {  
   const [selectedSort, setSelectedSort] = useState("등록 순");
   const category = "top";
+  const [address, setAddress] = useState('');
+  const [distance, setDistance] = useState('');
+  const localUserId = getUserIdFromToken();
+
+  const handleReceiveAddress = (receivedAddress) => {
+    setAddress(receivedAddress);
+    console.log('Address from MainHeader:', receivedAddress);
+  };
+
+  const handleReceiveDistance = (receivedDistance) => {
+    setDistance(receivedDistance);
+    console.log('Distance from MainHeader:', receivedDistance);
+  };
 
   return (
     <BoardContainer>
@@ -24,10 +38,12 @@ function RestaurantBoard() {
         actions={<BoardActions category={category} />}
       />
       <MainContent>
-        <MainHeader onSortChange={setSelectedSort} />
-        <PostList selectedSort={selectedSort} category={category} />
+        <MainHeader category={category} onSortChange={setSelectedSort} onReceiveAddress={handleReceiveAddress} onReceiveDistance={handleReceiveDistance}/>
+        <PostList selectedSort={selectedSort} category={category} address={address} distance={distance} />
       </MainContent>
-      <CreatePostButton />
+      {
+        localUserId == null ? null : <CreatePostButton/>
+      }
       <Footer />
     </BoardContainer>
   );

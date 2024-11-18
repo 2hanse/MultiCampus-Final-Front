@@ -3,22 +3,28 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 
-function PostList ({ selectedSort, category }) {
+function PostList ({ selectedSort, category, address, distance }) {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [postlist, setpostlist] = useState([]);
-  const totalPages = 26;
+  const [totalPages, setTotalPages] = useState(1);
 
-  useEffect(() => {
-    api.get(`/boards/list/${category}/${currentPage - 1}`)
+  const fetchBoards = () => {
+    api.get(`/boards/list/${category}/${currentPage - 1}?address=${address}&radius=${distance}`)
       .then((res) => {
-        console.log(res.data);
-        setpostlist(res.data || []);
+        console.log(res.data.boards);
+        setpostlist(res.data.boards || []);
+        setTotalPages(res.data.pageCount);
       })
       .catch((error) => {
         console.error("데이터를 가져오는 중 오류 발생:", error);
       });
-  }, [category, currentPage]);
+  };
+
+  useEffect(() => {
+    fetchBoards();
+    console.log(address);
+  }, [category, currentPage, address, distance]);
 
   const handlePageChange = (pageNumber) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {
@@ -48,6 +54,7 @@ function PostList ({ selectedSort, category }) {
     }
     return pageNumbers;
   };
+  
 
   const extractFirstImage = (content) => {
     const imgTagMatch = content.match(/<img[^>]+src="([^">]+)"/);
@@ -58,8 +65,13 @@ function PostList ({ selectedSort, category }) {
     // 백엔드에서 조회수 증가 api가 없으면 로컬에서 밖에 수정이 안됨 <-매번 view_cnt값이 초기화됨
     
     // 페이지 이동
-    navigate("/board/PostPage", { state: { post, category } });
+    console.log(post);
+    navigate(`/board/PostPage/${post.board_id}`);
   };
+
+  function truncateContent(content, length = 20) {
+    return content.length > length ? content.slice(0, length) + "..." : content;
+  }
 
   return (
     <PostListContainer>
@@ -84,7 +96,7 @@ function PostList ({ selectedSort, category }) {
               </PostMeta>
               {firstImageUrl && <PreviewImage src={firstImageUrl} alt="게시글 미리보기 이미지" onClick={() => handleTitleClick(post)} />}
               <PostTitle onClick={() => handleTitleClick(post)}>{post.title}</PostTitle>
-              <PostContent>{post.content}</PostContent>
+              <PostContent>{truncateContent(post.content)}</PostContent>
             </PostItem>
           );
         })}

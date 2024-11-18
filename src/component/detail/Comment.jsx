@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import avatarImage from "./asset/avatar.png";
 import likeicon from "./asset/like_button.png"
+import { getUserIdFromToken } from "../api/jwt";
 
-function Comment({ name, membership, content, timestamp }) {
+function Comment({ comment }) {
+  const localUserId = getUserIdFromToken();
   const [showReplyInput, setShowReplyInput] = useState(false);
   const [replies, setReplies] = useState([]);
   const [replyContent, setReplyContent] = useState("");
-  const [likeCount, setLikeCount] = useState(0); // Like count 상태 추가
+  const [likeCount, setLikeCount] = useState(0);
 
   const handleReplyButtonClick = () => {
     setShowReplyInput(!showReplyInput);
@@ -35,15 +37,23 @@ function Comment({ name, membership, content, timestamp }) {
       <Avatar src={avatarImage} alt="User avatar" />
       <CommentBody>
         <CommentHeader>
-          <CommentName>{name} <Membership>({membership})</Membership></CommentName>
-          <CommentContent>{content}</CommentContent>
+          <CommentName>{comment.user_id} <Membership>({comment.user_id})</Membership></CommentName> {/* user_id로 조회해야함 */}
+          <CommentContent>{comment.comment}</CommentContent>
         </CommentHeader>
         <CommentFooter>
-          <CommentTimestamp>{timestamp}</CommentTimestamp>
-          <ReplyButton onClick={handleReplyButtonClick}>답글쓰기</ReplyButton>
+          <CommentTimestamp>{comment.created_at}</CommentTimestamp>
+          <ReplyButton
+            onClick={() => {
+              if (localUserId) {
+                handleReplyButtonClick();
+              } else {
+                alert("로그인 후 이용해 주세요.");
+              }
+            }}
+          >답글쓰기</ReplyButton>
           <LikeContainer>
             <LikeIcon src={likeicon} alt="likeicon" onClick={handleLikeClick}/>
-            <LikeCount>{likeCount}</LikeCount>
+            <LikeCount>{likeCount}</LikeCount> {/* comment.likes로 변경해야함 */}
           </LikeContainer>
         </CommentFooter>
         {showReplyInput && (
@@ -57,11 +67,11 @@ function Comment({ name, membership, content, timestamp }) {
             <SubmitReplyButton onClick={handleReplySubmit}>입력</SubmitReplyButton>
           </ReplyInputContainer>
         )}
-        {replies.map((reply) => (
-          <Reply key={reply.id}>
-            <ReplyName>{reply.name} <ReplyMembership>({reply.membership})</ReplyMembership></ReplyName>
-            <ReplyContent>{reply.content}</ReplyContent>
-            <ReplyTimestamp>{reply.timestamp}</ReplyTimestamp>
+        {comment.reply_comment.map((reply) => (
+          <Reply key={reply.comment_id}>
+            <ReplyName>{reply.user_id} <ReplyMembership>({reply.user_id})</ReplyMembership></ReplyName>
+            <ReplyContent>{reply.comment}</ReplyContent>
+            <ReplyTimestamp>{reply.created_at}</ReplyTimestamp>
           </Reply>
         ))}
       </CommentBody>
@@ -108,14 +118,14 @@ const Membership = styled.span`
 `;
 
 const CommentContent = styled.p`
-margin: 5px 0 0;
+margin: 2px 0 0;
 font-size: 15px;
 `;
 
 const CommentFooter = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 5px;
+  margin-top: 2px;
   font-size: 12.5px;
   color: #777;
 `;
@@ -123,6 +133,7 @@ const CommentFooter = styled.div`
 const CommentTimestamp = styled.span`
   margin-right: 10px;
   font-size: 12.5px;
+  color: #777;
 `;
 
 const ReplyButton = styled.button`
@@ -204,6 +215,7 @@ font-size: 13px;
 const ReplyTimestamp = styled.span`
   margin-right: 10px;
   font-size: 11px;
+  color: #777;
 `;
 
 

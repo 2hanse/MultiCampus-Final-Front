@@ -1,12 +1,29 @@
-import React from "react";
+import React, { useState } from 'react';
 import styled from "styled-components";
 import HotPost from "./HotPost"; 
+import AddressDistance from "./AddressDistance";
 import Sort from "./Sort"; 
 
-function MainHeader({ category, onSortChange }) {
+function MainHeader({ category, onSortChange, onReceiveAddress, onReceiveDistance }) {
+  const [EnteredAddress, setEnteredAddress] = useState('');
+  const [EnteredDistance, setEnteredDistance] = useState('');
+
+  const handleEnteredAddress = (data) => {
+    setEnteredAddress(data);
+    onReceiveAddress(data);
+    console.log('Received Entered Address:', data);
+  };
+
+  const handleEnteredDistance = (data) => {
+    setEnteredDistance(data);
+    onReceiveDistance(data);
+    console.log('Received Entered Distance:', data);
+  };
+
   return (
     <MainHeaderContainer>
       <HotPost category={category} />
+      <AddressDistance handleEnteredAddress={handleEnteredAddress} handleEnteredDistance={handleEnteredDistance} />
       {/* <SortContainer>
         <Sort onSortChange={onSortChange} />
       </SortContainer> */}
