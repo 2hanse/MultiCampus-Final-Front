@@ -57,7 +57,7 @@ const ModalComponent = ({ isOpen, onClose, board_info }) => {
         <SmallModalContent>
             {board_info && board_info.length > 0 ? (
                     board_info.map((item, index) => (
-                        <ContentBox key={index} onClick={() => navigate(`board/${item.board_info.board_id}`)}>
+                        <ContentBox key={index} onClick={() => navigate(`/board/PostPage/${item.board_id}`)}>
                             <Title>제목: {item.board_info.title}</Title>
                             <Info>
                                 별점: {averageRating[index]} / 조회수: {item.board_info.view_cnt !== null ? item.board_info.view_cnt : 0}
@@ -77,64 +77,68 @@ const ModalComponent = ({ isOpen, onClose, board_info }) => {
 
     
 const SmallModalContent = styled.div`
-padding: 20px;
-background-color: white;
-border-radius: 8px;
-max-width: 400px;
-margin: auto;
-text-align: center;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    max-width: 400px;
+    margin: auto;
+    text-align: center;
 
-max-height: 400px; /* 모달창 세로 크기 제한 */
-overflow: hidden; /* 내용 넘칠 경우 스크롤 안 생기게 */
-position: relative; /* 절대 위치 지정할 때 사용 */
+    max-height: 400px; /* 모달창 세로 크기 제한 */
+    overflow: hidden; /* 내용 넘칠 경우 스크롤 안 생기게 */
+    position: relative; /* 절대 위치 지정할 때 사용 */
 `;
 
 const ContentBox = styled.div`
-padding: 20px;
-border: 1px solid #ccc;
-border-radius: 8px;
-margin-bottom: 15px;
-background-color: #f9f9f9;
-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-display: flex;
-justify-content: space-between;
-&:hover {
-  background-color: #e6e6e6;
-}
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    &:hover {
+    background-color: #e6e6e6;
+    }
 `;
 
 const CloseButtonContainer = styled.div`
-position: absolute;
-top: 600px;
-left: 50%;
-transform: translateX(-50%); /* 가운데 정렬 */
-text-align: center;
+    position: absolute;
+    top: 600px;
+    left: 50%;
+    transform: translateX(-50%); /* 가운데 정렬 */
+    text-align: center;
 `;
 
 const CloseButton = styled.button`
-padding: 8px 16px;
-background-color: #ed6000;
-color: white;
-border: none;
-border-radius: 4px;
-cursor: pointer;
-font-size: 16px;
+    padding: 8px 16px;
+    background-color: #ed6000;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
 
-&:hover {
-  background-color: #d45500;
-}
+    &:hover {
+    background-color: #d45500;
+    }
 `;
 
 const Title = styled.div`
-flex: 1;
-text-align: left;
-font-size: 16px;
-font-weight: bold; /* 제목을 굵게 */
+    flex: 1;
+    text-align: left;
+    font-size: 16px;
+    font-weight: bold; /* 제목을 굵게 */
+    max-width: 150px;  /* 최대 너비를 설정 */
+    overflow: hidden;  /* 넘치는 텍스트 숨김 */
+    text-overflow: ellipsis;  /* 넘치는 텍스트에 '...' 추가 */
+    white-space: nowrap;  /* 텍스트 줄 바꿈 방지 */
 `;
 
 const Info = styled.div`
-text-align: right;
-font-size: 16px;
+    text-align: right;
+    font-size: 16px;
 `;
 
 export default ModalComponent;

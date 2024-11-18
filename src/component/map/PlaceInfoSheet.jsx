@@ -129,7 +129,7 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
           // console.log(boardInfos); // 배열 형태로 출력
           // console.log(board_info)
         } else {
-          console.log("데이터가 없습니다");
+          //console.log("데이터가 없습니다");
         }
       })
       .catch((error) => {
@@ -176,7 +176,7 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
                         src="https://cdn.builder.io/api/v1/image/assets/TEMP/40818f37db6d225adfa1c55c5357fa488e2f7c88cb6e0f8480e4a4945c862a7d?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" 
                         alt="Icon 1" 
                         onClick={() => handleIconClick(placeTele)}/>
-                <Icon loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/84e6d9b5de04ff203900ac7f5955f1ca91c45cce554d4fddfe190fe63360cc54?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" alt="Icon 2" />
+                {/* <Icon loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/84e6d9b5de04ff203900ac7f5955f1ca91c45cce554d4fddfe190fe63360cc54?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" alt="Icon 2" /> */}
                 <Icon   loading="lazy" 
                         src="https://cdn.builder.io/api/v1/image/assets/TEMP/e7d52f98e5299a8b08ff643fede53eab7a4ff9261862a68328040c94b080e7b9?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" 
                         alt="Icon 3"

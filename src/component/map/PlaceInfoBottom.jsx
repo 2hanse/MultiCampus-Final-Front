@@ -48,7 +48,7 @@ function PlaceInfoBottom({placeAddress, placeTele, bookmarkCnt, place_id}) {
         // console.log(boardInfos); // 배열 형태로 출력
         // console.log(board_info)
       } else {
-        console.log("데이터가 없습니다");
+        //console.log("데이터가 없습니다");
       }
     })
     .catch((error) => {
