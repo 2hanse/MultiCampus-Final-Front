@@ -4,7 +4,7 @@ import CommentSection from "./CommentSection";
 import CommentInput from "./CommentInput";
 import MainHeader from "./MainHeader";
 
-function PostContent({ post, category }) {
+function PostContent({ post, category, detail }) {
   const [comments, setComments] = useState([]);
 
   const handleAddComment = (newComment) => {
@@ -13,7 +13,7 @@ function PostContent({ post, category }) {
 
   return (
     <PostContentWrapper>
-      <MainHeader post={post} category={category}/>
+      <MainHeader post={post} category={category} detail={detail}/>
       <Divider />
       <PostBody>{post ? post.content : "게시글 본문"}</PostBody>
       <CommentSection comments={comments} />

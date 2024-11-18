@@ -1,25 +1,33 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Header from "../../layout/header/Header";
+import Header from "../../layout/header/board/Header";
 import PostList from "../../board_01/PostList";
 import MainHeader from "../../board_01/MainHeader";
 import CreatePostButton from "../../board_01/CreatePostButton";
 import Footer from "../../layout/footer/Footer";
-import BoardActions from "../../layout/board/BoardActions";
+import BoardActions from "../../board_01/BoardActions";
+import logo from "../../board_01/asset/tour.png";
 
 function RestaurantBoard() {  
   const [selectedSort, setSelectedSort] = useState("등록 순");
+  const category = "tour";
 
   return (
     <BoardContainer>
-      <Header title="맛집 투어 게시판" color="#f4b183" actions={
-        <BoardActions />
-      }/>
+      <Header 
+        title={
+          <TitleContainer>
+            <Logo src={logo} alt="로고" /> 맛집 투어 게시판
+          </TitleContainer>
+        } 
+        color="#FFF4D2" 
+        actions={<BoardActions category={category} />}
+      />
       <MainContent>
         <MainHeader onSortChange={setSelectedSort} />
-        <PostList selectedSort={selectedSort} category="tour" />
+        <PostList selectedSort={selectedSort} category={category} />
       </MainContent>
-      <CreatePostButton />
+      <CreatePostButton category={category} />
       <Footer />
     </BoardContainer>
   );
@@ -42,6 +50,17 @@ const MainContent = styled.main`
   padding-top: 120px; // Header의 높이만큼 패딩
   padding-bottom: 80px; // Footer의 높이만큼 패딩
   overflow: hidden;
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Logo = styled.img`
+  width: 60px;
+  height: auto;
+  margin-right: 10px;
 `;
 
 export default RestaurantBoard;

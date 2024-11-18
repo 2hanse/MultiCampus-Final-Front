@@ -6,13 +6,22 @@ import followIcon from "./asset/follow.png";
 import likeIcon from "./asset/like_button.png";
 import { useNavigate } from "react-router-dom";
 
-function MainHeader({ post, category }) {
+function MainHeader({ post, detail, category: initialCategory }) {
   const [likeCount, setLikeCount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [boardtype, setBoardtype] = useState("");
+  const [membership, setMembership] = useState("");
+  const [category, setCategory] = useState(initialCategory);
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!category && post && post.category) {
+      setCategory(post.category);
+    }
+  }, [category, post]);
+
+  useEffect(() => {
+    console.log("Updated category:", category); // category 값 확인용
     switch (category) {
       case "restaurant":
         setBoardtype("식당");
@@ -31,6 +40,20 @@ function MainHeader({ post, category }) {
         break;
     }
   }, [category]);
+
+  useEffect(() => {
+    if (post.member_score >= 10 && post.member_score < 30) {
+      setMembership("한공기");
+    } else if (post.member_score >= 30 && post.member_score < 50) {
+      setMembership("두공기");
+    } else if (post.member_score >= 50 && post.member_score < 100) {
+      setMembership("세공기");
+    } else if (post.member_score >= 100) {
+      setMembership("네공기");
+    } else {
+      setMembership("빈공기");
+    }
+  }, [post]);
 
   const authorInfoArray = [
     {
@@ -71,13 +94,15 @@ function MainHeader({ post, category }) {
     navigate(`/user-profile/${post.nickname}`);
   };
 
+  const likes = post && post.likes ? post.likes : 0;
+
   return (
     <MainHeaderContainer>
       <HeaderTop>
         <BoardName>{boardtype} 게시판</BoardName>
         <LikeSection>
           <LikeIcon src={likeIcon} alt="Like" onClick={handleLikeClick} />
-          <LikeCount>{likeCount}</LikeCount>
+          <LikeCount>{likes}</LikeCount>
         </LikeSection>
       </HeaderTop>
       <PostTitle>{post ? post.title : "제목 없음"}</PostTitle>
@@ -87,10 +112,10 @@ function MainHeader({ post, category }) {
         <Avatar src={author.avatar} alt={`${author.name}의 아바타`} onClick={() => gotoUserProfile}/>
         <AuthorDetails>
             <AuthorName onClick={() => gotoUserProfile}>
-              {post ? post.nickname : "user"} <AuthorMembership>({post ? post.grade : ""})</AuthorMembership>
+              {post ? post.nickname : "user"} <AuthorMembership>{membership}</AuthorMembership>
             </AuthorName>
-          <AuthorTimestamp>작성 시간: {post ? post.time : ""}</AuthorTimestamp>
-          <AuthorViews>조회수: {author.views}</AuthorViews>
+          <AuthorTimestamp>작성 시간: {post ? post.created_time : ""}</AuthorTimestamp>
+          <AuthorViews>조회수: {post ? post.view_cnt : ""}</AuthorViews>
         </AuthorDetails>
         <ChatIcon src={chatIcon} alt="채팅 아이콘" onClick={handleChatClick} />
         <FollowButton src={followIcon} alt="팔로우 버튼" onClick={handleFollowClick} />

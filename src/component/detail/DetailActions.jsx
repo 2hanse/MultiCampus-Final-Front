@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import menu from "./asset/menu.png";
+import api from "../api/axios";
+import { useNavigate } from "react-router-dom";
 
 const ActionsWrapper = styled.div`
   position: relative;
@@ -54,16 +56,33 @@ const DropdownItem = styled.div`
   }
 `;
 
-function DetailActions() {
+function DetailActions({ post , category }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate();
+
+  const user_id = 58;
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
   };
 
-  const handleItemClick = (action) => {
-    console.log(`게시글 ${action}`);
+  const handleItemClick = async (action) => {
+    try {
+      if (action === "수정") {
+        // 수정 페이지로 이동
+        navigate(`/boardpost/${category}/${post.board_id}`);
+      } else if (action === "삭제") {
+        // 삭제 API 호출
+        await api.delete(`/boards/${post.board_id}`);
+        alert("게시글이 삭제되었습니다.");
+        // 삭제 후 뒤로가기
+        navigate(-1);
+      }
+    } catch (error) {
+      console.error(`게시글 ${action} 중 오류 발생:`, error);
+      alert(`게시글 ${action}에 실패했습니다.`);
+    }
     setIsDropdownOpen(false);
   };
 
@@ -92,11 +111,11 @@ function DetailActions() {
           <ButtonIcon loading="lazy" src={menu} alt="" />
         </ActionButton>
         {isDropdownOpen && (
-        <DropdownMenu ref={dropdownRef}>
-          <DropdownItem onClick={() => handleItemClick("수정")}>수정</DropdownItem>
-          <DropdownItem onClick={() => handleItemClick("삭제")}>삭제</DropdownItem>
-        </DropdownMenu>
-      )}
+          <DropdownMenu ref={dropdownRef}>
+            <DropdownItem onClick={() => handleItemClick("수정")}>수정</DropdownItem>
+            <DropdownItem onClick={() => handleItemClick("삭제")}>삭제</DropdownItem>
+          </DropdownMenu>
+        )}
       </ActionButtons>
     </ActionsWrapper>
   );

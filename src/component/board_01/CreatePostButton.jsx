@@ -1,14 +1,15 @@
 import React from "react";
 import styled from "styled-components";
-import writebutton from "./asset/write_button.png"; // 이미지를 import
+import writebutton from "./asset/write_button.png";
 import { useNavigate } from "react-router-dom";
 
-function CreatePostButton() {
+function CreatePostButton({category}) {
+  // if (getUserIdFromToken())
   const navigate = useNavigate();
 
   function gotoWritePage() {
-    navigate('/boardpost/restaurant');
-  }
+    navigate(`/boardpost/${category}`);
+  };
 
   return (
     <WriteButton
