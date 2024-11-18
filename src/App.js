@@ -1,6 +1,6 @@
 import './App.css';
 import LoginPage from './component/pages/LoginPage';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import JoinPage from './component/pages/JoinPage';
 import BoardMainPage from './component/pages/BoardMainPage';
 import FindEmailPage from './component/pages/find/email/FindEmailPage';
@@ -38,10 +38,24 @@ import TopBoard from './component/pages/board/TopBoard';
 import TourBoard from './component/pages/board/TourBoard';
 import PostPage from './component/pages/board/PostPage';
 import BoardSidebar from './component/pages/board/BoardSidebarPage';
+import checkDailyAttendance from './component/api/dailybonus';
+import { useEffect } from 'react';
+
+const DailyBonus = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+      // 라우트 변경 시 출석체크 API 호출
+      checkDailyAttendance();
+  }, [location]);
+
+  return null; // UI에 아무것도 렌더링하지 않음
+};
 
 function App() {
   return (
     <BrowserRouter>
+      <DailyBonus />
       <Routes>
         <Route path="/review-history" element={<ReviewHistory />} />
         <Route path="/comment-history" element={<CommentHistory />} />
