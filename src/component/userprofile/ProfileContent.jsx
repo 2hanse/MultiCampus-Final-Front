@@ -34,7 +34,7 @@ function ReviewListItem({ created_time, title, content, board_id }) {
   const nav = useNavigate();
 
   return (
-    <article onClick={nav(`${board_id}`)}>
+    <article onClick={() => nav(`${board_id}`)}>
       <hr />
       <time style={styles.created_time}>{created_time}</time>
       <h2 style={styles.title}>{title}</h2>

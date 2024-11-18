@@ -47,7 +47,7 @@ function LikedPosts() {
         title="좋아요 누른 게시글"
         actions={<SearchActions />}
       />
-      <SortContainer>
+      {/* <SortContainer>
         <FilterButton>
           <span className="sort-text">등록순</span>
           <SortIcon
@@ -56,7 +56,7 @@ function LikedPosts() {
             alt=""
           />
         </FilterButton>
-      </SortContainer>
+      </SortContainer> */}
       <PostList>
         {boardList.map((post, index) => (
           <PostItem

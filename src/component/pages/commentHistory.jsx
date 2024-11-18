@@ -37,14 +37,14 @@ function CommentHistory() {
     <Main>
       <Header color="#fff4d2" title="남긴 댓글" actions={<SearchActions />} />
       <SortSection>
-        <FilterButton>
+        {/* <FilterButton>
           등록순
           <SortIcon
             loading="lazy"
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/745f4a325798408d80543bbacf1852135593f5c0514bd614a697a7386fbb93c1?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4"
             alt=""
           />
-        </FilterButton>
+        </FilterButton> */}
       </SortSection>
       <CommentList>
         {commentList.map((comment, index) => (
@@ -93,21 +93,21 @@ const SortSection = styled.div`
   align-self: flex-end;
 `;
 
-const FilterButton = styled.button`
-  display: flex;
-  align-items: center;
-  color: #000;
-  font: 400 13px/1 Roboto, sans-serif;
+// const FilterButton = styled.button`
+//   display: flex;
+//   align-items: center;
+//   color: #000;
+//   font: 400 13px/1 Roboto, sans-serif;
 
-  .sort-text {
-    margin-right: 8px;
-  }
-`;
+//   .sort-text {
+//     margin-right: 8px;
+//   }
+// `;
 
-const SortIcon = styled.img`
-  width: 16px;
-  height: 16px;
-`;
+// const SortIcon = styled.img`
+//   width: 16px;
+//   height: 16px;
+// `;
 
 const CommentList = styled.section`
   width: 100%;
