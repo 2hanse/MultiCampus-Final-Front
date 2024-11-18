@@ -94,23 +94,23 @@ function MapPage() {
         map.panTo(latlng);
     };
 
-    const onMapCreated = (map) => {
-        setMap(map);
-        
-
-        const fetchUserAndGoCenter = async () => {
-            const userId = getUserIdFromToken();
-
-            try {
-                const response = await api.get("/users/geolocation"); // 위치 정보 API
-                if (response.status === 200 && response.data.verified_lat && response.data.verified_lng) {
-                    var latlng = new kakao.maps.LatLng(response.data.verified_lat, response.data.verified_lng);
-                    map.panTo(latlng);
-                }
-            } catch (_) {}
-        };
-
-        fetchUserAndGoCenter();
+    const onMapCreated = (_map) => {
+        if (!map) {
+            const fetchUserAndGoCenter = async () => {
+                const userId = getUserIdFromToken();
+    
+                try {
+                    const response = await api.get("/users/geolocation"); // 위치 정보 API
+                    if (response.status === 200 && response.data.verified_lat && response.data.verified_lng) {
+                        var latlng = new kakao.maps.LatLng(response.data.verified_lat, response.data.verified_lng);
+                        _map.panTo(latlng);
+                    }
+                } catch (_) {}
+            };
+    
+            fetchUserAndGoCenter();
+        }
+        setMap(_map);
     }
 
   return (
