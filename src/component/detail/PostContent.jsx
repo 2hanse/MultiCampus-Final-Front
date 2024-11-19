@@ -13,7 +13,7 @@ function PostContent({ post, category, detail, comments, fetchComments }) {
       <PostBody>{post ? post.content : "게시글 본문"}</PostBody>
       <Divider />
       <CommentCnt>댓글 {comments.length}</CommentCnt>
-      <CommentSection comments={comments} detail={detail} />
+      <CommentSection comments={comments} detail={detail} fetchComments={fetchComments} />
       <CommentInput detail={detail} fetchComments={fetchComments} />
     </PostContentWrapper>
   );
@@ -42,7 +42,7 @@ const PostContentWrapper = styled.article`
 const Divider = styled.hr`
   width: 100%;
   height: 2px;
-  background-color: #D1CBD5;
+  background-color: #fff;
   border: none;
   margin: 10px 0;
 `;

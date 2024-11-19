@@ -74,9 +74,10 @@ const TitleContainer = styled.div`
 `;
 
 const Logo = styled.img`
-  width: 60px; 
+  width: 35px;
   height: auto;
   margin-right: 10px;
 `;
+
 
 export default RestaurantBoard;

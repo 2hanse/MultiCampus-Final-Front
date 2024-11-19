@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Comment from "./Comment";
 
-function CommentSection({ comments, detail }) {
+function CommentSection({ comments, detail, fetchComments }) {
   
   return (
     <CommentSectionContainer>
@@ -10,6 +10,7 @@ function CommentSection({ comments, detail }) {
         <Comment
           key={comment.comment_id}
           comment={comment}
+          fetchComments={fetchComments}
         />
       ))}
     </CommentSectionContainer>
