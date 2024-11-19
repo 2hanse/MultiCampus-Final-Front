@@ -167,34 +167,40 @@ const UserProfile = () => {
           isFollowing={isFollowing}
         />
       </ProfileStatsCover>
-      <ChatListContainer>
-        <ProfileContent
-          writedBoardData={writedBoardData}
-          handleBookmarkIconClick={handleBookmarkIconClick}
-        />{' '}
-        {/* 북마크 클릭 핸들러 추가 */}
-        {/* 팔로우 모달 */}
-        {isModalOpen && (
-          <FollowConfirmationModal
-            username="닉네임"
-            closeModal={closeFollowModal}
+
+      <ProfileContentWrapper>
+        {writedBoardData.length === 0 ? (
+          <p>작성된 게시글이 없습니다</p> // 게시글이 없을 때 표시할 메시지
+        ) : (
+          <ProfileContent
+            writedBoardData={writedBoardData}
+            handleBookmarkIconClick={handleBookmarkIconClick}
           />
         )}
-        {/* 언팔로우 모달 */}
-        {isUnfollowModalOpen && (
-          <UnfollowConfirmation
-            username="닉네임"
-            closeModal={closeUnfollowModal}
-          />
-        )}
-        {/* 북마크 모달
+      </ProfileContentWrapper>
+      {/* 북마크 클릭 핸들러 추가 */}
+      {/* 팔로우 모달 */}
+      {isModalOpen && (
+        <FollowConfirmationModal
+          username="닉네임"
+          closeModal={closeFollowModal}
+        />
+      )}
+      {/* 언팔로우 모달 */}
+      {isUnfollowModalOpen && (
+        <UnfollowConfirmation
+          username="닉네임"
+          closeModal={closeUnfollowModal}
+        />
+      )}
+      {/* 북마크 모달
         {isBookmarkModalOpen && (
           <BookmarkConfirmationModal
             nickname="닉네임"
             closeModal={closeBookmarkModal}
           />
         )} */}
-      </ChatListContainer>
+      {/* </ChatListContainer> */}
       <Footer />
     </Main>
   );
@@ -206,20 +212,18 @@ const ProfileStatsCover = styled.div`
 `;
 
 const Main = styled.main`
-  display: flex;
-  overflow: hidden;
+ display: flex;
   flex-direction: column;
   align-items: flex-start;
   width: 430px;
-  max-height: 932px;
-  min-height: 732px;
-  background: #ffffff;
   margin: 0 auto;
-  border: 0.5px solid #cac4d0;
+  border: 0.5px solid #CAC4D0;
+  background: #ffffff;
 `;
 
-const ChatListContainer = styled.div`
+const ProfileContentWrapper = styled.div`
   width: 100%;
+  height: calc(100vh - 216px);  // 상단 요소들(헤더, 프로필 등)을 제외한 높이로 설정
   padding: 20px;
   box-sizing: border-box;
   overflow-y: auto;
@@ -227,8 +231,8 @@ const ChatListContainer = styled.div`
     display: none;
   }
 
-  -ms-overflow-style: none; /* IE 및 Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE 및 Edge */
+  scrollbar-width: none;  /* Firefox */
 `;
 
 export default UserProfile;

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import styled from "styled-components";
+import { getUserIdFromToken } from "../api/jwt";
 import api from "../api/axios";
 import BookmarkListHeader from "../bookmark/group-list/BookmarkListHeader";
 import BookmarkListContent from "../bookmark/group-list/BookmarkListContent";
+import CustomNameModal from "../bookmark/group-list/CustomNameModal";
 
 function BookmarkListPage() {
     const { bookmark_id } = useParams();
@@ -12,8 +14,21 @@ function BookmarkListPage() {
     const [visibility, setVisiblity] = useState();
     const [placeList, setPlaceList] = useState([]);
     const [subscriber, setSubscriber] = useState(0);
+    const [creatorId, setCreatorId] = useState(null); // 생성자의 user_id
+    const [loggedInUserId, setLoggedInUserId] = useState(null); // 로그인한 유저의 user_id
+    const [isEditing, setIsEditing] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedPlace, setSelectedPlace] = useState(null);
+
+    const isEditable = loggedInUserId === creatorId;
 
     useEffect(() => {
+        const fetchLoggedInUserId = () => {
+            const userId = getUserIdFromToken(); // 로그인한 유저 ID 가져오기
+            console.log("Logged-in User ID: ", userId); // 확인용 로그
+            setLoggedInUserId(userId);
+        };
+
         const fetchBookmark = async () => {
             try {
                 const response = await api.get(`/bookmarks/${bookmark_id}`);
@@ -21,6 +36,8 @@ function BookmarkListPage() {
                 setBookmarkTitle(response.data.bookmark_title);
                 setViewCount(response.data.view_count);
                 setVisiblity(response.data.visibility);
+                console.log("Bookmark Creator ID: ", response.data.user_id); // 확인용 로그
+                setCreatorId(response.data.user_id); // 생성자의 user_id
             } catch(error) {
                 console.error("Error fetching bookmark: ", error);
             }
@@ -46,10 +63,41 @@ function BookmarkListPage() {
             }
         };
         
+        fetchLoggedInUserId();
         fetchBookmark();
         fetchBookmarkPlaceList();
         fetchSubscriberCount();
     }, [bookmark_id]);
+
+    const updatePlaceName = async (bookmarkPlaceId, newName) => {
+        try {
+            await api.put(`/bookmarks/place/${bookmarkPlaceId}`, {
+                custom_place_name: newName, // 서버에서 처리할 필드
+                icon_color: 0,
+            });
+            setPlaceList((prevList) =>
+                prevList.map((place) =>
+                    place.bookmark_place_id === bookmarkPlaceId
+                        ? { ...place, custom_place_name: newName }
+                        : place
+                )
+            );
+        } catch (error) {
+            console.error("Error updating place name:", error);
+            alert("장소명 업데이트에 실패했습니다.");
+        }
+    };
+
+    const deletePlace = async (bookmarkPlaceId) => {
+        try {
+            await api.delete(`bookmarks/place/${bookmarkPlaceId}`);
+            setPlaceList((prevList) => prevList.filter((place) => place.bookmark_place_id !== bookmarkPlaceId));
+            alert("해당 리스트가 삭제되었습니다.");
+        } catch (error) {
+            console.error("Error deleting place:", error);
+            alert("삭제에 실패했습니다.");
+        }
+    };
 
     // 정렬 함수
     const sortByName = () => {
@@ -75,6 +123,10 @@ function BookmarkListPage() {
                 visibility={visibility}
                 placeCount={placeList.length}
                 onSortOptionSelect={(option) => option === "이름순" ? sortByName() : resetToOriginal()}
+                creatorId={creatorId} // 생성자의 user_id 전달
+                loggedInUserId={loggedInUserId} // 로그인한 유저의 user_id 전달
+                isEditing={isEditing} // 상태 전달
+                setIsEditing={setIsEditing} // 상태 변경 함수 전달
             />
             <ContentWrapper>
                 <ListWrapper>
@@ -82,10 +134,21 @@ function BookmarkListPage() {
                         <BookmarkListContent
                             key={place.place_id}
                             place={place}
+                            isEditable={isEditable && isEditing}
+                            setIsModalOpen={setIsModalOpen}
+                            onDelete={() => deletePlace(place.bookmark_place_id)}
+                            setSelectedPlace={setSelectedPlace}
                         />
                     ))}
                 </ListWrapper>
             </ContentWrapper>
+            {isModalOpen && selectedPlace && (
+                <CustomNameModal
+                    setIsModalOpen={setIsModalOpen}
+                    initialName={selectedPlace.custom_place_name || selectedPlace.place_info.placeName}
+                    onConfirm={(newName) => updatePlaceName(selectedPlace.bookmark_place_id, newName)}
+                />
+            )}
         </Main>
     );
 };

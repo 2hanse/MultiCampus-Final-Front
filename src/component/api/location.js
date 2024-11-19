@@ -25,6 +25,10 @@ export const getAddressFromCoordinates = async (lat, lng) => {
             // '특별시', '광역시', '도', '특별자치도' 처리
             if (region === "제주특별자치도") {
                 region = "제주"; // 제주특별자치도 → 제주
+            } else if (region.endsWith("강원특별자치도")) {
+                region = region.replace("특별자치도", ""); // 강원특별자치도 → 강원
+            } else if (region.endsWith("전북특별자치도")) {
+                region = region.replace("특별자치도", ""); // 전북특별자치도 → 전북
             } else if (region.endsWith("특별시")) {
                 region = region.replace("특별시", ""); // 서울특별시 → 서울
             } else if (region.endsWith("광역시")) {

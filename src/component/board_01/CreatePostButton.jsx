@@ -4,7 +4,6 @@ import writebutton from "./asset/write_button.png";
 import { useNavigate } from "react-router-dom";
 
 function CreatePostButton({category}) {
-  // if (getUserIdFromToken())
   const navigate = useNavigate();
 
   function gotoWritePage() {

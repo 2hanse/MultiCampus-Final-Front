@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Header from '../layout/header/Header';
-import ActionButtons from '../post-board/restaurant-board/ActionButtons';
-import Editor from '../post-board/Editor';
-import api from '../api/axios';
+import Header from '../../layout/header/Header';
+import ActionButtons from '../../post-board/restaurant-board/ActionButtons';
+import Editor from '../../post-board/Editor';
+import api from '../../api/axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-import BookmarkButton from '../post-board/tour-board/BookmarkButton';
+import { useParams } from 'react-router-dom';
+import PutActionButtons from './PutActionButtons';
 
-const TourBoardPostingPage = () => {
-  const category = 'tour';
+const FreeBoardPostingPage = () => {
+  const category = 'free';
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,16 +25,36 @@ const TourBoardPostingPage = () => {
   const [title, setTitle] = useState('');
   // 3. 내용
   const [content, setContent] = useState('');
-  // 4. 선택된 북마크 id
-  const [selectedBookmarkId, setSelectedBookmarkId] = useState(null); // 선택된 bookmark_id 상태
 
-  const [bookmarkList, setBookmarkList] = useState([]);
+  // 7. 수정하는 상태인지 작성하는 상태인지 확인
+  const [putState, setPutState] = useState(false);
+  // 8. 게시물 수정하기 눌렀을때 어떤 게시물인지 확인하는 board_id
+  const { board_id } = useParams();
+
+  useEffect(() => {
+    const fetchBoardData = async () => {
+      if (board_id) {
+        setPutState(true);
+        const res = await api.get(`/boards/${board_id}`);
+        console.log('res : ', res.data);
+        setTitle(res.data.board.title);
+        setContent(res.data.board.content);
+      } else {
+        setPutState(false);
+      }
+    };
+    fetchBoardData();
+  }, [board_id, putState]); // board_id나 putState가 변경될 때마다 실행됩니다.
 
   // 임시저장
   const handleDraftSave = () => {
+    console.log('handlesubmit : ', content);
+    setContent(handleContentChange(content));
+    console.log('changedhandlesubmit : ', content);
+
     const draft = {
       title,
-      content: handleContentChange(content),
+      content,
     };
 
     console.log('임시저장 데이터', draft);
@@ -48,12 +69,12 @@ const TourBoardPostingPage = () => {
     //   return;
     // }
 
+    console.log('handlesubmit : ', content);
+    setContent(handleContentChange(content));
+    console.log('changedhandlesubmit : ', content);
+
     const data = {
-      board: {
-        title,
-        content: handleContentChange(content),
-        bookmark_id: selectedBookmarkId,
-      },
+      board: { title, content },
     };
 
     await api.post(`/boards/${category}`, data).then((res) => {
@@ -122,17 +143,6 @@ const TourBoardPostingPage = () => {
     return doc.body.textContent || '';
   };
 
-  // 자신의 북마크 불러오기 요청
-  const handleBookmarkInnerClick = async () => {
-    try {
-      const response = await api.get(`/bookmarks`);
-      console.log(response.data);
-      setBookmarkList(response.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const haederProps = {
     color: '#f4b183',
     title: '게시글 작성',
@@ -140,26 +150,41 @@ const TourBoardPostingPage = () => {
 
   return (
     <PageContainer>
-      <Header {...haederProps} />
-      <ContentContainer>
-        <Editor
-          title={title}
-          setTitle={setTitle}
-          content={content}
-          setContent={setContent}
-          uploadPlugin={uploadPlugin}
-        />
-        <BookmarkButton
-          bookmarkList={bookmarkList}
-          handleBookmarkInnerClick={handleBookmarkInnerClick}
-          setSelectedBookmarkId={setSelectedBookmarkId}
-          selectedBookmarkId={selectedBookmarkId}
-        />
-        <ActionButtons
-          handleDraftSave={handleDraftSave}
-          handleSubmit={handleSubmit}
-        />
-      </ContentContainer>
+      {putState ? (
+        <>
+          <Header {...haederProps} />
+          <ContentContainer>
+            <Editor
+              title={title}
+              setTitle={setTitle}
+              content={content}
+              setContent={setContent}
+              uploadPlugin={uploadPlugin}
+            />
+            <PutActionButtons
+              handleDraftSave={handleDraftSave}
+              handleSubmit={handleSubmit}
+            />
+          </ContentContainer>
+        </>
+      ) : (
+        <>
+          <Header {...haederProps} />
+          <ContentContainer>
+            <Editor
+              title={title}
+              setTitle={setTitle}
+              content={content}
+              setContent={setContent}
+              uploadPlugin={uploadPlugin}
+            />
+            <ActionButtons
+              handleDraftSave={handleDraftSave}
+              handleSubmit={handleSubmit}
+            />
+          </ContentContainer>
+        </>
+      )}
     </PageContainer>
   );
 };
@@ -191,5 +216,4 @@ const ContentContainer = styled.div`
   -ms-overflow-style: none; /* IE 및 Edge */
   scrollbar-width: none; /* Firefox */
 `;
-
-export default TourBoardPostingPage;
+export default FreeBoardPostingPage;

@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import chatbutton from "./asset/send.png";
 import avatarImage from "./asset/avatar.png";
+import { getUserIdFromToken } from "../api/jwt";
 
 function CommentInput({ onAddComment }) {
   const [inputValue, setInputValue] = useState("");
   const [commentId, setCommentId] = useState(1);
+  const localUserId = getUserIdFromToken();
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -31,11 +33,21 @@ function CommentInput({ onAddComment }) {
   return (
     <CommentInputWrapper>
       <CommentInputField
-        placeholder="댓글을 입력하세요..."
+        placeholder={localUserId ? "댓글을 입력하세요..." : "로그인 후 이용해 주세요..."}
         value={inputValue}
         onChange={handleInputChange}
       />
-      <SendButton src={chatbutton} alt="send" onClick={handleCommentSubmit} />
+      <SendButton
+        src={chatbutton}
+        alt="send"
+        onClick={() => {
+          if (localUserId) {
+            handleCommentSubmit();
+          } else {
+            alert("로그인 후 이용해 주세요.");
+          }
+        }}
+      />
     </CommentInputWrapper>
   );
 }
