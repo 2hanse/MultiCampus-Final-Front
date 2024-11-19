@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import CommentSection from "./CommentSection";
 import CommentInput from "./CommentInput";
 import MainHeader from "./MainHeader";
 
-function PostContent({ post, category, detail, comments}) {
+function PostContent({ post, category, detail, comments, fetchComments }) {
 
   return (
     <PostContentWrapper>
@@ -14,7 +14,7 @@ function PostContent({ post, category, detail, comments}) {
       <Divider />
       <CommentCnt>댓글 {comments.length}</CommentCnt>
       <CommentSection comments={comments} detail={detail} />
-      <CommentInput />
+      <CommentInput detail={detail} fetchComments={fetchComments} />
     </PostContentWrapper>
   );
 }
