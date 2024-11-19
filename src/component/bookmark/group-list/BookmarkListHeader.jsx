@@ -21,7 +21,10 @@ function BookmarkListHeader({ bookmarkTitle, viewCount, subscriber, visibility, 
 			<TotalCount>전체&nbsp;<ColoredText>{placeCount}</ColoredText></TotalCount>
 			<Dropdown onSelect={onSortOptionSelect} />
 			{loggedInUserId === creatorId && (
-                <EditBtn onClick={() => setIsEditing(!isEditing)}>
+                <EditBtn
+					isEditing={isEditing}
+					onClick={() => setIsEditing(!isEditing)}
+				>
                     {isEditing ? "완료" : "편집"}
                 </EditBtn>
             )}
@@ -112,7 +115,7 @@ const TotalCount = styled.h3`
 	color: #000000;
 
 	cursor: default;
-`
+`;
 
 const ColoredText = styled.span`
 	color: #ED6000;
@@ -138,12 +141,23 @@ const EditBtn = styled.button`
 	font-weight: 400;
 	font-size: 12px;
 	line-height: 100%;
+	
 
-	background: #F5F5F5;
-	border-radius: 5.6px;
-	border: 0.05px solid #CAC4D0;
+	background: ${(props) => (props.isEditing ? "#ED6000" : "#F5F5F5")};
+	color: ${(props) => (props.isEditing ? "#FFFFFF" : "#000000")};
+	border-radius: 5.5px;
+	border: 0.05px solid ${(props) => (props.isEditing ? "#ED6000" : "#CAC4D0")};
 
 	cursor: pointer;
-`
+	transition: all 0.2s;
+
+	${(props) =>
+		!props.isEditing &&
+		`&:hover {
+		background: #ED6000;
+		color: #FFFFFF;
+		border: 0.05px solid #ED6000;
+	}`}
+`;
 
 export default BookmarkListHeader;
