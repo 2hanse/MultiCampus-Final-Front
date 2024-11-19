@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled                         from "styled-components";
 import axios                          from "axios";
 import Location                       from "./assets/Location.png";
+import { getAddressFromCoordinates }  from "../api/location";
 
 const SearchForm = ({ setOutputValue }) => {
 
@@ -62,6 +63,37 @@ const SearchForm = ({ setOutputValue }) => {
         // cleanup function: 이전 타이머 클리어
         return () => clearTimeout(delayDebounceFn);
     }, [query]); // query가 변경될 때마다 실행
+
+    const handleMyLocationClick = async () => {
+        if (!navigator.geolocation) {
+            alert("현재 위치를 가져올 수 없습니다. 브라우저 설정을 확인하세요.");
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                const { latitude, longitude } = position.coords;
+
+                try {
+                    const address = await getAddressFromCoordinates(latitude, longitude);
+
+                    setOutputValue({
+                        address: address.fullAddress,
+                        lat: latitude,
+                        lng: longitude,
+                    });
+
+                } catch (error) {
+                    console.error("현재 위치 정보 요청 오류:", error);
+                    alert("현재 위치 정보를 가져오는 데 실패했습니다.");
+                }
+            },
+            (error) => {
+                console.error("현재 위치를 가져오는 데 실패했습니다:", error);
+                alert("현재 위치를 가져오는 데 실패했습니다.");
+            }
+        );
+    };
   
     return (
         <Wrapper>
@@ -71,7 +103,7 @@ const SearchForm = ({ setOutputValue }) => {
                     value={query}
                     onChange={(e) => setQuery(e.target.value)} // 입력값 업데이트
                 />
-                <MyLocationBtn>
+                <MyLocationBtn onClick={handleMyLocationClick}>
                     <LocationImg src={Location} alt="Location" />
                     &nbsp;&nbsp;&nbsp;&nbsp;현재 위치로 찾기
                 </MyLocationBtn>
