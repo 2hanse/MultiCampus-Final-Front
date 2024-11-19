@@ -11,13 +11,12 @@ const styles = {
   subscriptionFeed: {
     backgroundColor: '#fff',
     display: 'flex',
-    maxWidth: '430px',
-    maxHeight: '932px',
-    width: '100%',
+    alignItems: 'center',
+    width: '430px',
     flexDirection: 'column',
     overflow: 'hidden',
     margin: '0 auto',
-    border: '1px solid #ddd',
+    border: '0.5px solid #cac4d0',
   },
 
   title: {
@@ -38,21 +37,42 @@ const styles = {
   listTitle: {
     alignSelf: 'start',
   },
-  listContainer: {
+  followListContainer: {
     display: 'flex',
-    marginTop: '18px',
     gap: '14px',
-    textAlign: 'center',
-    overflowX: 'auto',
+    overflowX: 'auto', // 가로 스크롤 활성화
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
+    paddingBottom: '10px', // 스크롤 영역 여유 추가
   },
   followItem: {
     display: 'flex',
     flexDirection: 'column',
     flex: '0 0 auto',
-    marginRight: '14px',
+    alignItems: 'center',
   },
+  boardsListContainer: {
+    display: 'flex',
+    flexDirection: 'column', // 세로 배열
+    gap: '14px',
+    overflowY: 'auto',
+    boxSizing: 'border-box',
+    height: 'calc(100vh - 216px)', // 전체 화면에서 216px 만큼 제외한 높이
+    padding: '0 10px',
+    scrollbarWidth: 'none', // Firefox에서 스크롤바 숨기기
+    '-ms-overflow-style': 'none', // IE, Edge에서 스크롤바 숨기기
+    
+  },
+  boardItem: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start', // 좌측 정렬
+    padding: '10px',
+    border: '1px solid #ddd',
+    borderRadius: '5px',
+    backgroundColor: '#f9f9f9',
+  },
+  
   avatar: {
     aspectRatio: '1',
     objectFit: 'contain',
@@ -70,55 +90,62 @@ const styles = {
     border: '1px solid #cac4d0',
     margin: '26px 0 12px',
   },
+  
 };
 
 // SubscriptionFeed 컴포넌트
 const SubscriptionFeed = () => {
   const [followingUsers, setFollowingUsers] = useState([]);
   const [boards, setBoards] = useState([]);
-  const [followingUserIds, setFollowingUserIds] = useState([]);
 
   useEffect(() => {
-    console.log('useEffect 실행됨');
-    fetchFollowingUsers();
+    // 초기 데이터 로드
+    const fetchData = async () => {
+      try {
+        const user_id = getUserIdFromToken();
+        const followingUsersData = await fetchFollowingUsers(user_id);
+        const followingUserIds = followingUsersData.map(
+          (user) => user.followed_uid
+        );
+
+        if (followingUserIds.length > 0) {
+          await fetchFollowedBoards(followingUserIds);
+        } else {
+          console.log('팔로우한 사용자가 없습니다.');
+        }
+      } catch (error) {
+        console.error('Error initializing subscription feed:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  useEffect(() => {
-    console.log('useEffect2 실행됨');
-    fetchFollowedBoards();
-  }, [followingUserIds]);
-
   // 팔로우한 사용자 ID 가져오기
-  const fetchFollowingUsers = async () => {
+  const fetchFollowingUsers = async (user_id) => {
     try {
-      const user_id = getUserIdFromToken();
       const response = await api.get(`/users/${user_id}/following`);
       setFollowingUsers(response.data);
-
-      const followedUids = response.data.map((user) => user.followed_uid); // 배열인 경우
-      setFollowingUserIds(followedUids);
-      console.log('Followed UIDs: ', followedUids);
-
-      // 팔로우한 사용자들의 게시글 가져오기
-      fetchFollowedBoards(response.data); // 여기서 게시글 가져오기
+      console.log('팔로우한 사용자 데이터:', response.data);
+      return response.data;
     } catch (error) {
       console.error('Error fetching following users:', error);
+      return [];
     }
   };
 
   // 게시물 가져오기
-  const fetchFollowedBoards = async () => {
+  const fetchFollowedBoards = async (userIds) => {
     try {
-      console.log('보낼 other_ids 값:', followingUserIds);
+      console.log('보낼 other_ids 값:', userIds);
 
       const boardsResponse = await api.get('/users/others/writed-boards', {
-        params: { other_ids: followingUserIds },
-        paramsSerializer: (params) => {
-          return qs.stringify(params, { arrayFormat: 'brackets' });
-        },
+        params: { other_ids: userIds },
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: 'brackets' }),
       });
 
-      console.log('게시물 데이터 응답:', boardsResponse.data); // 게시물 데이터 확인
+      console.log('게시물 데이터 응답:', boardsResponse.data);
       setBoards(boardsResponse.data);
     } catch (error) {
       console.error('Error fetching followed boards:', error);
@@ -141,7 +168,7 @@ const FollowList = ({ followingUsers }) => {
   return (
     <section style={styles.followList}>
       <h2 style={styles.listTitle}>팔로우 목록</h2>
-      <div style={styles.listContainer}>
+      <div style={styles.followListContainer}>
         {followingUsers.map((user) => (
           <Link
             to={`/user-profile/${user.followed_uid}`}
@@ -170,13 +197,12 @@ const Divider = () => {
 
 // BoardsList 컴포넌트
 const BoardsList = ({ boards }) => {
-  console.log('BoardsList에서 받은 게시물 데이터:', boards);
   return (
     <section style={styles.followList}>
       <h2 style={styles.listTitle}>게시물 목록</h2>
-      <div style={styles.listContainer}>
+      <div style={styles.boardsListContainer}>
         {boards.map((board) => (
-          <div key={board.board_id} style={styles.followItem}>
+          <div key={board.board_id} style={styles.boardItem}>
             <h3>{board.title}</h3>
             <p>{board.content.slice(0, 50)}...</p>
           </div>

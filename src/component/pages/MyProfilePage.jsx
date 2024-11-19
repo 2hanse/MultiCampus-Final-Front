@@ -283,6 +283,14 @@ const ProfileInfo = ({nick, member_score, image}) => {
     setIsModalOpen(false); // 모달 닫기
   };
 
+  // 등급 결정 함수
+  const getMemberRank = (score) => {
+    if (score >= 50) return "세공기";
+    if (score >= 30) return "두공기";
+    if (score >= 10) return "한공기";
+    return "빈공기"; // 10점 미만인 경우 기본 등급
+  };
+
   return (
     <section style={styles.profileInfo}>
       <div style={styles.userDetails}>
@@ -297,7 +305,7 @@ const ProfileInfo = ({nick, member_score, image}) => {
 
           {/* 회원 등급 클릭 시 모달 열기 */}
           <span style={styles.userRank} onClick={openModal}>
-            {member_score}
+            {getMemberRank(member_score)}
           </span>
         </div>
       </div>
