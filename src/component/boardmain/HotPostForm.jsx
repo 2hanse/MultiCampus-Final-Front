@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Fire   from "./assets/Fire.png";
 import api    from "../api/axios";
 
 const HotPostForm = () => {
+    const navigate = useNavigate();
     const [hotPosts, setHotPosts] = useState([]);
 
     useEffect(() => {
@@ -12,6 +14,7 @@ const HotPostForm = () => {
             console.log(res.data)
             setHotPosts(res.data);
             console.log(hotPosts);
+            console.log(hotPosts.board_id);
         })
     }, []);
 
@@ -22,7 +25,7 @@ const HotPostForm = () => {
             <PostBox>
                 <ListWrapper>
                     {hotPosts.length > 0 ? ( hotPosts.map((post, index) => (
-                        <ItemWrapper key={index}>
+                        <ItemWrapper key={index} onClick={() => navigate(`/board/PostPage/${post.board_id}`)}>
                             <PostCategory>{post.category}</PostCategory>
                             &nbsp;&nbsp;&nbsp;&nbsp; 
                             <PostTitle>{post.title.length > 10 ? `${post.title.slice(0, 10)}...` : post.title}</PostTitle>

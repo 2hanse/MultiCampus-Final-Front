@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import New    from "./assets/New.png";
 import api    from "../api/axios";
 
 const NewPostForm = () => {
+    const navigate = useNavigate();
     const [recentPosts, setRecentPosts] = useState([]);
 
     useEffect(() => {
@@ -22,7 +24,7 @@ const NewPostForm = () => {
             <PostBox>
                 <ListWrapper>
                     {recentPosts.length > 0 ? ( recentPosts.map((post, index) => (
-                    <ItemWrapper key={index}>
+                    <ItemWrapper key={index} onClick={() => navigate(`/board/PostPage/${post.board_id}`)}>
                         <PostCategory>{post.category}</PostCategory>
                         &nbsp;&nbsp;&nbsp;&nbsp; 
                         <PostTitle>{post.title.length > 10 ? `${post.title.slice(0, 10)}...` : post.title}</PostTitle>
