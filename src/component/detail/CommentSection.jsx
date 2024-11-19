@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import Comment from "./Comment";
 
 function CommentSection({ comments, detail }) {
-
+  
   return (
     <CommentSectionContainer>
       {comments.map((comment) => (

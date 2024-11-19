@@ -77,6 +77,7 @@ const Container = styled.div`
 `;
 
 const InputAddress = styled.input`
+  width: 240px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -89,7 +90,7 @@ const DistanceWrapper = styled.div`
 `;
 
 const InputDistance = styled.input`
-  width: 30px;
+  width: 20px;
   padding: 10px;
   padding-right: 30px; /* 'km'가 보일 공간 확보 */
   border: 1px solid #ccc;
