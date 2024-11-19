@@ -7,11 +7,10 @@ import api from "../api/axios";
 import Reply from "./Reply"
 import { useNavigate } from "react-router-dom";
 
-function Comment({ comment }) {
+function Comment({ comment, fetchComments }) {
   const navigate = useNavigate();
   const localUserId = getUserIdFromToken();
   const [showReplyInput, setShowReplyInput] = useState(false);
-  const [replies, setReplies] = useState([]);
   const [replyContent, setReplyContent] = useState("");
   const [commentlikecnt, setCommentLikecnt] = useState(0);
   const [userinfo, setUserInfo] = useState([]);
@@ -32,16 +31,26 @@ function Comment({ comment }) {
     setShowReplyInput(!showReplyInput);
   };
 
-  const handleReplySubmit = () => {
-    if (replyContent.trim()) {
-      setReplies([...replies, {
-        id: replies.length + 1,
-        name: "User", // 고정 값, 필요시 동적으로 변경
-        content: replyContent,
-        timestamp: new Date().toLocaleString(),
-      }]);
-      setReplyContent(""); // 입력 필드 초기화
-      setShowReplyInput(false); // 입력창 닫기
+  const handleReplySubmit = async () => {
+    try {
+      console.log(comment.comment_id);
+
+      await api.post('/comments', {
+        board_id: comment.board_id,
+        user_id: localUserId,
+        comment: replyContent,
+        parent_id: comment.comment_id
+      });
+      
+      setReplyContent('');
+
+      if (fetchComments) {
+        fetchComments();
+      }
+
+    } catch (error) {
+      console.error('댓글 생성 중 오류 발생:', error);
+      alert('댓글 생성에 실패했습니다.');
     }
   };
 
@@ -130,7 +139,15 @@ function Comment({ comment }) {
               value={replyContent}
               onChange={(e) => setReplyContent(e.target.value)}
             />
-            <SubmitReplyButton onClick={handleReplySubmit}>입력</SubmitReplyButton>
+            <SubmitReplyButton 
+              onClick={() => {
+                if (localUserId) {
+                  handleReplySubmit();
+                } else {
+                  alert("로그인 후 이용해 주세요.");
+                }
+              }}
+            >입력</SubmitReplyButton>
           </ReplyInputContainer>
         )}
         {comment.reply_comment.map((reply) => (

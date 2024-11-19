@@ -46,7 +46,7 @@ function CommentInput({ detail, fetchComments }) {
         placeholder={localUserId ? "댓글을 입력하세요..." : "로그인 후 이용해 주세요..."}
         value={inputvalue}
         onChange={handleInputChange}
-        onKeyDown={handleKeyDown}
+        // onKeyDown={handleKeyDown}
       />
       <SendButton
         src={chatbutton}
