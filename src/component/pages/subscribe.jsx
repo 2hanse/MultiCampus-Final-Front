@@ -76,49 +76,55 @@ const styles = {
 const SubscriptionFeed = () => {
   const [followingUsers, setFollowingUsers] = useState([]);
   const [boards, setBoards] = useState([]);
-  const [followingUserIds, setFollowingUserIds] = useState([]);
 
   useEffect(() => {
-    console.log('useEffect 실행됨');
-    fetchFollowingUsers();
+    // 초기 데이터 로드
+    const fetchData = async () => {
+      try {
+        const user_id = getUserIdFromToken();
+        const followingUsersData = await fetchFollowingUsers(user_id);
+        const followingUserIds = followingUsersData.map(
+          (user) => user.followed_uid
+        );
+
+        if (followingUserIds.length > 0) {
+          await fetchFollowedBoards(followingUserIds);
+        } else {
+          console.log('팔로우한 사용자가 없습니다.');
+        }
+      } catch (error) {
+        console.error('Error initializing subscription feed:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  useEffect(() => {
-    console.log('useEffect2 실행됨');
-    fetchFollowedBoards();
-  }, [followingUserIds]);
-
   // 팔로우한 사용자 ID 가져오기
-  const fetchFollowingUsers = async () => {
+  const fetchFollowingUsers = async (user_id) => {
     try {
-      const user_id = getUserIdFromToken();
       const response = await api.get(`/users/${user_id}/following`);
       setFollowingUsers(response.data);
-
-      const followedUids = response.data.map((user) => user.followed_uid); // 배열인 경우
-      setFollowingUserIds(followedUids);
-      console.log('Followed UIDs: ', followedUids);
-
-      // 팔로우한 사용자들의 게시글 가져오기
-      fetchFollowedBoards(response.data); // 여기서 게시글 가져오기
+      console.log('팔로우한 사용자 데이터:', response.data);
+      return response.data;
     } catch (error) {
       console.error('Error fetching following users:', error);
+      return [];
     }
   };
 
   // 게시물 가져오기
-  const fetchFollowedBoards = async () => {
+  const fetchFollowedBoards = async (userIds) => {
     try {
-      console.log('보낼 other_ids 값:', followingUserIds);
+      console.log('보낼 other_ids 값:', userIds);
 
       const boardsResponse = await api.get('/users/others/writed-boards', {
-        params: { other_ids: followingUserIds },
-        paramsSerializer: (params) => {
-          return qs.stringify(params, { arrayFormat: 'brackets' });
-        },
+        params: { other_ids: userIds },
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: 'brackets' }),
       });
 
-      console.log('게시물 데이터 응답:', boardsResponse.data); // 게시물 데이터 확인
+      console.log('게시물 데이터 응답:', boardsResponse.data);
       setBoards(boardsResponse.data);
     } catch (error) {
       console.error('Error fetching followed boards:', error);

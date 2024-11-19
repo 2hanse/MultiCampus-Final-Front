@@ -126,9 +126,40 @@ const TopBoardPostingPage = () => {
       if (res.status === 200) {
         // 게시물 작성 후 로컬스토리지에서 임시 저장된 데이터 삭제
         localStorage.removeItem('draftPost');
+        alert('게시글이 정상적으로 등록되었습니다.');
 
         // 페이지 이동
-        // navigate(-1, { replace: true });
+        navigate(-1, { replace: true });
+
+        return;
+      } else {
+        alert('업로드 실패.');
+        return;
+      }
+    });
+  };
+
+  // 게시글 수정 버튼 관련
+  const handleModifi = async () => {
+    // if (title.length < 1) {
+    //   titleRef.current.focus();
+    //   return;
+    // }
+
+    const data = {
+      board: { title, content: handleContentChange(content), image_url },
+      review: { ...ratings },
+      receipt: currentReceipt,
+    };
+
+    await api.put(`/boards/${category}`, data).then((res) => {
+      if (res.status === 200) {
+        // 게시물 작성 후 로컬스토리지에서 임시 저장된 데이터 삭제
+        localStorage.removeItem('draftPost');
+        alert('게시글이 정상적으로 수정되었습니다.');
+
+        // 페이지 이동
+        navigate(-1, { replace: true });
 
         return;
       } else {
@@ -318,7 +349,7 @@ const TopBoardPostingPage = () => {
             />
             <ActionButtons
               handleDraftSave={handleDraftSave}
-              handleSubmit={handleSubmit}
+              handleModifi={handleModifi}
             />
           </ContentContainer>
         </>
