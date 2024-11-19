@@ -154,6 +154,7 @@ const RestorantBoardPostingPage = () => {
       if (res.status === 200) {
         // 게시물 작성 후 로컬스토리지에서 임시 저장된 데이터 삭제
         localStorage.removeItem('draftPost');
+        alert('게시글이 정상적으로 수정되었습니다.');
 
         // 페이지 이동
         navigate(-1, { replace: true });
