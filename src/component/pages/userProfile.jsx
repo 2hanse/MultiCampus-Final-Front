@@ -169,27 +169,31 @@ const UserProfile = () => {
       </ProfileStatsCover>
 
       <ProfileContentWrapper>
-        <ProfileContent
-          writedBoardData={writedBoardData}
-          handleBookmarkIconClick={handleBookmarkIconClick}
-        /> 
+        {writedBoardData.length === 0 ? (
+          <p>작성된 게시글이 없습니다</p> // 게시글이 없을 때 표시할 메시지
+        ) : (
+          <ProfileContent
+            writedBoardData={writedBoardData}
+            handleBookmarkIconClick={handleBookmarkIconClick}
+          />
+        )}
       </ProfileContentWrapper>
-        {/* 북마크 클릭 핸들러 추가 */}
-        {/* 팔로우 모달 */}
-        {isModalOpen && (
-          <FollowConfirmationModal
-            username="닉네임"
-            closeModal={closeFollowModal}
-          />
-        )}
-        {/* 언팔로우 모달 */}
-        {isUnfollowModalOpen && (
-          <UnfollowConfirmation
-            username="닉네임"
-            closeModal={closeUnfollowModal}
-          />
-        )}
-        {/* 북마크 모달
+      {/* 북마크 클릭 핸들러 추가 */}
+      {/* 팔로우 모달 */}
+      {isModalOpen && (
+        <FollowConfirmationModal
+          username="닉네임"
+          closeModal={closeFollowModal}
+        />
+      )}
+      {/* 언팔로우 모달 */}
+      {isUnfollowModalOpen && (
+        <UnfollowConfirmation
+          username="닉네임"
+          closeModal={closeUnfollowModal}
+        />
+      )}
+      {/* 북마크 모달
         {isBookmarkModalOpen && (
           <BookmarkConfirmationModal
             nickname="닉네임"
