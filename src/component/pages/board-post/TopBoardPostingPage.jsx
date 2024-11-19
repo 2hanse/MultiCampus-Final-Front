@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Header from '../layout/header/Header';
-import ReceiptUpload from '../post-board/restaurant-board/ReceiptUpload';
+import Header from '../../layout/header/Header';
 
-import LocationSearch from '../post-board/restaurant-board/LocationSearch';
-import RatingSection from '../post-board/restaurant-board/RatingSection';
-import ActionButtons from '../post-board/restaurant-board/ActionButtons';
-import Editor from '../post-board/Editor';
-import api from '../api/axios';
+import ReceiptUpload from '../../post-board/restaurant-board/ReceiptUpload';
+
+import LocationSearch from '../../post-board/restaurant-board/LocationSearch';
+import RatingSection from '../../post-board/restaurant-board/RatingSection';
+import ActionButtons from '../../post-board/restaurant-board/ActionButtons';
+import Editor from '../../post-board/Editor';
+import api from '../../api/axios';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import ReceiptList from './ReceiptList';
+import LocationView from './LocationView';
 
-const RestorantBoardPostingPage = () => {
-  const category = 'restaurant';
+const TopBoardPostingPage = () => {
+  const category = 'top';
   const navigate = useNavigate();
 
   // 1. 영수증
@@ -26,6 +30,11 @@ const RestorantBoardPostingPage = () => {
   const [uploadedReceipt, setUploadedReceipt] = useState('');
   // 6. 이미지
   const [image_url, setUpImage_url] = useState('');
+
+  // 7. 수정하는 상태인지 작성하는 상태인지 확인
+  const [putState, setPutState] = useState(false);
+  // 8. 게시물 수정하기 눌렀을때 어떤 게시물인지 확인하는 board_id
+  const { board_id } = useParams();
 
   // 영수증 리스트 토글관리
   const [isListVisible, setIsListVisible] = useState(false);
@@ -43,6 +52,26 @@ const RestorantBoardPostingPage = () => {
     rate_kind: 0,
     rate_clean: 0,
   });
+
+  useEffect(() => {
+    const fetchBoardData = async () => {
+      if (board_id) {
+        setPutState(true);
+        const res = await api.get(`/boards/${board_id}`);
+        console.log('res : ', res.data);
+        setTitle(res.data.board.title);
+        setContent(res.data.board.content);
+        setRatings(res.data.review);
+        setUploadedReceipt(res.data.place.placeAddress);
+        setCurrentReceipt(res.data.place.placeAddress);
+        setSelectedReceipt(res.data.place.placeAddress);
+      } else {
+        setPutState(false);
+      }
+    };
+
+    fetchBoardData();
+  }, [board_id, putState]); // board_id나 putState가 변경될 때마다 실행됩니다.
 
   useEffect(() => {
     getReceipts();
@@ -263,29 +292,69 @@ const RestorantBoardPostingPage = () => {
 
   return (
     <PageContainer>
-      <Header {...haederProps} />
-      <ContentContainer>
-        <ReceiptUpload
-          receipts={receipts}
-          handleCameraButtonClick={handleCameraButtonClick}
-          isListVisible={isListVisible}
-          toggleList={toggleList}
-          handleReceiptClick={handleReceiptClick}
-        />
-        <Editor
-          title={title}
-          setTitle={setTitle}
-          content={content}
-          setContent={setContent}
-          uploadPlugin={uploadPlugin}
-        />
-        <LocationSearch selectedReceipt={selectedReceipt || uploadedReceipt} />
-        <RatingSection ratings={ratings} onRatingChange={handleRatingChange} />
-        <ActionButtons
-          handleDraftSave={handleDraftSave}
-          handleSubmit={handleSubmit}
-        />
-      </ContentContainer>
+      {putState ? (
+        <>
+          <Header {...haederProps} />
+          <ContentContainer>
+            <ReceiptList
+              receipts={receipts}
+              isListVisible={isListVisible}
+              toggleList={toggleList}
+              handleReceiptClick={handleReceiptClick}
+            />
+            <Editor
+              title={title}
+              setTitle={setTitle}
+              content={content}
+              setContent={setContent}
+              uploadPlugin={uploadPlugin}
+            />
+            <LocationView
+              selectedReceipt={selectedReceipt || uploadedReceipt}
+            />
+            <RatingSection
+              ratings={ratings}
+              onRatingChange={handleRatingChange}
+            />
+            <ActionButtons
+              handleDraftSave={handleDraftSave}
+              handleSubmit={handleSubmit}
+            />
+          </ContentContainer>
+        </>
+      ) : (
+        // 글 작성하는 모드
+        <>
+          <Header {...haederProps} />
+          <ContentContainer>
+            <ReceiptUpload
+              receipts={receipts}
+              handleCameraButtonClick={handleCameraButtonClick}
+              isListVisible={isListVisible}
+              toggleList={toggleList}
+              handleReceiptClick={handleReceiptClick}
+            />
+            <Editor
+              title={title}
+              setTitle={setTitle}
+              content={content}
+              setContent={setContent}
+              uploadPlugin={uploadPlugin}
+            />
+            <LocationSearch
+              selectedReceipt={selectedReceipt || uploadedReceipt}
+            />
+            <RatingSection
+              ratings={ratings}
+              onRatingChange={handleRatingChange}
+            />
+            <ActionButtons
+              handleDraftSave={handleDraftSave}
+              handleSubmit={handleSubmit}
+            />
+          </ContentContainer>
+        </>
+      )}
     </PageContainer>
   );
 };
@@ -318,4 +387,4 @@ const ContentContainer = styled.div`
   scrollbar-width: none; /* Firefox */
 `;
 
-export default RestorantBoardPostingPage;
+export default TopBoardPostingPage;
