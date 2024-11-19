@@ -27,10 +27,12 @@ const CustomNameModal = ({ setIsModalOpen, initialName, onConfirm }) => {
                 <Input
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
-                    placeholder="장소명을 입력하세요"
+                    placeholder="새로운 장소명을 입력하세요"
                 />
                 <ButtonWrapper>
-                    <ModalButton primary disabled={!hasChanges} onClick={handleConfirm}>수정</ModalButton>
+                    <ModalButton primary disabled={!hasChanges} onClick={handleConfirm}>
+                        수정
+                    </ModalButton>
                     <ModalButton onClick={closeModal}>취소</ModalButton>
                 </ButtonWrapper>
             </ModalContent>

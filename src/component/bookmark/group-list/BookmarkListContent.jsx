@@ -18,7 +18,7 @@ function BookmarkListContent(props) {
     return (
         <Container>
             <Info>
-                <Name>{props.place.place_info.placeName || "Loading..."}</Name>
+                <Name>{props.place.custom_place_name || props.place.place_info.placeName || "Loading..."}</Name>
                 <Details>{props.place.place_info.placeAddress || "Loading..."}</Details>
                 {props.isEditable && (
                     <>

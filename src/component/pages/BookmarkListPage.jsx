@@ -71,7 +71,10 @@ function BookmarkListPage() {
 
     const updatePlaceName = async (bookmarkPlaceId, newName) => {
         try {
-            await api.put(`bookmarks/place/${bookmarkPlaceId}`, { custom_place_name: newName, icon_color: 0 });
+            await api.put(`/bookmarks/place/${bookmarkPlaceId}`, {
+                custom_place_name: newName, // 서버에서 처리할 필드
+                icon_color: 0,
+            });
             setPlaceList((prevList) =>
                 prevList.map((place) =>
                     place.bookmark_place_id === bookmarkPlaceId
@@ -81,6 +84,7 @@ function BookmarkListPage() {
             );
         } catch (error) {
             console.error("Error updating place name:", error);
+            alert("장소명 업데이트에 실패했습니다.");
         }
     };
 
