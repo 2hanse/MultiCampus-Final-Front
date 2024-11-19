@@ -11,7 +11,6 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
   const [rating, setRating] = useState();
   const [placeReviewCnt, setPlaceReviewCnt] = useState();
   const [imageUrl, setImageUrl] = useState("등록된 사진이 없습니다.");
-  const [reviews, setRevies] = useState([]);
   const maxStars = 5; // 최대 별 개수
 
   useEffect(() => {
