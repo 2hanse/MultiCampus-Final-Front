@@ -49,7 +49,7 @@ const Header = ({ setIsModalOpen }) => {
         <HeaderBox>
             <Logo src={맛있는녀석들_로고} alt="맛있는 녀석들 로고" />
             <MyLocation onClick={openModal}>{userLocation}</MyLocation>
-            <Search src={돋보기} alt="Search" />
+            {/* <Search src={돋보기} alt="Search" /> */}
             <Notification src={알림} alt="Notification" onClick={() => navigate("/user/alert")} />
             {profileImgUrl ? (
                 <LoginedProfile
@@ -92,15 +92,15 @@ const Logo = styled.img`
     border-radius: 50px;
 `
 
-const Search = styled.img`
-    position: absolute;
-    width: 22px;
-    height: 22px;
-    left: 271px;
-    top: 145px;
+// const Search = styled.img`
+//     position: absolute;
+//     width: 22px;
+//     height: 22px;
+//     left: 271px;
+//     top: 145px;
 
-    cursor: pointer;
-`
+//     cursor: pointer;
+// `
 
 const Notification = styled.img`
     position: absolute;
