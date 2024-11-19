@@ -109,7 +109,9 @@ const SearchForm = ({ setOutputValue }) => {
                 </MyLocationBtn>
             </TopWrapper>
             <PrintLocations>
-                {loading ? (
+                {query.trim() === "" ? (
+                    <Text>주소를 입력해주세요</Text>
+                ) : loading ? (
                     <p>Loading...</p>
                 ) : (
                     <div>
@@ -190,9 +192,9 @@ const MyLocationBtn = styled.button`
     height: 46px;
     left: calc(50% - 223px/2 + 0.5px);
     top: 225px;
-    font-family: 'Inter';
+    font-family: 'sans-serif';
     font-style: normal;
-	font-weight: 700;
+	font-weight: 600;
 	font-size: 17px;
     padding: 0px 15px 0px 15px;
     background: #DFA67B;
@@ -216,7 +218,7 @@ const LocationImg = styled.img`
 `;
 
 const PrintLocations = styled.div`
-    position: absolute;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -224,8 +226,21 @@ const PrintLocations = styled.div`
     height: 300px;
     top: 180px;
     left: 5px;
-    padding: 10px 30px 300px 30px;
 `;
+
+const Text = styled.h1`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    height: 30px;
+
+    font-family: 'sans-serif';
+    font-style: normal;
+	font-weight: 400;
+	font-size: 18px;
+`
 
 const RegionBlock = styled.div`
     font-family: 'Inter';
@@ -236,6 +251,7 @@ const RegionBlock = styled.div`
     cursor: pointer;
     padding-bottom: 8px;
     margin-bottom: 16px;
+    margin-left: 30px;
 `;
 
 const Divider = styled.hr`
@@ -243,6 +259,7 @@ const Divider = styled.hr`
     border: none;
     border-top: 1px solid #ccc; // 원하는 선 스타일 설정
     margin: 16px 0;
+    margin-left: 30px;
 `;
 
 export default SearchForm;
