@@ -7,10 +7,12 @@ import top from "./asset/top.png";
 import tour from "./asset/tour.png";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { getUserIdFromToken } from "../api/jwt";
 
 const SidebarMenu = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const localUserId = getUserIdFromToken();
   const { category } = location.state || {};
 
   function gotoWritePage() {
@@ -35,7 +37,17 @@ const SidebarMenu = () => {
 
   return (
     <MenuWrapper>
-      <MenuItem1 src={writebutton} alt="writebutton" onClick={gotoWritePage} />
+      <MenuItem1
+        src={writebutton}
+        alt="writebutton"
+        onClick={() => {
+          if (localUserId) {
+            gotoWritePage();
+          } else {
+            alert("로그인 후 이용해 주세요.");
+          }
+        }}
+      />
       <MenuDivider />
       <MenuItem2 src= {restaurant} alt="restaurant" onClick={gotoRestaurantBoardPage} />
       <MenuItem3 src= {free} alt="free" onClick={gotoFreeBoardPage} />

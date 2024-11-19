@@ -4,20 +4,17 @@ import CommentSection from "./CommentSection";
 import CommentInput from "./CommentInput";
 import MainHeader from "./MainHeader";
 
-function PostContent({ post, category, detail }) {
-  const [comments, setComments] = useState([]);
-
-  const handleAddComment = (newComment) => {
-    setComments([...comments, newComment]);
-  };
+function PostContent({ post, category, detail, comments}) {
 
   return (
     <PostContentWrapper>
       <MainHeader post={post} category={category} detail={detail}/>
       <Divider />
       <PostBody>{post ? post.content : "게시글 본문"}</PostBody>
-      <CommentSection comments={comments} />
-      <CommentInput onAddComment={handleAddComment} />
+      <Divider />
+      <CommentCnt>댓글 {comments.length}</CommentCnt>
+      <CommentSection comments={comments} detail={detail} />
+      <CommentInput />
     </PostContentWrapper>
   );
 }
@@ -44,17 +41,26 @@ const PostContentWrapper = styled.article`
 
 const Divider = styled.hr`
   width: 100%;
-  height: 1px;
-  margin-top: 22px;
-  background-color: #cac4d0;
+  height: 2px;
+  background-color: #D1CBD5;
   border: none;
+  margin: 10px 0;
 `;
 
 const PostBody = styled.p`
   color: #000;
   text-align: center;
   margin-top: 10px;
-  font-size: 20px;
+  font-size: auto;
+`;
+
+const CommentCnt = styled.p`
+  color: #000;
+  text-align: left;
+  margin-top: 10px;
+  margin-left: 25px;
+  font-size: 17px;
+  font-weight: bold;
 `;
 
 export default PostContent;

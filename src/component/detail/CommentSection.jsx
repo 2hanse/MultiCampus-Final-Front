@@ -1,18 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Comment from "./Comment";
 
-function CommentSection({ comments }) { // props로 comments 받음
+function CommentSection({ comments, detail }) {
+
   return (
     <CommentSectionContainer>
       {comments.map((comment) => (
         <Comment
-          key={comment.id}
-          avatar={comment.avatar}
-          name={comment.name}
-          content={comment.content}
-          timestamp={comment.timestamp}
-          likes={comment.likes}
+          key={comment.comment_id}
+          comment={comment}
         />
       ))}
     </CommentSectionContainer>

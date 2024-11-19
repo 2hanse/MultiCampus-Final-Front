@@ -3,16 +3,22 @@ import styled from "styled-components";
 import avatar from "./asset/avatar.png";
 import chatIcon from "./asset/chat.png";
 import followIcon from "./asset/follow.png";
+import unfollowIcon from "./asset/unfollow.png";
 import likeIcon from "./asset/like_button.png";
 import { useNavigate } from "react-router-dom";
+import api from "../api/axios";
+import { getUserIdFromToken } from "../api/jwt";
+
 
 function MainHeader({ post, detail, category: initialCategory }) {
-  const [likeCount, setLikeCount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [boardtype, setBoardtype] = useState("");
   const [membership, setMembership] = useState("");
   const [category, setCategory] = useState(initialCategory);
   const navigate = useNavigate();
+  const localUserId = getUserIdFromToken();
+  const [likecnt, setLikecnt] = useState(0);
+  const [isFollowing, setIsFollowing] = useState(false);
 
   useEffect(() => {
     if (!category && post && post.category) {
@@ -41,19 +47,40 @@ function MainHeader({ post, detail, category: initialCategory }) {
     }
   }, [category]);
 
+  const fetchFollowData = () => {
+    api.get(`/users/follow/${post.user_id}`)
+      .then((res) => {
+        setIsFollowing(res.data);
+        console.log("팔로우 여부:",res.data);
+      })
+      .catch((error) => {
+        console.error("데이터를 가져오는 중 오류 발생:", error);
+      });
+  };
+
   useEffect(() => {
-    if (post.member_score >= 10 && post.member_score < 30) {
+    if (detail && detail.user) {
+    if (detail.user.member_score >= 10 && detail.user.member_score < 30) {
       setMembership("한공기");
-    } else if (post.member_score >= 30 && post.member_score < 50) {
+    } else if (detail.user.member_score >= 30 && detail.user.member_score < 50) {
       setMembership("두공기");
-    } else if (post.member_score >= 50 && post.member_score < 100) {
+    } else if (detail.user.member_score >= 50 && detail.user.member_score < 100) {
       setMembership("세공기");
-    } else if (post.member_score >= 100) {
+    } else if (detail.user.member_score >= 100) {
       setMembership("네공기");
     } else {
       setMembership("빈공기");
     }
+  }
+
+    fetchFollowData();
   }, [post]);
+
+  useEffect(() => {
+    setLikecnt(detail.likes);
+    console.log(detail.likes);
+    // 여기에 comment likes도 추가
+  }, [detail]);
 
   const authorInfoArray = [
     {
@@ -67,7 +94,22 @@ function MainHeader({ post, detail, category: initialCategory }) {
   ];
 
   const handleLikeClick = () => {
-    setLikeCount(likeCount + 1);
+    console.log(detail);
+    api.post(`/boards/${post.board_id}/likes`, {
+      user_id: localUserId,
+      board_id: post.board_id,
+      comment_id: 0
+    })
+      .then((res) => {
+        setLikecnt(res.data);
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(localUserId);
+        console.log(post);
+        console.log(post.board_id);
+        console.error("데이터를 가져오는 중 오류 발생:", error);
+      });
   };
 
   const handleChatClick = () => {
@@ -88,37 +130,80 @@ function MainHeader({ post, detail, category: initialCategory }) {
 
   const handleFollowClick = () => {
     console.log("Follow button clicked");
+    // setIsFollowing(); if문으로 해
+    if (isFollowing) {
+      api.delete(`/users/follow/${post.user_id}`)
+      .then((res) => {
+        fetchFollowData();
+      })
+      .catch((error) => {
+        alert(error.response.data.errMsg);
+      });
+    } else {
+      api.post(`/users/follow/${post.user_id}`)
+      .then((res) => {
+        fetchFollowData();
+      })
+      .catch((error) => {
+        alert(error.response.data.errMsg);
+      });
+    };
   };
 
   const gotoUserProfile = () => {
-    navigate(`/user-profile/${post.nickname}`);
+      navigate(`/user-profile/${detail.board.user_id}`);
+      console.log(detail.board.user_id);
   };
-
-  const likes = post && post.likes ? post.likes : 0;
 
   return (
     <MainHeaderContainer>
       <HeaderTop>
         <BoardName>{boardtype} 게시판</BoardName>
         <LikeSection>
-          <LikeIcon src={likeIcon} alt="Like" onClick={handleLikeClick} />
-          <LikeCount>{likes}</LikeCount>
+          <LikeIcon
+            src={likeIcon}
+            alt="Like"
+            onClick={() => {
+              if (localUserId) {
+                handleLikeClick();
+              } else {
+                alert("로그인 후 이용해 주세요.");
+              }
+            }}
+          />
+          <LikeCount>{likecnt}</LikeCount>
         </LikeSection>
       </HeaderTop>
       <PostTitle>{post ? post.title : "제목 없음"}</PostTitle>
       {/* 게시글 작성자 정보 표시 */}
     {authorInfoArray.map((author) => (
       <AuthorInfo key={author.id}>
-        <Avatar src={author.avatar} alt={`${author.name}의 아바타`} onClick={() => gotoUserProfile}/>
+        <Avatar
+          src={detail && detail.user && detail.user.profile_img_url ? detail.user.profile_img_url : author.avatar}
+          alt="User Avatar"
+          onClick={gotoUserProfile}
+        />
         <AuthorDetails>
-            <AuthorName onClick={() => gotoUserProfile}>
-              {post ? post.nickname : "user"} <AuthorMembership>{membership}</AuthorMembership>
+            <AuthorName onClick={gotoUserProfile}>
+              {detail ? detail.user?.nickname : "user"} <AuthorMembership>{membership}</AuthorMembership>
             </AuthorName>
           <AuthorTimestamp>작성 시간: {post ? post.created_time : ""}</AuthorTimestamp>
           <AuthorViews>조회수: {post ? post.view_cnt : ""}</AuthorViews>
         </AuthorDetails>
-        <ChatIcon src={chatIcon} alt="채팅 아이콘" onClick={handleChatClick} />
-        <FollowButton src={followIcon} alt="팔로우 버튼" onClick={handleFollowClick} />
+        {
+          localUserId == post.user_id || localUserId == null ? (
+            <></>
+          ) : (
+            <ChatIcon src={chatIcon} alt="채팅 아이콘" onClick={handleChatClick} />
+          )
+        }
+        {
+          localUserId == post.user_id || localUserId == null ? (
+            <></>
+          ) : (
+            <FollowButton src={isFollowing ? unfollowIcon : followIcon} alt="팔로우 버튼" onClick={handleFollowClick} />
+          )
+        }        
       </AuthorInfo>
     ))}
         
@@ -169,7 +254,7 @@ const LikeIcon = styled.img`
 `;
 
 const LikeCount = styled.span`
-  font-size: 14px;
+  font-size: 16px;
   color: #333;
 `;
 

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import menu from "./asset/menu.png";
 import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
+import { getUserIdFromToken } from "../api/jwt";
 
 const ActionsWrapper = styled.div`
   position: relative;
@@ -60,6 +61,7 @@ function DetailActions({ post , category }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+  const localUserId = getUserIdFromToken();
 
   const user_id = 58;
 
@@ -112,8 +114,22 @@ function DetailActions({ post , category }) {
         </ActionButton>
         {isDropdownOpen && (
           <DropdownMenu ref={dropdownRef}>
-            <DropdownItem onClick={() => handleItemClick("수정")}>수정</DropdownItem>
-            <DropdownItem onClick={() => handleItemClick("삭제")}>삭제</DropdownItem>
+            <DropdownItem
+              onClick={() => {
+                if (localUserId && localUserId === post.user_id) {
+                  handleItemClick("수정");
+                } else {
+                  alert("권한이 없습니다.");
+                }
+              }}>수정</DropdownItem>
+            <DropdownItem
+              onClick={() => {
+                if (localUserId && localUserId === post.user_id) {
+                  handleItemClick("삭제");
+                } else {
+                  alert("권한이 없습니다.");
+                }
+              }}>삭제</DropdownItem>
           </DropdownMenu>
         )}
       </ActionButtons>

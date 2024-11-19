@@ -25,7 +25,7 @@ function HotPost(category) {
   }, []);
 
   const handleTitleClick = () => {
-    navigate("/board/PostPage", { state: { post: hotpost} });
+    navigate(`/board/PostPage/${hotpost.board_id}`);
   };
 
   return (
