@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import UserListItem from "../../chat/user/UserListItem";
 import { getUserIdFromToken } from "../../api/jwt";
 import api from "../../api/axios";
@@ -17,6 +17,7 @@ function ChatInvitePage() {
   const [searchResults, setSearchResults] = useState([]);
   const [checkedUsers, setCheckedUsers] = useState([]);
   const [roomTitle, setRoomTitle] = useState("");
+  const {paramNickname} = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -59,6 +60,10 @@ function ChatInvitePage() {
       }
     };
   }, [localUserId]);
+
+  useEffect(() => {
+    setSearchTerm(() => paramNickname);
+  }, [paramNickname]);
 
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
@@ -107,7 +112,7 @@ function ChatInvitePage() {
       <InviteContainer>
         <Title>대화상대 추가</Title>
         <SearchBar>
-          <SearchInput onKeyDown={handleKeyPress} onChange={(e) => setSearchTerm(e.target.value)} stompClient={stompClient} id="searchInput" type="text" placeholder="유저 닉네임으로 검색" />
+          <SearchInput value={searchTerm} onKeyDown={handleKeyPress} onChange={(e) => setSearchTerm(e.target.value)} stompClient={stompClient} id="searchInput" type="text" placeholder="유저 닉네임으로 검색" />
           <SearchIcon loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/a4043db299d9ceb138c2e374dca4840d7d3ff7f4252651ed455139c571b71f73?placeholderIfAbsent=true&apiKey=12c88cfd4a664977958acab9caf9f3bf" alt="검색" />
         </SearchBar>
 

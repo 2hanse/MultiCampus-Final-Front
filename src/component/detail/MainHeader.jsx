@@ -121,8 +121,8 @@ function MainHeader({ post, detail, category: initialCategory }) {
   };
 
   const handleYesClick = () => {
-    if (post && post.nickname) {
-      navigate("/user/chat/invite", { state: { nickname: post.nickname } });
+    if (detail && detail.user && detail.user.nickname) {
+      navigate(`/user/chat/invite/${detail.user.nickname}`);
     } else {
       navigate("/user/chat/invite");
     }

@@ -86,6 +86,7 @@ function App() {
         <Route path="/user/find-password" element={<FindPasswordPage />} />
         <Route path="/user/chat/list" element={<ChatListPage />} />
         <Route path="/user/chat/invite" element={<ChatInvitePage />} />
+        <Route path="/user/chat/invite/:paramNickname" element={<ChatInvitePage />} />
         <Route path="/user/chat/room" element={<ChatRoomPage />} />
         <Route path="/user/alert" element={<AlertPage />} />
         <Route path="/boardmain" element={<BoardMainPage />} />
