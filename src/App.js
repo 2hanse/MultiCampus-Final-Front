@@ -39,6 +39,7 @@ import TourBoard from './component/pages/board/TourBoard';
 import PostPage from './component/pages/board/PostPage';
 import BoardSidebar from './component/pages/board/BoardSidebarPage';
 import checkDailyAttendance from './component/api/dailybonus';
+import FirstVisit from './component/pages/guide/FirstVisit';
 import { useEffect } from 'react';
 
 const DailyBonus = () => {
@@ -51,7 +52,6 @@ const DailyBonus = () => {
 
   return null; // UI에 아무것도 렌더링하지 않음
 };
-import FirstVisit from './component/pages/guide/FirstVisit';
 
 function App() {
   return (
