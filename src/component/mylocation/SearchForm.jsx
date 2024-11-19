@@ -75,23 +75,15 @@ const SearchForm = ({ setOutputValue }) => {
                 const { latitude, longitude } = position.coords;
 
                 try {
-                    const { address } = await getAddressFromCoordinates(latitude, longitude);
+                    const address = await getAddressFromCoordinates(latitude, longitude);
 
                     setOutputValue({
-                        address: address,
+                        address: address.fullAddress,
                         lat: latitude,
                         lng: longitude,
                     });
 
                 } catch (error) {
-                    const { address } = await getAddressFromCoordinates(35.8241, 127.148);
-
-                    setOutputValue({
-                        address: address,
-                        lat: latitude,
-                        lng: longitude,
-                    });
-
                     console.error("현재 위치 정보 요청 오류:", error);
                     alert("현재 위치 정보를 가져오는 데 실패했습니다.");
                 }
