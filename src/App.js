@@ -18,10 +18,10 @@ import BookmarkListPage from './component/pages/BookmarkListPage';
 import ChangePasswordPage from './component/pages/reset/ChangePasswordPage';
 import ChangePasswordResultPage from './component/pages/reset/ChangePasswordResultPage';
 import ChatRoomPage from './component/pages/chat/ChatRoomPage';
-import RestorantBoardPostingPage from './component/pages/RestorantBoardPostingPage';
-import TopBoardPostingPage from './component/pages/TopBoardPostingPage';
-import FreeBoardPostingPage from './component/pages/FreeBoardPostingPage';
-import TourBoardPostingPage from './component/pages/TourBoardPostingPage';
+import RestorantBoardPostingPage from './component/pages/board-post/RestorantBoardPostingPage';
+import TopBoardPostingPage from './component/pages/board-post/TopBoardPostingPage';
+import FreeBoardPostingPage from './component/pages/board-post/FreeBoardPostingPage';
+import TourBoardPostingPage from './component/pages/board-post/TourBoardPostingPage';
 import MyProfilePage from './component/pages/MyProfilePage';
 import ReviewHistory from './component/pages/reviewpage';
 import LikedPosts from './component/pages/likedPost';
@@ -51,12 +51,15 @@ const DailyBonus = () => {
 
   return null; // UI에 아무것도 렌더링하지 않음
 };
+import FirstVisit from './component/pages/guide/FirstVisit';
 
 function App() {
   return (
     <BrowserRouter>
       <DailyBonus />
       <Routes>
+        <Route path="/guide" element={<FirstVisit />} />
+
         <Route path="/review-history" element={<ReviewHistory />} />
         <Route path="/comment-history" element={<CommentHistory />} />
         <Route path="/liked-posts" element={<LikedPosts />} />
@@ -89,11 +92,27 @@ function App() {
 
         {/* 게시판 작성 관련 */}
         <Route
+          path="/boardpost/restaurant/:board_id"
+          element={<RestorantBoardPostingPage />}
+        />
+        <Route
           path="/boardpost/restaurant"
           element={<RestorantBoardPostingPage />}
         />
+        <Route
+          path="/boardpost/top/:board_id"
+          element={<TopBoardPostingPage />}
+        />
         <Route path="/boardpost/top" element={<TopBoardPostingPage />} />
+        <Route
+          path="/boardpost/free/:board_id"
+          element={<FreeBoardPostingPage />}
+        />
         <Route path="/boardpost/free" element={<FreeBoardPostingPage />} />
+        <Route
+          path="/boardpost/tour/:board_id"
+          element={<TourBoardPostingPage />}
+        />
         <Route path="/boardpost/tour" element={<TourBoardPostingPage />} />
         <Route
           path="/user/phone-identification"
