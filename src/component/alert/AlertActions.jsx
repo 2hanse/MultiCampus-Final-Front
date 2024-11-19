@@ -36,7 +36,7 @@ function AlertActions() {
   const navigate = useNavigate();
 
   const handleGoSettings = () => {
-    navigate("/user/alert");
+    navigate("/myprofilepage");
   }
 
   return (

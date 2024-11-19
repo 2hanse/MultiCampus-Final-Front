@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import CommentSection from "./CommentSection";
 import CommentInput from "./CommentInput";
 import MainHeader from "./MainHeader";
 
-function PostContent({ post, category, detail, comments}) {
+function PostContent({ post, category, detail, comments, fetchComments }) {
 
   return (
     <PostContentWrapper>
@@ -13,8 +13,8 @@ function PostContent({ post, category, detail, comments}) {
       <PostBody>{post ? post.content : "게시글 본문"}</PostBody>
       <Divider />
       <CommentCnt>댓글 {comments.length}</CommentCnt>
-      <CommentSection comments={comments} detail={detail} />
-      <CommentInput />
+      <CommentSection comments={comments} detail={detail} fetchComments={fetchComments} />
+      <CommentInput detail={detail} fetchComments={fetchComments} />
     </PostContentWrapper>
   );
 }
@@ -42,7 +42,7 @@ const PostContentWrapper = styled.article`
 const Divider = styled.hr`
   width: 100%;
   height: 2px;
-  background-color: #D1CBD5;
+  background-color: #fff;
   border: none;
   margin: 10px 0;
 `;

@@ -3,6 +3,7 @@ import ReactModal from "react-modal";
 import styled from "styled-components";
 import api from "../api/axios";
 import { getUserIdFromToken } from "../api/jwt";
+import ModalComponent from "./ModalComponent";
 
 const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,7 +18,7 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
     api.get(`/place/reviewscore/${place_id}`)
     .then((res) => {
       if(res.status === 200) {
-        console.log(res.data)
+        //console.log(res.data)
         const { score, imageUrl } = res.data;
         setRating(parseFloat(score).toFixed(1));
         //setRating(parseFloat(res.data).toFixed(1));
@@ -115,6 +116,34 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
         }
     };
 
+    const [board_info, setBoard_info] = useState([]);
+
+    useEffect(() => {
+      api.get(`place/reviews/${place_id}`)
+      .then((res) => {
+        if (res.data && res.data.length > 0) {
+          // 모든 board_info를 배열로 추출 후 상태에 저장
+          const boardInfos = res.data;
+          setBoard_info(boardInfos); 
+          // console.log(boardInfos); // 배열 형태로 출력
+          // console.log(board_info)
+        } else {
+          //console.log("데이터가 없습니다");
+        }
+      })
+      .catch((error) => {
+        console.error("데이터를 가져오는 중 오류 발생: ", error);
+      });
+    },[place_id]) 
+      
+    const [isArrowModalOpen, setIsArrowModalOpen] = useState(false);
+    const openArrowModal = () => {
+      //console.log('Opening modal'); // 상태 변경 전 로그 출력
+      setIsArrowModalOpen(true)};
+      //console.log('isModalOpen:', isArrowModalOpen); // 상태 변경 후 확인
+
+    const closeArrowModal = () => setIsArrowModalOpen(false);
+
     return (
     <Container>
         <Header>
@@ -125,7 +154,16 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
           <Rating>{rating}</Rating>
           <StarWrapper>{generateStars()}</StarWrapper>
           <ReviewCount>후기 {placeReviewCnt}</ReviewCount>
-          {/* <ArrowIcon loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/76ac410de088f9ebb3f69908cec6437dacd93967deb82a0af6ee25fa4c0b0f4b?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" alt="Arrow icon" /> */}
+          <ArrowIcon  loading="lazy" 
+                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/76ac410de088f9ebb3f69908cec6437dacd93967deb82a0af6ee25fa4c0b0f4b?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" 
+                      alt="Arrow icon"
+                      onClick={openArrowModal}
+                      />
+            <ModalComponent
+              isOpen={isArrowModalOpen}
+              onClose={closeArrowModal}
+              board_info={board_info}
+            />
         </RatingContainer>
 
         <AddressContainer>
@@ -137,7 +175,7 @@ const PlaceInfoSheet = ({placeName, placeAddress, placeTele, place_id}) => {
                         src="https://cdn.builder.io/api/v1/image/assets/TEMP/40818f37db6d225adfa1c55c5357fa488e2f7c88cb6e0f8480e4a4945c862a7d?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" 
                         alt="Icon 1" 
                         onClick={() => handleIconClick(placeTele)}/>
-                <Icon loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/84e6d9b5de04ff203900ac7f5955f1ca91c45cce554d4fddfe190fe63360cc54?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" alt="Icon 2" />
+                {/* <Icon loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/84e6d9b5de04ff203900ac7f5955f1ca91c45cce554d4fddfe190fe63360cc54?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" alt="Icon 2" /> */}
                 <Icon   loading="lazy" 
                         src="https://cdn.builder.io/api/v1/image/assets/TEMP/e7d52f98e5299a8b08ff643fede53eab7a4ff9261862a68328040c94b080e7b9?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" 
                         alt="Icon 3"

@@ -11,11 +11,11 @@ import { getUserIdFromToken } from "../api/jwt";
 
 
 function MainHeader({ post, detail, category: initialCategory }) {
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [boardtype, setBoardtype] = useState("");
   const [membership, setMembership] = useState("");
   const [category, setCategory] = useState(initialCategory);
-  const navigate = useNavigate();
   const localUserId = getUserIdFromToken();
   const [likecnt, setLikecnt] = useState(0);
   const [isFollowing, setIsFollowing] = useState(false);
@@ -78,8 +78,6 @@ function MainHeader({ post, detail, category: initialCategory }) {
 
   useEffect(() => {
     setLikecnt(detail.likes);
-    console.log(detail.likes);
-    // 여기에 comment likes도 추가
   }, [detail]);
 
   const authorInfoArray = [
@@ -121,8 +119,8 @@ function MainHeader({ post, detail, category: initialCategory }) {
   };
 
   const handleYesClick = () => {
-    if (post && post.nickname) {
-      navigate("/user/chat/invite", { state: { nickname: post.nickname } });
+    if (detail && detail.user && detail.user.nickname) {
+      navigate(`/user/chat/invite/${detail.user.nickname}`);
     } else {
       navigate("/user/chat/invite");
     }

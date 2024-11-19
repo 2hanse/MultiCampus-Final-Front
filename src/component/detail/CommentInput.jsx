@@ -1,32 +1,42 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import chatbutton from "./asset/send.png";
-import avatarImage from "./asset/avatar.png";
 import { getUserIdFromToken } from "../api/jwt";
+import api from "../api/axios";
 
-function CommentInput({ onAddComment }) {
-  const [inputValue, setInputValue] = useState("");
-  const [commentId, setCommentId] = useState(1);
+function CommentInput({ detail, fetchComments }) {
+  const [inputvalue, setInputValue] = useState('');
   const localUserId = getUserIdFromToken();
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
 
-  const handleCommentSubmit = () => {
-    if (inputValue.trim()) {
-      const newComment = {
-        id: commentId, // 자동 증가 ID
-        name: "작성자", // 기본 작성자 이름
-        avatar: avatarImage,
-        content: inputValue,
-        likes: 0, // 초기 좋아요 수
-        timestamp: new Date().toLocaleString(), // 작성 시간 추가
-      };
+  const handleSubmit = async () => {
+    try {
+      await api.post('/comments', {
+        board_id: detail.board.board_id,
+        user_id: localUserId,
+        comment: inputvalue,
+        parant_id: null
+      });
+      
+      setInputValue('');
 
-      onAddComment(newComment);
-      setInputValue(""); // 입력 필드 초기화
-      setCommentId(commentId + 1); // ID 증가
+      if (fetchComments) {
+        fetchComments();
+      }
+
+    } catch (error) {
+      console.error('댓글 생성 중 오류 발생:', error);
+      alert('댓글 생성에 실패했습니다.');
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit();
     }
   };
 
@@ -34,15 +44,16 @@ function CommentInput({ onAddComment }) {
     <CommentInputWrapper>
       <CommentInputField
         placeholder={localUserId ? "댓글을 입력하세요..." : "로그인 후 이용해 주세요..."}
-        value={inputValue}
+        value={inputvalue}
         onChange={handleInputChange}
+        // onKeyDown={handleKeyDown}
       />
       <SendButton
         src={chatbutton}
         alt="send"
         onClick={() => {
           if (localUserId) {
-            handleCommentSubmit();
+            handleSubmit();
           } else {
             alert("로그인 후 이용해 주세요.");
           }

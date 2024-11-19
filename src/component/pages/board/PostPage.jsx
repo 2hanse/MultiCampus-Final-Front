@@ -13,7 +13,7 @@ function PostPage() {
   const [comments, setComments] = useState([]);
   const {board_id} = useParams();
 
-  useEffect(() => {
+  const fetchdetail = () => {
     api.get(`/boards/${board_id}`)
       .then((res) => {
         setPost(res.data.board);
@@ -26,6 +26,21 @@ function PostPage() {
         console.error("게시글 데이터를 불러오는 중 오류 발생:", error);
         alert("게시글 데이터를 불러올 수 없습니다.");
       });
+  };
+
+  const fetchComments = () => {
+    api.get(`/boards/${board_id}`)
+      .then((res) => {
+        setComments(res.data.comments);
+      })
+      .catch((error) => {
+        console.error("댓글 데이터를 불러오는 중 오류 발생:", error);
+        alert("댓글 데이터를 불러올 수 없습니다.");
+      });
+  };
+
+  useEffect(() => {
+    fetchdetail();
   }, []);
 
   return (
@@ -34,7 +49,7 @@ function PostPage() {
         <DetailActions post={post} category={post.category}/>
       }/>
       <ContentContainer>
-        <PostContent post={post} category={post.category} detail={detail} comments={comments} />
+        <PostContent post={post} category={post.category} detail={detail} comments={comments} fetchComments={fetchComments} />
       </ContentContainer>
       <Footer />
     </PageContainer>
