@@ -86,7 +86,7 @@ function ReviewHistory() {
       <main className="review-history-page">
         <Header color="#fff4d2" title="남긴 리뷰" actions={<SearchActions />} />
 
-        <section className="sort-section">
+        {/* <section className="sort-section">
           <button className="filter-button">
             <span className="sort-text">등록순</span>
             <img
@@ -96,7 +96,7 @@ function ReviewHistory() {
               className="sort-icon"
             />
           </button>
-        </section>
+        </section> */}
 
         <section className="review-list">
           {boardList.map((post, index) => (
