@@ -1,13 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 
-function InfoItem({ icon, label, additionalInfo, hasRating }) {
+function InfoItem({ icon, label, additionalInfo, hasRating, openArrowModal }) {
+  
   return (
     <ItemWrapper>
       <Icon src={icon} alt="" />
       <Label>{label}</Label>
       {additionalInfo && <AdditionalInfo>{additionalInfo}</AdditionalInfo>}
-      {hasRating && <RatingIcon src="https://cdn.builder.io/api/v1/image/assets/TEMP/76ac410de088f9ebb3f69908cec6437dacd93967deb82a0af6ee25fa4c0b0f4b?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" alt="Rating" />}
+      {hasRating && <RatingIcon 
+      src="https://cdn.builder.io/api/v1/image/assets/TEMP/76ac410de088f9ebb3f69908cec6437dacd93967deb82a0af6ee25fa4c0b0f4b?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c" 
+      alt="Rating" 
+      onClick={openArrowModal}/>}
     </ItemWrapper>
   );
 }
