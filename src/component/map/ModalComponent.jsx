@@ -98,8 +98,9 @@ const ContentBox = styled.div`
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: space-between;
+    cursor: pointer;
     &:hover {
-    background-color: #e6e6e6;
+        background-color: #e6e6e6;
     }
 `;
 
