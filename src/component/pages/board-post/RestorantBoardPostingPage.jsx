@@ -98,7 +98,7 @@ const RestorantBoardPostingPage = () => {
     const draft = {
       title,
       image_url,
-      content: handleContentChange(content),
+      content,
       currentReceipt,
       ratings,
     };
@@ -116,7 +116,7 @@ const RestorantBoardPostingPage = () => {
     // }
 
     const data = {
-      board: { title, content: handleContentChange(content), image_url },
+      board: { title, content, image_url },
       review: { ...ratings },
       receipt: currentReceipt,
     };
@@ -145,7 +145,7 @@ const RestorantBoardPostingPage = () => {
     // }
 
     const data = {
-      board: { title, content: handleContentChange(content), image_url },
+      board: { title, content, image_url },
       review: { ...ratings },
       receipt: currentReceipt,
     };
@@ -301,17 +301,6 @@ const RestorantBoardPostingPage = () => {
   const handleReceiptClick = (receipt) => {
     setSelectedReceipt(receipt); // 선택한 데이터를 저장
     setIsListVisible(false); // 목록닫기
-  };
-
-  // 태그 없애는 메서드
-  const removeHtmlTags = (html) => {
-    const doc = new DOMParser().parseFromString(html, 'text/html');
-    return doc.body.textContent || '';
-  };
-
-  const handleContentChange = (data) => {
-    const plainTextContent = removeHtmlTags(data); // HTML 태그 제거
-    return plainTextContent;
   };
 
   const haederProps = {

@@ -49,7 +49,7 @@ const FreeBoardPostingPage = () => {
   // 임시저장
   const handleDraftSave = () => {
     console.log('handlesubmit : ', content);
-    setContent(handleContentChange(content));
+    setContent(content);
     console.log('changedhandlesubmit : ', content);
 
     const draft = {
@@ -70,7 +70,7 @@ const FreeBoardPostingPage = () => {
     // }
 
     console.log('handlesubmit : ', content);
-    setContent(handleContentChange(content));
+    setContent(content);
     console.log('changedhandlesubmit : ', content);
 
     const data = {
@@ -102,7 +102,7 @@ const FreeBoardPostingPage = () => {
     // }
 
     console.log('handlesubmit : ', content);
-    setContent(handleContentChange(content));
+    setContent(content);
     console.log('changedhandlesubmit : ', content);
 
     const data = {
@@ -125,11 +125,6 @@ const FreeBoardPostingPage = () => {
         return;
       }
     });
-  };
-
-  const handleContentChange = (data) => {
-    const plainTextContent = removeHtmlTags(data); // HTML 태그 제거
-    return plainTextContent;
   };
 
   // 백엔드에 uri 생성 후 반한해오는 코드
@@ -169,12 +164,6 @@ const FreeBoardPostingPage = () => {
     editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
       return customUploadAdapter(loader);
     };
-  };
-
-  // 태그 없애는 메서드
-  const removeHtmlTags = (html) => {
-    const doc = new DOMParser().parseFromString(html, 'text/html');
-    return doc.body.textContent || '';
   };
 
   const haederProps = {

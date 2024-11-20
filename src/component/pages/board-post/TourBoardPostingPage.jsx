@@ -56,7 +56,7 @@ const TourBoardPostingPage = () => {
   const handleDraftSave = () => {
     const draft = {
       title,
-      content: handleContentChange(content),
+      content,
     };
 
     console.log('임시저장 데이터', draft);
@@ -74,7 +74,7 @@ const TourBoardPostingPage = () => {
     const data = {
       board: {
         title,
-        content: handleContentChange(content),
+        content,
         bookmark_id: selectedBookmarkId,
       },
     };
@@ -107,7 +107,7 @@ const TourBoardPostingPage = () => {
     const data = {
       board: {
         title,
-        content: handleContentChange(content),
+        content,
         bookmark_id: selectedBookmarkId,
       },
     };
@@ -126,10 +126,6 @@ const TourBoardPostingPage = () => {
         return;
       }
     });
-  };
-  const handleContentChange = (data) => {
-    const plainTextContent = removeHtmlTags(data); // HTML 태그 제거
-    return plainTextContent;
   };
 
   // 백엔드에 uri 생성 후 반한해오는 코드
@@ -169,12 +165,6 @@ const TourBoardPostingPage = () => {
     editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
       return customUploadAdapter(loader);
     };
-  };
-
-  // 태그 없애는 메서드
-  const removeHtmlTags = (html) => {
-    const doc = new DOMParser().parseFromString(html, 'text/html');
-    return doc.body.textContent || '';
   };
 
   // 자신의 북마크 불러오기 요청
