@@ -1,25 +1,30 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-import api from "../api/axios";
-import { formatDistanceToNow } from "date-fns";
-import { ko } from "date-fns/locale";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import api from '../api/axios';
+import { formatDistanceToNow } from 'date-fns';
+import { ko } from 'date-fns/locale';
 
-function PostList ({ selectedSort, category, address, distance }) {
+function PostList({ selectedSort, category, address, distance }) {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [postlist, setpostlist] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
 
   const fetchBoards = () => {
-    api.get(`/boards/list/${category}/${currentPage - 1}?address=${address}&radius=${distance}`)
+    api
+      .get(
+        `/boards/list/${category}/${
+          currentPage - 1
+        }?address=${address}&radius=${distance}`
+      )
       .then((res) => {
         console.log(res.data.boards);
         setpostlist(res.data.boards || []);
         setTotalPages(res.data.pageCount);
       })
       .catch((error) => {
-        console.error("데이터를 가져오는 중 오류 발생:", error);
+        console.error('데이터를 가져오는 중 오류 발생:', error);
       });
   };
 
@@ -56,16 +61,15 @@ function PostList ({ selectedSort, category, address, distance }) {
     }
     return pageNumbers;
   };
-  
 
   const extractFirstImage = (content) => {
     const imgTagMatch = content.match(/<img[^>]+src="([^">]+)"/);
     return imgTagMatch ? imgTagMatch[1] : null;
-  };  
+  };
 
   const handleTitleClick = (post) => {
     // 백엔드에서 조회수 증가 api가 없으면 로컬에서 밖에 수정이 안됨 <-매번 view_cnt값이 초기화됨
-    
+
     // 페이지 이동
     console.log(post);
     navigate(`/board/PostPage/${post.board_id}`);
@@ -78,56 +82,98 @@ function PostList ({ selectedSort, category, address, distance }) {
 
   const stripHtmlTags = (html) => {
     const parser = new DOMParser();
-    const doc = parser.parseFromString(html, "text/html");
-    return doc.body.textContent || "";
+    const doc = parser.parseFromString(html, 'text/html');
+    return doc.body.textContent || '';
   };
-  
+
   const truncateContent = (content, length = 20) => {
     const textContent = stripHtmlTags(content);
-    return textContent.length > length ? textContent.slice(0, length) + "..." : textContent;
+    return textContent.length > length
+      ? textContent.slice(0, length) + '...'
+      : textContent;
   };
-  
 
   return (
     <PostListContainer>
       <ScrollableContent>
         {postlist.map((post) => {
           const firstImageUrl = extractFirstImage(post.content);
-          let membership = "빈공기";
+          let membership = '빈공기';
           if (post.member_score >= 10 && post.member_score < 30) {
-            membership = "한공기";
+            membership = '한공기';
           } else if (post.member_score >= 30 && post.member_score < 50) {
-            membership = "두공기";
+            membership = '두공기';
           } else if (post.member_score >= 50 && post.member_score < 100) {
-            membership = "세공기";
+            membership = '세공기';
           } else if (post.member_score >= 100) {
-            membership = "네공기";
+            membership = '네공기';
+          }
+          let flagmark;
+          if (post.localflag) {
+            flagmark = (
+              <span>
+                [동네주민{' '}
+                <img
+                  src="/home-button.png"
+                  alt="home button"
+                  style={{
+                    width: '14px',
+                    height: '14px',
+                    verticalAlign: 'middle',
+                  }}
+                />
+                ] {post.title}
+              </span>
+            );
+          } else {
+            flagmark = post.title;
           }
 
           return (
             <PostItem key={post.board_id}>
               <PostMeta>
-                {formatRelativeTime(post.created_time)} | {post.nickname} ({membership}) | 조회수: {post.view_cnt}
+                {formatRelativeTime(post.created_time)} | {post.nickname} (
+                {membership}) | 조회수: {post.view_cnt}
               </PostMeta>
-              {firstImageUrl && <PreviewImage src={firstImageUrl} alt="게시글 미리보기 이미지" onClick={() => handleTitleClick(post)} />}
-              <PostTitle onClick={() => handleTitleClick(post)}>{post.title}</PostTitle>
+              {firstImageUrl && (
+                <PreviewImage
+                  src={firstImageUrl}
+                  alt="게시글 미리보기 이미지"
+                  onClick={() => handleTitleClick(post)}
+                />
+              )}
+              <PostTitle onClick={() => handleTitleClick(post)}>
+                {flagmark}
+              </PostTitle>
               <PostContent>{truncateContent(post.content)}</PostContent>
             </PostItem>
           );
         })}
       </ScrollableContent>
       <PaginationContainer>
-        <PageButton onClick={() => handlePageChange(1)} disabled={currentPage === 1}>
+        <PageButton
+          onClick={() => handlePageChange(1)}
+          disabled={currentPage === 1}
+        >
           &lt;&lt;
         </PageButton>
-        <PageButton onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+        <PageButton
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
           &lt;
         </PageButton>
         {renderPageButtons()}
-        <PageButton onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+        <PageButton
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
           &gt;
         </PageButton>
-        <PageButton onClick={() => handlePageChange(totalPages)} disabled={currentPage === totalPages}>
+        <PageButton
+          onClick={() => handlePageChange(totalPages)}
+          disabled={currentPage === totalPages}
+        >
           &gt;&gt;
         </PageButton>
       </PaginationContainer>
@@ -142,7 +188,7 @@ const PostListContainer = styled.main`
   max-width: 430px;
   position: relative;
   height: auto;
-  max-height: calc(100vh - 335px);;
+  max-height: calc(100vh - 335px);
   box-sizing: border-box;
   margin-bottom: 100px;
   padding: 10px;
@@ -152,8 +198,8 @@ const PostListContainer = styled.main`
     display: none;
   }
 
-  -ms-overflow-style: none;  /* IE 및 Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE 및 Edge */
+  scrollbar-width: none; /* Firefox */
 `;
 
 const ScrollableContent = styled.div`
@@ -221,8 +267,8 @@ const PaginationContainer = styled.div`
 const PageButton = styled.button`
   margin: 0 4px;
   padding: 4px 8px;
-  background-color: ${({ isActive }) => (isActive ? "#ED6000" : "#ffffff")};
-  color: ${({ isActive }) => (isActive ? "#ffffff" : "#ED6000")};
+  background-color: ${({ isActive }) => (isActive ? '#ED6000' : '#ffffff')};
+  color: ${({ isActive }) => (isActive ? '#ffffff' : '#ED6000')};
   border: 1px solid #ED6000;
   border-radius: 4px;
   cursor: pointer;
