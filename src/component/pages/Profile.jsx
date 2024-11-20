@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Footer from "../layout/footer/Footer";
 import Header from "../layout/header/Header";
 import api from "../api/axios";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [nickname, setNickname] = useState("닉네임");
@@ -14,6 +15,7 @@ const Profile = () => {
   const [countFoller, setCountFoller] = useState(0);
   const [statusMessage, setStatusMessage] = useState("상태 메시지");
   const [reviewData, setReviewData] = useState([]);
+  const navigate = useNavigate();
 
   const stats = [
     { label: "게시물", value: countBoard },
@@ -49,6 +51,19 @@ const Profile = () => {
     }
   };
 
+  const stripHtmlTags = (html) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    return doc.body.textContent || '';
+  };
+
+  const truncateContent = (content, length = 20) => {
+    const textContent = stripHtmlTags(content);
+    return textContent.length > length
+      ? textContent.slice(0, length) + '...'
+      : textContent;
+  };
+
   return (
     <Main>
       <Header color="#fff4d2" title={nickname} />
@@ -68,9 +83,9 @@ const Profile = () => {
       <Divider2/>
       <ProfileContent>
         {reviewData.map((review, index) => (
-          <ReviewItem key={index}>
+          <ReviewItem key={index} onClick={() => navigate(`/board/PostPage/${review.board_id}`)}>
             <ReviewTitle>{review.title}</ReviewTitle>
-            <ReviewDescription>{review.content.slice(0, 20)}...</ReviewDescription>
+            <ReviewDescription>{truncateContent(review.content)}...</ReviewDescription>
           </ReviewItem>
         ))}
       </ProfileContent>

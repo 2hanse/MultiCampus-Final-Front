@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import styled                         from "styled-components";
-import 맛있는녀석들_로고                   from "./assets/맛있는녀석들_로고.png";
-import 돋보기                           from "./assets/돋보기.png";
-import 알림                            from "./assets/알림.png";
-import 프로필                           from "./assets/프로필.png";
-import { useNavigate }                from "react-router-dom";
-import { getUserIdFromToken }         from "../api/jwt";
-import getProfileImgUrlFromUserId     from "../api/member_info";
-import { getAddressFromCoordinates }  from "../api/location";
-import api                            from "../api/axios";
+import styled from "styled-components";
+import 맛있는녀석들_로고 from "./assets/맛있는녀석들_로고.png";
+import 돋보기 from "./assets/돋보기.png";
+import 알림 from "./assets/알림.png";
+import 프로필 from "./assets/프로필.png";
+import { useNavigate } from "react-router-dom";
+import { getUserIdFromToken } from "../api/jwt";
+import getProfileImgUrlFromUserId from "../api/member_info";
+import { getAddressFromCoordinates } from "../api/location";
+import api from "../api/axios";
 
 const Header = ({ setIsModalOpen }) => {
     const navigate = useNavigate(); 
@@ -45,11 +45,13 @@ const Header = ({ setIsModalOpen }) => {
     // 모달 열기
     const openModal = () => setIsModalOpen(true);
 
+    // userLocation의 길이를 8글자로 제한하고 '...'을 추가
+    const shortenedLocation = userLocation.length > 12 ? userLocation.slice(0, 12) + "..." : userLocation;
+
     return (
         <HeaderBox>
             <Logo src={맛있는녀석들_로고} alt="맛있는 녀석들 로고" />
-            <MyLocation onClick={openModal}>{userLocation}</MyLocation>
-            <Search src={돋보기} alt="Search" />
+            <MyLocation onClick={openModal}><b>{shortenedLocation}</b></MyLocation>
             <Notification src={알림} alt="Notification" onClick={() => navigate("/user/alert")} />
             {profileImgUrl ? (
                 <LoginedProfile
@@ -78,7 +80,7 @@ const HeaderBox = styled.header`
     height: 187px;
     left: 50%;
     top: 0px;
-    background-color: #FFF4D2;
+    background-color: #FFFFFF;
     border: 0.5px solid #CAC4D0;
     z-index: 10;
 `
@@ -92,32 +94,21 @@ const Logo = styled.img`
     border-radius: 50px;
 `
 
-const Search = styled.img`
-    position: absolute;
-    width: 22px;
-    height: 22px;
-    left: 271px;
-    top: 145px;
-
-    cursor: pointer;
-`
-
 const Notification = styled.img`
     position: absolute;
     width: 30px;
     height: 30px;
     left: 318px;
     top: 141px;
-
     cursor: pointer;
 `
+
 const Profile = styled.img`
     position: absolute;
     width: 30px;
     height: 30px;
     left: 373px;
     top: 141px;
-
     cursor: pointer;
 `
 
@@ -137,8 +128,7 @@ const MyLocation = styled.text`
     width: auto;
     height: auto;
     left: 24px;
-    top: 142px;
-
+    top: 148px;
     font-family: 'sans-serif';
     font-style: normal;
     font-weight: 500;
@@ -146,9 +136,7 @@ const MyLocation = styled.text`
     line-height: 29px;
     display: flex;
     align-items: center;
-
     color: #000000;
-
     border: none;
     cursor: pointer;
 `

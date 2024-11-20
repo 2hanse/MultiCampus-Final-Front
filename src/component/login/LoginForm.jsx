@@ -128,7 +128,7 @@ function LoginForm() {
       </Formbox>
       <SubmitButton type="submit">로그인</SubmitButton>
       <SubmitButton2 type="button" onClick={onGuest}>
-        게스트로 이용하기
+        비회원으로 이용하기
       </SubmitButton2>
     </Form>
   );

@@ -56,7 +56,7 @@ const TourBoardPostingPage = () => {
   const handleDraftSave = () => {
     const draft = {
       title,
-      content: handleContentChange(content),
+      content,
     };
 
     console.log('임시저장 데이터', draft);
@@ -74,13 +74,15 @@ const TourBoardPostingPage = () => {
     const data = {
       board: {
         title,
-        content: handleContentChange(content),
+        content,
         bookmark_id: selectedBookmarkId,
       },
     };
 
-    await api.post(`/boards/${category}`, data).then((res) => {
+    await api.put(`/boards/${category}`, data).then((res) => {
       if (res.status === 200) {
+        alert('게시글이 정상적으로 등록되었습니다.');
+
         // 게시물 작성 후 로컬스토리지에서 임시 저장된 데이터 삭제
         localStorage.removeItem('draftPost');
 
@@ -95,9 +97,35 @@ const TourBoardPostingPage = () => {
     });
   };
 
-  const handleContentChange = (data) => {
-    const plainTextContent = removeHtmlTags(data); // HTML 태그 제거
-    return plainTextContent;
+  // 게시글 작성 버튼 관련
+  const handleModifi = async () => {
+    // if (title.length < 1) {
+    //   titleRef.current.focus();
+    //   return;
+    // }
+
+    const data = {
+      board: {
+        title,
+        content,
+        bookmark_id: selectedBookmarkId,
+      },
+    };
+    await api.put(`/boards/${category}`, data).then((res) => {
+      if (res.status === 200) {
+        // 게시물 작성 후 로컬스토리지에서 임시 저장된 데이터 삭제
+        localStorage.removeItem('draftPost');
+        alert('게시글이 정상적으로 수정되었습니다.');
+
+        // 페이지 이동
+        navigate(-1, { replace: true });
+
+        return;
+      } else {
+        alert('업로드 실패.');
+        return;
+      }
+    });
   };
 
   // 백엔드에 uri 생성 후 반한해오는 코드
@@ -139,12 +167,6 @@ const TourBoardPostingPage = () => {
     };
   };
 
-  // 태그 없애는 메서드
-  const removeHtmlTags = (html) => {
-    const doc = new DOMParser().parseFromString(html, 'text/html');
-    return doc.body.textContent || '';
-  };
-
   // 자신의 북마크 불러오기 요청
   const handleBookmarkInnerClick = async () => {
     try {
@@ -182,7 +204,7 @@ const TourBoardPostingPage = () => {
             />
             <ActionButtons
               handleDraftSave={handleDraftSave}
-              handleSubmit={handleSubmit}
+              handleModifi={handleModifi}
             />
           </ContentContainer>
         </>

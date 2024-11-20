@@ -6,9 +6,9 @@ import Footer from "../layout/footer/Footer";
 import api from '../api/axios';
 
 // ReviewListItem 컴포넌트
-function ReviewListItem({ timestamp, title, content }) {
+function ReviewListItem({ timestamp, title, content, onClick }) {
   return (
-    <article className="review-item">
+    <article className="review-item" onClick={onClick}>
       <div className="review-content">
         <time className="timestamp">{timestamp}</time>
         <h2 className="title">{title}</h2>
@@ -18,45 +18,6 @@ function ReviewListItem({ timestamp, title, content }) {
     </article>
   );
 }
-
-// 리뷰 데이터
-const reviewData = [
-  {
-    timestamp: "n분 전",
-    title: "[동네주민] 게시글 제목",
-    content: "게시글 본문(20자)"
-  },
-  {
-    timestamp: "n분 전",
-    title: "[동네주민] 게시글 제목",
-    content: "게시글 본문(20자)"
-  },
-  {
-    timestamp: "n분 전",
-    title: "게시글 제목",
-    content: "게시글 본문(20자)"
-  },
-  {
-    timestamp: "n분 전",
-    title: "게시글 제목",
-    content: "게시글 본문(20자)"
-  },
-  {
-    timestamp: "yy.mm.dd",
-    title: "게시글 제목",
-    content: "게시글 본문(20자)"
-  },
-  {
-    timestamp: "yy.mm.dd",
-    title: "게시글 제목",
-    content: "게시글 본문(20자)"
-  },
-  {
-    timestamp: "yy.mm.dd",
-    title: "게시글 제목",
-    content: "게시글 본문(20자)"
-  }
-];
 
 // ReviewHistory 컴포넌트
 function ReviewHistory() {
@@ -81,6 +42,19 @@ function ReviewHistory() {
     }
   };
 
+  const stripHtmlTags = (html) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    return doc.body.textContent || '';
+  };
+
+  const truncateContent = (content, length = 20) => {
+    const textContent = stripHtmlTags(content);
+    return textContent.length > length
+      ? textContent.slice(0, length) + '...'
+      : textContent;
+  };
+
   return (
     <>
       <main className="review-history-page">
@@ -100,11 +74,11 @@ function ReviewHistory() {
 
         <section className="review-list">
           {boardList.map((post, index) => (
-            <ReviewListItem
+            <ReviewListItem onClick={() => navigate(`/board/PostPage/${post.board_id}`)}
               key={index}
               time={post.created_time}
               title={post.title}
-              content={post.content}
+              content={truncateContent(post.content)}
             />
           ))}
         </section>
@@ -146,7 +120,6 @@ function ReviewHistory() {
 
         .review-list {
           width: 100%;
-          max-width: 395px;
           height: calc(100vh - 216px);  /* 화면 높이에 맞춰 계산된 높이 */
           padding: 20px;
           box-sizing: border-box;

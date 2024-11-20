@@ -390,18 +390,47 @@ function NotificationSection() {
   const [notifications, setNotifications] = React.useState([
     { label: "게시물 알람", enabled: true },
     { label: "댓글 알람", enabled: true },
-    { label: "좋아요 알람", enabled: false },
-    { label: "구독 알람", enabled: false },
+    { label: "좋아요 알람", enabled: true },
+    { label: "구독 알람", enabled: true },
   ]);
 
-  const toggleNotification = (index) => {
-    setNotifications((prevNotifications) =>
-      prevNotifications.map((notification, idx) =>
-        idx === index
-          ? { ...notification, enabled: !notification.enabled }
-          : notification
-      )
-    );
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await api.get("/users/get-alert");
+        const alertStatus = response.data; // AlertStatusDTO 구조
+
+        // 서버 데이터를 notifications 상태에 동기화
+        setNotifications((prevNotifications) => [
+          { ...prevNotifications[0], enabled: alertStatus.alert_board },
+          { ...prevNotifications[1], enabled: alertStatus.alert_comment },
+          { ...prevNotifications[2], enabled: alertStatus.alert_like },
+          { ...prevNotifications[3], enabled: alertStatus.alert_book_subs },
+        ]);
+      } catch (error) {
+        console.error("알림 설정 데이터를 가져오는 중 오류 발생:", error);
+      }
+    };
+
+    fetchNotifications();
+  }, []);
+
+  const toggleNotification = async (index) => {
+    try {
+      const response = await api.put(`/users/set-alert/${index + 1}`);
+
+      const updatedEnabled = response.data;
+
+      setNotifications((prevNotifications) =>
+        prevNotifications.map((notification, idx) =>
+          idx === index
+            ? { ...notification, enabled: updatedEnabled }
+            : notification
+        )
+      );
+    } catch (error) {
+      console.error("알림 설정 토글 중 오류 발생:", error);
+    }
   };
 
   return (
