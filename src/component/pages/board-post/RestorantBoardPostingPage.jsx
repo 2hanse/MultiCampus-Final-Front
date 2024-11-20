@@ -110,10 +110,18 @@ const RestorantBoardPostingPage = () => {
 
   // 게시글 작성 버튼 관련
   const handleSubmit = async () => {
-    // if (title.length < 1) {
-    //   titleRef.current.focus();
-    //   return;
-    // }
+    if (title.length < 1) {
+      alert('제목을 입력해주세요.');
+      return;
+    }
+    if (content.length < 1) {
+      alert('내용을 입력해주세요.');
+      return;
+    }
+    if (!currentReceipt) {
+      alert('영수증을 선택해주세요.');
+      return;
+    }
 
     const data = {
       board: { title, content, image_url },

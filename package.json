@@ -19,6 +19,7 @@
     "date-fns": "^4.1.0",
     "framer-motion": "^11.11.10",
     "frontend": "file:",
+    "html-react-parser": "^5.1.18",
     "jquery": "^3.7.1",
     "qs": "^6.13.1",
     "react": "^18.3.1",

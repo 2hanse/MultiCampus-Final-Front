@@ -3,6 +3,7 @@ import styled from "styled-components";
 import CommentSection from "./CommentSection";
 import CommentInput from "./CommentInput";
 import MainHeader from "./MainHeader";
+import parse from 'html-react-parser';
 
 function PostContent({ post, category, detail, comments, fetchComments }) {
 
@@ -10,7 +11,7 @@ function PostContent({ post, category, detail, comments, fetchComments }) {
     <PostContentWrapper>
       <MainHeader post={post} category={category} detail={detail}/>
       <Divider />
-      <PostBody>{post ? post.content : "게시글 본문"}</PostBody>
+      <PostBody className="ck-content">{post?.content ? parse(post.content) : "게시글 본문"}</PostBody>
       <Divider />
       <CommentCnt>댓글 {comments.length}</CommentCnt>
       <CommentSection comments={comments} detail={detail} fetchComments={fetchComments} />
@@ -47,11 +48,8 @@ const Divider = styled.hr`
   margin: 10px 0;
 `;
 
-const PostBody = styled.p`
-  color: #000;
-  text-align: center;
-  margin-top: 10px;
-  font-size: auto;
+const PostBody = styled.div`
+  padding: 12px;
 `;
 
 const CommentCnt = styled.p`

@@ -8,6 +8,8 @@ import likeIcon from "./asset/like_button.png";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import { getUserIdFromToken } from "../api/jwt";
+import { formatDistanceToNow } from "date-fns";
+import { ko } from "date-fns/locale";
 
 
 function MainHeader({ post, detail, category: initialCategory }) {
@@ -153,6 +155,16 @@ function MainHeader({ post, detail, category: initialCategory }) {
       console.log(detail.board.user_id);
   };
 
+  const formatRelativeTime = (timestamp) => {
+    try {
+      const parsedDate = new Date(timestamp);
+      const result = formatDistanceToNow(parsedDate, { addSuffix: true, locale: ko });
+      return result
+    } catch (error) {
+      
+    }
+  };
+
   return (
     <MainHeaderContainer>
       <HeaderTop>
@@ -185,7 +197,7 @@ function MainHeader({ post, detail, category: initialCategory }) {
             <AuthorName onClick={gotoUserProfile}>
               {detail ? detail.user?.nickname : "user"} <AuthorMembership>{membership}</AuthorMembership>
             </AuthorName>
-          <AuthorTimestamp>작성 시간: {post ? post.created_time : ""}</AuthorTimestamp>
+          <AuthorTimestamp>작성 시간: {post ? formatRelativeTime(post.created_time) : ""}</AuthorTimestamp>
           <AuthorViews>조회수: {post ? post.view_cnt : ""}</AuthorViews>
         </AuthorDetails>
         {
