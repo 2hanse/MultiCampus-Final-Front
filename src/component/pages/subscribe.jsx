@@ -33,17 +33,20 @@ const styles = {
     color: '#000',
     padding: '0 31px',
     font: '400 15px/1 Roboto, sans-serif',
+
   },
   listTitle: {
     alignSelf: 'start',
+    paddingLeft: '30px',
   },
   followListContainer: {
     display: 'flex',
-    gap: '14px',
+    gap: '20px',
     overflowX: 'auto', // 가로 스크롤 활성화
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
     paddingBottom: '10px', // 스크롤 영역 여유 추가
+    paddingLeft: '30px',
   },
   followItem: {
     display: 'flex',
@@ -56,6 +59,7 @@ const styles = {
     flexDirection: 'column', // 세로 배열
     gap: '14px',
     overflowY: 'auto',
+    paddingLeft: '40px',
     boxSizing: 'border-box',
     height: 'calc(100vh - 216px)', // 전체 화면에서 216px 만큼 제외한 높이
     padding: '0 10px',
