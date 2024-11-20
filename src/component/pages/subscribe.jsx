@@ -57,11 +57,11 @@ const styles = {
     gap: '14px',
     overflowY: 'auto',
     boxSizing: 'border-box',
-    height: 'calc(100vh - 216px)', // 전체 화면에서 216px 만큼 제외한 높이
+    height: 'calc(100vh - 216px - 308px)', // 전체 화면에서 216px 만큼 제외한 높이
     padding: '0 10px',
     scrollbarWidth: 'none', // Firefox에서 스크롤바 숨기기
     '-ms-overflow-style': 'none', // IE, Edge에서 스크롤바 숨기기
-    
+    paddingBottom: '12px',
   },
   boardItem: {
     display: 'flex',
@@ -197,6 +197,16 @@ const Divider = () => {
 
 // BoardsList 컴포넌트
 const BoardsList = ({ boards }) => {
+  const stripHtmlTags = (html) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+    return doc.body.textContent || "";
+  };
+  
+  const truncateContent = (content, length = 20) => {
+    const textContent = stripHtmlTags(content);
+    return textContent.length > length ? textContent.slice(0, length) + "..." : textContent;
+  };
   return (
     <section style={styles.followList}>
       <h2 style={styles.listTitle}>게시물 목록</h2>
@@ -204,7 +214,7 @@ const BoardsList = ({ boards }) => {
         {boards.map((board) => (
           <div key={board.board_id} style={styles.boardItem}>
             <h3>{board.title}</h3>
-            <p>{board.content.slice(0, 50)}...</p>
+            <p>{truncateContent(board.content)}...</p>
           </div>
         ))}
       </div>

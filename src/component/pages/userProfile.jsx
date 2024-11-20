@@ -173,7 +173,7 @@ const UserProfile = () => {
           <p>작성된 게시글이 없습니다</p> // 게시글이 없을 때 표시할 메시지
         ) : (
           <ProfileContent
-            writedBoardData={writedBoardData}
+            writedBoardData={writedBoardData} //TODO: 스크롤 가능하게끔 수정
             handleBookmarkIconClick={handleBookmarkIconClick}
           />
         )}

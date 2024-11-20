@@ -33,12 +33,23 @@ const ProfileContent = ({ writedBoardData, handleBookmarkIconClick }) => {
 function ReviewListItem({ created_time, title, content, board_id }) {
   const nav = useNavigate();
 
+  const stripHtmlTags = (html) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+    return doc.body.textContent || "";
+  };
+  
+  const truncateContent = (content, length = 20) => {
+    const textContent = stripHtmlTags(content);
+    return textContent.length > length ? textContent.slice(0, length) + "..." : textContent;
+  };
+
   return (
-    <article onClick={() => nav(`${board_id}`)}>
+    <article onClick={() => nav(`/board/PostPage/${board_id}`)}>
       <hr />
       <time style={styles.created_time}>{created_time}</time>
       <h2 style={styles.title}>{title}</h2>
-      <p style={styles.content}>{content}</p>
+      <p style={styles.content}>{truncateContent(content)}</p>
     </article>
   );
 }
@@ -57,7 +68,6 @@ const styles = {
     objectFit: 'contain',
   },
   reviewList: {
-    marginLeft: '20px', // This will shift the review content to the right
   },
   contentNav: {
     display: 'flex',
