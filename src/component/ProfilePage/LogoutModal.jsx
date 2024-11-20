@@ -6,6 +6,9 @@ const LogoutModal = ({ closeModal }) => {
 
   const handleConfirmLogout = () => {
     // 로그아웃 처리 로직 (예: 로그아웃 API 호출)
+    const token = localStorage.getItem("token");
+    if (token)
+      localStorage.removeItem("token");
     
     closeModal();  // 모달 닫기
     navigate('/');  
