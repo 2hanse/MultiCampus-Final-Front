@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
+import { formatDistanceToNow } from "date-fns";
+import { ko } from "date-fns/locale";
 
 function PostList ({ selectedSort, category, address, distance }) {
   const navigate = useNavigate();
@@ -69,9 +71,22 @@ function PostList ({ selectedSort, category, address, distance }) {
     navigate(`/board/PostPage/${post.board_id}`);
   };
 
-  function truncateContent(content, length = 20) {
-    return content.length > length ? content.slice(0, length) + "..." : content;
-  }
+  const formatRelativeTime = (timestamp) => {
+    const parsedDate = new Date(timestamp);
+    return formatDistanceToNow(parsedDate, { addSuffix: true, locale: ko });
+  };
+
+  const stripHtmlTags = (html) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+    return doc.body.textContent || "";
+  };
+  
+  const truncateContent = (content, length = 20) => {
+    const textContent = stripHtmlTags(content);
+    return textContent.length > length ? textContent.slice(0, length) + "..." : textContent;
+  };
+  
 
   return (
     <PostListContainer>
@@ -92,7 +107,7 @@ function PostList ({ selectedSort, category, address, distance }) {
           return (
             <PostItem key={post.board_id}>
               <PostMeta>
-                {post.created_time} | {post.nickname} ({membership}) | 조회수: {post.view_cnt}
+                {formatRelativeTime(post.created_time)} | {post.nickname} ({membership}) | 조회수: {post.view_cnt}
               </PostMeta>
               {firstImageUrl && <PreviewImage src={firstImageUrl} alt="게시글 미리보기 이미지" onClick={() => handleTitleClick(post)} />}
               <PostTitle onClick={() => handleTitleClick(post)}>{post.title}</PostTitle>
@@ -147,12 +162,15 @@ const ScrollableContent = styled.div`
 `;
 
 const PostItem = styled.article`
+  box-sizing: border-box;
   background-color: #ffffff;
   width: 100%;
   min-height: 72px;
-  margin-top: 0;
   padding: 4px 16px;
   border-bottom: 1px solid #cac4d0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 `;
 
 const PostMeta = styled.p`
@@ -162,8 +180,15 @@ const PostMeta = styled.p`
 `;
 
 const PreviewImage = styled.img`
-  max-height: 100px;
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 80px;
+  height: 80px;
   object-fit: cover;
+  border: 1px solid #cac4d0;
+  border-radius: 4px;
   cursor: pointer;
 `;
 
@@ -171,17 +196,20 @@ const PostTitle = styled.h3`
   color: #1d1b20;
   letter-spacing: 0.5px;
   font: 16px/24px Roboto, sans-serif;
-  padding: 0 16px;
+  padding-right: 100px; /* 이미지 영역을 고려하여 오른쪽 여백 추가 */
   cursor: pointer;
   &:hover {
     text-decoration: underline;
   }
+  margin: 0px;
 `;
 
 const PostContent = styled.p`
   color: #49454f;
   letter-spacing: 0.25px;
   font: 14px/20px Roboto, sans-serif;
+  margin: 6px 0;
+  padding-right: 100px; /* 이미지 영역을 고려하여 오른쪽 여백 추가 */
 `;
 
 const PaginationContainer = styled.div`
