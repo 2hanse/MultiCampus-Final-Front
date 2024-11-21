@@ -11,6 +11,7 @@ import {getUserIdFromToken} from '../api/jwt'; // userid
 const styles = {
   profilePage: {
     backgroundColor: "#fff4d2",
+    border: "0.5px solid #CAC4D0",
     display: "flex",
     maxWidth: "430px",
     flexDirection: "column", // flexDirection은 한 번만 설정
@@ -106,13 +107,15 @@ const styles = {
     borderRadius: "30px",
     backgroundColor: "#fffbfb",
     boxShadow: "1px 1px 4px rgba(0, 0, 0, 0.25)",
-    color: "#dfa67b",
+    color: "#DFA67B",
+    fontWeight: "bold",
     padding: "31px 29px",
     listStyleType: "none",
     margin: "0",
   },
   communityItem: {
     font: "400 17px Inter, sans-serif",
+    fontWeight: "bold",
     marginBottom: "10px",
   },
   communityItemLast: {
@@ -133,6 +136,7 @@ const styles = {
   },
   otherItem: {
     font: "400 17px Inter, sans-serif",
+    fontWeight: "bold",
     marginBottom: "10px",
   },
   otherItemLast: {
@@ -160,6 +164,7 @@ const styles = {
   accountItem: {
     color: "#dfa67b",
     font: "400 17px Inter, sans-serif",
+    fontWeight: "bold",
     marginBottom: "10px",
     marginTop: "10px",
     cursor: "pointer",
@@ -185,6 +190,7 @@ const styles = {
   notificationLabel: {
     color: "#dfa67b",
     font: "400 17px Inter, sans-serif",
+    fontWeight: "bold",
   },
   toggleSwitch: {
     width: "40px",
@@ -252,7 +258,7 @@ function MyProfilePage() {
   return (
     <main style={styles.profilePage}>
       <div style={styles.headerWrapper}>
-        <Header color="#fff4d2" title="마이페이지" actions={<MypageActions />} />
+        <Header color="#ffffff" title="마이페이지" actions={<MypageActions />} />
         <div style={styles.divider}></div>
       </div>
       <div style={styles.profileContent}>
