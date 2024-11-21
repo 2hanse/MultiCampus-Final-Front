@@ -291,6 +291,7 @@ const ProfileInfo = ({nick, member_score, image}) => {
 
   // 등급 결정 함수
   const getMemberRank = (score) => {
+    if (score >= 100) return "네공기";
     if (score >= 50) return "세공기";
     if (score >= 30) return "두공기";
     if (score >= 10) return "한공기";
