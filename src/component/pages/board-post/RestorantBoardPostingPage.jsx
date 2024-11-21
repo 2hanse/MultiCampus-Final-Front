@@ -158,15 +158,11 @@ const RestorantBoardPostingPage = () => {
       receipt: currentReceipt,
     };
 
-    await api.put(`/boards/${category}`, data).then((res) => {
+    await api.put(`/boards/${board_id}`, data).then((res) => {
       if (res.status === 200) {
-        // 게시물 작성 후 로컬스토리지에서 임시 저장된 데이터 삭제
-        localStorage.removeItem('draftPost');
         alert('게시글이 정상적으로 수정되었습니다.');
-
         // 페이지 이동
-        navigate(-1, { replace: true });
-
+        navigate(-1);
         return;
       } else {
         alert('업로드 실패.');
@@ -188,7 +184,7 @@ const RestorantBoardPostingPage = () => {
               .then((res) => {
                 console.log('response ' + JSON.stringify(res.data)); // 응답 로그
 
-                const baseUrl = 'http://localhost:8000';
+                const baseUrl = 'http://211.225.141.117:8000';
                 const mediaUrl = baseUrl + res.data.mediaUrl;
                 const mediaThumbUrl = baseUrl + res.data.mediaThumbUrl;
                 setUpImage_url(mediaUrl);
