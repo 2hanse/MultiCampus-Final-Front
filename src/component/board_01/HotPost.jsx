@@ -13,14 +13,16 @@ function HotPost(category) {
   useEffect(() => {
     api.get(`/boards/hot-posts`)
     .then((res) => {
-      console.log(res.data[0]);
-      console.log(res.data);
-      sethotpost(res.data[0]);
-      console.log(hotpost);
-      api.get(`/boards/${res.data[0].board_id}`)
-      .then((res) => {
-        setLikes(res.data.likes);
-      })
+      if (res.data) {
+        sethotpost(res.data[0]);
+        api.get(`/boards/${res.data[0]?.board_id}`)
+        .then((res) => {
+          setLikes(res.data.likes);
+        })
+        .catch(() => {
+          console.log("no hot post data");
+        });
+      }
     });
   }, []);
 
