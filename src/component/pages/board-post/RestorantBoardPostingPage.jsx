@@ -317,12 +317,6 @@ const RestorantBoardPostingPage = () => {
         <>
           <Header {...haederProps} />
           <ContentContainer>
-            <ReceiptList
-              receipts={receipts}
-              isListVisible={isListVisible}
-              toggleList={toggleList}
-              handleReceiptClick={handleReceiptClick}
-            />
             <Editor
               title={title}
               setTitle={setTitle}

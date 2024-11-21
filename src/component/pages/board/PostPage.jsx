@@ -16,10 +16,16 @@ function PostPage() {
   const [bookmark, setBookmark] = useState(false);
 
   useEffect(() => {
-    if (bookmark_id) {
+    fetchdetail();
+  }, []);
+
+  useEffect(() => {
+    if (bookmark_id != null) {
+      // null과 undefined가 아닌 경우
+      // bookmark_id가 null도 아니고 undefined도 아니면 getBookmark 호출
       getBookmark();
     }
-  }, [bookmark_id]);
+  }, [bookmark_id]); // bookmark_id가 변경될 때마다 호출
 
   const getBookmark = async () => {
     const bookmarkRes = await api.get(`/bookmarks/${bookmark_id}`);
@@ -34,7 +40,8 @@ function PostPage() {
         setPost(res.data.board);
         setComments(res.data.comments);
         setDetail(res.data);
-        setBookmark_id(res.data.board.bookmark_id);
+        setBookmark_id(res.data.board.bookmark_id); // bookmark_id가 설정되면 getBookmark 호출
+
         console.log('게시글 아이디 출력:', board_id);
         console.log(res.data);
         console.log('북마크 아이디 출력 : ', res.data.board.bookmark_id);
@@ -57,10 +64,6 @@ function PostPage() {
         alert('댓글 데이터를 불러올 수 없습니다.');
       });
   };
-
-  useEffect(() => {
-    fetchdetail();
-  }, []);
 
   return (
     <PageContainer>
