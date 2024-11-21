@@ -34,7 +34,7 @@ const RatingSection = ({ ratings, onRatingChange }) => {
 };
 
 const Container = styled.div`
-  padding: 20px; // 원하는 패딩 값으로 설정
+  padding: 10px; // 원하는 패딩 값으로 설정
 `;
 
 const RatingContainer = styled.section`
@@ -44,7 +44,7 @@ const RatingContainer = styled.section`
   display: flex;
   flex-wrap: wrap;
   text-align: center;
-  padding: 19px 20px;
+  padding: 20px 0 8px 0;
   margin: 0 auto; // 화면 중앙으로 정렬
   align-items: center; // 수직 중앙 정렬 추가
 `;
