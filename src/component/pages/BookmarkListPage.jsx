@@ -17,6 +17,7 @@ function BookmarkListPage() {
     const [creatorId, setCreatorId] = useState(null); // 생성자의 user_id
     const [loggedInUserId, setLoggedInUserId] = useState(null); // 로그인한 유저의 user_id
     const [isEditing, setIsEditing] = useState(false);
+    const [isSubscribed, setIsSubscribed] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedPlace, setSelectedPlace] = useState(null);
 
@@ -55,18 +56,29 @@ function BookmarkListPage() {
 
         const fetchSubscriberCount = async () => {
             try {
-                const response = await api.get(`/bookmarks/subscriptions/${bookmark_id}`);
+                const response = await api.get(`/bookmarks/subscriptions/count/${bookmark_id}`);
                 console.log("Subscriptions API Response: ", response.data);
                 setSubscriber(response.data);
             } catch(error) {
                 console.error("Error fetching Subscriber Count: ", error);
             }
         };
+
+        const fetchSubscribe = async () => {
+            try {
+                const response = await api.get(`/bookmarks/subscriptions/${bookmark_id}`);
+                console.log("Subscriptions API Response: ", response.data);
+                setIsSubscribed(response.data);
+            } catch(error) {
+                console.error("Error fetching Subscriber Count: ", error);
+            }
+        }
         
         fetchLoggedInUserId();
         fetchBookmark();
         fetchBookmarkPlaceList();
         fetchSubscriberCount();
+        fetchSubscribe();
     }, [bookmark_id]);
 
     const updatePlaceName = async (bookmarkPlaceId, newName) => {
@@ -87,6 +99,25 @@ function BookmarkListPage() {
             alert("장소명 업데이트에 실패했습니다.");
         }
     };
+
+    const updateSubscribe = async (toBeSubscribe) => {
+        try {
+            if (toBeSubscribe) {
+                await api.post(`/bookmarks/subscriptions`, {
+                    bookmark_id: bookmark_id
+                });
+                setIsSubscribed(true);
+            } else {
+                await api.delete(`/bookmarks/subscriptions`, {data: {
+                    bookmark_id: bookmark_id
+                }});
+                setIsSubscribed(false);
+            }
+        } catch (error) {
+            console.error("Error updating subscribe:", error);
+            alert("북마크 구독에 실패했습니다.");
+        }
+    }
 
     const deletePlace = async (bookmarkPlaceId) => {
         try {
@@ -127,6 +158,8 @@ function BookmarkListPage() {
                 loggedInUserId={loggedInUserId} // 로그인한 유저의 user_id 전달
                 isEditing={isEditing} // 상태 전달
                 setIsEditing={setIsEditing} // 상태 변경 함수 전달
+                isSubscribed={isSubscribed}
+                updateSubscribe={updateSubscribe}
             />
             <ContentWrapper>
                 <ListWrapper>
