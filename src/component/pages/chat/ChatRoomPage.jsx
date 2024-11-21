@@ -8,6 +8,7 @@ import Message from "../../chat/Message";
 import { getUserIdFromToken } from "../../api/jwt";
 import Footer from "../../layout/footer/Footer";
 import Header from "../../layout/header/Header";
+import api from "../../api/axios";
 
 function ChatRoomPage() {
     const localUserId = getUserIdFromToken(); // userId를 동적으로 가져옴
@@ -31,7 +32,7 @@ function ChatRoomPage() {
             : otherUsers.map((user) => user.nickname).join(", ");
 
     useEffect(() => {
-        const socket = new SockJS("http://localhost:8000/ws");
+        const socket = new SockJS(api.defaults.baseURL + "ws");
         const stomp = Stomp.over(socket);
 
         stomp.connect(
