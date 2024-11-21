@@ -184,10 +184,7 @@ const FreeBoardPostingPage = () => {
               setContent={setContent}
               uploadPlugin={uploadPlugin}
             />
-            <PutActionButtons
-              handleDraftSave={handleDraftSave}
-              handleModifi={handleModifi}
-            />
+            <PutActionButtons handleModifi={handleModifi} />
           </ContentContainer>
         </>
       ) : (

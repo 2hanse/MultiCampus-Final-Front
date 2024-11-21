@@ -336,10 +336,7 @@ const TopBoardPostingPage = () => {
               ratings={ratings}
               onRatingChange={handleRatingChange}
             />
-            <ActionButtons
-              handleDraftSave={handleDraftSave}
-              handleModifi={handleModifi}
-            />
+            <ActionButtons handleModifi={handleModifi} />
           </ContentContainer>
         </>
       ) : (
