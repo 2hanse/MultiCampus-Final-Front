@@ -182,7 +182,7 @@ const TopBoardPostingPage = () => {
               .then((res) => {
                 console.log('response ' + JSON.stringify(res.data)); // 응답 로그
 
-                const baseUrl = 'http://211.225.141.117:8000';
+                const baseUrl = 'http://211.225.141.117:8000'; //TODO: cdn 서버로 변경
                 const mediaUrl = baseUrl + res.data.mediaUrl;
                 const mediaThumbUrl = baseUrl + res.data.mediaThumbUrl;
                 setUpImage_url(mediaUrl);
