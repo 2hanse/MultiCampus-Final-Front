@@ -202,10 +202,7 @@ const TourBoardPostingPage = () => {
               setSelectedBookmarkId={setSelectedBookmarkId}
               selectedBookmarkId={selectedBookmarkId}
             />
-            <PutActionButtons
-              handleDraftSave={handleDraftSave}
-              handleModifi={handleModifi}
-            />
+            <PutActionButtons handleModifi={handleModifi} />
           </ContentContainer>
         </>
       ) : (

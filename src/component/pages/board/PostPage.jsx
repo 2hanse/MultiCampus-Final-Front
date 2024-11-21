@@ -13,7 +13,7 @@ function PostPage() {
   const [comments, setComments] = useState([]);
   const { board_id } = useParams();
   const [bookmark_id, setBookmark_id] = useState(undefined);
-  const [bookmark, setBookmark] = useState([]);
+  const [bookmark, setBookmark] = useState(false);
 
   useEffect(() => {
     if (bookmark_id) {

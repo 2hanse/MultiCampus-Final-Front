@@ -22,7 +22,8 @@ function PostContent({
         {post?.content ? parse(post.content) : '게시글 본문'}
       </PostBody>
 
-      <SelectedBookmark bookmark={bookmark} />
+      {/* bookmark가 null 또는 undefined가 아닐 때만 SelectedBookmark 렌더링 */}
+      {bookmark && <SelectedBookmark bookmark={bookmark} />}
       <Divider />
       <CommentCnt>댓글 {comments.length}</CommentCnt>
       <CommentSection

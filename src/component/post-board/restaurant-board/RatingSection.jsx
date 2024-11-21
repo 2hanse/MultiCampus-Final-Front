@@ -34,7 +34,7 @@ const RatingSection = ({ ratings, onRatingChange }) => {
 };
 
 const Container = styled.div`
-  padding: 20px; // 원하는 패딩 값으로 설정
+  padding: 10px; // 원하는 패딩 값으로 설정
 `;
 
 const RatingContainer = styled.section`

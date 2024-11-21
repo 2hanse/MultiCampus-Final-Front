@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const PutActionButtons = ({ handleDraftSave, handleSubmit }) => {
+const PutActionButtons = ({ handleModifi }) => {
   return (
     <ButtonContainer>
-      <ActionButton type="submit" onClick={handleSubmit}>
+      <ActionButton type="submit" onClick={handleModifi}>
         수정하기
       </ActionButton>
     </ButtonContainer>
