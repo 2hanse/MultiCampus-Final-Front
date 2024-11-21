@@ -17,7 +17,7 @@ const FooterWrapper = styled.footer`
   font-size: 17px;
   text-align: center;
   align-self: center;
-  margin-top: 70px;
+  margin-top: 80px;
   width: 300px;
   cursor: pointer;
   :hover {

@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import Header from "../../layout/header/board/Header";
-import PostList from "../../board_01/PostList";
-import MainHeader from "../../board_01/MainHeader";
-import CreatePostButton from "../../board_01/CreatePostButton";
-import Footer from "../../layout/footer/Footer";
-import BoardActions from "../../board_01/BoardActions";
-import logo from "../../board_01/asset/free.png";
-import { getUserIdFromToken } from "../../api/jwt";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import Header from '../../layout/header/board/Header';
+import PostList from '../../board_01/PostList';
+import MainHeaderOther from '../../board_01/MainHeaderOther';
+import CreatePostButton from '../../board_01/CreatePostButton';
+import Footer from '../../layout/footer/Footer';
+import BoardActions from '../../board_01/BoardActions';
+import logo from '../../board_01/asset/free.png';
+import { getUserIdFromToken } from '../../api/jwt';
 
-function RestaurantBoard() {  
-  const [selectedSort, setSelectedSort] = useState("등록 순");
-  const category = "free";
+function RestaurantBoard() {
+  const [selectedSort, setSelectedSort] = useState('등록 순');
+  const category = 'free';
   const [address, setAddress] = useState('');
   const [distance, setDistance] = useState('');
   const localUserId = getUserIdFromToken();
@@ -28,22 +28,30 @@ function RestaurantBoard() {
 
   return (
     <BoardContainer>
-      <Header 
+      <Header
         title={
           <TitleContainer>
             <Logo src={logo} alt="로고" /> 자유 게시판
           </TitleContainer>
-        } 
-        color="#FFF4D2" 
+        }
+        color="#FFF4D2"
         actions={<BoardActions category={category} />}
       />
       <MainContent>
-        <MainHeader category={category} onSortChange={setSelectedSort} onReceiveAddress={handleReceiveAddress} onReceiveDistance={handleReceiveDistance}/>
-        <PostList selectedSort={selectedSort} category={category} address={address} distance={distance} />
+        <MainHeaderOther
+          category={category}
+          onSortChange={setSelectedSort}
+          onReceiveAddress={handleReceiveAddress}
+          onReceiveDistance={handleReceiveDistance}
+        />
+        <PostList
+          selectedSort={selectedSort}
+          category={category}
+          address={address}
+          distance={distance}
+        />
       </MainContent>
-      {
-        localUserId == null ? null : <CreatePostButton category={category} />
-      }
+      {localUserId == null ? null : <CreatePostButton category={category} />}
       <Footer />
     </BoardContainer>
   );
@@ -56,7 +64,7 @@ const BoardContainer = styled.div`
   height: auto;
   min-height: 100vh;
   margin: 0 auto;
-  border: 0.5px solid #CAC4D0;
+  border: 0.5px solid #cac4d0;
   background-color: #ffffff;
   overflow: hidden;
 `;
@@ -78,6 +86,5 @@ const Logo = styled.img`
   height: auto;
   margin-right: 10px;
 `;
-
 
 export default RestaurantBoard;

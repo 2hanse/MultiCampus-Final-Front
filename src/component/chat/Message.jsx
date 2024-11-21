@@ -4,7 +4,7 @@ import styled from "styled-components";
 function Message({ msg, displayTime, displayProfile, isSentByMe }) {
   const handleMediaClick = () => {
     if (msg.mediaUrl) {
-      window.open("http://localhost:8000" + msg.mediaUrl, "_blank"); // 새 창으로 원본 이미지 열기
+      window.open("http://211.225.141.117:8000" + msg.mediaUrl, "_blank"); // 새 창으로 원본 이미지 열기
     }
   };
 
@@ -29,7 +29,7 @@ function Message({ msg, displayTime, displayProfile, isSentByMe }) {
       )}
       <MessageBubble isSentByMe={isSentByMe}>
         {msg.mediaId && (
-          <MediaImage src={"http://localhost:8000" + msg.mediaThumbUrl} onClick={handleMediaClick} />
+          <MediaImage src={"http://211.225.141.117:8000" + msg.mediaThumbUrl} onClick={handleMediaClick} />
         )}
         {msg.message}
       </MessageBubble>
