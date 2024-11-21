@@ -31,6 +31,7 @@ const SearchContainer = styled.div`
 `;
 
 const SearchIcon = styled.img`
+  margin-top: 5px;
   width: 16px;
   height: 20px;
   object-fit: contain;

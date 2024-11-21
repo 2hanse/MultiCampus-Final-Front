@@ -43,38 +43,40 @@ const RatingContainer = styled.section`
   border: 1px solid #b7b2b2;
   display: flex;
   flex-wrap: wrap;
-  text-align: center;
-  padding: 19px 20px;
+  padding: 20px 15px 5px 10px;
   margin: 0 auto; // 화면 중앙으로 정렬
   align-items: center; // 수직 중앙 정렬 추가
-`;
-
-const RatingItem = styled.div`
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  width: 50%;
-  margin-bottom: 14px;
+  justify-content: space-between;
 `;
 
 const RatingLabel = styled.label`
   font-size: 13px;
   font-weight: bold;
   color: #ed6000;
-  white-space: nowrap;
-  letter-spacing: 0.61px;
-  width: 40px;
+  letter-spacing: 1px;
   text-align: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow: visible; // 텍스트 잘리지 않도록
+  white-space: nowrap; // 줄바꿈 방지
+  width:40px;
+`;
+
+const RatingItem = styled.div`
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  // width: 50%;
+  flex: 0 1 calc(50% - 30px);
+  margin-bottom: 14px;
 `;
 
 const StarContainer = styled.div`
   display: flex;
   gap: 5px; // 별 사이 간격
 `;
+
 
 const Star = styled.span`
   font-size: 20px;
