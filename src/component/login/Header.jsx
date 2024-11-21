@@ -9,10 +9,10 @@ function Header() {
       <Title>
         우리 동네
         <br />
-        나만의 맛집
+        &nbsp;&nbsp;&nbsp;&nbsp;나만의 맛집
       </Title>
-      <Subtitle>동네 맛집을 공유해요</Subtitle>
-      <PageName>DongNe BapSang</PageName>
+      <Subtitle>맛집에 관한 모든 것을 공유하는 공간</Subtitle>
+      <PageName>" Taste Lab "</PageName>
     </Wrapper>
   );
 }
@@ -48,15 +48,15 @@ const Title = styled.b`
 
 const Subtitle = styled.p`
   color: #ce9971;
-  font-size: 24px;
-  margin: 10px 0 0 0; /* 위쪽 간격만 설정 */
+  font-size: 22px;
+  margin: 12px 0 0 1px; /* 위쪽 간격만 설정 */
   font-family: 'Poppins', sans-serif; /* Poppins 글꼴 사용 */
 `;
 
 const PageName = styled.p`
-  color: grey;
-  font-size: 16px;
-  margin: 10px 0 0 2px; /* 위쪽 간격만 설정 */
+  color: #e1650f;
+  font-size: 20px;
+  margin: 13px 0 0 1px; /* 위쪽 간격만 설정 */
   font-family: 'Roboto Slab', serif;
   font-style: italic;
 `;
