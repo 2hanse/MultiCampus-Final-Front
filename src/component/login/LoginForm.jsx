@@ -140,7 +140,7 @@ const Form = styled.form`
   align-items: flex-start;
   text-align: center;
   width: 78%;
-  margin-top: 30px;
+  margin-top: 25px;
   margin-left: 46px;
 
   .security-question-label {

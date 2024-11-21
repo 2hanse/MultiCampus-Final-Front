@@ -79,7 +79,7 @@ const TourBoardPostingPage = () => {
       },
     };
 
-    await api.put(`/boards/${category}`, data).then((res) => {
+    await api.post(`/boards/${category}`, data).then((res) => {
       if (res.status === 200) {
         alert('게시글이 정상적으로 등록되었습니다.');
 
@@ -97,7 +97,7 @@ const TourBoardPostingPage = () => {
     });
   };
 
-  // 게시글 작성 버튼 관련
+  // 게시글 수정 버튼 관련
   const handleModifi = async () => {
     // if (title.length < 1) {
     //   titleRef.current.focus();
@@ -202,7 +202,7 @@ const TourBoardPostingPage = () => {
               setSelectedBookmarkId={setSelectedBookmarkId}
               selectedBookmarkId={selectedBookmarkId}
             />
-            <ActionButtons
+            <PutActionButtons
               handleDraftSave={handleDraftSave}
               handleModifi={handleModifi}
             />
