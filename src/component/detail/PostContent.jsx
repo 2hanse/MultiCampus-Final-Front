@@ -1,20 +1,35 @@
-import React, { useRef } from "react";
-import styled from "styled-components";
-import CommentSection from "./CommentSection";
-import CommentInput from "./CommentInput";
-import MainHeader from "./MainHeader";
+import React, { useRef } from 'react';
+import styled from 'styled-components';
+import CommentSection from './CommentSection';
+import CommentInput from './CommentInput';
+import MainHeader from './MainHeader';
 import parse from 'html-react-parser';
+import SelectedBookmark from './SelectedBookmark';
 
-function PostContent({ post, category, detail, comments, fetchComments }) {
-
+function PostContent({
+  post,
+  category,
+  detail,
+  comments,
+  fetchComments,
+  bookmark,
+}) {
   return (
     <PostContentWrapper>
-      <MainHeader post={post} category={category} detail={detail}/>
+      <MainHeader post={post} category={category} detail={detail} />
       <Divider />
-      <PostBody className="ck-content">{post?.content ? parse(post.content) : "게시글 본문"}</PostBody>
+      <PostBody className="ck-content">
+        {post?.content ? parse(post.content) : '게시글 본문'}
+      </PostBody>
+
+      <SelectedBookmark bookmark={bookmark} />
       <Divider />
       <CommentCnt>댓글 {comments.length}</CommentCnt>
-      <CommentSection comments={comments} detail={detail} fetchComments={fetchComments} />
+      <CommentSection
+        comments={comments}
+        detail={detail}
+        fetchComments={fetchComments}
+      />
       <CommentInput detail={detail} fetchComments={fetchComments} />
     </PostContentWrapper>
   );
@@ -35,10 +50,9 @@ const PostContentWrapper = styled.article`
     display: none;
   }
 
-  -ms-overflow-style: none;  /* IE 및 Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE 및 Edge */
+  scrollbar-width: none; /* Firefox */
 `;
-
 
 const Divider = styled.hr`
   width: 100%;

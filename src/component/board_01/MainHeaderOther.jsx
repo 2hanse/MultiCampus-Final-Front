@@ -4,7 +4,7 @@ import HotPost from './HotPost';
 import AddressDistance from './AddressDistance';
 import Sort from './Sort';
 
-function MainHeader({
+function MainHeaderOther({
   category,
   onSortChange,
   onReceiveAddress,
@@ -28,13 +28,6 @@ function MainHeader({
   return (
     <MainHeaderContainer>
       <HotPost category={category} />
-      <AddressDistance
-        handleEnteredAddress={handleEnteredAddress}
-        handleEnteredDistance={handleEnteredDistance}
-      />
-      {/* <SortContainer>
-        <Sort onSortChange={onSortChange} />
-      </SortContainer> */}
     </MainHeaderContainer>
   );
 }
@@ -56,4 +49,4 @@ const SortContainer = styled.div`
   margin-top: 5px; // 위 요소와의 최소한의 간격 조정
 `;
 
-export default MainHeader;
+export default MainHeaderOther;
