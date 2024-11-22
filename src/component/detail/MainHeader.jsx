@@ -220,7 +220,7 @@ function MainHeader({ post, detail, category: initialCategory }) {
     {isModalOpen && (
         <ModalOverlay>
             <ModalContent>
-                <ModalText>{post ? post.nickname : "user"}님과 채팅하시겠습니까?</ModalText>
+                <ModalText>{detail ? detail.user?.nickname : "user"}님과 채팅하시겠습니까?</ModalText>
                 <ButtonContainer>
                     <ModalButton onClick={handleYesClick}>예</ModalButton>
                     <ModalButton onClick={handleCloseModal}>아니오</ModalButton>
