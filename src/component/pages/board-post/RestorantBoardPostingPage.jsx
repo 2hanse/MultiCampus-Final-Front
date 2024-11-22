@@ -124,7 +124,7 @@ const RestorantBoardPostingPage = () => {
     }
 
     const data = {
-      board: { title, content, image_url },
+      board: { title, content },
       review: { ...ratings },
       receipt: currentReceipt,
     };
@@ -153,9 +153,8 @@ const RestorantBoardPostingPage = () => {
     // }
 
     const data = {
-      board: { title, content, image_url },
+      board: { title, content, image_url, category },
       review: { ...ratings },
-      receipt: currentReceipt,
     };
 
     await api.put(`/boards/${board_id}`, data).then((res) => {
@@ -318,12 +317,6 @@ const RestorantBoardPostingPage = () => {
         <>
           <Header {...haederProps} />
           <ContentContainer>
-            <ReceiptList
-              receipts={receipts}
-              isListVisible={isListVisible}
-              toggleList={toggleList}
-              handleReceiptClick={handleReceiptClick}
-            />
             <Editor
               title={title}
               setTitle={setTitle}
@@ -338,10 +331,7 @@ const RestorantBoardPostingPage = () => {
               ratings={ratings}
               onRatingChange={handleRatingChange}
             />
-            <PutActionButtons
-              handleDraftSave={handleDraftSave}
-              handleModifi={handleModifi}
-            />
+            <PutActionButtons handleModifi={handleModifi} />
           </ContentContainer>
         </>
       ) : (
