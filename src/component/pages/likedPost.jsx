@@ -14,7 +14,6 @@ function PostItem({ time, title, content }) {
         <h2 className="post-title">{title}</h2>
         <p className="post-text">{content}</p>
       </PostContent>
-      <PostDivider />
       <LikeIcon 
         src="https://cdn.builder.io/api/v1/image/assets/TEMP/afbd365bb089aef0de187cc1a61c97cb2f9dd2b0f57d1dc9ae9adcd161da17f1?placeholderIfAbsent=true&apiKey=f3a728c5dc79403b94fb2cecdb1f03f4" 
         alt=""
@@ -40,6 +39,19 @@ function LikedPosts() {
     }
   };
 
+  const stripHtmlTags = (html) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    return doc.body.textContent || '';
+  };
+
+  const truncateContent = (content, length = 20) => {
+    const textContent = stripHtmlTags(content);
+    return textContent.length > length
+      ? textContent.slice(0, length) + '...'
+      : textContent;
+  };
+
   return (
     <Main>
       <Header
@@ -59,12 +71,15 @@ function LikedPosts() {
       </SortContainer> */}
       <PostList>
         {boardList.map((post, index) => (
-          <PostItem
-            key={index}
-            time={post.created_time}
-            title={post.title}
-            content={post.content}
-          />
+          <>
+            <PostItem
+              key={index}
+              time={post.created_time}
+              title={post.title}
+              content={truncateContent(post.content)}
+            />
+            <PostDivider />
+          </>
         ))}
       </PostList>
       <Footer />
@@ -109,7 +124,7 @@ const SortIcon = styled.img`
 `;
 
 const PostList = styled.section`
- width: 100%;
+  width: 100%;
   height: calc(100vh - 216px);
   padding: 20px;
   box-sizing: border-box;
@@ -129,6 +144,7 @@ const StyledPostItem = styled.article`
   padding: 4px 16px;
   min-height: 72px;
   position: relative;
+  box-sizing: border-box;
 `;
 
 const PostContent = styled.div`
@@ -161,7 +177,7 @@ const PostDivider = styled.div`
   width: 100%;
   height: 1px;
   background: #cac4d0;
-  margin: 0 16px;
+  margin-bottom: 16px;
 `;
 
 const LikeIcon = styled.img`
