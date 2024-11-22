@@ -7,13 +7,19 @@ import api from '../api/axios';
 const HotPostForm = () => {
   const navigate = useNavigate();
   const [hotPosts, setHotPosts] = useState([]);
+  const categoryMap = {
+    top: "상위게시판",
+    restaurant: "식당게시판",
+    free: "자유게시판",
+    tour: "여행게시판",
+};
 
   useEffect(() => {
     api.get('/boards/hot-posts').then((res) => {
       console.log(res.data);
       setHotPosts(res.data);
-      console.log(hotPosts);
-      console.log(hotPosts.board_id);
+      //console.log(hotPosts);
+      //console.log(hotPosts.board_id);
     });
   }, []);
 
@@ -29,11 +35,11 @@ const HotPostForm = () => {
                 key={index}
                 onClick={() => navigate(`/board/PostPage/${post.board_id}`)}
               >
-                <PostCategory>{post.category}</PostCategory>
+                <PostCategory>{categoryMap[post.category]}</PostCategory>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <PostTitle>
-                  {post.title.length > 10
-                    ? `${post.title.slice(0, 10)}...`
+                  {post.title.length > 15
+                    ? `${post.title.slice(0, 15)}...`
                     : post.title}
                 </PostTitle>
               </ItemWrapper>

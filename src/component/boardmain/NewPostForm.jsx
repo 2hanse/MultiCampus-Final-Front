@@ -7,6 +7,12 @@ import api    from "../api/axios";
 const NewPostForm = () => {
     const navigate = useNavigate();
     const [recentPosts, setRecentPosts] = useState([]);
+    const categoryMap = {
+        top: "상위게시판",
+        restaurant: "식당게시판",
+        free: "자유게시판",
+        tour: "여행게시판",
+    };
 
     useEffect(() => {
         api.get("/boards/recent-posts")
@@ -25,9 +31,9 @@ const NewPostForm = () => {
                 <ListWrapper>
                     {recentPosts.length > 0 ? ( recentPosts.map((post, index) => (
                     <ItemWrapper key={index} onClick={() => navigate(`/board/PostPage/${post.board_id}`)}>
-                        <PostCategory>{post.category}</PostCategory>
+                        <PostCategory> {categoryMap[post.category]}</PostCategory>
                         &nbsp;&nbsp;&nbsp;&nbsp; 
-                        <PostTitle>{post.title.length > 10 ? `${post.title.slice(0, 10)}...` : post.title}</PostTitle>
+                        <PostTitle>{post.title.length > 15 ? `${post.title.slice(0, 15)}...` : post.title}</PostTitle>
                     </ItemWrapper> )) ) : ( <NoItemWrapper><NoPost>등록된 게시글이 없습니다</NoPost></NoItemWrapper> )}
                 </ListWrapper>
             </PostBox>
