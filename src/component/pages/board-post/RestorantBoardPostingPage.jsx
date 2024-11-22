@@ -34,6 +34,7 @@ const RestorantBoardPostingPage = () => {
   const [putState, setPutState] = useState(false);
   // 8. 게시물 수정하기 눌렀을때 어떤 게시물인지 확인하는 board_id
   const { board_id } = useParams();
+
   // 영수증 리스트 토글관리
   const [isListVisible, setIsListVisible] = useState(false);
 
@@ -211,7 +212,7 @@ const RestorantBoardPostingPage = () => {
   // 1-1 영수증 리스트 불러오기
   const getReceipts = async () => {
     try {
-      const response = await api.get(`/receipt`);
+      const response = await api.get(`/receipt/non-use`);
       setReceipts(response.data);
       console.log('영수증 리스트 불러오기', response.data);
     } catch (err) {

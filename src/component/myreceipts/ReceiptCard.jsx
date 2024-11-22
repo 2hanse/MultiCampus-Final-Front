@@ -1,5 +1,6 @@
 import WriteBoardButton from './WriteBoardButton';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 function formatPhoneNumber(phoneNumber) {
   // 숫자만 남기기
@@ -92,7 +93,15 @@ function ReceiptCard({ receipt }) {
           <br />
           <span>{receipt.upload_time}</span>
         </p>
-        <WriteBoardButton handleCameraButtonClick={handleCameraButtonClick} />
+        {receipt.writed_board ? (
+          <PhotoButton>
+            이미 게시글이 작성된
+            <br />
+            영수증입니다
+          </PhotoButton>
+        ) : (
+          <WriteBoardButton handleCameraButtonClick={handleCameraButtonClick} />
+        )}
       </div>
       <img src={imageSrc} alt="식당 배경" className="receipt-background" />
       <style jsx>{`
@@ -125,5 +134,18 @@ function ReceiptCard({ receipt }) {
     </article>
   );
 }
+
+const PhotoButton = styled.button`
+  border-radius: 5px;
+  background-color: #dcf6aa;
+  width: 160px;
+  height: 35px;
+  border: 2px solid #dcf6aa;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+`;
 
 export default ReceiptCard;
