@@ -18,6 +18,7 @@ function ChatInvitePage() {
   const [checkedUsers, setCheckedUsers] = useState([]);
   const [roomTitle, setRoomTitle] = useState("");
   const {paramNickname} = useParams();
+  const [connected, setConnected] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -48,6 +49,8 @@ function ChatInvitePage() {
           console.log('room create done');
           navigate(-1);
         });
+
+        setConnected(true);
       }
     );
 
@@ -63,7 +66,10 @@ function ChatInvitePage() {
 
   useEffect(() => {
     setSearchTerm(() => paramNickname);
-  }, [paramNickname]);
+    if (connected == true) {
+      stompClient?.send(`/pub/chat/search`, {}, JSON.stringify({ searchNickname: paramNickname }));
+    }
+  }, [paramNickname, connected]);
 
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
