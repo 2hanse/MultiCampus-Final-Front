@@ -23,7 +23,7 @@ const Main = styled.main`
   flex-direction: column;
   overflow: hidden;
   margin: 0 auto;
-  padding: 62px 0 235px;
+  padding: 62px 0 535px;
   overflow-y: scroll; /* 세로 스크롤 허용 */
   scrollbar-width: none; /* Firefox에서 스크롤바 숨기기 */
   -ms-overflow-style: none;  /* Internet Explorer 10 이상 */

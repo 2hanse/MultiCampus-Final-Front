@@ -102,6 +102,8 @@ const Main = styled.main`
   background: #fff4d2;
   margin: 0 auto;
   border: 0.5px solid #cac4d0;
+  height: 100vh; /* 부모 높이 고정 */
+  overflow: hidden; /* 상위에서 스크롤되지 않도록 */
 `;
 
 const Divider = styled.hr`
@@ -161,16 +163,17 @@ const StatusMessage = styled.p`
 const ProfileContent = styled.div`
   background: #ffffff;
   width: 100%;
-  height: calc(100vh - 216px);
+  height: 100vh; /* 임시로 100%로 설정해 테스트 */
+  
   padding: 20px;
   box-sizing: border-box;
   overflow-y: auto;
   &::-webkit-scrollbar {
     display: none;
   }
-
-  -ms-overflow-style: none;  /* IE 및 Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  padding-bottom: 100px;
 `;
 
 const ReviewItem = styled.div`

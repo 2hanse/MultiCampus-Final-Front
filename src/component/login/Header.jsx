@@ -42,20 +42,20 @@ const Logo = styled.img`
 const Title = styled.b`
   color: #e1650f;
   font-size: 40px;
-  margin: 0; /* 추가 간격 제거 */
+  margin-right: 20px; /* 추가 간격 제거 */
   font-family: 'Poppins', sans-serif; /* Poppins 글꼴 사용 */
 `;
 
 const Subtitle = styled.p`
   color: #ce9971;
-  font-size: 22px;
+  font-size: 20px;
   margin: 12px 0 0 1px; /* 위쪽 간격만 설정 */
   font-family: 'Poppins', sans-serif; /* Poppins 글꼴 사용 */
 `;
 
 const PageName = styled.p`
   color: #e1650f;
-  font-size: 20px;
+  font-size: 18px;
   margin: 13px 0 0 1px; /* 위쪽 간격만 설정 */
   font-family: 'Roboto Slab', serif;
   font-style: italic;
