@@ -3,6 +3,12 @@ import Slider from 'react-slick';
 import styled from 'styled-components';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import Page1 from './asset/Page_1.png';
+import Page2 from './asset/Page_2.png';
+import Page3 from './asset/Page_3.png';
+import Page4 from './asset/Page_4.png';
+import Page5 from './asset/Page_5.png';
+import Page6 from './asset/Page_6.png';
 
 const GuidePage = ({ onClose }) => {
   const settings = {
@@ -19,22 +25,22 @@ const GuidePage = ({ onClose }) => {
     <Main>
       <StyledSlider {...settings}>
         <Slide>
-          <h3>1</h3>
+          <GuideImg src={Page1} alt={'Page_1'}/>
         </Slide>
         <Slide>
-          <h3>2</h3>
+          <GuideImg src={Page2} alt={'Page_2'}/>
         </Slide>
         <Slide>
-          <h3>3</h3>
+          <GuideImg src={Page3} alt={'Page_3'}/>
         </Slide>
         <Slide>
-          <h3>4</h3>
+          <GuideImg src={Page4} alt={'Page_4'}/>
         </Slide>
         <Slide>
-          <h3>5</h3>
+          <GuideImg src={Page5} alt={'Page_5'}/>
         </Slide>
         <Slide>
-          <h3>6</h3>
+          <GuideImg src={Page6} alt={'Page_6'}/>
         </Slide>
       </StyledSlider>
     </Main>
@@ -123,14 +129,25 @@ const StyledSlider = styled(Slider)`
 
 // 슬라이더 개별 슬라이드
 const Slide = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   font-size: 1.5rem;
   width: 430px;
-  height: 80vh;
+  height: 90vh;
   color: #333;
-  background: #e3e3e3;
+  background: #fff;
   border-radius: 8px;
-  padding: 20px;
+  padding: 0px;
+  margin: 0px;
+`;
+
+const GuideImg = styled.img`
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  margin-left: 5vh;
 `;
 
 export default GuidePage;
