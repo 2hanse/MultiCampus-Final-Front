@@ -211,7 +211,7 @@ const styles = {
     transition: "transform 0.3s ease",
   },
   enabledSwitch: {
-    backgroundColor: "#ff5c5c",
+    backgroundColor: "#ED6000",
   },
   enabledSwitchHandle: {
     transform: "translateX(18px)",
