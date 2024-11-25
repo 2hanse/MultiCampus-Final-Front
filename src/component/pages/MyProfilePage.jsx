@@ -395,10 +395,10 @@ function OtherSection() {
 
 function NotificationSection() {
   const [notifications, setNotifications] = React.useState([
-    { label: "게시물 알람", enabled: true },
-    { label: "댓글 알람", enabled: true },
-    { label: "좋아요 알람", enabled: true },
-    { label: "구독 알람", enabled: true },
+    { label: "게시물 알림", enabled: true },
+    { label: "댓글 알림", enabled: true },
+    { label: "좋아요 알림", enabled: true },
+    { label: "구독 알림", enabled: true },
   ]);
 
   useEffect(() => {
