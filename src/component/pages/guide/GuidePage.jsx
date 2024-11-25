@@ -4,12 +4,13 @@ import styled from 'styled-components';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-import Page1 from './asset/page_1.png';
-import Page2 from './asset/page_2.png';
-import Page3 from './asset/page_3.png';
-import Page4 from './asset/page_4.png';
-import Page5 from './asset/page_5.png';
-import Page6 from './asset/page_6.png';
+import Page1 from './asset/Page_1.png';
+import Page2 from './asset/Page_2.png';
+import Page3 from './asset/Page_3.png';
+import Page4 from './asset/Page_4.png';
+import Page5 from './asset/Page_5.png';
+import Page6 from './asset/Page_6.png';
+import { useNavigate } from 'react-router-dom';
 
 
 const GuidePage = ({ onClose }) => {
