@@ -72,7 +72,7 @@ function LoginForm() {
 
           localStorage.setItem('token', token);
 
-          navigate('/homepage');
+          navigate('/guide');
         }
       } catch (error) {
         alert(error.response.data.errMsg);
@@ -82,7 +82,7 @@ function LoginForm() {
   };
 
   const onGuest = () => {
-    navigate('/homepage');
+    navigate('/guide');
   };
 
   return (

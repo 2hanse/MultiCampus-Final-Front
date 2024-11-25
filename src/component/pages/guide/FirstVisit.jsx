@@ -3,15 +3,15 @@ import MapPage from '../MapPage';
 import GuidePage from './GuidePage';
 
 const FirstVisit = () => {
-  const [showGuide, setShowGuide] = useState(true);
+  const [showGuide, setShowGuide] = useState(false);
 
-  // useEffect(() => {
-  //   const hasSeenGuide = localStorage.getItem('hasSeenGuide');
-  //   if (!hasSeenGuide) {
-  //     setShowGuide(true);
-  //     localStorage.setItem('hasSeenGuide', 'true');
-  //   }
-  // }, []);
+  useEffect(() => {
+    const hasSeenGuide = localStorage.getItem('hasSeenGuide');
+    if (!hasSeenGuide) {
+      setShowGuide(true);
+      localStorage.setItem('hasSeenGuide', 'true');
+    }
+  }, []);
 
   return (
     <div>

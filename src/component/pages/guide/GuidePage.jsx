@@ -3,12 +3,14 @@ import Slider from 'react-slick';
 import styled from 'styled-components';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+
 import Page1 from './asset/page_1.png';
 import Page2 from './asset/page_2.png';
 import Page3 from './asset/page_3.png';
 import Page4 from './asset/page_4.png';
 import Page5 from './asset/page_5.png';
 import Page6 from './asset/page_6.png';
+
 
 const GuidePage = ({ onClose }) => {
   const settings = {
@@ -20,6 +22,12 @@ const GuidePage = ({ onClose }) => {
     prevArrow: <PrevArrow />, // 커스텀 이전 버튼
     nextArrow: <NextArrow />, // 커스텀 다음 버튼
   };
+
+  const navigate = useNavigate();
+
+  const onCLickMap = () => {
+    navigate(`/homepage`);
+  }
 
   return (
     <Main>
@@ -41,6 +49,7 @@ const GuidePage = ({ onClose }) => {
         </Slide>
         <Slide>
           <GuideImg src={Page6} alt={'Page_6'}/>
+          <Button2 onClick={onCLickMap}>바로 시작하기</Button2>
         </Slide>
       </StyledSlider>
     </Main>
@@ -62,6 +71,27 @@ const PrevArrow = ({ onClick }) => {
     </ArrowButton>
   );
 };
+
+const Button2 = styled.button`
+  position: absolute;
+  z-index: 2;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 20px;
+  background-color: #ed6000;
+  color: white;
+  border: 2px solid #ed6000; /* 테두리 색상을 흰색으로 설정 */
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 15px 15px;
+
+  &:hover {
+    background-color: white; /* hover 시 약간 회색톤으로 변경 */
+    color: #ed6000;
+  }
+`;
 
 // 공통 화살표 스타일
 const ArrowButton = styled.button`
@@ -147,7 +177,7 @@ const GuideImg = styled.img`
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  margin-left: 5vh;
+  margin-left: 3vh;
 `;
 
 export default GuidePage;
