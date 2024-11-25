@@ -27,8 +27,13 @@ const GetReceiptButton = () => {
             formData.append('file', file);
 
             // 4. 선택된 파일을 서버에 POST 요청으로 전송(영수증 저장)
-            await api.post('/receipt', formData);
-            console.log('이미지 업로드 성공');
+            try {
+              await api.post('/receipt', formData);
+              alert('영수증 인식이 완료되었습니다.');
+              console.log('이미지 업로드 성공');
+            } catch (error) {
+              alert(error.response?.data?.errMsg);
+            }
           }
         };
         // input을 클릭하여 카메라를 실행
@@ -49,8 +54,13 @@ const GetReceiptButton = () => {
             console.log('폼데이터' + file);
 
             // 4. 선택된 파일을 서버에 POST 요청으로 전송(영수증 저장)
-            await api.post('/receipt', formData);
-            console.log('이미지 업로드 성공');
+            try {
+              await api.post('/receipt', formData);
+              alert('영수증 인식이 완료되었습니다.');
+              console.log('이미지 업로드 성공');
+            } catch (error) {
+              alert(error.response?.data?.errMsg);
+            }
           }
         };
 
