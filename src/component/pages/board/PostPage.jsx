@@ -14,6 +14,7 @@ function PostPage() {
   const { board_id } = useParams();
   const [bookmark_id, setBookmark_id] = useState(undefined);
   const [bookmark, setBookmark] = useState(false);
+  const [place, setPlace] = useState([]);
 
   useEffect(() => {
     fetchdetail();
@@ -44,11 +45,13 @@ function PostPage() {
 
         console.log('게시글 아이디 출력:', board_id);
         console.log(res.data);
+        console.log(res.data.place.placeName) //식당 장소 콘솔창 출력
+        setPlace(res.data.place);
         console.log('북마크 아이디 출력 : ', res.data.board.bookmark_id);
       })
       .catch((error) => {
         console.error('게시글 데이터를 불러오는 중 오류 발생:', error);
-        alert('게시글 데이터를 불러올 수 없습니다.');
+        //alert('게시글 데이터를 불러올 수 없습니다.');
       });
   };
 
@@ -65,6 +68,8 @@ function PostPage() {
       });
   };
 
+  console.log(place);
+
   return (
     <PageContainer>
       <Header
@@ -80,6 +85,7 @@ function PostPage() {
           comments={comments}
           fetchComments={fetchComments}
           bookmark={bookmark}
+          placeName={place}
         />
       </ContentContainer>
       <Footer />
