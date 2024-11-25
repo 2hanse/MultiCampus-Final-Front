@@ -45,7 +45,7 @@ const GetReceiptButton = () => {
 
           if (file) {
             const formData = new FormData();
-            formData.append('file', formData.get('file'));
+            formData.append('file', file);
             console.log('폼데이터' + file);
 
             // 4. 선택된 파일을 서버에 POST 요청으로 전송(영수증 저장)

@@ -41,7 +41,7 @@ function MyLocationPage() {
         navigate(-1); // 이전 페이지로 이동
       } catch (error) {
         console.error('위치 저장 중 오류 발생:', error);
-        alert('서버 요청 중 문제가 발생했습니다.');
+        alert('한달 이내 위치 인증 이력이 있습니다.');
       }
     } else {
       alert('취소되었습니다.');
