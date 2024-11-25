@@ -82,7 +82,7 @@ function LoginForm() {
   };
 
   const onGuest = () => {
-    navigate('/homepage');
+    navigate('/guide');
   };
 
   return (
