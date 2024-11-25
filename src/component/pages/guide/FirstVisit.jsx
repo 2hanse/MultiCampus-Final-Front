@@ -3,7 +3,7 @@ import MapPage from '../MapPage';
 import GuidePage from './GuidePage';
 
 const FirstVisit = () => {
-  const [showGuide, setShowGuide] = useState(true);
+  const [showGuide, setShowGuide] = useState(false);
 
   useEffect(() => {
     const hasSeenGuide = localStorage.getItem('hasSeenGuide');
