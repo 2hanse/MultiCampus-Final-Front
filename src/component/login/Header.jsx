@@ -12,7 +12,7 @@ function Header() {
         &nbsp;&nbsp;&nbsp;&nbsp;나만의 맛집
       </Title>
       <Subtitle>맛집에 관한 모든 것을 공유하는 공간</Subtitle>
-      <PageName>" Taste Lab "</PageName>
+      <PageName>" TasteLab "</PageName>
     </Wrapper>
   );
 }
