@@ -1,70 +1,91 @@
-# Getting Started with Create React App
+![TasteLab](https://github.com/user-attachments/assets/01f580b8-54d8-4510-83cf-3f80715c3797)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 프로젝트 개요
+🍴 개발 기간
+<table>
+  <tr>
+    <td style="background-color: #ADD8E6; font-weight: bold;">개발 기간</td>
+    <td>24.10.2~24.11.27 (9주)</td>
+  </tr>
+</table>
 
-## Available Scripts
+🍴 팀원 소개
+<table>
+  <tr>
+    <td style="background-color: #ADD8E6; font-weight: bold;">팀원</td>
+    <td>정해준</td>
+    <td>김병운</td>
+    <td>엄현용</td>
+    <td>이한세</td>
+    <td>임정희</td>
+    <td>황성하</td>
+  </tr>
+  <tr>
+    <td style="background-color: #ADD8E6; font-weight: bold;">역할</td>
+    <td>팀장, BE</td>
+    <td>FE</td>
+    <td>FE</td>
+    <td>FE</td>
+    <td>FE</td>
+    <td>BE</td>
+  </tr>
+</table>
 
-In the project directory, you can run:
+🍴 기획 배경
+- 맛집 검색 시 대부분 프로모션 중인 식당이 상단에 우선 노출
+- 리뷰 이벤트로 무조건적인 호의성 리뷰가 많아 낮아진 객관성
+- 맛집을 찾기 위해 여러 애플리케이션을 크로스체크하는 등 번거로운 맛집 찾기
+- 맛집 정보를 서로 공유할 수 있는 공간의 부재
 
-### `npm start`
+🍴 기획 목표
+<table>
+  <tr>
+    <td>유저 간 맛집 정보를 공유, 추천할 수 있는 커뮤니케이션 공간을 만들어 신뢰도 높은 식당 리뷰를 제공하는 플랫폼 만드는 것</td>
+  </tr>
+</table>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+# 프로젝트 소개
+### “TasteLab”
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Taste(맛)와 Laboratory(연구 실험실)의 합성어로 맛있는 한 끼 식사에 진심인 사람들이 모여 맛집, 음식 취향 등 음식에 관한 모든 것을 나누는 공간을 의미합니다.
 
-### `npm test`
+위치 기반 서비스와 영수증 OCR을 활용한 맛집 추천 및 정보 공유 커뮤니티로, PC와 모바일 사용자의 편의를 고려해 웹애플리케이션 형태로 제공하는 플랫폼입니다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# 프로젝트 주요 기능
+### 주요 키워드 “높은 신뢰도”
 
-### `npm run build`
+- Naver Clova OCR을 활용한 영수증 인증과 리뷰 시스템
+    - 영수증 인증을 해야만 리뷰 작성 가능
+    - 객관적 평가를 위해 리뷰 양식에 별점 평가(맛, 가성비, 분위기, 서비스, 청결) 항목 포함
+- Kakao Local API를 활용한 ‘내 동네’ 설정
+    - 내 위치 중심의 지도 화면으로 내 주변의 맛집을 한눈에 볼 수 있음
+- 동네 주민의 로컬 맛집임을 알 수 있도록  ‘[동네 주민 🏠]’ 타이틀을 리뷰 말머리에 자동으로 부여
+    - 영수증 인증한 식당의 주소와 설정한 ‘내 동네’의 행정구역이 일치할 시 부여
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 주요 키워드 “쉬운 접근성”
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Kakao Map API를 활용한 지도 UI
+    - 리뷰가 존재하는 식당의 위치는 지도 위에 마크업
+    - 게시판에서 게시글 조회 시 ‘내 동네’ 중심 리뷰 필터링 가능(타 지역 관련 리뷰 또한 필터링 가능)
+- 식당 북마크 기능
+    - 가고 싶은 식당을 잊지 않도록 북마크 그룹을 생성해 장소 저장
+    - 북마크 그룹의 토글을 켜면 북마크 그룹에 저장한 식당만 다른 아이콘으로 마크업되어 한 눈에 볼 수 있음
+- 북마크 공유
+    - 북마크 그룹을 공개 설정하면 ‘맛집 투어’ 게시판에 게시글 작성 시 북마크를 첨부해 보다 편리하게 여행 루트 공유 가능
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 부가 시스템
 
-### `npm run eject`
+- 회원 등급제
+    - TasteLab 내에서 유저의 활동을 활성화하기 위해 활동 내역에 점수를 매겨 등급을 차등 부여
+    - 유저의 리뷰가 신뢰성 있음을 확인할 수 있는 수단이기도 함
+    - 한공기 - 두공기 - 세공기 - 네공기
+    - 네공기는 상위 10%의 유저로 ‘상위’ 게시판에 리뷰를 작성할 수 있는 권한 부여
+- Websocket과 STOMP를 활용한 채팅 기능
+    - 유저 간 정보 공유나 친목 도모 등을 위한 소통의 창구
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+ # 기술 스택
+ ![12](https://github.com/user-attachments/assets/0d4d9765-115e-4958-8498-af65131a864c)
+ ![11](https://github.com/user-attachments/assets/6040f7be-9f75-44b5-b72f-3cd2c3195235)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# 시스템 아키텍처
+![system architecture](https://github.com/user-attachments/assets/0fe371f9-7a28-42a5-b0e4-623a05513368)
